@@ -7,8 +7,12 @@
   "author": "inaba <software@panduro.guru>",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "start": "nodemon app.js"
+  },
   "dependencies": {
     "body-parser": "^1.18.2",
+    "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.6",
     "handlebars": "^4.0.11",
