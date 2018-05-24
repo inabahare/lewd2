@@ -10,15 +10,15 @@ const session       = require("express-session");
 const app = express();
 
 // Load views
-app.engine ("handlebars", handlebars ({
+app.engine ("hbs", handlebars ({
     defaultLayout: "main", 
     layoutsDir: "views",
-    extname: "shit"
+    extname: "hbs"
 }));
 app.set ("view engine", "handlebars");
 
 app.get("/",(req, res) => {
-    res.render("index.handlebars");
+    res.render("index.hbs");
 });
 
 app.listen(8080, () => console.log("It's up and running :3"));
