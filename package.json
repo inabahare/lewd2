@@ -8,7 +8,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "build:prod": "webpack --watch -p"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
@@ -19,5 +20,13 @@
     "multer": "^1.3.0",
     "passport": "^0.4.0",
     "pg-promise": "^8.4.0"
+  },
+  "devDependencies": {
+    "css-loader": "^0.28.11",
+    "less-loader": "^4.1.0",
+    "style-loader": "^0.21.0",
+    "webpack": "^4.10.1",
+    "webpack-cli": "^2.1.4",
+    "webpack-dev-server": "^3.1.4"
   }
 }

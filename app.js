@@ -17,6 +17,10 @@ app.engine ("hbs", handlebars ({
 }));
 app.set ("view engine", "handlebars");
 
+// Static files
+app.use(express.static(path.join(__dirname, "public")));
+
+
 app.get("/",(req, res) => {
     res.render("index.hbs");
 });
