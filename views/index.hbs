@@ -1,1 +1,18 @@
-<h1>Hello world</h1>
+<div class="file has-name">
+    <label class="file-label">
+        <input type="file" id="file" name="file" class="file-input">
+        <span class="file-cta">
+            <span class="file-icon">
+                <i class="fas fa-upload"></i>
+            </span>
+            <span class="file-label">Choose a file</span>
+        </span>
+        <span class="file-name" id="file-name"></span>
+    </label>
+</div>
+
+<script>
+    const file = document.getElementById("file");
+
+    file.onchange = () => document.getElementById("file-name").innerHTML = file.files[0].name;
+</script>
