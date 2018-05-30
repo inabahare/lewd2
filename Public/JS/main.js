@@ -1,3 +1,3 @@
-const str = "Hello World";
+const arr = [1,2,3,4,5];
 
-// alert(str);
+arr.map(e => e + 1);

@@ -1,0 +1,1 @@
+{"version":3,"sources":["main.js"],"names":["arr","map","e"],"mappings":";;AAAA,IAAMA,MAAM,CAAC,CAAD,EAAG,CAAH,EAAK,CAAL,EAAO,CAAP,EAAS,CAAT,CAAZ;;AAEAA,IAAIC,GAAJ,CAAQ;AAAA,SAAKC,IAAI,CAAT;AAAA,CAAR","file":"main.js","sourcesContent":["const arr = [1,2,3,4,5];\n\narr.map(e => e + 1);"]}
