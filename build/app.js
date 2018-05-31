@@ -27,8 +27,8 @@ console.log(__dirname + "/views");
 
 // Load views
 app.engine("hbs", (0, _expressHandlebars2.default)({
-    defaultLayout: __dirname + "/views/main",
-    extname: "hbs"
+  defaultLayout: __dirname + "/views/main",
+  extname: "hbs"
 }));
 app.set("view engine", "hbs");
 app.set('views', _path2.default.join(__dirname, "views"));
@@ -39,6 +39,6 @@ app.set('views', _path2.default.join(__dirname, "views"));
 app.use("/", _index2.default);
 
 app.listen(8080, function () {
-    return console.log("It's up and running :3");
+  return console.log("It's up and running :3");
 });
 //# sourceMappingURL=app.js.map

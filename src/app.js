@@ -20,7 +20,7 @@ app.set ("view engine", "hbs");
 app.set('views', path.join(__dirname, "views"));
 // Static files
 // app.use(static(join(__dirname, "public")));
-
+ 
 // Set the routes
 app.use("/", index);
 
