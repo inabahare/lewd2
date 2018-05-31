@@ -12,9 +12,16 @@ var _path = require("path");
 
 var _path2 = _interopRequireDefault(_path);
 
+var _index = require("./Routes/index");
+
+var _index2 = _interopRequireDefault(_index);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express2.default)();
+
+// Routers
+
 
 console.log(__dirname + "/views");
 
@@ -28,10 +35,8 @@ app.set('views', _path2.default.join(__dirname, "views"));
 // Static files
 // app.use(static(join(__dirname, "public")));
 
-
-app.get("/", function (req, res) {
-    return res.render("index");
-});
+// Set the routes
+app.use("/", _index2.default);
 
 app.listen(8080, function () {
     return console.log("It's up and running :3");
