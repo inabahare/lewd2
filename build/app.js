@@ -12,7 +12,7 @@ var _path = require("path");
 
 var _path2 = _interopRequireDefault(_path);
 
-var _index = require("./Routes/index");
+var _index = require("./routes/index");
 
 var _index2 = _interopRequireDefault(_index);
 
@@ -33,7 +33,7 @@ app.engine("hbs", (0, _expressHandlebars2.default)({
 app.set("view engine", "hbs");
 app.set('views', _path2.default.join(__dirname, "views"));
 // Static files
-// app.use(static(join(__dirname, "public")));
+app.use(_express2.default.static(join(__dirname, "public")));
 
 // Set the routes
 app.use("/", _index2.default);
