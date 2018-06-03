@@ -6,7 +6,7 @@ import path from 'path';
 
 // Routers
 import index from "./routes/index";
-import SignIn from "./routes/SignIn";
+import login from "./routes/login";
 
 const app = express();
  
@@ -24,6 +24,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Set the routes
 app.use("/", index);
-app.use("/sign-in", SignIn);
+app.use("/login", login);
 
 app.listen(8080, () => console.log("It's up and running :3"));
