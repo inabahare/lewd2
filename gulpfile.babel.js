@@ -39,12 +39,12 @@ const styles = () => gulp.src(paths.styles.src)
                          .pipe(minifyCSS())
                          .pipe(gulp.dest(paths.styles.dest));
 
-const scripts =  () => gulp.src(paths.js.src)
-                           .pipe(plumber(handler))
-                           .pipe(sourcemaps.init())
-                           .pipe(babel())
-                           .pipe(sourcemaps.write("."))
-                           .pipe(gulp.dest(paths.js.dest));
+const scripts = () => gulp.src(paths.js.src)
+                          .pipe(plumber(handler))
+                          .pipe(sourcemaps.init())
+                          .pipe(babel())
+                          .pipe(sourcemaps.write("."))
+                          .pipe(gulp.dest(paths.js.dest));
 
 const views = () => gulp.src(paths.moveViews.src)
                         .pipe(gulp.dest(paths.moveViews.dest));
