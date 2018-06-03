@@ -7,6 +7,22 @@ const watch = require("gulp-watch");
 const copy = require("gulp-copy");
 const notify = require("gulp-notify");
 const plumber = require("gulp-plumber");
+const del = require("del");
+
+const paths = {
+    styles: {
+        src:"src/Public/CSS/main.less",
+        dest: "build/Public/CSS",
+    },
+    js: {
+        src: "src/**/*.js",
+        dest: "build",
+    },
+    moveViews: {
+        src: "src/views/**/*.hbs",
+        dest: "build/views/",
+    }
+}
 
 const handler = {
     errorHandler: err => notify.onError({
@@ -15,23 +31,32 @@ const handler = {
                                         })(err),
 };
 
-gulp.task("css", () => watch("src/Public/CSS/main.less", () => gulp.src("src/Public/CSS/main.less")
-                                                                   .pipe(plumber(handler))
-                                                                   .pipe(less())
-                                                                   .pipe(minifyCSS())
-                                                                   .pipe(gulp.dest("build/Public/CSS"))));
+const clean = () => del(["build"]);
 
-gulp.task("js", () => watch("src/**/*.js", () => gulp.src("src/**/*.js")
-                                                     .pipe(plumber(handler))
-                                                     .pipe(sourcemaps.init())
-                                                     .pipe(babel())
-                                                     .pipe(sourcemaps.write("."))
-                                                     .pipe(gulp.dest("build"))));
+const styles = () => gulp.src(paths.styles.src)
+                         .pipe(plumber(handler))
+                         .pipe(less())
+                         .pipe(minifyCSS())
+                         .pipe(gulp.dest(paths.styles.dest));
 
-gulp.task("move-views", () => watch("src/views/**/*.hbs", () => gulp.src("src/views/**/*.hbs")
-                                                                    .pipe(gulp.dest("build/views/"))));
+const scripts =  () => gulp.src(paths.js.src)
+                           .pipe(plumber(handler))
+                           .pipe(sourcemaps.init())
+                           .pipe(babel())
+                           .pipe(sourcemaps.write("."))
+                           .pipe(gulp.dest(paths.js.dest));
 
+const views = () => gulp.src(paths.moveViews.src)
+                        .pipe(gulp.dest(paths.moveViews.dest));
 
-gulp.task("default", [
-    "css", "js", "move-views"
-]);
+const build = gulp.series(clean, gulp.parallel(styles, scripts, views));
+
+const watcher = () => {
+    gulp.watch(paths.styles.src, styles);
+    gulp.watch(paths.js.src, scripts);
+    gulp.watch(paths.moveViews.src, views)
+}
+
+gulp.task("build", build);
+gulp.task("watch", watcher);
+gulp.task("default", build);
