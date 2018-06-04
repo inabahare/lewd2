@@ -8,6 +8,8 @@ const copy = require("gulp-copy");
 const notify = require("gulp-notify");
 const plumber = require("gulp-plumber");
 const del = require("del");
+require("babel-core/register");
+require("babel-polyfill");
 
 const paths = {
     styles: {

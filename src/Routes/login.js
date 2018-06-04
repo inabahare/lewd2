@@ -1,4 +1,5 @@
 import express from "express";
+import db from "../helpers/database";
 
 const router = express.Router();
 
