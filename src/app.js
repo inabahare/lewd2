@@ -22,6 +22,18 @@ app.set('views', path.join(__dirname, "views"));
 // Static files
 // app.use(static(join(__dirname, "public")));
 
+app.use(async (req, res, next) => {
+    try {
+        await db.connect();
+        const res = await db.query("SELECT NOW() AS now");
+        console.log(res.rows[0]);
+        await db.end();
+    } catch (e) {
+        console.log(e.message);
+    }
+    next();
+});
+
 // Set the routes
 app.use("/", index);
 

@@ -1,7 +1,6 @@
-import { Client } from "pg";
+import { Pool } from "pg";
+import { databaseConnection } from "../config";
 
-const client = new Client({
-    // NO!
-});
+const Pool = new Pool(databaseConnection);
 
-export default client;
+export default Pool;
