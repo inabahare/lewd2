@@ -1,6 +1,11 @@
 import { Pool } from "pg";
 import { databaseConnection } from "../config";
 
-const Pool = new Pool(databaseConnection);
+const pool = new Pool(databaseConnection);
 
-export default Pool;
+pool.on("error", (error, client) => {
+    console.error("Unexpected db error", error);
+    process.exit(-1);
+});
+
+export default pool;
