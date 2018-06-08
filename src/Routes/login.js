@@ -7,8 +7,8 @@ const router = express.Router();
 router.get("/", (req, res) => res.render("login"));
 
 router.post("/login", passport.authenticate("local", {
-    successReditect: "/",
+    successRedirect: "/",
     failureRedirect: "/login"
-}))
+}));
 
 export default router;

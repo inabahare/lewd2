@@ -18,7 +18,11 @@
                 </div>
                 <div class="navbar-end">        
                     <div class="navbar-item"><a href="#">Transparency</a></div>
-                    <div class="navbar-item"><a href="/login">Sign In</a></div>
+                    {{#if user}}
+                        <div class="navbar-item"><a href="/user">{{user.username}}</a></div>
+                    {{else}}
+                        <div class="navbar-item"><a href="/login">Sign In</a></div>
+                    {{/if}}
                     <div class="navbar-item"><a href="https://discordapp.com/invite/AKGeqgN">Discord</a></div>
                 </div>
             </div>

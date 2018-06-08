@@ -29,7 +29,7 @@ const paths = {
 const handler = {
     errorHandler: err => notify.onError({
                                          title: "Gulp error in: " + err.plugin,
-                                         message: err.toString(),
+                                         message: err.lineNumber + err.toString(),
                                         })(err),
 };
 

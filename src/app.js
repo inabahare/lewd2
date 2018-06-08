@@ -3,17 +3,17 @@
 import express from "express";
 import handlebars from "express-handlebars";
 import path from 'path';
+import session from "express-session";
+import bodyParser from "body-parser";
 
 import db from "./helpers/database";
 import passport from "./helpers/passport";
-
+ 
 // Routers
 import index from "./Routes/index";
 import login from "./Routes/login";
 
 const app = express();
- 
-console.log(__dirname + "/views")
 
 // Load views
 app.engine ("hbs", handlebars ({ 
@@ -22,21 +22,24 @@ app.engine ("hbs", handlebars ({
 }));
 app.set ("view engine", "hbs");
 app.set('views', path.join(__dirname, "views"));
+
 // Static files
-// app.use(static(join(__dirname, "public")));
+// app.use(express.static(path.join(__dirname, "public")));
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(session({
+    secret: "lewd.se",
+    resave: true,
+    saveUninitialized: true
+}));
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-app.use(async (req, res, next) => {
-
-
-    const client = await db.connect();
-    const res = await client.query("SELECT NOW() AS noaoow");
-    console.log(res.rows[0]);
-    client.release();
-    next();
+app.use((req, res, next) => {
+    res.locals.user = req.user ? req.user : null;
+    console.log(res.locals.user);
+    next()
 });
 
 // Set the routes
