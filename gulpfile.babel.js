@@ -8,8 +8,6 @@ const copy = require("gulp-copy");
 const notify = require("gulp-notify");
 const plumber = require("gulp-plumber");
 const del = require("del");
-require("babel-core/register");
-require("babel-polyfill");
 
 const paths = {
     styles: {
@@ -17,7 +15,7 @@ const paths = {
         dest: "build/Public/CSS",
     },
     js: {
-        src: "src/**/*.js",
+        src: ["src/**/*.js",],
         dest: "build",
     },
     moveViews: {
@@ -47,6 +45,15 @@ const scripts = () => gulp.src(paths.js.src)
                           .pipe(babel())
                           .pipe(sourcemaps.write("."))
                           .pipe(gulp.dest(paths.js.dest));
+
+const publicScripts = () => gulp.src(paths.publicJs.src)
+                          .pipe(plumber(handler))
+                          .pipe(sourcemaps.init())
+                          .pipe(babel())
+                          .pipe(sourcemaps.write("."))
+                          .pipe(gulp.dest(paths.publicJs.dest));
+
+
 
 const views = () => gulp.src(paths.moveViews.src)
                         .pipe(gulp.dest(paths.moveViews.dest));

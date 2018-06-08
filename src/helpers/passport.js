@@ -20,7 +20,6 @@ passport.use(new LocalStrategy({
                 next(null, user);
               else
                 next(null, false);
-
           });
 }));
 
