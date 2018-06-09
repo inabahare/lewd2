@@ -12,6 +12,7 @@ import passport from "./helpers/passport";
 // Routers
 import index from "./Routes/index";
 import login from "./Routes/login";
+import upload from "./Routes/upload";
 
 const app = express();
 
@@ -26,6 +27,8 @@ app.set('views', path.join(__dirname, "views"));
 // Static files
 // app.use(express.static(path.join(__dirname, "public")));
 
+// parse various different custom JSON types as JSON
+app.use(bodyParser.json({ type: 'application/*+json' }))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({
     secret: "lewd.se",
@@ -37,10 +40,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use((req, res, next) => {
-    // res.locals.user = req.user ? req.user : null;
-
-    res.locals.user = {"username": "Bitch"};
-
+    res.locals.user = req.user ? req.user : null;
     console.log(res.locals.user);
     next()
 });
@@ -48,5 +48,7 @@ app.use((req, res, next) => {
 // Set the routes
 app.use("/", index);
 app.use("/login", login);
+app.use("/upload", upload);
+
 
 app.listen(8080, () => console.log("It's up and running :3"));

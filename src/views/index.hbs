@@ -1,9 +1,14 @@
 {{#if user}}
-    <form method="post" action="/upload" class="dropzone">
-        <div class="dz-message" data-dz-message><span>Your Custom Message</span></div>
-    </form>
-{{else}}
-    <h1>You need to be logged in to see this page</h1>
+    <h1 class="title is-3">This is your access token. You need this for ShareX</h1>
+    <h2 class="subtitle is-3" id="token">{{ user.token }}</h2>
 {{/if}}
 
+<form method="post" action="/upload" class="theUploader" id="uploader">
+    <div class="dz-message" data-dz-message>
+        <span>Your Custom Message</span>
+    </div>
+</form> 
+
+
 <script src="/JS/dropzone.js"></script>
+<script src="/JS/index.js"></script>
