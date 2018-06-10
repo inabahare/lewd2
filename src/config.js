@@ -7,7 +7,8 @@ import crypto from "crypto";
 // 
 //#######################################
 const constants = Object.freeze({
-    DEFAULT_TOKEN: "default"
+    DEFAULT_TOKEN: "default",
+    DEST: "Public/"
 });
 
 //#######################################
@@ -26,17 +27,12 @@ const db = {
 //#######################################
 // MULTER CONFIG 
 // https://github.com/expressjs/multer
-const files = {
-    dest: "Public/",
-    size: 1280
-}
-
 const filenamePattern = file => crypto.randomBytes(6).toString("hex") + file.originalname;
 
 // How to store files
 // https://github.com/expressjs/multer#storage
 const storage = {
-    destination: (req, file, next) => next(null, files.dest),
+    destination: (req, file, next) => next(null, constants.DEST),
     filename:    (req, file, next) => next(null, filenamePattern(file))
 };
 //#######################################
