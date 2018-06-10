@@ -1,0 +1,14 @@
+<aside class="menu">
+    <p class="menu-label">User</p>
+    <ul class="menu-list">
+        <li><a>View uploads</a></li>
+    </ul>
+
+    {{#is user.roleid 1}}
+        <p class="menu-label">Admin</p>
+        <ul class="menu-list">
+            <li><a>Add user</a></li>
+            <li><a>View users</a></li>
+        </ul>
+    {{/is}}
+</aside>

@@ -13,13 +13,23 @@ import passport from "./helpers/passport";
 import index from "./Routes/index";
 import login from "./Routes/login";
 import upload from "./Routes/upload";
+import user from "./Routes/user";
 
 const app = express();
 
 // Load views
 app.engine ("hbs", handlebars ({ 
     defaultLayout: __dirname + "/views/main",
-    extname: "hbs"
+    extname: "hbs",
+    helpers: {
+        is: function (a, b, opts) {
+            if (a == b) {
+                return opts.fn(this)
+            } else {
+                return opts.inverse(this)
+            }
+        }
+    }
 }));
 app.set ("view engine", "hbs");
 app.set('views', path.join(__dirname, "views"));
@@ -49,6 +59,7 @@ app.use((req, res, next) => {
 app.use("/", index);
 app.use("/login", login);
 app.use("/upload", upload);
+app.use("/user", user);
 
 
 app.listen(8080, () => console.log("It's up and running :3"));
