@@ -1,4 +1,14 @@
 import sha1 from "sha1";
+import moment from "moment";
+import crypto from "crypto";
+
+//#######################################
+// CONSTANTS
+// 
+//#######################################
+const constants = Object.freeze({
+    DEFAULT_TOKEN: "default"
+});
 
 //#######################################
 // NODE POSTGRES CONFIG
@@ -21,15 +31,17 @@ const files = {
     size: 1280
 }
 
+const filenamePattern = file => crypto.randomBytes(6).toString("hex") + file.originalname;
+
 // How to store files
 // https://github.com/expressjs/multer#storage
 const storage = {
-    destination: (req, file, next) => {next(null, files.dest);},
-    filename:    (req, file, next) => {next(null, sha1(file.originalname) + file.originalname);}
+    destination: (req, file, next) => next(null, files.dest),
+    filename:    (req, file, next) => next(null, filenamePattern(file))
 };
 //#######################################
 
 
-
+export { constants as constants};
 export { db as databaseConnection };
-export { storage as storageConfig }
+export { storage as storageConfig };
