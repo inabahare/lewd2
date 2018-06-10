@@ -5,33 +5,39 @@ import db from "../helpers/database";
 
 const router = express.Router();
 
-const storage = multer.diskStorage(storageConfig);
-const upload = multer({
-    storage: storage,
-    limits: {
-        fileSize: 1000
-    }
-});
+const getUploadersMazSize = async token => {
+    const client = await db.connect();
 
-// Check token
-router.use((req, res, next) => {
-    console.log(req.body);
-    console.log(res.locals.user.uploadSize);
-    upload.limits.fileSize = res.locals.user.uploadSize;
+    const getRole = await client.query("SELECT role FROM \"Users\" WHERE token = $1", [token]);
+    
+    // The program still needs to be able to work if no user is logged in
+    const role = (getRole.rows[0] === undefined) ? token 
+                                                 : getRole.rows[0].role;
 
-    next(null, true);
-});
 
-const uploader = upload.single("file");
+    const getUploadSize = await client.query("SELECT uploadsize FROM \"Roles\" WHERE name = $1", [role]);
+    await client.release();
 
-router.post("/", (req, res) => {
+    return getUploadSize.rows[0].uploadsize;
+};
+
+
+router.post("/", async(req, res) => {
+    const storage = multer.diskStorage(storageConfig);
+    const upload = multer({
+        storage: storage,
+        limits: {
+            fileSize: Number(await getUploadersMazSize(req.headers.token))
+        }
+    });
+
+    const uploader = upload.single("file");
     uploader(req, res, err => {
         if (err) 
             return res.status( 400 ).send( err.message );
 
-
         console.log(req.file);
-        console.log(req.body);
+            
         return res.status( 200 ).send( req.file );
     });
 });

@@ -29,7 +29,7 @@ app.set('views', path.join(__dirname, "views"));
 
 // parse various different custom JSON types as JSON
 app.use(bodyParser.json({ type: 'application/*+json' }))
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
     secret: "lewd.se",
     resave: true,
