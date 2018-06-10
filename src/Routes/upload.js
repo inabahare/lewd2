@@ -37,15 +37,14 @@ const addImageToDatabase = async req => {
         userId = getUserId.rows[0].id;
     }
 
-    const file = await readFile(req.file.path)
-    const fileSha = sha(file);
-
-    // Remove file if exists
+    // To check for uniqueness
+    const file      = await readFile(req.file.path)
+    const fileSha   = sha(file);
     const checkFile = await client.query("SELECT filename FROM \"Uploads\" WHERE filesha = $1", [fileSha]);
-    await client.query("DELETE FROM \"Uploads\" WHERE filesha = $1", [fileSha]);
-
+    
+    // Remove file if exists
     if (checkFile.rows[0]) {
-        // const fileToRemove = await readFile(constants.DEST + checkFile.rows[0].filename);
+        await client.query("DELETE FROM \"Uploads\" WHERE filesha = $1", [fileSha]);
         await unlink(constants.DEST + checkFile.rows[0].filename);
     }
 
@@ -59,23 +58,17 @@ router.post("/", async (req, res) => {
         storage: storage,
         limits: {
             fileSize: Number(await getUploadersMazSize(req.headers.token))
-        }, fileFilter: (req, file, next) => {
-            console.log(file);
-            next(null, true);
         }
     });
-
     const uploader = upload.single("file");
+    
     uploader(req, res, async err => {
         if (err) 
-            return res.status( 400 ).send( err.message );
+            return res.status( 400 ).send(err.message);
 
-        // If the person is logged in
-        // if (req.headers.token !== constants.DEFAULT_TOKEN)
-        
-        addImageToDatabase(req);
-            
-        return res.status(200).send(req.file);
+        addImageToDatabase(req);        
+
+        return res.status(200).send(constants.FILE_DIR + req.file.filename);
     });
 });
 

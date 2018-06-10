@@ -6,9 +6,17 @@ import crypto from "crypto";
 // CONSTANTS
 // 
 //#######################################
+const DEFAULT_TOKEN = "default";
+const SITE_NAME     = "localhost";
+const DEST          = "build/Public/uploads/";
+const FILE_DIR      = SITE_NAME + "/uploads/";
+
+
 const constants = Object.freeze({
-    DEFAULT_TOKEN: "default",
-    DEST: "Public/"
+    DEFAULT_TOKEN: DEFAULT_TOKEN,
+    SITE_NAME:     SITE_NAME,
+    DEST:          DEST,
+    FILE_DIR:      FILE_DIR
 });
 
 //#######################################
@@ -39,5 +47,5 @@ const storage = {
 
 
 export { constants as constants};
-export { db as databaseConnection };
-export { storage as storageConfig };
+export { db        as databaseConnection };
+export { storage   as storageConfig };
