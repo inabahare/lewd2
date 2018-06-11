@@ -54,13 +54,7 @@ const addImageToDatabase = async req => {
     }
 
     // To check for uniqueness
-<<<<<<< HEAD
-    // const file      = 
-    const fileSha   = sha(await readFile(req.file.path));
-=======
     const fileSha   = await hashFile(req.file.path);
-    
->>>>>>> 4ed5a40d783a42573022798e7100bb9af8363a7b
     const checkFile = await client.query("SELECT filename FROM \"Uploads\" WHERE filesha = $1", [fileSha]);
     
     // Remove file if exists
@@ -94,7 +88,4 @@ router.post("/", async (req, res) => {
         return res.status(200).send(constants.FILE_DIR + req.file.filename);
     });
 });
-
-// curl -X POST -H "token: Boobs" -F "file=@/home/inaba/test.iso" http://localhost/upload
-
 export default router;
