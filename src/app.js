@@ -1,23 +1,20 @@
 "use strict";
 
-import express from "express";
+import express    from "express";
 import handlebars from "express-handlebars";
-import path from 'path';
-import session from "express-session";
+import path       from 'path';
+import session    from "express-session";
 import bodyParser from "body-parser";
-import Memwatch from "memwatch-next";
-import trace from "@risingstack/trace";
+import Util       from "util";
 
-import Util from "util";
-
-import db from "./helpers/database";
+import db       from "./helpers/database";
 import passport from "./helpers/passport";
  
 // Routers
-import index from "./Routes/index";
-import login from "./Routes/login";
+import index  from "./Routes/index";
+import login  from "./Routes/login";
 import upload from "./Routes/upload";
-import user from "./Routes/user";
+import user   from "./Routes/user";
 
 const app = express();
 
@@ -53,6 +50,9 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+/*
+import Memwatch from "memwatch-next";
+import trace from "@risingstack/trace";
 
 let hd = null;
 Memwatch.on('leak', (info) => {
@@ -71,7 +71,7 @@ Memwatch.on('leak', (info) => {
  }
 });
 
-
+*/
 app.use((req, res, next) => {
     res.locals.user = req.user ? req.user : null;
     next()

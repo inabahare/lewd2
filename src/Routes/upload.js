@@ -6,11 +6,10 @@ import crypto from "crypto";
 // import readFile from "fs-readfile-promise";
 import { storageConfig, constants} from "../config";
 import db from "../helpers/database";
-import sha from "sha1";
-import { resolve, reject} from "path";
 
 const router = express.Router();
-const unlink = promisify(fs.unlink);
+
+const unlink   = promisify(fs.unlink);
 const readFile = promisify(fs.readFile);
 
 const hashFile = async filename =>  new Promise((resolve, reject) => {
