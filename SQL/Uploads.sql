@@ -11,7 +11,7 @@ Target Server Type    : PGSQL
 Target Server Version : 100400
 File Encoding         : 65001
 
-Date: 2018-06-05 22:32:39
+Date: 2018-06-10 20:32:12
 */
 
 
@@ -20,14 +20,20 @@ Date: 2018-06-05 22:32:39
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."Uploads";
 CREATE TABLE "public"."Uploads" (
-"id" int4 DEFAULT nextval('"Uploads_id_seq"'::regclass) NOT NULL,
-"name" varchar(255) COLLATE "default" NOT NULL,
+"id" SERIAL NOT NULL,
+"filename" varchar(255) COLLATE "default" NOT NULL,
 "deleted" bool DEFAULT false NOT NULL,
-"userid" int4 NOT NULL
+"userid" int4 NOT NULL,
+"uploaddate" timestamp(6) DEFAULT now(),
+"filesha" varchar(255) COLLATE "default"
 )
 WITH (OIDS=FALSE)
 
 ;
+
+-- ----------------------------
+-- Records of Uploads
+-- ----------------------------
 
 -- ----------------------------
 -- Alter Sequences Owned By 
@@ -42,8 +48,3 @@ ALTER TABLE "public"."Uploads" ADD UNIQUE ("id");
 -- Primary Key structure for table Uploads
 -- ----------------------------
 ALTER TABLE "public"."Uploads" ADD PRIMARY KEY ("id");
-
--- ----------------------------
--- Foreign Key structure for table "public"."Uploads"
--- ----------------------------
-ALTER TABLE "public"."Uploads" ADD FOREIGN KEY ("userid") REFERENCES "public"."Users" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
