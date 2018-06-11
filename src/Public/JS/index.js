@@ -6,6 +6,7 @@ console.log(token);
 const dropZone = new Dropzone("#uploader", {
     url: "/upload",
     maxFiles: 12,
+    maxFileSize: 5000,
     headers: {
         token: token
     }

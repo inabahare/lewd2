@@ -38,8 +38,8 @@ const addImageToDatabase = async req => {
     }
 
     // To check for uniqueness
-    const file      = await readFile(req.file.path)
-    const fileSha   = sha(file);
+    // const file      = 
+    const fileSha   = sha(await readFile(req.file.path));
     const checkFile = await client.query("SELECT filename FROM \"Uploads\" WHERE filesha = $1", [fileSha]);
     
     // Remove file if exists
