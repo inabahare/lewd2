@@ -2,14 +2,31 @@ import express from "express";
 import multer from "multer";
 import {promisify} from 'util';
 import fs from "fs";
+import crypto from "crypto";
 // import readFile from "fs-readfile-promise";
 import { storageConfig, constants} from "../config";
 import db from "../helpers/database";
 import sha from "sha1";
+import { resolve, reject} from "path";
 
 const router = express.Router();
 const unlink = promisify(fs.unlink);
 const readFile = promisify(fs.readFile);
+
+const hashFile = async filename =>  new Promise((resolve, reject) => {
+    let hash = crypto.createHash("sha1");
+    try {
+        let s = fs.ReadStream(filename);
+        s.on("data", data => hash.update(data));
+        s.on("end", () => {
+            const result = hash.digest("hex");
+            return resolve(result);
+        });
+    } catch (error) {
+        return reject(error.message);
+    }
+});
+
 
 const getUploadersMazSize = async token => {
     const client = await db.connect();
@@ -38,8 +55,8 @@ const addImageToDatabase = async req => {
     }
 
     // To check for uniqueness
-    const file      = await readFile(req.file.path)
-    const fileSha   = sha(file);
+    const fileSha   = await hashFile(req.file.path);
+    
     const checkFile = await client.query("SELECT filename FROM \"Uploads\" WHERE filesha = $1", [fileSha]);
     
     // Remove file if exists
@@ -50,7 +67,9 @@ const addImageToDatabase = async req => {
 
     const insertUpload = await client.query("INSERT INTO \"Uploads\" (filename, userid, uploaddate, filesha) VALUES ($1, $2, NOW(), $3)", [req.file.filename, userId, fileSha]);
     await client.release();
-}
+};
+
+
 
 router.post("/", async (req, res) => {
     const storage = multer.diskStorage(storageConfig);
@@ -71,5 +90,7 @@ router.post("/", async (req, res) => {
         return res.status(200).send(constants.FILE_DIR + req.file.filename);
     });
 });
+
+// curl -X POST -H "token: Boobs" -F "file=@/home/inaba/test.iso" http://localhost/upload
 
 export default router;

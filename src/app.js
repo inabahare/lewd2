@@ -5,6 +5,10 @@ import handlebars from "express-handlebars";
 import path from 'path';
 import session from "express-session";
 import bodyParser from "body-parser";
+import Memwatch from "memwatch-next";
+import trace from "@risingstack/trace";
+
+import Util from "util";
 
 import db from "./helpers/database";
 import passport from "./helpers/passport";
@@ -48,6 +52,25 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+let hd = null;
+Memwatch.on('leak', (info) => {
+  console.log('memwatch::leak');
+  console.error(info);
+  if (!hd) {
+    hd = new Memwatch.HeapDiff();
+ }
+ else {
+   const diff = hd.end();
+   console.error(Util.inspect(diff, true, null));
+   trace.report('memwatch::leak', {
+     HeapDiff: hd
+   });
+   hd = null;
+ }
+});
+
 
 app.use((req, res, next) => {
     res.locals.user = req.user ? req.user : null;
