@@ -20,7 +20,7 @@ Date: 2018-06-10 20:31:28
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."Roles";
 CREATE TABLE "public"."Roles" (
-"id" int4 DEFAULT nextval('"Roles_id_seq"'::regclass) NOT NULL,
+"id" SERIAL NOT NULL,
 "name" varchar(255) COLLATE "default",
 "uploadsize" int8 DEFAULT 134200000
 )
@@ -40,7 +40,7 @@ INSERT INTO "public"."Roles" VALUES ('3', 'default', '134200000');
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."Uploads";
 CREATE TABLE "public"."Uploads" (
-"id" int4 DEFAULT nextval('"Uploads_id_seq"'::regclass) NOT NULL,
+"id" SERIAL NOT NULL,
 "filename" varchar(255) COLLATE "default" NOT NULL,
 "deleted" bool DEFAULT false NOT NULL,
 "userid" int4 NOT NULL,
@@ -60,7 +60,7 @@ WITH (OIDS=FALSE)
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."Users";
 CREATE TABLE "public"."Users" (
-"id" int4 DEFAULT nextval('"Users_id_seq"'::regclass) NOT NULL,
+"id" SERIAL NOT NULL,
 "username" varchar(255) COLLATE "default",
 "password" varchar(255) COLLATE "default",
 "role" varchar(255) COLLATE "default",
