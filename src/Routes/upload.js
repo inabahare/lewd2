@@ -30,14 +30,14 @@ const hashFile = async filename =>  new Promise((resolve, reject) => {
 const getUploadersMazSize = async token => {
     const client = await db.connect();
 
-    const getRole = await client.query("SELECT role FROM \"Users\" WHERE token = $1", [token]);
+    const getRoleId = await client.query("SELECT roleid FROM \"Users\" WHERE token = $1", [token]);
     
     // The program still needs to be able to work if no user is logged in
-    const role = (getRole.rows[0] === undefined) ? token 
-                                                 : getRole.rows[0].role;
+    const roleId = (getRoleId.rows[0] === undefined) ? constants.DEFAULT_ROLE_ID 
+                                                     : getRoleId.rows[0].roleid;
 
 
-    const getUploadSize = await client.query("SELECT uploadsize FROM \"Roles\" WHERE name = $1", [role]);
+    const getUploadSize = await client.query("SELECT uploadsize FROM \"Roles\" WHERE id = $1", [roleId]);
     await client.release();
 
     return getUploadSize.rows[0].uploadsize;
@@ -48,7 +48,7 @@ const addImageToDatabase = async req => {
     let userId = 0
 
     // Check if the user is logged in
-    if (req.headers.token !== constants.DEFAULT_TOKEN) {
+    if (req.headers.token !== constants.DEFAULT_ROLE_NAME) {
         const getUserId = await client.query("SELECT id FROM \"Users\" WHERE token = $1", [req.headers.token]);
         userId = getUserId.rows[0].id;
     }
@@ -82,9 +82,9 @@ router.post("/", async (req, res) => {
     uploader(req, res, async err => {
         if (err) 
             return res.status( 400 ).send(err.message);
-
+        console.log(1);
         addImageToDatabase(req);        
-
+        console.log(2);
         return res.status(200).send(constants.FILE_DIR + req.file.filename);
     });
 });
