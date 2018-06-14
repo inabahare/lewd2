@@ -22,6 +22,7 @@ const app = express();
 app.engine ("hbs", handlebars ({ 
     defaultLayout: __dirname + "/views/main",
     extname: "hbs",
+    partialsDir: __dirname + "/views/partials/",
     helpers: {
         is: function (a, b, opts) {
             if (a == b) {
@@ -82,6 +83,11 @@ app.use("/", index);
 app.use("/login", login);
 app.use("/upload", upload);
 app.use("/user", user);
+
+app.post("/test", (req, res) => {
+    console.log(req.body);
+    res.send("Hello World");
+});
 
 
 app.listen(8080, () => console.log("It's up and running :3"));
