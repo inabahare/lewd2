@@ -6,16 +6,19 @@ import crypto from "crypto";
 // CONSTANTS
 // 
 //#######################################
-const DEFAULT_ROLE_ID   = 1;
-const DEFAULT_ROLE_NAME = "default"
 const SITE_NAME         = "localhost";
 const DEST              = "build/Public/uploads/";
 const FILE_DIR          = SITE_NAME + "/uploads/";
 
 
+const DEFAULT_ROLE_ID   = 1;
+const DEFAULT_ROLE_NAME = "default"
+const ADMIN_ID          = 3;
+
 const constants = Object.freeze({
     DEFAULT_ROLE_ID:   DEFAULT_ROLE_ID,
     DEFAULT_ROLE_NAME: DEFAULT_ROLE_NAME,
+    ADMIN_ID:          ADMIN_ID,
     SITE_NAME:         SITE_NAME,
     DEST:              DEST,
     FILE_DIR:          FILE_DIR

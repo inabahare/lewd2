@@ -30,6 +30,9 @@ app.engine ("hbs", handlebars ({
             } else {
                 return opts.inverse(this)
             }
+        }, 
+        partial: function (name) {
+            return name;
         }
     }
 }));
