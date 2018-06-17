@@ -92,5 +92,9 @@ app.post("/test", (req, res) => {
     res.send("Hello World");
 });
 
+// 404
+app.use((req, res, next) =>{
+    res.status(404).send("404 - Page not found");
+});
 
 app.listen(8080, () => console.log("It's up and running :3"));
