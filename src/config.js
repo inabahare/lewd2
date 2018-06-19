@@ -6,22 +6,24 @@ import crypto from "crypto";
 // CONSTANTS
 // 
 //#######################################
-const SITE_NAME         = "localhost";
-const DEST              = "build/Public/uploads/";
-const FILE_DIR          = SITE_NAME + "/uploads/";
+const SITE_NAME          = "localhost";
+const DEST               = "build/Public/uploads/";
+const FILE_DIR           = SITE_NAME + "/uploads/";
 
+const DEFAULT_ROLE_ID    = 1;
+const DEFAULT_ROLE_NAME  = "default"
+const ADMIN_ID           = 3;
 
-const DEFAULT_ROLE_ID   = 1;
-const DEFAULT_ROLE_NAME = "default"
-const ADMIN_ID          = 3;
+const BCRYPT_SALT_ROUNDS = 10;
 
 const constants = Object.freeze({
-    DEFAULT_ROLE_ID:   DEFAULT_ROLE_ID,
-    DEFAULT_ROLE_NAME: DEFAULT_ROLE_NAME,
-    ADMIN_ID:          ADMIN_ID,
-    SITE_NAME:         SITE_NAME,
-    DEST:              DEST,
-    FILE_DIR:          FILE_DIR
+    DEFAULT_ROLE_ID:    DEFAULT_ROLE_ID,
+    DEFAULT_ROLE_NAME:  DEFAULT_ROLE_NAME,
+    ADMIN_ID:           ADMIN_ID,
+    SITE_NAME:          SITE_NAME,
+    DEST:               DEST,
+    FILE_DIR:           FILE_DIR,
+    BCRYPT_SALT_ROUNDS: BCRYPT_SALT_ROUNDS
 });
 
 //#######################################
@@ -38,7 +40,7 @@ const db = {
 //#######################################
 
 //#######################################
-// MULTER CONFIG 
+// STORAGE CONFIG 
 // https://github.com/expressjs/multer
 const filenamePattern = file => crypto.randomBytes(6).toString("hex") + file.originalname;
 
@@ -50,7 +52,17 @@ const storage = {
 };
 //#######################################
 
+//#######################################
+// TOKEN CONFIG
+// FUNCTION TO CALCULATE USERS TOKEN
+//#######################################
+const tokenCalculator = input => crypto.createHash("sha1")
+                                       .update(input + Date.now().toString())
+                                       .digest("hex");
+//#######################################
 
-export { constants as constants};
-export { db        as databaseConnection };
-export { storage   as storageConfig };
+
+export { constants       as constants};
+export { db              as databaseConnection };
+export { storage         as storageConfig };
+export { tokenCalculator as tokenCalculator };

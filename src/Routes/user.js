@@ -1,6 +1,8 @@
 import express from "express";
-import { constants } from "../config";
+import { constants, tokenCalculator } from "../config";
 import db from "../helpers/database";
+import bcrypt from "bcrypt";
+import crypto from "crypto";
 
 const router = express.Router();
 
@@ -31,7 +33,7 @@ router.use(async (req, res, next) => {
     next(null);
 });
 
-router.get("/add-user", (req, res) => res.render("user", {
+router.get("/add-users", (req, res) => res.render("user", {
                                           menuItem: "addusers"
                                       }));
 
@@ -39,5 +41,17 @@ router.get("/view-users", (req, res) => res.render("user", {
                                         menuItem: "viewusers"
                                     }));
 
-                                    
+router.post("/add-user", async (req, res) => {
+    const username = req.body.username;
+    const password = await bcrypt.hash(req.body.password, constants.BCRYPT_SALT_ROUNDS);
+    const token    = tokenCalculator(username);
+    const roleid   = Number(req.body.roleid);
+
+    const client = await db.connect();
+    await client.query("INSERT INTO \"Users\" (username, password, token, roleid) VALUES ($1, $2, $3, $4);", [username, password, token, roleid]);
+    await client.release();
+
+    res.redirect("/user/add-users");
+});
+
 export default router;
