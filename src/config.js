@@ -42,6 +42,7 @@ const db = {
 //#######################################
 // STORAGE CONFIG 
 // https://github.com/expressjs/multer
+//#######################################
 const filenamePattern = file => crypto.randomBytes(6).toString("hex") + file.originalname;
 
 // How to store files
@@ -61,8 +62,19 @@ const tokenCalculator = input => crypto.createHash("sha1")
                                        .digest("hex");
 //#######################################
 
+//#######################################
+// ERROR MESSAGE NAMES 
+// https://bulma.io/documentation/components/message/
+//#######################################
+const errorTypes = Object.freeze({
+    SUCCESS: "is-success",
+    ERROR:   "is-error"
+});
+//#######################################
+
 
 export { constants       as constants};
 export { db              as databaseConnection };
 export { storage         as storageConfig };
 export { tokenCalculator as tokenCalculator };
+export { errorTypes      as errorTypes };

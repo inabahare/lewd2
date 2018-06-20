@@ -7,6 +7,9 @@
     </div>
 
     <div class="field">
+        {{#if errors.password}}
+            <p>Fuck off</p>
+        {{/if}}
         <label for="password" class="label"Password></label>
         <div class="control">
             <input type="password" class="input" name="password" placeholder="password">

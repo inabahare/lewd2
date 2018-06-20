@@ -1,11 +1,10 @@
-import express from "express";
-import multer from "multer";
-import {promisify} from 'util';
-import fs from "fs";
-import crypto from "crypto";
-// import readFile from "fs-readfile-promise";
+import express                     from "express";
+import multer                      from "multer";
+import {promisify}                 from 'util';
+import fs                          from "fs";
+import crypto                      from "crypto";
 import { storageConfig, constants} from "../config";
-import db from "../helpers/database";
+import db                          from "../helpers/database";
 
 const router = express.Router();
 

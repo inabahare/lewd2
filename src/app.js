@@ -1,11 +1,12 @@
 "use strict";
 
-import express    from "express";
-import handlebars from "express-handlebars";
-import path       from 'path';
-import session    from "express-session";
-import bodyParser from "body-parser";
-import Util       from "util";
+import express       from "express";
+import handlebars    from "express-handlebars";
+import path          from 'path';
+import session       from "express-session";
+import cookieSession from "cookie-session";
+import bodyParser    from "body-parser";
+import Util          from "util";
 
 import db       from "./helpers/database";
 import passport from "./helpers/passport";
@@ -38,6 +39,7 @@ app.engine ("hbs", handlebars ({
 }));
 app.set ("view engine", "hbs");
 app.set('views', path.join(__dirname, "views"));
+// app.enable('view cache');
 
 // Static files
 // app.use(express.static(path.join(__dirname, "public")));
@@ -45,39 +47,31 @@ app.set('views', path.join(__dirname, "views"));
 // parse various different custom JSON types as JSON
 app.use(bodyParser.json({ type: 'application/*+json' }))
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(session({
-    secret: "lewd.se",
-    resave: true,
-    saveUninitialized: true
+app.use(cookieSession({
+    name: 'session',
+    secret: "lewd",
+    httpOnly: true, 
+    maxAge: 30 * 60 * 1000,
+    secure: false,
+    overwrite: false
 }));
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-/*
-import Memwatch from "memwatch-next";
-import trace from "@risingstack/trace";
-
-let hd = null;
-Memwatch.on('leak', (info) => {
-  console.log('memwatch::leak');
-  console.error(info);
-  if (!hd) {
-    hd = new Memwatch.HeapDiff();
- }
- else {
-   const diff = hd.end();
-   console.error(Util.inspect(diff, true, null));
-   trace.report('memwatch::leak', {
-     HeapDiff: hd
-   });
-   hd = null;
- }
-});
-
-*/
+// Set local user
 app.use((req, res, next) => {
     res.locals.user = req.user ? req.user : null;
+    next()
+});
+
+// Set errors (if any)
+app.use((req, res, next) => {
+    console.log(req.session);
+    if (req.session){
+        res.locals.errors = req.session.err;
+        delete req.session.err;
+    }
     next()
 });
 
@@ -86,11 +80,6 @@ app.use("/", index);
 app.use("/login", login);
 app.use("/upload", upload);
 app.use("/user", user);
-
-app.post("/test", (req, res) => {
-    console.log(req.body);
-    res.send("Hello World");
-});
 
 // 404
 app.use((req, res, next) =>{
