@@ -36,7 +36,7 @@ router.use(async (req, res, next) => {
 });
 
 router.use(async (req, res, next) => {
-    console.log(res.locals.errors);
+    console.log(res.locals.err);
     next();
 });
 
@@ -63,6 +63,7 @@ router.post("/add-user", [
             errorArray[error.param] = error.msg;
         });
         req.session.err = errorArray;
+        console.log(req.session.err);
         return res.redirect("/user/add-users");
     }
 

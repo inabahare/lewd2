@@ -48,7 +48,6 @@ app.set('views', path.join(__dirname, "views"));
 app.use(bodyParser.json({ type: 'application/*+json' }))
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieSession({
-    name: 'session',
     secret: "lewd",
     httpOnly: true, 
     maxAge: 30 * 60 * 1000,
@@ -67,8 +66,7 @@ app.use((req, res, next) => {
 
 // Set errors (if any)
 app.use((req, res, next) => {
-    console.log(req.session);
-    if (req.session){
+    if (req.session.err){
         res.locals.errors = req.session.err;
         delete req.session.err;
     }
