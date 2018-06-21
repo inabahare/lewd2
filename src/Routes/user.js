@@ -35,14 +35,12 @@ router.use(async (req, res, next) => {
     next();
 });
 
-router.use(async (req, res, next) => {
-    console.log(res.locals.err);
-    next();
+router.get("/add-users", (req, res) => {
+    console.log(res.locals.errors);
+    res.render("user", {
+        menuItem: "addusers"
+    })
 });
-
-router.get("/add-users", (req, res) => res.render("user", {
-                                          menuItem: "addusers"
-                                      }));
 
 router.get("/view-users", (req, res) => res.render("user", {
                                         menuItem: "viewusers"
@@ -57,15 +55,11 @@ router.post("/add-user", [
 ], async (req, res) => {
     const errors = validationResult(req);
 
-    if (!errors.isEmpty()) {
-        const errorArray = [];
-        errors.array().forEach(error => {
-            errorArray[error.param] = error.msg;
-        });
-        req.session.err = errorArray;
-        console.log(req.session.err);
+    if (errors) {
+        req.session.err = errors.array()
         return res.redirect("/user/add-users");
     }
+    
 
     const username = req.body.username;
     const password = await bcrypt.hash(req.body.password, constants.BCRYPT_SALT_ROUNDS);

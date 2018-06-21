@@ -1,5 +1,8 @@
 <form action="/user/add-user" method="POST">
     <div class="field">
+        {{#if errors.username}}
+            <p>Fuck off</p>
+        {{/if}}
         <label for="username" class="label">Username</label>
         <div class="control">
             <input type="text" class="input" name="username" placeholder="Username">
