@@ -1,0 +1,44 @@
+<form action="/user/add-user" method="POST">
+    <div class="field">
+        {{#if errors.username}}
+            <div class="notification is-error">
+                {{{ errors.username }}}
+            </div>    
+        {{/if}}
+        <label for="username" class="label">Username</label>
+        <div class="control">
+            <input type="text" class="input" name="username" placeholder="Username">
+        </div>
+    </div>
+
+    <div class="field">
+        {{#if errors.password}}
+            <div class="notification is-error">
+                {{{ errors.password }}}
+            </div>
+        {{/if}}
+        <label for="password" class="label"Password></label>
+        <div class="control">
+            <input type="password" class="input" name="password" placeholder="password">
+        </div>
+    </div>
+
+    <div class="field">
+        <label class="label">Role</label>
+        <div class="control">
+            <div class="select">
+            <select name="roleid">
+                {{#each roles}}
+                    <option value="{{this.id}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="control">
+            <input type="submit" class="button is-link" value="Add user">
+        </div>
+    </div>
+</form>

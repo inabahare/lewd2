@@ -57,9 +57,17 @@ const storage = {
 // TOKEN CONFIG
 // FUNCTION TO CALCULATE USERS TOKEN
 //#######################################
-const tokenCalculator = input => crypto.createHash("sha1")
-                                       .update(input + Date.now().toString())
-                                       .digest("hex");
+const loginTokenCalculator = input => crypto.createHash("sha1")
+                                            .update(input + Date.now().toString())
+                                            .digest("hex");
+//#######################################
+
+//#######################################
+// TOKEN CONFIG
+// FUNCTION TO CALCULATE TOKEN THAT ALLOWS USERS TO REGISTER
+//#######################################
+const registerTokenCalculator = () => loginTokenCalculator("You are chosen")
+                                     .substr(-1, 10);
 //#######################################
 
 //#######################################
@@ -73,8 +81,9 @@ const errorTypes = Object.freeze({
 //#######################################
 
 
-export { constants       as constants};
-export { db              as databaseConnection };
-export { storage         as storageConfig };
-export { tokenCalculator as tokenCalculator };
-export { errorTypes      as errorTypes };
+export { constants               as constants};
+export { db                      as databaseConnection };
+export { storage                 as storageConfig };
+export { loginTokenCalculator    as loginTokenCalculator };
+export { errorTypes              as errorTypes };
+export { registerTokenCalculator as registerTokenCalculator }
