@@ -66,8 +66,7 @@ const loginTokenCalculator = input => crypto.createHash("sha1")
 // TOKEN CONFIG
 // FUNCTION TO CALCULATE TOKEN THAT ALLOWS USERS TO REGISTER
 //#######################################
-const registerTokenCalculator = () => loginTokenCalculator("You are chosen")
-                                     .substr(-1, 10);
+const registerTokenCalculator = () => loginTokenCalculator("You are chosen");
 //#######################################
 
 //#######################################

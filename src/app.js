@@ -4,7 +4,6 @@ import express       from "express";
 import handlebars    from "express-handlebars";
 import path          from 'path';
 import session       from "express-session";
-import validator     from "express-validator";
 import cookieSession from "cookie-session";
 import bodyParser    from "body-parser";
 import Util          from "util";
@@ -59,23 +58,19 @@ app.use(cookieSession({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(validator());
-
 // Set local user
 app.use((req, res, next) => {
     res.locals.user = req.user ? req.user : null;
     next()
 });
 
+// Set errors (if any)
 app.use((req, res, next) => {
-    if (req.session.err) {
-        res.locals.errors = [];
-        req.session.err.forEach(error => {
-            res.locals.errors[error.param] = error.msg;
-        });
+    if (req.session.err){
+        res.locals.errors = req.session.err;
         delete req.session.err;
     }
-    next();
+    next()
 });
 
 // Set the routes

@@ -1,9 +1,9 @@
-import express                             from "express";
-import { constants, loginTokenCalculator } from "../config";
-import db                                  from "../helpers/database";
-import bcrypt                              from "bcrypt";
-import validator                           from "express-validator";
-import { check, validationResult }         from 'express-validator/check';
+import express                                from "express";
+import { constants, registerTokenCalculator } from "../config";
+import db                                     from "../helpers/database";
+import bcrypt                                 from "bcrypt";
+import validator                              from "express-validator";
+import { check, validationResult }            from 'express-validator/check';
 
 const router = express.Router();
 
@@ -28,23 +28,22 @@ router.use((req, res, next) => {
 });
 
 router.use(async (req, res, next) => {
-    const client = await db.connect();
-    const getRoles = await db.query("SELECT id, name FROM \"Roles\";");
+    const client     = await db.connect();
+    const getRoles   = await db.query("SELECT id, name FROM \"Roles\";");
     res.locals.roles = getRoles.rows
     await client.release();
     next();
 });
 
-router.use(async (req, res, next) => {
-    console.log(res.locals.err);
-    next();
-});
+router.get("/token", async (req, res) => {
+    const registerToken = registerTokenCalculator();
+    const client        = await db.connect();
+    await db.query("INSERT INTO \"Tokens\" (token) VALUES ($1);", [registerToken]);
+    await client.release();
 
-router.get("/token", (req, res) => {
-    
-    
     res.render("user", {
-        menuItem: "token"
+        menuItem: "token", 
+        token: registerToken
     })
 });
 
