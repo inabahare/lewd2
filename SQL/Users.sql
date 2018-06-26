@@ -11,7 +11,7 @@ Target Server Type    : PGSQL
 Target Server Version : 100400
 File Encoding         : 65001
 
-Date: 2018-06-10 20:32:31
+Date: 2018-06-27 01:34:43
 */
 
 
@@ -23,12 +23,17 @@ CREATE TABLE "public"."Users" (
 "id" int4 DEFAULT nextval('"Users_id_seq"'::regclass) NOT NULL,
 "username" varchar(255) COLLATE "default",
 "password" varchar(255) COLLATE "default",
-"role" varchar(255) COLLATE "default",
-"token" varchar(255) COLLATE "default"
+"token" varchar(255) COLLATE "default",
+"roleid" int2
 )
 WITH (OIDS=FALSE)
 
 ;
+
+-- ----------------------------
+-- Records of Users
+-- ----------------------------
+INSERT INTO "public"."Users" VALUES ('1', 'inaba', '$2a$04$0FvjWBUAYbIACXgTTiaAVu/MwZZ2xw.X.5SoNxqd7E50cWOF.BLsC', 'Boobs', '3');
 
 -- ----------------------------
 -- Alter Sequences Owned By 

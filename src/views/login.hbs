@@ -1,4 +1,4 @@
-<form action="/login/login" method="post">
+<form action="/login" method="post">
     <div class="field">
         <label for="username" class="label">Username</label>
         <div class="control">
@@ -13,9 +13,17 @@
         </div>
     </div>
 
-    <div class="field">
-        <div class="control">
-            <button class="button is-link">Log in</button>
+    <div class="field columns">
+        <div class="column">
+            <div class="control">
+                <button class="button is-link">Log in</button>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="control">
+                <a href="/register" class="button is-link">Register</a>
+            </div>
         </div>
     </div>
 </form>

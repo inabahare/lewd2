@@ -7,15 +7,17 @@ import session       from "express-session";
 import cookieSession from "cookie-session";
 import bodyParser    from "body-parser";
 import Util          from "util";
+import frontEndError from "./helpers/frontendError";
 
 import db       from "./helpers/database";
 import passport from "./helpers/passport";
  
 // Routers
-import index  from "./Routes/index";
-import login  from "./Routes/login";
-import upload from "./Routes/upload";
-import user   from "./Routes/user";
+import index    from "./Routes/index";
+import login    from "./Routes/login";
+import upload   from "./Routes/upload";
+import user     from "./Routes/user";
+import register from "./Routes/register";
 
 const app = express();
 
@@ -67,17 +69,18 @@ app.use((req, res, next) => {
 // Set errors (if any)
 app.use((req, res, next) => {
     if (req.session.err){
-        res.locals.errors = req.session.err;
+        res.locals.errors = frontEndError(req.session.err);
         delete req.session.err;
     }
     next()
 });
 
 // Set the routes
-app.use("/", index);
-app.use("/login", login);
-app.use("/upload", upload);
-app.use("/user", user);
+app.use("/",         index);
+app.use("/login",    login);
+app.use("/upload",   upload);
+app.use("/user",     user);
+app.use("/register", register);
 
 // 404
 app.use((req, res, next) =>{

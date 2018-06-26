@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get("/", (req, res) => res.render("login"));
 
-router.post("/login", passport.authenticate("local", {
+router.post("/", passport.authenticate("local", {
     successRedirect: "/",
     failureRedirect: "/login"
 }));

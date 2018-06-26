@@ -11,7 +11,7 @@ Target Server Type    : PGSQL
 Target Server Version : 100400
 File Encoding         : 65001
 
-Date: 2018-06-10 20:32:12
+Date: 2018-06-27 01:34:28
 */
 
 
@@ -20,7 +20,7 @@ Date: 2018-06-10 20:32:12
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."Uploads";
 CREATE TABLE "public"."Uploads" (
-"id" SERIAL NOT NULL,
+"id" int4 DEFAULT nextval('"Uploads_id_seq"'::regclass) NOT NULL,
 "filename" varchar(255) COLLATE "default" NOT NULL,
 "deleted" bool DEFAULT false NOT NULL,
 "userid" int4 NOT NULL,
@@ -30,10 +30,6 @@ CREATE TABLE "public"."Uploads" (
 WITH (OIDS=FALSE)
 
 ;
-
--- ----------------------------
--- Records of Uploads
--- ----------------------------
 
 -- ----------------------------
 -- Alter Sequences Owned By 

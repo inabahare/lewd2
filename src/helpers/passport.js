@@ -7,6 +7,7 @@ passport.use(new LocalStrategy({
     usernameField: "username",
     passwordField: "password"
 }, async (username, password, next) => {
+    console.log(username, password);
     const client = await db.connect();
     const res    = await client.query("SELECT \"Users\".id, username, roleid, \"Roles\".name, \"Roles\".\"uploadsize\", token, password "
                                     + "FROM \"Users\", \"Roles\" "

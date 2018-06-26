@@ -7,6 +7,7 @@ import { check, validationResult }            from 'express-validator/check';
 
 const router = express.Router();
 
+// Check if user is logged in
 router.use((req, res, next) => {
     if (res.locals.user === null)
         return res.render("login");
@@ -36,13 +37,22 @@ router.use(async (req, res, next) => {
 });
 
 router.get("/token", async (req, res) => {
+    res.render("user", {
+        menuItem: "token"
+    })
+});
+
+router.post("/token", [
+    check("roleid").isNumeric().withMessage("Invalid role id")
+], async (req, res) => {
+    console.log(req.body);
+
     const registerToken = registerTokenCalculator();
     const client        = await db.connect();
-    await db.query("INSERT INTO \"Tokens\" (token) VALUES ($1);", [registerToken]);
+    await db.query("INSERT INTO \"Tokens\" (token, roleid) VALUES ($1, $2);", [registerToken, req.body.roleid]);
     await client.release();
-
     res.render("user", {
-        menuItem: "token", 
+        menuItem: "token",
         token: registerToken
     })
 });
