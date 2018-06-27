@@ -20,7 +20,7 @@ Date: 2018-06-27 21:09:46
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."Roles";
 CREATE TABLE "public"."Roles" (
-"id" int4 DEFAULT NOT NULL,
+"id" int4 NOT NULL,
 "name" varchar(255) COLLATE "default",
 "uploadsize" int8 DEFAULT 134200000
 )
