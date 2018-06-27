@@ -1,4 +1,15 @@
 <form action="/login" method="post">
+
+    {{#if error}}
+        <article class="message is-danger">
+            <div class="message-header">
+                <p>Error!</p>
+            </div>
+            <div class="message-body">
+                {{{ error }}}
+            </div>
+        </article>
+    {{/if}}
     <div class="field">
         <label for="username" class="label">Username</label>
         <div class="control">

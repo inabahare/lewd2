@@ -20,7 +20,7 @@ Date: 2018-06-27 01:34:43
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."Users";
 CREATE TABLE "public"."Users" (
-"id" int4 DEFAULT nextval('"Users_id_seq"'::regclass) NOT NULL,
+"id" serial4 NOT NULL,
 "username" varchar(255) COLLATE "default",
 "password" varchar(255) COLLATE "default",
 "token" varchar(255) COLLATE "default",

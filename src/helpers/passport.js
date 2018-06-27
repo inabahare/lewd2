@@ -1,7 +1,8 @@
-import passport from "passport";
+import passport                      from "passport";
 import { Strategy as LocalStrategy } from 'passport-local';
-import db from "./database";
-import bcrypt from "bcrypt";
+import db                            from "./database";
+import bcrypt                        from "bcrypt";
+
 
 passport.use(new LocalStrategy({
     usernameField: "username",
@@ -17,12 +18,17 @@ passport.use(new LocalStrategy({
 
     const user   = res.rows[0];
 
+    if (user === undefined)
+        next(null, false);
+
     bcrypt.compare(password, user.password)
           .then(result => {
-              if (result == true)
-                next(null, user);
-              else
-                next(null, false);
+              if (result == true){
+                  next(null, user);
+              } else {
+
+                  next(null, false);
+              }
           });
 }));
 

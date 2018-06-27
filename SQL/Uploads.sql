@@ -20,7 +20,7 @@ Date: 2018-06-27 01:34:28
 -- ----------------------------
 DROP TABLE IF EXISTS "public"."Uploads";
 CREATE TABLE "public"."Uploads" (
-"id" int4 DEFAULT nextval('"Uploads_id_seq"'::regclass) NOT NULL,
+"id" serial4 NOT NULL,
 "filename" varchar(255) COLLATE "default" NOT NULL,
 "deleted" bool DEFAULT false NOT NULL,
 "userid" int4 NOT NULL,

@@ -4,16 +4,17 @@ import express       from "express";
 import handlebars    from "express-handlebars";
 import path          from 'path';
 import session       from "express-session";
+import flash         from "express-flash";
 import cookieSession from "cookie-session";
 import bodyParser    from "body-parser";
 import Util          from "util";
-import frontEndError from "./helpers/frontendError";
+import frontEndError from "./helpers/frontendErrorFormatter";
 
 import db       from "./helpers/database";
 import passport from "./helpers/passport";
  
 // Routers
-import index    from "./Routes/index";
+import index    from "./Routes";
 import login    from "./Routes/login";
 import upload   from "./Routes/upload";
 import user     from "./Routes/user";
@@ -56,6 +57,7 @@ app.use(cookieSession({
     secure: false,
     overwrite: false
 }));
+app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
