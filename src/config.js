@@ -79,6 +79,29 @@ const errorTypes = Object.freeze({
 });
 //#######################################
 
+//#######################################
+// FILE DELETION INTERVAL 
+// https://bulma.io/documentation/components/message/
+//#######################################
+const fileDeletionInterval = Object.freeze({
+    second:     "*", // 0 - 59
+    minute:     "*", // 0 - 59
+    hour:       "*", // 0 - 23
+    dayOfMonth: "*", // 1 - 31
+    month:      "*", // 1 - 12
+    dayOfWeek:  "*"  // 0 - 7
+});
+
+const fileDeletionCron =    fileDeletionInterval.second      + " " +
+                            fileDeletionInterval.minute      + " " +
+                            fileDeletionInterval.hour        + " " +
+                            fileDeletionInterval.dayOfMonth  + " " +
+                            fileDeletionInterval.month       + " " +
+                            fileDeletionInterval.dayOfWeek;
+
+//#######################################
+
+
 
 export { constants               as constants};
 export { db                      as databaseConnection };
