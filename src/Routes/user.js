@@ -1,8 +1,6 @@
 import express                                from "express";
 import { constants, registerTokenCalculator } from "../config";
 import db                                     from "../helpers/database";
-import bcrypt                                 from "bcrypt";
-import validator                              from "express-validator";
 import { check, validationResult }            from 'express-validator/check';
 
 const router = express.Router();

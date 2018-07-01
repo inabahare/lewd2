@@ -46,7 +46,7 @@ const addImageToDatabase = async req => {
     const client = await db.connect();
     let userId = 0
 
-    // Check if the user is logged in
+    // Check if the user is logged in and get the ID
     if (req.headers.token !== constants.DEFAULT_ROLE_NAME) {
         const getUserId = await client.query("SELECT id FROM \"Users\" WHERE token = $1", [req.headers.token]);
         userId = getUserId.rows[0].id;
@@ -66,7 +66,9 @@ const addImageToDatabase = async req => {
     await client.release();
 };
 
-
+const scanAndRemoveFile = async fileName => {
+    
+};
 
 router.post("/", async (req, res) => {
     const storage = multer.diskStorage(storageConfig);
@@ -81,9 +83,9 @@ router.post("/", async (req, res) => {
     uploader(req, res, async err => {
         if (err) 
             return res.status( 400 ).send(err.message);
-        console.log(1);
-        addImageToDatabase(req);        
-        console.log(2);
+
+        addImageToDatabase(req);
+        
         return res.status(200).send(constants.FILE_DIR + req.file.filename);
     });
 });

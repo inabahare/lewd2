@@ -1,4 +1,3 @@
-import sha1 from "sha1";
 import moment from "moment";
 import crypto from "crypto";
 
@@ -81,10 +80,9 @@ const errorTypes = Object.freeze({
 
 //#######################################
 // FILE DELETION INTERVAL 
-// https://bulma.io/documentation/components/message/
+// https://crontab.guru/
 //#######################################
 const fileDeletionInterval = Object.freeze({
-    second:     "*", // 0 - 59
     minute:     "*", // 0 - 59
     hour:       "*", // 0 - 23
     dayOfMonth: "*", // 1 - 31
@@ -92,8 +90,7 @@ const fileDeletionInterval = Object.freeze({
     dayOfWeek:  "*"  // 0 - 7
 });
 
-const fileDeletionCron =    fileDeletionInterval.second      + " " +
-                            fileDeletionInterval.minute      + " " +
+const fileDeletionCron =    fileDeletionInterval.minute      + " " +
                             fileDeletionInterval.hour        + " " +
                             fileDeletionInterval.dayOfMonth  + " " +
                             fileDeletionInterval.month       + " " +
@@ -108,4 +105,5 @@ export { db                      as databaseConnection };
 export { storage                 as storageConfig };
 export { loginTokenCalculator    as loginTokenCalculator };
 export { errorTypes              as errorTypes };
-export { registerTokenCalculator as registerTokenCalculator }
+export { registerTokenCalculator as registerTokenCalculator };
+export { fileDeletionCron        as fileDeletionCron };

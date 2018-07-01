@@ -1,6 +1,19 @@
-import cron from "node-cron";
-import db from "./helpers/database.js";
+import { schedule }         from 'node-cron';
+import { fileDeletionCron } from "./config"
+import getFilesToDelete     from "./functions/FileDeletion/getFilesToDelete";
+import deleteFiles          from "./functions/FileDeletion/deleteFiles";
+import updateDatabase       from "./functions/FileDeletion/updateDeletedFiles";
 
-cron.schedule("* * * * *", () => {
-    console.log("Hello every minute");
+schedule("*/5 * * * * *", async () => {
+    const files = await getFilesToDelete();
+
+    if (files.length == 0){
+        console.log("Nothing found");
+        return;
+    }
+
+    deleteFiles(files);
+    updateDatabase(files);
+
+    console.log(files);
 });
