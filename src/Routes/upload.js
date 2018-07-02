@@ -54,7 +54,7 @@ const addImageToDatabase = async req => {
 
     // To check for uniqueness
     const fileSha   = await hashFile(req.file.path);
-    const checkFile = await client.query("SELECT filename FROM \"Uploads\" WHERE filesha = $1", [fileSha]);
+    const checkFile = await client.query("SELECT filename FROM \"Uploads\" WHERE filesha = $1 AND deleted = FALSE;", [fileSha]);
     
     // Remove file if exists
     if (checkFile.rows[0]) {
@@ -66,8 +66,11 @@ const addImageToDatabase = async req => {
     await client.release();
 };
 
-const scanAndRemoveFile = async fileName => {
-    
+const formatAntiVirusCommand = fileName => constants.ANTI_VIRUS_COMMAND + `"${fileName}`;
+
+const scanAndRemoveFile = async file => {
+    const scanCommand = formatAntiVirusCommand(file.filename);
+    console.log(scanCommand);
 };
 
 router.post("/", async (req, res) => {
@@ -85,7 +88,8 @@ router.post("/", async (req, res) => {
             return res.status( 400 ).send(err.message);
 
         addImageToDatabase(req);
-        
+        scanAndRemoveFile(req.file);
+
         return res.status(200).send(constants.FILE_DIR + req.file.filename);
     });
 });

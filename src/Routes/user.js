@@ -27,16 +27,19 @@ router.use((req, res, next) => {
 });
 
 router.use(async (req, res, next) => {
-    const client     = await db.connect();
-    const getRoles   = await db.query("SELECT id, name FROM \"Roles\";");
-    res.locals.roles = getRoles.rows
-    await client.release();
+
     next();
 });
 
 router.get("/token", async (req, res) => {
+    // Get role ID's
+    const client     = await db.connect();
+    const getRoles   = await db.query("SELECT id, name FROM \"Roles\";");
+    await client.release();
+
     res.render("user", {
-        menuItem: "token"
+        menuItem: "token",
+        roles: getRoles.rows
     })
 });
 

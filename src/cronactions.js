@@ -8,7 +8,6 @@ schedule("*/5 * * * * *", async () => {
     const files = await getFilesToDelete();
 
     if (files.length == 0){
-        console.log("Nothing found");
         return;
     }
 

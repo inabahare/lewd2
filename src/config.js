@@ -15,6 +15,8 @@ const ADMIN_ID           = 3;
 
 const BCRYPT_SALT_ROUNDS = 10;
 
+const ANTI_VIRUS_COMMAND = "/opt/sophos-av/bin/savscan -nc -nb -ss -remove -p=$transpdir/last_scan.txt -archive -suspicious";
+
 const constants = Object.freeze({
     DEFAULT_ROLE_ID:    DEFAULT_ROLE_ID,
     DEFAULT_ROLE_NAME:  DEFAULT_ROLE_NAME,
@@ -22,7 +24,8 @@ const constants = Object.freeze({
     SITE_NAME:          SITE_NAME,
     DEST:               DEST,
     FILE_DIR:           FILE_DIR,
-    BCRYPT_SALT_ROUNDS: BCRYPT_SALT_ROUNDS
+    BCRYPT_SALT_ROUNDS: BCRYPT_SALT_ROUNDS,
+    ANTI_VIRUS_COMMAND: ANTI_VIRUS_COMMAND
 });
 
 //#######################################
