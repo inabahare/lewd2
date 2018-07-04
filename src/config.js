@@ -6,7 +6,7 @@ import crypto from "crypto";
 // 
 //#######################################
 const SITE_NAME          = "localhost";
-const DEST               = "build/Public/uploads/";
+const DEST               = "/home/inaba/Lewd/build/Public/uploads/";
 const FILE_DIR           = SITE_NAME + "/uploads/";
 
 const DEFAULT_ROLE_ID    = 1;
@@ -15,7 +15,7 @@ const ADMIN_ID           = 3;
 
 const BCRYPT_SALT_ROUNDS = 10;
 
-const ANTI_VIRUS_COMMAND = "/opt/sophos-av/bin/savscan -nc -nb -ss -remove -p=$transpdir/last_scan.txt -archive -suspicious";
+const ANTI_VIRUS_COMMAND = "/opt/sophos-av/bin/savscan -nc -nb -ss -remove -archive -suspicious ";
 
 const constants = Object.freeze({
     DEFAULT_ROLE_ID:    DEFAULT_ROLE_ID,

@@ -76,9 +76,10 @@ Now there's one final thing you need to do, and that is connect to the database 
 psql -d db
 ```
 
-And finally you need to run this command
+And finally you need to run the following commands
 
 ```sql
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public to www;
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO user;
 ```
 

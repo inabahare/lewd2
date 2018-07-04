@@ -8,7 +8,6 @@ passport.use(new LocalStrategy({
     usernameField: "username",
     passwordField: "password"
 }, async (username, password, next) => {
-    console.log(username, password);
     const client = await db.connect();
     const res    = await client.query("SELECT \"Users\".id, username, roleid, \"Roles\".name, \"Roles\".\"uploadsize\", token, password "
                                     + "FROM \"Users\", \"Roles\" "
@@ -17,17 +16,15 @@ passport.use(new LocalStrategy({
     await client.release();
 
     const user   = res.rows[0];
-
     if (user === undefined)
-        next(null, false);
+        return next(null, false);
 
     bcrypt.compare(password, user.password)
           .then(result => {
               if (result == true){
-                  next(null, user);
+                  return next(null, user);
               } else {
-
-                  next(null, false);
+                  return next(null, false);
               }
           });
 }));

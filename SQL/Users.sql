@@ -33,7 +33,7 @@ WITH (OIDS=FALSE)
 -- ----------------------------
 -- Records of Users
 -- ----------------------------
-INSERT INTO "public"."Users" VALUES ('1', 'inabahare', '$2a$04$0FvjWBUAYbIACXgTTiaAVu/MwZZ2xw.X.5SoNxqd7E50cWOF.BLsC', 'myveryowntesttoken', '3');
+INSERT INTO "public"."Users" (username, password, token, roleid) VALUES ('inabahare', '$2a$04$0FvjWBUAYbIACXgTTiaAVu/MwZZ2xw.X.5SoNxqd7E50cWOF.BLsC', 'myveryowntesttoken', '3');
 
 -- ----------------------------
 -- Alter Sequences Owned By 

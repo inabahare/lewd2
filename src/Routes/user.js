@@ -26,28 +26,23 @@ router.use((req, res, next) => {
     next();
 });
 
-router.use(async (req, res, next) => {
-
-    next();
-});
-
-router.get("/token", async (req, res) => {
+router.use("/token", async (req, res, next) => {
     // Get role ID's
     const client     = await db.connect();
     const getRoles   = await db.query("SELECT id, name FROM \"Roles\";");
     await client.release();
 
-    res.render("user", {
-        menuItem: "token",
-        roles: getRoles.rows
-    })
+    res.locals.roles = getRoles.rows;
+    next();
 });
+
+router.get("/token", async (req, res) => res.render("user", {
+                                            menuItem: "token"
+                                         }));
 
 router.post("/token", [
     check("roleid").isNumeric().withMessage("Invalid role id")
 ], async (req, res) => {
-    console.log(req.body);
-
     const registerToken = registerTokenCalculator();
     const client        = await db.connect();
     await db.query("INSERT INTO \"Tokens\" (token, roleid) VALUES ($1, $2);", [registerToken, req.body.roleid]);

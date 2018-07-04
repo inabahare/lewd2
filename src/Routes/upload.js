@@ -5,11 +5,13 @@ import fs                          from "fs";
 import crypto                      from "crypto";
 import { storageConfig, constants} from "../config";
 import db                          from "../helpers/database";
+const { spawn } = require("child_process");
 
 const router = express.Router();
 
 const unlink   = promisify(fs.unlink);
 const readFile = promisify(fs.readFile);
+
 
 const hashFile = async filename =>  new Promise((resolve, reject) => {
     let hash = crypto.createHash("sha1");
@@ -24,7 +26,6 @@ const hashFile = async filename =>  new Promise((resolve, reject) => {
         return reject(error.message);
     }
 });
-
 
 const getUploadersMazSize = async token => {
     const client = await db.connect();
@@ -42,7 +43,22 @@ const getUploadersMazSize = async token => {
     return getUploadSize.rows[0].uploadsize;
 };
 
-const addImageToDatabase = async req => {
+/**
+ * Does your laundry
+ * @param {object} req The request object
+ * @param {string} fileSha sha representation of the file
+ * @returns {object} Your laundry if it exists, or null if it doesn't
+ */
+const getImageIfExists = async fileSha => {
+    const client    = await db.connect();
+    const checkFile = await client.query("SELECT filename FROM \"Uploads\" WHERE filesha = $1 AND deleted = FALSE;", [fileSha]);
+    client.release();
+
+    return (checkFile.rows[0]) ? checkFile.rows[0] 
+                               : null;
+}
+
+const addImageToDatabase = async (req, fileSha) => {
     const client = await db.connect();
     let userId = 0
 
@@ -52,27 +68,44 @@ const addImageToDatabase = async req => {
         userId = getUserId.rows[0].id;
     }
 
-    // To check for uniqueness
-    const fileSha   = await hashFile(req.file.path);
-    const checkFile = await client.query("SELECT filename FROM \"Uploads\" WHERE filesha = $1 AND deleted = FALSE;", [fileSha]);
-    
-    // Remove file if exists
-    if (checkFile.rows[0]) {
-        await client.query("DELETE FROM \"Uploads\" WHERE filesha = $1", [fileSha]);
-        await unlink(constants.DEST + checkFile.rows[0].filename);
-    }
-
     const insertUpload = await client.query("INSERT INTO \"Uploads\" (filename, userid, uploaddate, filesha) VALUES ($1, $2, NOW(), $3)", [req.file.filename, userId, fileSha]);
     await client.release();
 };
 
-const formatAntiVirusCommand = fileName => constants.ANTI_VIRUS_COMMAND + `"${fileName}`;
+const updateFile = async (req, fileSha) => {
+    const client = await db.connect();
+    // Update the upload date for the already existing file
+    await client.query(`UPDATE "Uploads" SET uploaddate = NOW() WHERE filesha = $1`, [fileSha]);
+    await client.release();
+    // Delete the currently uploaded file
+    await unlink(req.file.path);
+}
 
-const scanAndRemoveFile = async file => {
-    const scanCommand = formatAntiVirusCommand(file.filename);
-    console.log(scanCommand);
+const scanAndRemoveFile = async (file, fileSha) => {
+    console.log(file);
+    const scanner = spawn("/opt/sophos-av/bin/savscan", ["-nc", "-nb", "-ss", "-remove", "-archive", "-suspicious", file.path]);
+
+    scanner.stderr.on("data", data => {
+        console.log("error", data);
+    });
+
+    scanner.on("close", code => {
+        if (code === 0) {
+            // The file is clean
+            console.log("Clean file");
+        } else if (code === 3) {
+            // The file got removed
+            console.log("Virus")
+        } else if (code === 2) {
+            // Password protected file and probably some other things
+            console.log("Error");
+        } else {
+            // God knows what
+        }
+    });
 };
 
+// UPLOAD
 router.post("/", async (req, res) => {
     const storage = multer.diskStorage(storageConfig);
     const upload = multer({
@@ -87,10 +120,24 @@ router.post("/", async (req, res) => {
         if (err) 
             return res.status( 400 ).send(err.message);
 
-        addImageToDatabase(req);
-        scanAndRemoveFile(req.file);
+        // To check for uniqueness
+        const fileSha = await hashFile(req.file.path);
 
-        return res.status(200).send(constants.FILE_DIR + req.file.filename);
+        const fileExists = await getImageIfExists(fileSha);
+        
+        let fileName = req.file.filename; 
+        console.log(fileExists);
+
+        if (fileExists !== null) {
+            fileName = fileExists.filename;
+            await updateFile(req, fileSha)
+        } else {
+            await addImageToDatabase(req, fileSha);
+        }
+        
+        scanAndRemoveFile(req.file, fileSha);
+
+        return res.status(200).send(constants.FILE_DIR + fileName);
     });
 });
 export default router;
