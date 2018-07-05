@@ -8,14 +8,10 @@ import crypto from "crypto";
 const SITE_NAME          = "localhost";
 const DEST               = "/home/inaba/Lewd/build/Public/uploads/";
 const FILE_DIR           = SITE_NAME + "/uploads/";
-
 const DEFAULT_ROLE_ID    = 1;
 const DEFAULT_ROLE_NAME  = "default"
 const ADMIN_ID           = 3;
-
 const BCRYPT_SALT_ROUNDS = 10;
-
-const ANTI_VIRUS_COMMAND = "/opt/sophos-av/bin/savscan -nc -nb -ss -remove -archive -suspicious ";
 
 const constants = Object.freeze({
     DEFAULT_ROLE_ID:    DEFAULT_ROLE_ID,
@@ -24,8 +20,7 @@ const constants = Object.freeze({
     SITE_NAME:          SITE_NAME,
     DEST:               DEST,
     FILE_DIR:           FILE_DIR,
-    BCRYPT_SALT_ROUNDS: BCRYPT_SALT_ROUNDS,
-    ANTI_VIRUS_COMMAND: ANTI_VIRUS_COMMAND
+    BCRYPT_SALT_ROUNDS: BCRYPT_SALT_ROUNDS
 });
 
 //#######################################

@@ -1,5 +1,5 @@
 import express                                from "express";
-import { constants, registerTokenCalculator } from "../config";
+import { registerTokenCalculator }            from "../config";
 import db                                     from "../helpers/database";
 import { check, validationResult }            from 'express-validator/check';
 
@@ -20,7 +20,7 @@ router.get("/", (req, res) => res.render("user", {
 
 // By now the user needs to be admin
 router.use((req, res, next) => {
-    if (res.locals.user.roleid !== constants.ADMIN_ID)
+    if (res.locals.user.roleid !== process.env.ADMIN_ID)
         return res.render("login");
     
     next();

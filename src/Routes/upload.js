@@ -3,15 +3,14 @@ import multer                      from "multer";
 import {promisify}                 from 'util';
 import fs                          from "fs";
 import crypto                      from "crypto";
-import { storageConfig, constants} from "../config";
+import { storageConfig           } from "../config";
 import db                          from "../helpers/database";
-const { spawn } = require("child_process");
+import { spawn                   } from "child_process";
 
 const router = express.Router();
 
 const unlink   = promisify(fs.unlink);
 const readFile = promisify(fs.readFile);
-
 
 const hashFile = async filename =>  new Promise((resolve, reject) => {
     let hash = crypto.createHash("sha1");
@@ -33,7 +32,7 @@ const getUploadersMazSize = async token => {
     const getRoleId = await client.query("SELECT roleid FROM \"Users\" WHERE token = $1", [token]);
     
     // The program still needs to be able to work if no user is logged in
-    const roleId = (getRoleId.rows[0] === undefined) ? constants.DEFAULT_ROLE_ID 
+    const roleId = (getRoleId.rows[0] === undefined) ? parseInt(process.env.DEFAULT_ROLE_ID) 
                                                      : getRoleId.rows[0].roleid;
 
 
@@ -63,7 +62,7 @@ const addImageToDatabase = async (req, fileSha) => {
     let userId = 0
 
     // Check if the user is logged in and get the ID
-    if (req.headers.token !== constants.DEFAULT_ROLE_NAME) {
+    if (req.headers.token !== process.env.DEFAULT_ROLE_NAME) {
         const getUserId = await client.query("SELECT id FROM \"Users\" WHERE token = $1", [req.headers.token]);
         userId = getUserId.rows[0].id;
     }
@@ -89,16 +88,23 @@ const scanAndRemoveFile = async (file, fileSha) => {
         console.log("error", data);
     });
 
-    scanner.on("close", code => {
+    scanner.on("close", async code => {
         if (code === 0) {
             // The file is clean
-            console.log("Clean file");
+            // Do nothing I guess
         } else if (code === 3) {
             // The file got removed
-            console.log("Virus")
+            console.log("Virus");
+            const client = await db.connect();
+            await client.query(`UPDATE "Uploads" SET deleted = TRUE WHERE filesha = $1`, [fileSha]);
+            await client.release();
+
         } else if (code === 2) {
             // Password protected file and probably some other things
             console.log("Error");
+            const client = await db.connect();
+            await client.query(`UPDATE "Uploads" SET deleted = TRUE WHERE filesha = $1`, [fileSha]);
+            await client.release();
         } else {
             // God knows what
         }
@@ -125,19 +131,17 @@ router.post("/", async (req, res) => {
 
         const fileExists = await getImageIfExists(fileSha);
         
-        let fileName = req.file.filename; 
-        console.log(fileExists);
+        let fileName = req.file.filename;
 
         if (fileExists !== null) {
             fileName = fileExists.filename;
             await updateFile(req, fileSha)
         } else {
             await addImageToDatabase(req, fileSha);
+            scanAndRemoveFile(req.file, fileSha);
         }
         
-        scanAndRemoveFile(req.file, fileSha);
-
-        return res.status(200).send(constants.FILE_DIR + fileName);
+        return res.status(200).send(process.env.UPLOAD_LINK + fileName);
     });
 });
 export default router;

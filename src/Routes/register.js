@@ -1,5 +1,5 @@
 import express                             from "express";
-import { constants, loginTokenCalculator } from "../config";
+import { loginTokenCalculator } from "../config";
 import db                                  from "../helpers/database";
 import bcrypt                              from "bcrypt";
 import validator                           from "express-validator";
@@ -73,7 +73,7 @@ router.post("/", [
     /// SELECT token FROM "Tokens" WHERE used = FALSE AND registered > NOW() - '1 day'::INTERVAL;
 
     const username = req.body.username;
-    const password = await bcrypt.hash(req.body.password, constants.BCRYPT_SALT_ROUNDS);
+    const password = await bcrypt.hash(req.body.password, process.env.BCRYPT_SALT_ROUNDS);
     const token    = loginTokenCalculator(username);
     const roleid   = req.body.roleid;
 

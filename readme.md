@@ -2,7 +2,7 @@
 ### What you need to install
 
 1. Nginx
-1. NodeJS and NPM (tested on 10.5.0)
+1. NodeJS and NPM (tested on 8.11.3 and 10.5.0)
     * Optionally you could install and use yarn instead of NPM
 1. PostgreSQL
 
@@ -61,7 +61,11 @@ GRANT ALL PRIVILEGES ON DATABASE db TO user;
 GRANT
 ```
 
-And now we're ready to import the tables into the database. Type \q and navigate to the apps project folder and they will be inside the SQL folder. From inside the SQL folder tun the following commands
+And now we're ready to import the tables into the database. Type \q and navigate to the apps project folder and they will be inside the SQL folder. From inside the SQL folder start by opening up Users.sql where there will be an insert statement on line 36. Where it says 
+```sql 
+VALUES ('username', 'password'
+``` 
+insert a username for the first user where it says username, and then go  https://www.dailycred.com/article/bcrypt-calculator to generate a password and insert it where it says password. Save the file and then (logged in as psql) run the following commands:
 
 ```shell
 $ psql db < Roles.sql
@@ -86,5 +90,35 @@ GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO user;
 And the database has been set up. You can now type \q to exit the postgres shell, and exit to go back the regular shell. With the database set up we're ready to configure NGINX
 
 ### NGINX
+The bare minimum you need in _/etc/nginx/sites-available/default_ is the following:
+
+```
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+        root /path/to/build/Public;
+
+        server_name _name_;
+
+        client_max_body_size 5g;
+
+        gzip on;
+        location / {
+                try_files $uri @backend;
+        }
+
+        location @backend {
+                proxy_pass http://localhost:8080;
+        }
+}
+```
+
+Where of course, client_max_body_size should be changed if larger files should be uploaded. Setting it to 0 will disable the check, but will also allow people to upload infinitely large files
 
 ## Starting the app
+First rename the .env.dist file to .env, then open that file and set the database details as well as the SITE_NAME, UPLOAD_DESTINATION, and UPLOAD_LINK. When that is done you're ready to run the site, which is done by running the following command:
+
+```bash
+pm2 start ecosystem.config.js
+```

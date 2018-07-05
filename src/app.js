@@ -1,13 +1,12 @@
 "use strict";
+require('dotenv').config();
 
 import express       from "express";
 import handlebars    from "express-handlebars";
 import path          from 'path';
-import session       from "express-session";
 import flash         from "express-flash";
 import cookieSession from "cookie-session";
 import bodyParser    from "body-parser";
-import Util          from "util";
 import frontEndError from "./helpers/frontendErrorFormatter";
 
 import db       from "./helpers/database";
@@ -21,6 +20,7 @@ import user     from "./Routes/user";
 import register from "./Routes/register";
 
 const app = express();
+
 
 // Load views
 app.engine ("hbs", handlebars ({ 
