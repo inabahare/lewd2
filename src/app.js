@@ -45,7 +45,7 @@ app.set('views', path.join(__dirname, "views"));
 // app.enable('view cache');
 
 // Static files
-// app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "Public")));
 
 // parse various different custom JSON types as JSON
 app.use(bodyParser.json({ type: 'application/*+json' }))
@@ -89,4 +89,4 @@ app.use((req, res, next) =>{
     res.status(404).send("404 - Page not found");
 });
 
-app.listen(8080, () => console.log("It's up and running :3"));
+app.listen(parseInt(process.env.SITE_PORT), () => console.log("It's up and running :3"));

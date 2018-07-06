@@ -10,11 +10,18 @@ const pool = new Pool({
     port:     process.env.DB_PORT,   
 });
 
-console.log(process.env.DB_USER);
-
 pool.on("error", (error, client) => {
     console.error("Unexpected db error", error);
     process.exit(-1);
 });
+
+(async function() {
+    try {
+        const connection = await pool.connect();
+        await connection.release();
+    } catch (e) {
+        console.error(e.message);
+    }
+})();
 
 export default pool;

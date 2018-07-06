@@ -111,9 +111,16 @@ const scanAndRemoveFile = async (file, fileSha) => {
     });
 };
 
+const filenamePattern = file => crypto.randomBytes(6)
+                                      .toString("hex") + file.originalname;
+
+
 // UPLOAD
 router.post("/", async (req, res) => {
-    const storage = multer.diskStorage(storageConfig);
+    const storage = multer.diskStorage({
+        destination: (req, file, next) => next(null, process.env.UPLOAD_DESTINATION),
+        filename:    (req, file, next) => next(null, filenamePattern(file))
+    });
     const upload = multer({
         storage: storage,
         limits: {
