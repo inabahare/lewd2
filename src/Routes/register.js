@@ -1,8 +1,6 @@
 import express                             from "express";
-import { loginTokenCalculator } from "../config";
 import db                                  from "../helpers/database";
 import bcrypt                              from "bcrypt";
-import validator                           from "express-validator";
 import { check, validationResult }         from 'express-validator/check';
 import moment                              from "moment";
 
@@ -74,7 +72,9 @@ router.post("/", [
 
     const username = req.body.username;
     const password = await bcrypt.hash(req.body.password, process.env.BCRYPT_SALT_ROUNDS);
-    const token    = loginTokenCalculator(username);
+    const token    = crypto.createHash("sha1")
+                            .update(username + Date.now().toString())
+                            .digest("hex");;
     const roleid   = req.body.roleid;
 
     const client = await db.connect();
