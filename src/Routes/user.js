@@ -14,8 +14,13 @@ router.use((req, res, next) => {
 });
 
 router.get("/", async (req, res) => {
+    const client = await db.connect();
+    const getUploads = await client.query(`SELECT filename, deleted, uploaddate FROM "Uploads" WHERE userid = $1;`, [res.locals.user.id])
+    await client.release();
+
     res.render("user", {
-        menuItem: "viewuploads"
+        menuItem: "viewuploads",
+        uploads: getUploads.rows
     })
 });
 

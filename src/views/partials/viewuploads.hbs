@@ -1,1 +1,22 @@
-<h1>Hello World</h1>
+{{#if uploads}}
+    <table class="table">
+        <thead>
+            <tr>
+                <th><abbr title="Filename">Name</abbr></th>
+                <th><abbr title="Removed">R</abbr></th>
+                <th><abbr title="UploadDate">Date</abbr></th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each uploads}}
+                <tr>
+                    <td>{{{ this.filename }}}</td>
+                    <td>{{{ this.deleted }}}</td>
+                    <td>{{{ this.uploaddate }}}</td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+{{else}}
+    <h1>You haven't uploaded any files :<</h1>
+{{/if}}
