@@ -153,7 +153,7 @@ WITH (OIDS=FALSE)
 -- ----------------------------
 -- Records of Users
 -- ----------------------------
-INSERT INTO "public"."Users" (username, password, token, roleid) VALUES ('username here', 'password here', 'testtoken', '3');
+INSERT INTO "public"."Users" (username, password, token, roleid) VALUES ('username here', 'password here', 'token here', '3');
 
 -- ----------------------------
 -- Alter Sequences Owned By 

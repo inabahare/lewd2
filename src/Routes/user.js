@@ -1,7 +1,7 @@
-import express                                from "express";
-import { registerTokenCalculator }            from "../config";
-import db                                     from "../helpers/database";
-import { check, validationResult }            from 'express-validator/check';
+import express                      from "express";
+import db                           from "../helpers/database";
+import { check, validationResult }  from 'express-validator/check';
+import crypto                       from "crypto";
 
 const router = express.Router();
 
@@ -13,19 +13,26 @@ router.use((req, res, next) => {
     next();
 });
 
-router.get("/", (req, res) => res.render("user", {
-                                menuItem: "viewuploads"
-                              }));
+router.get("/", async (req, res) => {
+    res.render("user", {
+        menuItem: "viewuploads"
+    })
+});
 
 
-// By now the user needs to be admin
+/**
+ * By now the user needs to be admin
+ */
 router.use((req, res, next) => {
-    if (res.locals.user.roleid !== process.env.ADMIN_ID)
+    if (res.locals.user.roleid !== parseInt(process.env.ADMIN_ID))
         return res.render("login");
     
     next();
 });
 
+/**
+ * Select the roles possible for a user ot be
+ */
 router.use("/token", async (req, res, next) => {
     // Get role ID's
     const client     = await db.connect();
@@ -40,13 +47,20 @@ router.get("/token", async (req, res) => res.render("user", {
                                             menuItem: "token"
                                          }));
 
+/**
+ * Generate the tokens a user signs up with
+ */
 router.post("/token", [
-    check("roleid").isNumeric().withMessage("Invalid role id")
+    check("roleid").isNumeric().withMessage("Role id must be a number")
 ], async (req, res) => {
-    const registerToken = registerTokenCalculator();
+    const registerToken = crypto.createHash("sha1")
+                                .update("You can register now" + Date.now().toString())
+                                .digest("hex");
+
     const client        = await db.connect();
     await db.query("INSERT INTO \"Tokens\" (token, roleid) VALUES ($1, $2);", [registerToken, req.body.roleid]);
     await client.release();
+
     res.render("user", {
         menuItem: "token",
         token: registerToken

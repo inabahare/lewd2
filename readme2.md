@@ -68,10 +68,7 @@ VALUES ('username', 'password'
 insert a username for the first user where it says username, and then go  https://www.dailycred.com/article/bcrypt-calculator to generate a password and insert it where it says password. Save the file and then (logged in as psql) run the following commands:
 
 ```shell
-$ psql db < Roles.sql
-$ psql db < Tokens.sql  
-$ psql db < Uploads.sql 
-$ psql db < Users.sql
+$ psql _db_ < template.sql
 ```
 
 Now there's one final thing you need to do, and that is connect to the database by running this command
@@ -83,8 +80,8 @@ psql -d db
 And finally you need to run the following commands
 
 ```sql
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public to www;
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO user;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO _user_;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO _user_;
 ```
 
 And the database has been set up. You can now type \q to exit the postgres shell, and exit to go back the regular shell. With the database set up we're ready to configure NGINX
@@ -117,7 +114,7 @@ server {
 Where of course, client_max_body_size should be changed if larger files should be uploaded. Setting it to 0 will disable the check, but will also allow people to upload infinitely large files
 
 ## Starting the app
-First rename the .env.dist file to .env, then open that file and set the database details as well as the SITE_NAME, UPLOAD_DESTINATION, and UPLOAD_LINK. After that is done the app needs to be build, which is done by running:
+First rename the **.env.dist** file to **.env**, then open that file and set the database details as well as the *SITE_NAME*, *UPLOAD_DESTINATION*, and *UPLOAD_LINK*. After that is done the app needs to be build, which is done by running:
 
 ```bash
 $ npm run build:prod
