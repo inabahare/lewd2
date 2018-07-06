@@ -117,7 +117,13 @@ server {
 Where of course, client_max_body_size should be changed if larger files should be uploaded. Setting it to 0 will disable the check, but will also allow people to upload infinitely large files
 
 ## Starting the app
-First rename the .env.dist file to .env, then open that file and set the database details as well as the SITE_NAME, UPLOAD_DESTINATION, and UPLOAD_LINK. When that is done you're ready to run the site, which is done by running the following command:
+First rename the .env.dist file to .env, then open that file and set the database details as well as the SITE_NAME, UPLOAD_DESTINATION, and UPLOAD_LINK. After that is done the app needs to be build, which is done by running:
+
+```bash
+$ npm run build:prod
+$ yarn run build:prod
+```
+When that is done you're ready to run the site, which is done by running the following command:
 
 ```bash
 pm2 start ecosystem.config.js
