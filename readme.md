@@ -20,8 +20,8 @@ $ yarn install
 After that all dependencies and dev dependencies will be installed. After that you need to install a global module called PM2. This is done by running either of the following commands:
 
 ```shell
-$ npm install pm2 -g
-$ yarn global add pm2
+# npm install pm2 -g
+# yarn global add pm2
 ```
 
 ### PostgreSQL
