@@ -45,7 +45,7 @@ app.set('views', path.join(__dirname, "views"));
 // app.enable('view cache');
 
 // Static files
-app.use(express.static(path.join(__dirname, "Public")));
+app.use(express.static(path.join(__dirname, "public")));
 
 // parse various different custom JSON types as JSON
 app.use(bodyParser.json({ type: 'application/*+json' }))

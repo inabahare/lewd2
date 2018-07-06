@@ -62,9 +62,14 @@ const addImageToDatabase = async (req, fileSha) => {
     let userId = 0
 
     // Check if the user is logged in and get the ID
-    if (req.headers.token !== process.env.DEFAULT_ROLE_NAME) {
+    if (req.headers.token !== undefined && req.headers.token !== process.env.DEFAULT_ROLE_NAME) {
         const getUserId = await client.query("SELECT id FROM \"Users\" WHERE token = $1", [req.headers.token]);
-        userId = getUserId.rows[0].id;
+
+        if (getUserId.rows[0]){
+            userId = getUserId.rows[0].id;
+        } else {
+            userId = process.env.DEFAULT_ROLE_ID;
+        }
     }
 
     const insertUpload = await client.query("INSERT INTO \"Uploads\" (filename, userid, uploaddate, filesha) VALUES ($1, $2, NOW(), $3)", [req.file.filename, userId, fileSha]);
@@ -81,7 +86,6 @@ const updateFile = async (req, fileSha) => {
 }
 
 const scanAndRemoveFile = async (file, fileSha) => {
-    console.log(file);
     const scanner = spawn("/opt/sophos-av/bin/savscan", ["-nc", "-nb", "-ss", "-remove", "-archive", "-suspicious", file.path]);
 
     scanner.stderr.on("data", data => {
