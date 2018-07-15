@@ -68,6 +68,17 @@ app.use((req, res, next) => {
     next()
 });
 
+// set the upload size if user isn't logged in
+app.use(async (req, res, next) => {
+    if (res.locals.user === null) {
+        const client = await db.connect();
+        const getUploadSize = await client.query(`SELECT uploadsize FROM "Roles" WHERE id = $1`, [parseInt(process.env.DEFAULT_ROLE_ID)]);
+        await client.release();
+        res.locals.maxUploadSize = getUploadSize.rows[0].uploadsize;
+    }
+    next();
+});
+
 // Set errors (if any)
 app.use((req, res, next) => {
     if (req.session.err){

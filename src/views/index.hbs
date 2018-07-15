@@ -1,20 +1,25 @@
 {{#if user}}
     <h1 class="title is-3">This is your access token. You need this for ShareX</h1>
     <h2 class="subtitle is-3" id="token">{{ user.token }}</h2>
+    <div class="is-hidden" id="uploadSize">{{ user.uploadsize }}</div>
+{{else}}
+    <div class="is-hidden" id="uploadSize">{{ maxUploadSize }}</div>
 {{/if}}
 
 <form method="post" action="/upload" class="theUploader" id="uploader">
 
-{{#if user}}
-    <input type="hidden" name="thetoken" value="{{ user.token }}">
-{{else}}
-    <input type="hidden" name="thetoken" value="default">
-{{/if}}
+    {{#if user}}
+        <input type="hidden" name="thetoken" value="{{ user.token }}">
+    {{else}}
+        <input type="hidden" name="thetoken" value="default">
+    {{/if}}
 
     <div class="dz-message" data-dz-message>
         <span>Click to select files or drag them here</span>
     </div>
 </form> 
+
+<div id="uploads" class="section"></div>
 
 <script src="/JS/dropzone.js"></script>
 <script src="/JS/index.js"></script>

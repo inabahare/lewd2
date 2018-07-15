@@ -3,7 +3,6 @@ import multer                      from "multer";
 import {promisify}                 from 'util';
 import fs                          from "fs";
 import crypto                      from "crypto";
-import { storageConfig           } from "../config";
 import db                          from "../helpers/database";
 import { spawn                   } from "child_process";
 
