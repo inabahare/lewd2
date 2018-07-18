@@ -21,6 +21,7 @@ import register from "./Routes/register";
 
 const app = express();
 
+// Test
 
 // Load views
 app.engine ("hbs", handlebars ({ 
