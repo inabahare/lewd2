@@ -21,13 +21,12 @@ import register from "./Routes/register";
 
 const app = express();
 
-// Test
 
 // Load views
 app.engine ("hbs", handlebars ({ 
-    defaultLayout: __dirname + "/views/main",
+    defaultLayout: __dirname + "/Views/main",
     extname: "hbs",
-    partialsDir: __dirname + "/views/partials/",
+    partialsDir: __dirname + "/Views/partials/",
     helpers: {
         is: function (a, b, opts) {
             if (a == b) {
@@ -42,7 +41,7 @@ app.engine ("hbs", handlebars ({
     }
 }));
 app.set ("view engine", "hbs");
-app.set('views', path.join(__dirname, "views"));
+app.set('views', path.join(__dirname, "Views"));
 // app.enable('view cache');
 
 // Static files

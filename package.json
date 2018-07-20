@@ -25,6 +25,7 @@
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.6",
     "express-validator": "^5.2.0",
+    "formidable": "^1.2.1",
     "fs-readfile-promise": "^3.0.1",
     "handlebars": "^4.0.11",
     "moment": "^2.22.2",

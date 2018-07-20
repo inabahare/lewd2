@@ -7,16 +7,15 @@
 {{/if}}
 
 <form method="post" action="/upload" class="theUploader" id="uploader">
+    <div class="dz-message" data-dz-message>
+        <span>Click to select files or drag them here</span>
+    </div>
 
     {{#if user}}
         <input type="hidden" name="thetoken" value="{{ user.token }}">
     {{else}}
         <input type="hidden" name="thetoken" value="default">
     {{/if}}
-
-    <div class="dz-message" data-dz-message>
-        <span>Click to select files or drag them here</span>
-    </div>
 </form> 
 
 <div id="uploads" class="section"></div>

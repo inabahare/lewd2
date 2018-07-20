@@ -11,11 +11,15 @@ console.log(maxFilesize);
 const dropZone = new Dropzone("#uploader", {
     url: "/upload",
     maxFiles: 12,
-    maxFilesize: maxFilesize,
+    maxFilesize: 999999999999999,
     headers: {
         token: token
+    }, 
+    params: {
+        test: "test"
     }
 });
+
 
 dropZone.on("success", file => {
     const fileName = file.name;
@@ -24,7 +28,7 @@ dropZone.on("success", file => {
                                 <button class="delete" aria-label="delete"></button>
                                 <div class="columns">
                                     <div class="column has-text-left"><p>${fileName}</p></div> 
-                                    <div class="column has-text-right"><a href="${uploadedUrl}">${uploadedUrl}</a></div>
+                                    <div class="column has-text-right"><a href="//${uploadedUrl}" target="_blank">${uploadedUrl}</a></div>
                                 </div>
                             </article>`;
 });

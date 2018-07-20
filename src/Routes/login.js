@@ -8,7 +8,6 @@ const router = express.Router();
 router.use((req, res, next) => {
     if (req.session.flash.error) {
         res.locals.error = req.session.flash.error[0];
-        console.log(req.session.flash.error);
         delete req.session.flash.error;
     }
     next();

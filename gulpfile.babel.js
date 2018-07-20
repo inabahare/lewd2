@@ -19,8 +19,8 @@ const paths = {
         dest: "build",
     },
     moveViews: {
-        src: "src/views/**/*.hbs",
-        dest: "build/views/",
+        src: "src/Views/**/*.hbs",
+        dest: "build/Views/",
     }
 }
 

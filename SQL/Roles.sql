@@ -31,7 +31,7 @@ WITH (OIDS=FALSE)
 -- ----------------------------
 -- Records of Roles
 -- ----------------------------
-INSERT INTO "public"."Roles" VALUES ('1', 'default', '134200000');
+INSERT INTO "public"."Roles" VALUES ('0', 'default', '134200000');
 INSERT INTO "public"."Roles" VALUES ('2', 'approved', '5369000000');
 INSERT INTO "public"."Roles" VALUES ('3', 'admin', '10740000000');
 

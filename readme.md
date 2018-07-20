@@ -18,9 +18,11 @@
 First pull the repository
 
 ### Database
-First open SQL/templates.sql and find this line
+First open SQL/templates.sql and find this on line just search for it
 ```sql
-VALUES ('username here', 'password here', 'token here',
+COPY public."Users" (username, password, token, roleid) FROM stdin;
+UserNameHere	PasswordHere	TokenHere	3
+\.
 ```
 Then find a *username* for the first user. Then go here [here](https://www.dailycred.com/article/bcrypt-calculator) to generate a password, and then set the (upload) token. Save the file and type
 

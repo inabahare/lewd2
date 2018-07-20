@@ -1,165 +1,207 @@
-/*
-Navicat PGSQL Data Transfer
+--
+-- PostgreSQL database dump
+--
 
-Source Server         : LocalPostgres
-Source Server Version : 100400
-Source Host           : localhost:5432
-Source Database       : lewd
-Source Schema         : public
+-- Dumped from database version 10.4 (Ubuntu 10.4-0ubuntu0.18.04)
+-- Dumped by pg_dump version 10.4 (Ubuntu 10.4-0ubuntu0.18.04)
 
-Target Server Type    : PGSQL
-Target Server Version : 100400
-File Encoding         : 65001
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
 
-Date: 2018-06-27 21:09:46
-*/
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
 
-
--- ----------------------------
--- Table structure for Roles
--- ----------------------------
-DROP TABLE IF EXISTS "public"."Roles";
-CREATE TABLE "public"."Roles" (
-"id" int4 NOT NULL,
-"name" varchar(255) COLLATE "default",
-"uploadsize" int8 DEFAULT 134200000
-)
-WITH (OIDS=FALSE)
-
-;
-
--- ----------------------------
--- Records of Roles
--- ----------------------------
-INSERT INTO "public"."Roles" VALUES ('1', 'default', '134200000');
-INSERT INTO "public"."Roles" VALUES ('2', 'approved', '5369000000');
-INSERT INTO "public"."Roles" VALUES ('3', 'admin', '10740000000');
-
--- ----------------------------
--- Alter Sequences Owned By 
--- ----------------------------
-/*
-Navicat PGSQL Data Transfer
-
-Source Server         : LocalPostgres
-Source Server Version : 100400
-Source Host           : localhost:5432
-Source Database       : lewd
-Source Schema         : public
-
-Target Server Type    : PGSQL
-Target Server Version : 100400
-File Encoding         : 65001
-
-Date: 2018-06-27 21:02:00
-*/
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
--- ----------------------------
--- Table structure for Tokens
--- ----------------------------
-DROP TABLE IF EXISTS "public"."Tokens";
-CREATE TABLE "public"."Tokens" (
-"token" varchar(255) COLLATE "default" NOT NULL,
-"registered" timestamp(0) DEFAULT now() NOT NULL,
-"used" bool DEFAULT false,
-"roleid" int4 DEFAULT 0 NOT NULL
-)
-WITH (OIDS=FALSE)
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
 
-;
-
--- ----------------------------
--- Alter Sequences Owned By 
--- ----------------------------
-/*
-Navicat PGSQL Data Transfer
-
-Source Server         : LocalPostgres
-Source Server Version : 100400
-Source Host           : localhost:5432
-Source Database       : lewd
-Source Schema         : public
-
-Target Server Type    : PGSQL
-Target Server Version : 100400
-File Encoding         : 65001
-
-Date: 2018-06-27 01:34:28
-*/
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
--- ----------------------------
--- Table structure for Uploads
--- ----------------------------
-DROP TABLE IF EXISTS "public"."Uploads";
-CREATE TABLE "public"."Uploads" (
-"id" serial4 NOT NULL,
-"filename" varchar(255) COLLATE "default" NOT NULL,
-"deleted" bool DEFAULT false NOT NULL,
-"userid" int4 NOT NULL,
-"uploaddate" timestamp(6) DEFAULT now(),
-"filesha" varchar(255) COLLATE "default"
-)
-WITH (OIDS=FALSE)
+SET default_tablespace = '';
 
-;
+SET default_with_oids = false;
 
--- ----------------------------
--- Alter Sequences Owned By 
--- ----------------------------
+--
+-- Name: Roles; Type: TABLE; Schema: public; Owner: postgres
+--
 
--- ----------------------------
--- Uniques structure for table Uploads
--- ----------------------------
-ALTER TABLE "public"."Uploads" ADD UNIQUE ("id");
-
--- ----------------------------
--- Primary Key structure for table Uploads
--- ----------------------------
-ALTER TABLE "public"."Uploads" ADD PRIMARY KEY ("id");
-/*
-Navicat PGSQL Data Transfer
-
-Source Server         : LocalPostgres
-Source Server Version : 100400
-Source Host           : localhost:5432
-Source Database       : lewd
-Source Schema         : public
-
-Target Server Type    : PGSQL
-Target Server Version : 100400
-File Encoding         : 65001
-
-Date: 2018-06-27 01:34:43
-*/
+CREATE TABLE public."Roles" (
+    id integer NOT NULL,
+    name character varying(255),
+    uploadsize bigint DEFAULT 134200000
+);
 
 
--- ----------------------------
--- Table structure for Users
--- ----------------------------
-DROP TABLE IF EXISTS "public"."Users";
-CREATE TABLE "public"."Users" (
-"id" serial4 NOT NULL,
-"username" varchar(255) COLLATE "default",
-"password" varchar(255) COLLATE "default",
-"token" varchar(255) COLLATE "default",
-"roleid" int2
-)
-WITH (OIDS=FALSE)
+ALTER TABLE public."Roles" OWNER TO postgres;
 
-;
+--
+-- Name: Tokens; Type: TABLE; Schema: public; Owner: postgres
+--
 
--- ----------------------------
--- Records of Users
--- ----------------------------
-INSERT INTO "public"."Users" (username, password, token, roleid) VALUES ('username here', 'password here', 'token here', '3');
+CREATE TABLE public."Tokens" (
+    token character varying(255) NOT NULL,
+    registered timestamp(0) without time zone DEFAULT now() NOT NULL,
+    used boolean DEFAULT false,
+    roleid integer DEFAULT 0 NOT NULL
+);
 
--- ----------------------------
--- Alter Sequences Owned By 
--- ----------------------------
 
--- ----------------------------
--- Primary Key structure for table Users
--- ----------------------------
-ALTER TABLE "public"."Users" ADD PRIMARY KEY ("id");
+ALTER TABLE public."Tokens" OWNER TO postgres;
+
+--
+-- Name: Uploads; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Uploads" (
+    id integer NOT NULL,
+    filename character varying(255) NOT NULL,
+    userid integer NOT NULL,
+    uploaddate timestamp(6) without time zone DEFAULT now(),
+    filesha character varying(255),
+    deleted boolean DEFAULT false NOT NULL,
+    duplicate boolean DEFAULT false NOT NULL
+);
+
+
+ALTER TABLE public."Uploads" OWNER TO postgres;
+
+--
+-- Name: Uploads_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Uploads_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Uploads_id_seq" OWNER TO postgres;
+
+--
+-- Name: Uploads_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Uploads_id_seq" OWNED BY public."Uploads".id;
+
+
+--
+-- Name: Users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Users" (
+    id integer NOT NULL,
+    username character varying(255),
+    password character varying(255),
+    token character varying(255),
+    roleid smallint
+);
+
+
+ALTER TABLE public."Users" OWNER TO postgres;
+
+--
+-- Name: Users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."Users_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Users_id_seq" OWNER TO postgres;
+
+--
+-- Name: Users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."Users_id_seq" OWNED BY public."Users".id;
+
+
+--
+-- Name: Uploads id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Uploads" ALTER COLUMN id SET DEFAULT nextval('public."Uploads_id_seq"'::regclass);
+
+
+--
+-- Name: Users id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Users" ALTER COLUMN id SET DEFAULT nextval('public."Users_id_seq"'::regclass);
+
+
+--
+-- Data for Name: Roles; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Roles" (id, name, uploadsize) FROM stdin;
+2	approved	5369000000
+3	admin	10740000000
+0	default	134200000
+\.
+
+
+--
+-- Data for Name: Tokens; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Tokens" (token, registered, used, roleid) FROM stdin;
+\.
+
+--
+-- Data for Name: Users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Users" (username, password, token, roleid) FROM stdin;
+Username	Password	Token	3
+\.
+
+
+--
+-- Name: Uploads Uploads_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Uploads"
+    ADD CONSTRAINT "Uploads_id_key" UNIQUE (id);
+
+
+--
+-- Name: Uploads Uploads_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Uploads"
+    ADD CONSTRAINT "Uploads_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: Users Users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."Users"
+    ADD CONSTRAINT "Users_pkey" PRIMARY KEY (id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
