@@ -5,7 +5,7 @@ import fs                          from "fs";
 import crypto                      from "crypto";
 import formidable                  from "formidable";
 import path                        from "path";
-import getUploadersMaxSize         from "../Functions/Upload/getUploadersMaxSize";
+import getUploaderOrDefault        from "../Functions/Upload/getUploaderOrDefault";
 import getImageFilenameIfExists    from "../Functions/Upload/getImageFilenameIfExists";
 import scanAndRemoveFile           from "../Functions/Upload/scanAndRemoveFile";
 import addImageToDatabase          from "../Functions/Upload/addImageToDatabase";
@@ -32,12 +32,12 @@ const renameFile = fileName => crypto.randomBytes(6)
  */
 
 router.post("/", async (req, res) => {
+    const uploader   = await getUploaderOrDefault(req.headers.token);
     const form       = new formidable.IncomingForm();
     form.uploadDir   = process.env.UPLOAD_DESTINATION;
     form.encoding    = "utf-8";
     form.hash        = "sha1";
-    form.maxFileSize = Number(await getUploadersMaxSize(req.headers.token));
-    
+    form.maxFileSize = uploader.uploadsize;
 
     form.on("error", err => {
         if (fileSizeError.test(err.message)) {
@@ -67,11 +67,7 @@ router.post("/", async (req, res) => {
             scanAndRemoveFile(process.env.UPLOAD_DESTINATION + file.name, file.hash);
         }
 
-        // Id of user that uploads (or default user)
-        const userid = res.locals.user ? res.locals.user.id 
-                                       : Number(process.env.DEFAULT_ROLE_ID);
-
-        await addImageToDatabase(file, userid);
+        await addImageToDatabase(file, uploader.id);
 
         res.status(200).send(process.env.UPLOAD_LINK + file.name);
     });

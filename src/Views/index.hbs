@@ -1,4 +1,17 @@
-{{#if user}}
+{{#if errors.token}}
+    <div class="notification is-danger">
+        {{{ errors.token }}}
+    </div>    
+{{/if}}
+
+{{#if message.userAdded}}
+    <div class="notification is-success">
+        {{{ message.userAdded }}}
+    </div>    
+{{/if}}
+
+
+{{#if user.username}}
     <h1 class="title is-3">This is your access token. You need this for ShareX</h1>
     <h2 class="subtitle is-3" id="token">{{ user.token }}</h2>
     <div class="is-hidden" id="uploadSize">{{ user.uploadsize }}</div>
@@ -11,7 +24,7 @@
         <span>Click to select files or drag them here</span>
     </div>
 
-    {{#if user}}
+    {{#if user.username}}
         <input type="hidden" name="thetoken" value="{{ user.token }}">
     {{else}}
         <input type="hidden" name="thetoken" value="default">

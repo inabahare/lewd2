@@ -18,6 +18,7 @@ import login    from "./Routes/login";
 import upload   from "./Routes/upload";
 import user     from "./Routes/user";
 import register from "./Routes/register";
+import getUserDetails from './Functions/User/getUserDetails';
 
 const app = express();
 
@@ -63,21 +64,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Set local user
-app.use((req, res, next) => {
-    res.locals.user = req.user ? req.user : null;
+app.use(async (req, res, next) => {
+    res.locals.user = await getUserDetails(req.user);
+    console.log(res.locals.user);
+    console.log()
     next()
 });
 
-// set the upload size if user isn't logged in
-app.use(async (req, res, next) => {
-    if (res.locals.user === null) {
-        const client = await db.connect();
-        const getUploadSize = await client.query(`SELECT uploadsize FROM "Roles" WHERE id = $1`, [parseInt(process.env.DEFAULT_ROLE_ID)]);
-        await client.release();
-        res.locals.maxUploadSize = getUploadSize.rows[0].uploadsize;
-    }
-    next();
-});
+
 
 // Set errors (if any)
 app.use((req, res, next) => {
