@@ -66,8 +66,6 @@ app.use(passport.session());
 // Set local user
 app.use(async (req, res, next) => {
     res.locals.user = await getUserDetails(req.user);
-    console.log(res.locals.user);
-    console.log()
     next()
 });
 

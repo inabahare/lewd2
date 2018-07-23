@@ -30,10 +30,10 @@ router.get("/", async (req, res) => {
  * By now the user needs to be admin
  */
 router.use((req, res, next) => {
-    if (res.locals.user.roleid !== parseInt(process.env.ADMIN_ID))
-        return res.render("login");
-    
-    next();
+    if (res.locals.user.isadmin)
+        return next();
+
+    return res.render("login");
 });
 
 /**
@@ -68,6 +68,8 @@ router.post("/token", [
                    .exists().withMessage("Role id needs to be set")
 
 ], async (req, res) => {
+    console.log(req.body);
+
     const errors = validationResult(req);
     
     if (!errors.isEmpty()) {
@@ -82,11 +84,16 @@ router.post("/token", [
                                 .update("You can register now" + Date.now().toString())
                                 .digest("hex");
 
-                                
+    const isAdmin = req.body.isadmin === "on";
+    
     const client =  await db.connect();
-                    await client.query(`INSERT INTO "RegisterTokens" (token, registered, used, roleid, uploadsize)
-                                        VALUES ($1, NOW(), $2, $3, $4);`, [
-                                            registerToken, false, roleId, uploadSize
+                    await client.query(`INSERT INTO "RegisterTokens" (token, registered, used, roleid, uploadsize, isadmin)
+                                        VALUES ($1, NOW(), $2, $3, $4, $5);`, [
+                                            registerToken, 
+                                            false, 
+                                            roleId, 
+                                            uploadSize, 
+                                            isAdmin
                                        ]);
                     await client.release()
                    

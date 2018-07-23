@@ -24,7 +24,7 @@ passport.use(new LocalStrategy({
     bcrypt.compare(password, user.password)
           .then(async result => {
               if (result == true){
-                    const userId = parseInt(user.id);
+                    const userId    = parseInt(user.id);
                     const userToken = generateLoginToken(userId);
                     await client.query(`INSERT INTO "LoginTokens" (token, registered, userid)
                                         VALUES ($1, NOW(), $2);`, [

@@ -6,13 +6,13 @@
                 <li><a href="/user/">View uploads</a></li>
             </ul>
 
-            {{#is user.roleid 3}}
+            {{#if user.isadmin}}
                 <p class="menu-label">Admin</p>
                 <ul class="menu-list">
                     <li><a href="/user/token">Add user</a></li>
                     <li><a href="/user/view-users">View users</a></li>
                 </ul>
-            {{/is}}
+            {{/if}}
         </aside>
     </div>
     <div class="column auto">

@@ -8,13 +8,13 @@ const getUserDetails = async loginToken => {
     let query = "";
 
     if (loginToken) {
-        query = `SELECT "Users".id, "Users".username, "Users".token, "Users".roleid, "Users".uploadsize
+        query = `SELECT "Users".id, "Users".username, "Users".token, "Users".roleid, "Users".uploadsize, "Users".isadmin
                  FROM "Users", "LoginTokens"
                  WHERE "Users".id = "LoginTokens".userid
                  AND "LoginTokens".token = $1`;
     } else {
         loginToken = "default";
-        query      = `SELECT "Users".id, "Users".username, "Users".token, "Users".roleid, "Users".uploadsize
+        query      = `SELECT "Users".id, "Users".username, "Users".token, "Users".roleid, "Users".uploadsize, "Users".isadmin
                       FROM "Users", "LoginTokens"
                       WHERE "Users".password = $1;`;
     }

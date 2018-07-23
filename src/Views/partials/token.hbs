@@ -6,6 +6,7 @@
 
 <div class="column">
     <form action="/user/token" method="POST">
+        {{!-- ROLE --}}
         {{#if errors.size}}
             <div class="notification is-danger">
                 {{{ errors.size }}}
@@ -23,6 +24,8 @@
                 </div>
             </div>
         </div>
+
+        {{!-- UPLOAD SIZE --}}
         {{#if errors.unit}}
             <div class="notification is-danger">
                 {{{ errors.unit }}}
@@ -49,6 +52,18 @@
                             <option value="TB">TB</option>
                         </select>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        {{!-- FLAGS --}}
+        <div class="field">
+            <div class="field is-grouped">
+                <div class="control">
+                    <label class="checkbox">
+                        <input type="checkbox" name="isadmin">
+                        Admin
+                    </label>
                 </div>
             </div>
         </div>

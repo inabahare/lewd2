@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
  */
 const getTokenData = async token => {
     const client    = await db.connect();
-    const getClient = await client.query(`SELECT registered, used, roleid, uploadsize
+    const getClient = await client.query(`SELECT registered, used, roleid, uploadsize, isadmin
                                           FROM "RegisterTokens"
                                           WHERE token = $1;`, [token]);
                       await client.release();
@@ -130,14 +130,22 @@ router.post("/", [
     const password = await bcrypt.hash(req.body.password, parseInt(process.env.BCRYPT_SALT_ROUNDS));
     const token    = crypto.createHash("sha1")
                             .update(username + Date.now().toString())
-                            .digest("hex");;
-    const roleid = req.body.roleid;
-    const uploadSize = tokenData.uploadsize;
+                            .digest("hex");
 
+    const roleid     = req.body.roleid;
+    const uploadSize = tokenData.uploadsize;
+    const isAdmin    = tokenData.isadmin;
 
     const client = await db.connect();
-    await client.query(`INSERT INTO "Users" (username, password, token, roleid, uploadsize)
-                        VALUES ($1, $2, $3, $4, $5);`, [username, password, token, roleid, uploadSize]);
+    await client.query(`INSERT INTO "Users" (username, password, token, roleid, uploadsize, isadmin)
+                        VALUES ($1, $2, $3, $4, $5, $6);`, [
+                            username, 
+                            password, 
+                            token, 
+                            roleid, 
+                            uploadSize,
+                            isAdmin
+                        ]);
 
     await client.query(`UPDATE "RegisterTokens" SET used = TRUE WHERE token = $1;`, [req.body.token]);
     await client.release();
