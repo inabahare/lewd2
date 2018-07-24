@@ -6,7 +6,6 @@ import { check, validationResult } from "express-validator/check"
 const router = express.Router();
 
 router.use((req, res, next) => {
-    console.log(req.session);
     if (req.session.flash.error) {
         res.locals.error = req.session.flash.error[0];
         delete req.session.flash.error;

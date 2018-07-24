@@ -8,9 +8,14 @@ import db from "../../helpers/database";
 const addImageToDatabase = async (file, userid) => {
 
     const client       = await db.connect();
-    const insertUpload = await client.query(`INSERT INTO "Uploads" (filename, filesha, userid, duplicate, uploaddate) 
-                                             VALUES ($1, $2, $3, $4, NOW());`, 
-                                            [file.name, file.hash, userid, file.duplicate]);
+    const insertUpload = await client.query(`INSERT INTO "Uploads" (filename, originalName, filesha, userid, duplicate, uploaddate) 
+                                             VALUES ($1, $2, $3, $4, $5, NOW());`, [
+                                                 file.name,
+                                                 file.originalName, 
+                                                 file.hash, 
+                                                 userid, 
+                                                 file.duplicate
+                                                ]);
                          await client.release();
 };
 

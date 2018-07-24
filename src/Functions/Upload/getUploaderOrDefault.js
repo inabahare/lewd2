@@ -20,7 +20,6 @@ const getUploaderOrDefault = async token => {
     }
 
     await client.release();
-    console.log(getUploader.rows[0])
 
     return getUploader.rows[0];
 };

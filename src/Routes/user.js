@@ -3,6 +3,7 @@ import db                           from "../helpers/database";
 import { check, validationResult }  from 'express-validator/check';
 import crypto                       from "crypto";
 import formatUploadSize             from "../Functions/Token/formatUploadSize";
+import moment                       from "moment";
 
 const router = express.Router();
 
@@ -15,9 +16,16 @@ router.use((req, res, next) => {
 });
 
 router.get("/", async (req, res) => {
-    const client = await db.connect();
-    const getUploads = await client.query(`SELECT filename, deleted, uploaddate FROM "Uploads" WHERE userid = $1;`, [res.locals.user.id])
-    await client.release();
+    const client     = await db.connect();
+    const getUploads = await client.query(`SELECT filename, originalname, deleted, uploaddate FROM "Uploads" WHERE userid = $1;`, [res.locals.user.id])
+                       await client.release();
+
+    // If there are dates then format them
+    if (getUploads.rows[0]) {
+        getUploads.rows.forEach(upload => {
+            upload.uploaddate = moment(upload.uploaddate).format("LL");
+        });
+    }
 
     res.render("user", {
         menuItem: "viewuploads",
@@ -68,8 +76,6 @@ router.post("/token", [
                    .exists().withMessage("Role id needs to be set")
 
 ], async (req, res) => {
-    console.log(req.body);
-
     const errors = validationResult(req);
     
     if (!errors.isEmpty()) {

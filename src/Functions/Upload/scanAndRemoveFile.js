@@ -27,15 +27,14 @@ const scanAndRemoveFile = async (fullPath, fileSha) => {
             // Do nothing I guess
         } else if (code === 3) {
             // The file got removed
-            console.log("Virus");
             const client = await db.connect();
-            await client.query(`UPDATE "Uploads" SET deleted = TRUE WHERE filesha = $1`, [fileSha]);
+            await client.query(`UPDATE "Uploads" SET deleted = TRUE, virus = TRUE WHERE filesha = $1`, [fileSha]);
             await client.release();
 
         } else if (code === 2) {
             // Password protected file and probably some other things
             const client = await db.connect();
-            await client.query(`UPDATE "Uploads" SET deleted = TRUE WHERE filesha = $1`, [fileSha]);
+            await client.query(`UPDATE "Uploads" SET deleted = TRUE, passworded = TRUE WHERE filesha = $1`, [fileSha]);
             await client.release();
         }
     });

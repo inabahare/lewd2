@@ -1,60 +1,19 @@
-import express                             from "express";
-import db                                  from "../helpers/database";
-import bcrypt                              from "bcrypt";
-import { check, validationResult }         from 'express-validator/check';
-import moment                              from "moment";
-import crypto                              from "crypto";
+import express                                  from "express";
+import db                                       from "../helpers/database";
+import bcrypt                                   from "bcrypt";
+import { check, validationResult }              from 'express-validator/check';
+import crypto                                   from "crypto";
+import { getTokenData, checkTokenDataForErrors} from "../Functions/Register/tokenData";
+import checkIfUsernameExists                    from "../Functions/Register/checkIfUsernameExists";
 
 const router = express.Router();
 
-const tokenError = error => [{
-    "param": "token",
-    "msg": error
-}];
+
 
 router.get("/", async (req, res) => {
     res.render("notoken");
 });
 
-/**
- * Get token data from database
- * @param {string} token 
- */
-const getTokenData = async token => {
-    const client    = await db.connect();
-    const getClient = await client.query(`SELECT registered, used, roleid, uploadsize, isadmin
-                                          FROM "RegisterTokens"
-                                          WHERE token = $1;`, [token]);
-                      await client.release();
-
-    return getClient.rows[0];   
-}
-
-/**
- * 
- * @param {object} tokenData data from the getTokenData function
- * @returns {object} An error object if there are errors, and null if there aren't 
- */
-const checkTokenDataForErrors = tokenData => {
-    // Token not found
-    if (!tokenData) 
-        return tokenError("The token wasn't found");
-
-    // Token used
-    if (tokenData.used) 
-        return tokenError("The token has already been used");
-
-    const registered = moment(tokenData.registered);
-    const now        = moment();
-    const then       = moment(now).add(-1, "days");
-    
-    // Check if token is more than a day old
-    if (!(then < registered && registered < now)) 
-        return tokenError("The token is more than a day old");
-
-    // The token is valid :)
-    return null;
-};
 
 router.get("/:token", async (req, res) => {
     // Get token data
@@ -73,22 +32,6 @@ router.get("/:token", async (req, res) => {
     });
 });
 
-const checkIfUsernameExists = value => {
-    return db.query(`SELECT username FROM "Users" WHERE username = $1;`, [value])
-             .then(res => {
-                 if (req.body[0])
-                    return Promise.resolve();
-
-                return Promise.reject("Username already in use");
-             })
-             .catch(e => {
-                if (typeof e === "string")
-                    return Promise.reject();
-
-                return Promise.resolve();
-            });
-};
-
 router.post("/", [
     check("token").isString().withMessage("Invalid token")
                   .isLength({min: 10}).withMessage("Token too short"),
@@ -105,7 +48,7 @@ router.post("/", [
     // Get token data
     const tokenData      = await getTokenData(req.body.token);
     const tokenIsInvalid =  checkTokenDataForErrors(tokenData);
-    console.log(req.body);
+    
     // Report errors
     if (tokenIsInvalid) {
         req.session.err = tokenIsInvalid;
@@ -129,8 +72,8 @@ router.post("/", [
     const username = req.body.username;
     const password = await bcrypt.hash(req.body.password, parseInt(process.env.BCRYPT_SALT_ROUNDS));
     const token    = crypto.createHash("sha1")
-                            .update(username + Date.now().toString())
-                            .digest("hex");
+                           .update(username + Date.now().toString())
+                           .digest("hex");
 
     const roleid     = req.body.roleid;
     const uploadSize = tokenData.uploadsize;

@@ -51,6 +51,8 @@ router.post("/", async (req, res) => {
 
     // When file has been uploaded
     form.on("file", async (fields, file) => {
+        
+        file.originalName = file.name;
 
         // Check if the file exists
         const existingFileName = await getImageFilenameIfExists(file.hash);

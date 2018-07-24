@@ -6,8 +6,6 @@ const token            = tokenContainer == null ? "default"
 const maxSizeContainer = document.getElementById("uploadSize");
 const maxFilesize      = parseInt(maxSizeContainer.innerHTML) / 1000000;
 
-console.log(maxFilesize);
-
 const dropZone = new Dropzone("#uploader", {
     url: "/upload",
     maxFiles: 12,
