@@ -5,26 +5,14 @@
 </div>
 
 <div class="column">
-    <form action="/user/token" method="POST">
+    <form action="/user/admin/token" method="POST">
         {{!-- ROLE --}}
         {{#if errors.size}}
             <div class="notification is-danger">
                 {{{ errors.size }}}
             </div>    
         {{/if}}
-        <div class="field">
-            <label class="label">Role</label>
-            <div class="control">
-                <div class="select">
-                <select name="roleid">
-                    {{#each roles}}
-                        <option value="{{this.id}}">{{this.name}}</option>
-                    {{/each}}
-                </select>
-                </div>
-            </div>
-        </div>
-
+        
         {{!-- UPLOAD SIZE --}}
         {{#if errors.unit}}
             <div class="notification is-danger">

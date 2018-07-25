@@ -7,6 +7,7 @@ import db from "../../helpers/database";
  */
 const addImageToDatabase = async (file, userid) => {
 
+    console.log(file)
     const client       = await db.connect();
     const insertUpload = await client.query(`INSERT INTO "Uploads" (filename, originalName, filesha, userid, duplicate, uploaddate) 
                                              VALUES ($1, $2, $3, $4, $5, NOW());`, [
@@ -14,7 +15,7 @@ const addImageToDatabase = async (file, userid) => {
                                                  file.originalName, 
                                                  file.hash, 
                                                  userid, 
-                                                 file.duplicate
+                                                 file.duplicate.toString()
                                                 ]);
                          await client.release();
 };

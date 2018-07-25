@@ -4,6 +4,8 @@ import { check, validationResult }  from 'express-validator/check';
 import crypto                       from "crypto";
 import formatUploadSize             from "../Functions/Token/formatUploadSize";
 import moment                       from "moment";
+import getUsers                     from "../Functions/Admin/getUsers";
+import deleteUser                   from "../Functions/Admin/deleteUser";
 
 const router = express.Router();
 
@@ -17,7 +19,9 @@ router.use((req, res, next) => {
 
 router.get("/", async (req, res) => {
     const client     = await db.connect();
-    const getUploads = await client.query(`SELECT filename, originalname, deleted, uploaddate FROM "Uploads" WHERE userid = $1;`, [res.locals.user.id])
+    const getUploads = await client.query(`SELECT filename, originalname, deleted, uploaddate, duplicate, virus, passworded 
+                                           FROM "Uploads" 
+                                           WHERE userid = $1;`, [res.locals.user.id])
                        await client.release();
 
     // If there are dates then format them
@@ -26,6 +30,7 @@ router.get("/", async (req, res) => {
             upload.uploaddate = moment(upload.uploaddate).format("LL");
         });
     }
+
 
     res.render("user", {
         menuItem: "viewuploads",
@@ -57,7 +62,7 @@ router.use("/token", async (req, res, next) => {
     next();
 });
 
-router.get("/token", async (req, res) => res.render("user", {
+router.get("/admin/token", async (req, res) => res.render("user", {
                                             menuItem: "token"
                                          }));
 
@@ -66,24 +71,20 @@ router.get("/token", async (req, res) => res.render("user", {
 /**
  * Generate the tokens a user signs up with
  */
-router.post("/token", [
+router.post("/admin/token", [
     check("size").exists().withMessage("You need to set an upload size")
                  .isNumeric().withMessage("Upload size must be a number"),
 
-    check("unit").isLength({min: 1, max: 2}).withMessage("Upload unit needs to be a unit"),
-
-    check("roleid").isNumeric().withMessage("Invalid role")
-                   .exists().withMessage("Role id needs to be set")
+    check("unit").isLength({min: 1, max: 2}).withMessage("Upload unit needs to be a unit")
 
 ], async (req, res) => {
     const errors = validationResult(req);
     
     if (!errors.isEmpty()) {
         req.session.err = errors.array();
-        return res.redirect("/user/token");
+        return res.redirect("/user/admin/token");
     }
 
-    const roleId = parseInt(req.body.roleid);
     const uploadSize = formatUploadSize(req.body.size, req.body.unit);
 
     const registerToken = crypto.createHash("sha1")
@@ -93,11 +94,10 @@ router.post("/token", [
     const isAdmin = req.body.isadmin === "on";
     
     const client =  await db.connect();
-                    await client.query(`INSERT INTO "RegisterTokens" (token, registered, used, roleid, uploadsize, isadmin)
-                                        VALUES ($1, NOW(), $2, $3, $4, $5);`, [
+                    await client.query(`INSERT INTO "RegisterTokens" (token, registered, used, uploadsize, isadmin)
+                                        VALUES ($1, NOW(), $2, $3, $4);`, [
                                             registerToken, 
                                             false, 
-                                            roleId, 
                                             uploadSize, 
                                             isAdmin
                                        ]);
@@ -111,10 +111,30 @@ router.post("/token", [
     })
 });
 
-router.get("/view-users", (req, res) => res.render("user", {
-                                        menuItem: "viewusers"
-                                    }));
+router.get("/admin/view-users", async (req, res) => {
+    const users = await getUsers();
+ 
+    res.render("user", {
+        menuItem: "viewusers",
+        users: users
+    });
+});
 
+router.post("/admin/delete", [
+    check("userid").isInt().withMessage("The userid must be a number")
+                .not().isIn([0, 1]).withMessage("These users cannot be removed")
+], async (req, res) => {
+    const errors = validationResult(req);
+    
+    if (!errors.isEmpty()) {
+        req.session.err = errors.array();
+        return res.redirect("/user/admin/view-users");
+    }
 
+    const userid = parseInt(req.body.userid);
+
+    await deleteUser(userid);
+    return res.redirect("/user/admin/view-users");
+});
 
 export default router;

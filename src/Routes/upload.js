@@ -1,5 +1,4 @@
 import express                     from "express";
-import multer                      from "multer";
 import {promisify}                 from 'util';
 import fs                          from "fs";
 import crypto                      from "crypto";
@@ -30,7 +29,6 @@ const renameFile = fileName => crypto.randomBytes(6)
 /**
  * UPLOAD
  */
-
 router.post("/", async (req, res) => {
     const uploader   = await getUploaderOrDefault(req.headers.token);
     const form       = new formidable.IncomingForm();
@@ -54,6 +52,7 @@ router.post("/", async (req, res) => {
         
         file.originalName = file.name;
 
+
         // Check if the file exists
         const existingFileName = await getImageFilenameIfExists(file.hash);
         if (existingFileName) { // If file has been uploaded and not deleted
@@ -68,6 +67,8 @@ router.post("/", async (req, res) => {
 
             scanAndRemoveFile(process.env.UPLOAD_DESTINATION + file.name, file.hash);
         }
+
+        console.log(file)
 
         await addImageToDatabase(file, uploader.id);
 
