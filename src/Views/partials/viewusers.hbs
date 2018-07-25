@@ -56,6 +56,10 @@
         function deletionCheck(username) {
             if (!confirm("Are you sure you want to delete: " + username + "?")) 
                 return false;
+
+            if (username == '{{{ user.username }}}')
+                if (!confirm("Are you sure you want to delete yourself?")) 
+                    return false;
         }
     </script>
 {{else}}
