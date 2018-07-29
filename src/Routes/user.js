@@ -38,7 +38,13 @@ router.get("/", async (req, res) => {
     })
 });
 
+router.post("remove-file", async (req, res) => {
+    
+});
 
+/////////////////
+// ADMIN STUFF //
+/////////////////
 /**
  * By now the user needs to be admin
  */
@@ -49,18 +55,6 @@ router.use((req, res, next) => {
     return res.render("login");
 });
 
-/**
- * Select the roles possible for a user ot be
- */
-router.use("/token", async (req, res, next) => {
-    // Get role ID's
-    const client     = await db.connect();
-    const getRoles   = await db.query("SELECT id, name FROM \"Roles\";");
-    await client.release();
-
-    res.locals.roles = getRoles.rows;
-    next();
-});
 
 router.get("/admin/token", async (req, res) => res.render("user", {
                                             menuItem: "token"

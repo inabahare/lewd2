@@ -13,7 +13,6 @@ const updateExistingFile = async (file) => {
     const updateQuery = await db.query(`UPDATE "Uploads" SET uploaddate = NOW() WHERE filesha = $1`, [file.hash]);
                         await client.release();
 
-
     unlink(file.path);
 }
 

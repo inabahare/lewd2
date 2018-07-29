@@ -49,9 +49,7 @@ router.post("/", async (req, res) => {
 
     // When file has been uploaded
     form.on("file", async (fields, file) => {
-        
         file.originalName = file.name;
-
 
         // Check if the file exists
         const existingFileName = await getImageFilenameIfExists(file.hash);
@@ -59,7 +57,8 @@ router.post("/", async (req, res) => {
             updateExistingFile(file);
             file.name = existingFileName;
             file.duplicate = true;
-        } else { // If file doesn't exist or has been deleted
+        } 
+        else { // If file doesn't exist or has been deleted
 
             file.duplicate = false;
             file.name = await renameFile(file.name);
@@ -68,11 +67,16 @@ router.post("/", async (req, res) => {
             scanAndRemoveFile(process.env.UPLOAD_DESTINATION + file.name, file.hash);
         }
 
-        console.log(file)
-
         await addImageToDatabase(file, uploader.id);
 
-        res.status(200).send(process.env.UPLOAD_LINK + file.name);
+        const resultJson = {
+            "status": 200,
+            "data": {
+                "link": process.env.UPLOAD_LINK + file.name
+            }
+        }
+
+        res.send(resultJson);
     });
 
     form.parse(req);

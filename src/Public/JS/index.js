@@ -4,7 +4,7 @@ const token            = tokenContainer == null ? "default"
                                                 : tokenContainer.innerHTML;
 
 const maxSizeContainer = document.getElementById("uploadSize");
-const maxFilesize      = parseInt(maxSizeContainer.innerHTML) / 1000000;
+const maxFilesize      = parseInt(maxSizeContainer.innerHTML) / 1000000; // Needs to be in Megabytes
 
 const dropZone = new Dropzone("#uploader", {
     url: "/upload",
@@ -19,14 +19,20 @@ const dropZone = new Dropzone("#uploader", {
 });
 
 
-dropZone.on("success", file => {
+dropZone.on("success", (file, response) => {
     const fileName = file.name;
-    const uploadedUrl = file.xhr.response;
+    const uploadedUrl = response.data.link;
+
     uploadList.innerHTML += `<article class="notification is-success">
                                 <button class="delete" aria-label="delete"></button>
                                 <div class="columns">
-                                    <div class="column has-text-left"><p>${fileName}</p></div> 
-                                    <div class="column has-text-right"><a href="//${uploadedUrl}" target="_blank">${uploadedUrl}</a></div>
+                                    <div class="column has-text-left">
+                                        <p>${fileName}</p>
+                                    </div> 
+                                    <div class="column has-text-right">
+                                        <a href="//${uploadedUrl}" target="_blank">link</a>
+                                        <a class="delete"></a>
+                                    </div>
                                 </div>
                             </article>`;
 });
