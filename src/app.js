@@ -8,6 +8,7 @@ import flash         from "express-flash";
 import cookieSession from "cookie-session";
 import bodyParser    from "body-parser";
 import frontEndError from "./helpers/frontendErrorFormatter";
+import getUserDetails from './Functions/User/getUserDetails';
 
 import db       from "./helpers/database";
 import passport from "./helpers/passport";
@@ -18,7 +19,7 @@ import login    from "./Routes/login";
 import upload   from "./Routes/upload";
 import user     from "./Routes/user";
 import register from "./Routes/register";
-import getUserDetails from './Functions/User/getUserDetails';
+import deleter  from "./Routes/delete"; // God damn reserved keywords
 
 const app = express();
 
@@ -86,6 +87,7 @@ app.use("/login",    login);
 app.use("/upload",   upload);
 app.use("/user",     user);
 app.use("/register", register);
+app.use("/delete",   deleter);
 
 // 404
 app.use((req, res, next) =>{

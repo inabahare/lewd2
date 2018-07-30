@@ -9,6 +9,7 @@ import getImageFilenameIfExists    from "../Functions/Upload/getImageFilenameIfE
 import scanAndRemoveFile           from "../Functions/Upload/scanAndRemoveFile";
 import addImageToDatabase          from "../Functions/Upload/addImageToDatabase";
 import updateExistingFile          from "../Functions/Upload/updateExistingFile";
+import deletionKey                 from "../Functions/Upload/deletionKey";
 
 const router = express.Router();
 
@@ -24,7 +25,6 @@ const fileSizeError = /maxFileSize exceeded, received (\d*) bytes of file data/;
  */
 const renameFile = fileName => crypto.randomBytes(6)
                                      .toString("hex") + "_" + fileName;
-
 
 /**
  * UPLOAD
@@ -50,6 +50,7 @@ router.post("/", async (req, res) => {
     // When file has been uploaded
     form.on("file", async (fields, file) => {
         file.originalName = file.name;
+        file.deletionKey = deletionKey(10);
 
         // Check if the file exists
         const existingFileName = await getImageFilenameIfExists(file.hash);
@@ -72,7 +73,8 @@ router.post("/", async (req, res) => {
         const resultJson = {
             "status": 200,
             "data": {
-                "link": process.env.UPLOAD_LINK + file.name
+                "link": process.env.UPLOAD_LINK + file.name,
+                "deleteionURL": process.env.SITE_NAME + "delete/" + file.deletionKey
             }
         }
 

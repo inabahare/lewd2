@@ -20,8 +20,9 @@ const dropZone = new Dropzone("#uploader", {
 
 
 dropZone.on("success", (file, response) => {
-    const fileName = file.name;
-    const uploadedUrl = response.data.link;
+    const fileName      = file.name;
+    const uploadedURL   = response.data.link;
+    const deleteionURL  = response.data.deleteionURL;
 
     uploadList.innerHTML += `<article class="notification is-success">
                                 <button class="delete" aria-label="delete"></button>
@@ -30,8 +31,8 @@ dropZone.on("success", (file, response) => {
                                         <p>${fileName}</p>
                                     </div> 
                                     <div class="column has-text-right">
-                                        <a href="//${uploadedUrl}" target="_blank">link</a>
-                                        <a class="delete"></a>
+                                        <a href="${uploadedURL}" target="_blank">link</a>
+                                        <a href="${deleteionURL}">Delete</a>
                                     </div>
                                 </div>
                             </article>`;

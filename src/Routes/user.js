@@ -19,9 +19,10 @@ router.use((req, res, next) => {
 
 router.get("/", async (req, res) => {
     const client     = await db.connect();
-    const getUploads = await client.query(`SELECT filename, originalname, deleted, uploaddate, duplicate, virus, passworded 
+    const getUploads = await client.query(`SELECT filename, originalname, deleted, uploaddate, duplicate, virus, passworded, deletionkey  
                                            FROM "Uploads" 
-                                           WHERE userid = $1;`, [res.locals.user.id])
+                                           WHERE userid = $1
+                                           ORDER BY id ASC;`, [res.locals.user.id])
                        await client.release();
 
     // If there are dates then format them
@@ -36,10 +37,6 @@ router.get("/", async (req, res) => {
         menuItem: "viewuploads",
         uploads: getUploads.rows
     })
-});
-
-router.post("remove-file", async (req, res) => {
-    
 });
 
 /////////////////

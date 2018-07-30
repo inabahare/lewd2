@@ -8,6 +8,7 @@
                 <th><abbr title="Removed">Removed</abbr></th>
                 <th><abbr title="Virus">Virus</abbr></th>
                 <th><abbr title="Passworded">Password Protected</abbr></th>
+                <th><abbr title="Delete">Delete</abbr></th>
             </tr>
         </thead>
         <tbody>
@@ -39,6 +40,8 @@
                     {{else}}
                         <td class="">No</td>
                     {{/if}}
+
+                    <td><a href="/delete/{{{ this.deletionkey }}}" class="button is-danger">Delete</a></td>
                 </tr>
             {{/each}}
         </tbody>
