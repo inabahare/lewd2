@@ -1,6 +1,7 @@
 import { promisify } from 'util';
 import fs            from "fs";
 import { spawn }     from "child_process";
+import db            from "../../helpers/database";
 const unlink   = promisify(fs.unlink);
 
 /**
@@ -25,16 +26,10 @@ const scanAndRemoveFile = async (fullPath, fileSha) => {
         if (code === 0) {
             // The file is clean
             // Do nothing I guess
-        } else if (code === 3) {
+        } else if (code === 3 || code === 2) {
             // The file got removed
             const client = await db.connect();
-            await client.query(`UPDATE "Uploads" SET deleted = TRUE, virus = TRUE WHERE filesha = $1`, [fileSha]);
-            await client.release();
-
-        } else if (code === 2) {
-            // Password protected file and probably some other things
-            const client = await db.connect();
-            await client.query(`UPDATE "Uploads" SET deleted = TRUE, passworded = TRUE WHERE filesha = $1`, [fileSha]);
+            await client.query(`DELETE FROM "Uploads" WHERE filesha = $1`, [fileSha]);
             await client.release();
         }
     });

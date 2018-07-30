@@ -19,7 +19,7 @@ router.use((req, res, next) => {
 
 router.get("/", async (req, res) => {
     const client     = await db.connect();
-    const getUploads = await client.query(`SELECT filename, originalname, deleted, uploaddate, duplicate, virus, passworded, deletionkey  
+    const getUploads = await client.query(`SELECT filename, originalname, uploaddate, duplicate, virus, passworded, deletionkey  
                                            FROM "Uploads" 
                                            WHERE userid = $1
                                            ORDER BY id ASC;`, [res.locals.user.id])
