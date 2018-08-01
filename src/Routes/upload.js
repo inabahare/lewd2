@@ -4,6 +4,8 @@ import fs                          from "fs";
 import crypto                      from "crypto";
 import formidable                  from "formidable";
 import path                        from "path";
+import escape                      from "../Functions/Upload/escape";
+ 
 import getUploaderOrDefault        from "../Functions/Upload/getUploaderOrDefault";
 import getImageFilenameIfExists    from "../Functions/Upload/getImageFilenameIfExists";
 import scanAndRemoveFile           from "../Functions/Upload/scanAndRemoveFile";
@@ -11,7 +13,8 @@ import addImageToDatabase          from "../Functions/Upload/addImageToDatabase"
 import updateExistingFile          from "../Functions/Upload/updateExistingFile";
 import deletionKey                 from "../Functions/Upload/deletionKey";
 
-const router = express.Router();
+const router   = express.Router();
+// const entities = new htmlEntities.XmlEntities();
 
 const unlink   = promisify(fs.unlink);
 const readFile = promisify(fs.readFile);
@@ -50,6 +53,17 @@ router.post("/", async (req, res) => {
 
     // When file has been uploaded
     form.on("file", async (fields, file) => {
+        file.name = escape(file.name);
+
+        // Check if filename is too long
+        if (file.name.length > 200) {
+            unlink(file.path);
+            return res.status(400)
+                      .send("The filename is too long");
+        }
+
+        console.log(file.path);
+
         file.originalName = file.name;
         file.deletionKey = deletionKey(10);
 
@@ -61,7 +75,6 @@ router.post("/", async (req, res) => {
             file.duplicate = true;
         } 
         else { // If file doesn't exist or has been deleted
-
             file.duplicate = false;
             file.name = await renameFile(file.name);
             await rename(file.path, path.join(form.uploadDir, file.name));
@@ -77,7 +90,7 @@ router.post("/", async (req, res) => {
                 "link": process.env.UPLOAD_LINK + file.name,
                 "deleteionURL": process.env.SITE_NAME + "delete/" + file.deletionKey
             }
-        }
+        };
 
         res.send(resultJson);
     });

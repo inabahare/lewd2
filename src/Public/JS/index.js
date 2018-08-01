@@ -43,10 +43,11 @@ dropZone.on("error", file => {
     const fileName     = file.name;
     const error        = errorAsArray[errorAsArray.length - 1];
 
+    console.log(errorAsArray);
     uploadList.innerHTML += `<article class="notification is-danger">
                                 <button class="delete" aria-label="delete"></button>
                                 <div class="columns">
-                                    <div class="column has-text-left"><p>${fileName}</p></div> 
+                                    <div class="column has-text-left is-half"><p class="error-text">${fileName}</p></div> 
                                     <div class="column has-text-right"><p>${error}</p></div>
                                 </div>
                             </article>`;  

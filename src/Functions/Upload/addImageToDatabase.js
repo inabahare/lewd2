@@ -2,13 +2,6 @@ import jsStringEscape      from "js-string-escape";
 import db          from "../../helpers/database";
 import deletionKey from "./deletionKey";
 
-const escape = str => str
-.replace(/&/g, "&amp;")
-.replace(/</g, "&lt;")
-.replace(/>/g, "&gt;")
-.replace(/"/g, "&quot;")
-.replace(/'/g, "&#039;");
-
 /**
  * 
  * @param {object} file 
@@ -28,12 +21,10 @@ const addImageToDatabase = async (file, userid) => {
                                                                       // IE if the above query is not undefined then it needs to generate a new token
     } while (deltionKeyCheck);
 
-    console.log(escape(file.name));
-
     const insertUpload = await client.query(`INSERT INTO "Uploads" (filename, originalName, filesha, userid, duplicate, uploaddate, deletionkey) 
                                              VALUES ($1, $2, $3, $4, $5, NOW(), $6);`, [
-                                                 (file.name),
-                                                 (file.originalName), 
+                                                 file.name,
+                                                 file.originalName, 
                                                  file.hash, 
                                                  userid, 
                                                  file.duplicate.toString(),
