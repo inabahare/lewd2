@@ -31,6 +31,7 @@ const renameFile = fileName => crypto.randomBytes(6)
  */
 router.post("/", async (req, res) => {
     const uploader   = await getUploaderOrDefault(req.headers.token);
+    
     const form       = new formidable.IncomingForm();
     form.uploadDir   = process.env.UPLOAD_DESTINATION;
     form.encoding    = "utf-8";

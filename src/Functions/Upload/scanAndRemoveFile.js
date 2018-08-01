@@ -27,8 +27,13 @@ const scanAndRemoveFile = async (fullPath, fileSha) => {
             // The file is clean
             // Do nothing I guess
         } else if (code === 3 || code === 2) {
-            // The file got removed
+            // The file contains a virus and/or is password protected
             const client = await db.connect();
+            // Select file file to be removed
+            // Log the file to the database with the reason
+            // Remove the file
+
+
             await client.query(`DELETE FROM "Uploads" WHERE filesha = $1`, [fileSha]);
             await client.release();
         }

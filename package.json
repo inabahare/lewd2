@@ -28,6 +28,7 @@
     "formidable": "^1.2.1",
     "fs-readfile-promise": "^3.0.1",
     "handlebars": "^4.0.11",
+    "js-string-escape": "^1.0.1",
     "moment": "^2.22.2",
     "multer": "^1.3.0",
     "node-cron": "^1.2.1",
