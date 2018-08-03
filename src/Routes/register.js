@@ -8,8 +8,6 @@ import checkIfUsernameExists                    from "../Functions/Register/chec
 
 const router = express.Router();
 
-
-
 router.get("/", async (req, res) => {
     res.render("notoken");
 });

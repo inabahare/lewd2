@@ -1,7 +1,7 @@
 import { schedule }         from 'node-cron';
-import getFilesToDelete     from "./functions/FileDeletion/getFilesToDelete";
-import deleteFiles          from "./functions/FileDeletion/deleteFiles";
-import updateDatabase       from "./functions/FileDeletion/updateDeletedFiles";
+import getFilesToDelete     from "./Functions/FileDeletion/getFilesToDelete";
+import deleteFiles          from "./Functions/FileDeletion/deleteFiles";
+import updateDatabase       from "./Functions/FileDeletion/updateDeletedFiles";
 import dotenv from "dotenv";
 
 dotenv.config();

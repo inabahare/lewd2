@@ -5,7 +5,7 @@ import crypto                      from "crypto";
 import formidable                  from "formidable";
 import path                        from "path";
 import escape                      from "../Functions/Upload/escape";
- 
+import async from "async"; 
 import getUploaderOrDefault        from "../Functions/Upload/getUploaderOrDefault";
 import getImageFilenameIfExists    from "../Functions/Upload/getImageFilenameIfExists";
 import scanAndRemoveFile           from "../Functions/Upload/scanAndRemoveFile";
@@ -13,13 +13,23 @@ import addImageToDatabase          from "../Functions/Upload/addImageToDatabase"
 import updateExistingFile          from "../Functions/Upload/updateExistingFile";
 import deletionKey                 from "../Functions/Upload/deletionKey";
 
-const router   = express.Router();
-// const entities = new htmlEntities.XmlEntities();
+const router = express.Router();
 
 const unlink   = promisify(fs.unlink);
 const readFile = promisify(fs.readFile);
 const rename   = promisify(fs.rename);
 const fileSizeError = /maxFileSize exceeded, received (\d*) bytes of file data/;
+
+
+const q = async.queue(async (task, cb) => {
+    await scanAndRemoveFile(process.env.UPLOAD_DESTINATION + task.name, task.hash);
+
+    cb();
+}, 3);
+
+q.drain = function() {
+};
+
 
 
 /**
@@ -62,8 +72,6 @@ router.post("/", async (req, res) => {
                       .send("The filename is too long");
         }
 
-        console.log(file.path);
-
         file.originalName = file.name;
         file.deletionKey = deletionKey(10);
 
@@ -79,7 +87,11 @@ router.post("/", async (req, res) => {
             file.name = await renameFile(file.name);
             await rename(file.path, path.join(form.uploadDir, file.name));
 
-            scanAndRemoveFile(process.env.UPLOAD_DESTINATION + file.name, file.hash);
+
+            q.push({
+                name: file.name,
+                hash: file.hash
+            });
         }
 
         await addImageToDatabase(file, uploader.id);
