@@ -21,15 +21,9 @@ const rename   = promisify(fs.rename);
 const fileSizeError = /maxFileSize exceeded, received (\d*) bytes of file data/;
 
 
-const q = async.queue(async (task, cb) => {
+const queue = async.queue(async task => {
     await scanAndRemoveFile(process.env.UPLOAD_DESTINATION + task.name, task.hash);
-
-    cb();
-}, 3);
-
-q.drain = function() {
-};
-
+}, 1);
 
 
 /**
@@ -88,7 +82,7 @@ router.post("/", async (req, res) => {
             await rename(file.path, path.join(form.uploadDir, file.name));
 
 
-            q.push({
+            queue.push({
                 name: file.name,
                 hash: file.hash
             });

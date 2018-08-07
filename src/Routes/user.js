@@ -6,8 +6,12 @@ import formatUploadSize             from "../Functions/Token/formatUploadSize";
 import moment                       from "moment";
 import getUsers                     from "../Functions/Admin/getUsers";
 import deleteUser                   from "../Functions/Admin/deleteUser";
+import { promisify }                from 'util';
+import fs                           from "fs";
 
 const router = express.Router();
+const unlink = promisify(fs.unlink);
+const readFile = promisify(fs.readFile);
 
 // Check if user is logged in
 router.use((req, res, next) => {
@@ -126,6 +130,38 @@ router.post("/admin/delete", [
 
     await deleteUser(userid);
     return res.redirect("/user/admin/view-users");
+});
+
+router.get("/admin/remove-files", (req, res) => {
+    res.render("user", {
+        menuItem: "removefiles"
+    });
+});
+
+router.post("/admin/remove-files", async (req, res) => {
+    const linkArray = req.body.theLinks.split("\r\n");
+
+    if (!linkArray[0]) {
+        console.log("No!");
+        return;
+    }
+
+    const fileNames = linkArray.map(l => l.replace(process.env.UPLOAD_LINK, ""));
+
+    const client = await db.connect();
+
+    fileNames.forEach(async fileName => {
+        const fullFileName = process.env.UPLOAD_DESTINATION + fileName;
+
+        if (fs.existsSync(fullFileName)) {
+            await unlink(fullFileName);
+            await client.query(`DELETE FROM "Uploads" WHERE filename = $1;`, [fileName])
+        }
+    });
+
+    // TODO: Send a post request to Cloudfare to remove the file from the cache
+
+    await client.release();
 });
 
 export default router;
