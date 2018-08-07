@@ -10,6 +10,7 @@
   "scripts": {
     "start": "node build/app.js",
     "start:dev": "nodemon --inspect build/app.js",
+    "cron:dev": "nodemon build/cronactions.js",
     "build:dev": "gulp watch",
     "build:prod": "gulp build"
   },
@@ -18,6 +19,7 @@
     "babel-runtime": "^6.26.0",
     "bcrypt": "^2.0.1",
     "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
     "cookie-session": "^2.0.0-beta.3",
     "del": "^3.0.0",
     "dotenv": "^6.0.0",

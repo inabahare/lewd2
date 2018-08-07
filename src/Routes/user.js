@@ -155,7 +155,7 @@ router.post("/admin/remove-files", async (req, res) => {
 
         if (fs.existsSync(fullFileName)) {
             await unlink(fullFileName);
-            await client.query(`DELETE FROM "Uploads" WHERE filename = $1;`, [fileName])
+            await client.query(`DELETE FROM "Uploads" WHERE filename = $1;`, [fileName]);
         }
     });
 

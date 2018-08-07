@@ -7,6 +7,7 @@ import path          from 'path';
 import flash         from "express-flash";
 import cookieSession from "cookie-session";
 import bodyParser    from "body-parser";
+import cookieParser from "cookie-parser";
 import frontEndError from "./helpers/frontendErrorFormatter";
 import getUserDetails from './Functions/User/getUserDetails';
 
@@ -52,6 +53,7 @@ app.use(express.static(path.join(__dirname, "Public")));
 // parse various different custom JSON types as JSON
 app.use(bodyParser.json({ type: 'application/*+json' }))
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser("lewd"));
 app.use(cookieSession({
     secret: "lewd",
     httpOnly: true, 
@@ -70,13 +72,16 @@ app.use(async (req, res, next) => {
     next()
 });
 
-
-
 // Set errors (if any)
 app.use((req, res, next) => {
     if (req.session.err){
         res.locals.errors = frontEndError(req.session.err);
         delete req.session.err;
+    }
+
+    if (req.session.flash) {
+        res.locals.message = req.session.flash;
+        delete req.session.flash;
     }
     next()
 });

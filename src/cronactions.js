@@ -6,13 +6,17 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-schedule(process.env.FILE_DELETION_CRON, async () => {
+// process.env.FILE_DELETION_CRON
+
+schedule("*/10 * * * * *", async () => {
     const files = await getFilesToDelete();
-
-    if (files.length == 0){
+    
+    if (files.length == 0)
         return;
-    }
 
-    deleteFiles(files);
-    updateDatabase(files);
+    console.log(`Removing ${files.length} files!`);
+
+    const unique = [...new Set(files.map(file => file.filename))];
+    console.log(unique);
+    deleteFiles(unique);
 });

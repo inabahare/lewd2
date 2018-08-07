@@ -91,7 +91,7 @@ router.post("/", [
     await client.query(`UPDATE "RegisterTokens" SET used = TRUE WHERE token = $1;`, [req.body.token]);
     await client.release();
 
-    req.flash('userAdded', 'You have now signed up');
+    req.flash('userAdded', 'You are now ready to sign in');
     res.redirect("/");
 });
 

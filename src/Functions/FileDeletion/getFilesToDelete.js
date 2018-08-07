@@ -5,7 +5,7 @@ export default async () => {
   const getFiles = await client.query(`SELECT id, filename, filesha ` + 
                                       `FROM \"Uploads\" ` + 
                                       `WHERE deleted = FALSE ` + 
-                                      `AND uploaddate < NOW() - '90 days'::INTERVAL`);
+                                      `AND uploaddate < NOW() - '${process.env.TIME_FILE_CAN_STAY_ALIVE}'::INTERVAL`);
   await client.release();
 
   return getFiles.rows;
