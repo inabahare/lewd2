@@ -10,7 +10,7 @@ export default async fileNames => {
     fileNames.forEach(async fileName => {
         const fullFileName = process.env.UPLOAD_DESTINATION + fileName;
         
-        if (fs.existsSync(fullFileName))
+        if (fs.existsSync(fullFileName) && fileName !== "robots.txt")
             await unlink(fullFileName);
 
         await client.query(`DELETE FROM "Uploads" WHERE filename = $1;`, [fileName]);

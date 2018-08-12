@@ -6,6 +6,7 @@ import formidable                  from "formidable";
 import path                        from "path";
 import escape                      from "../Functions/Upload/escape";
 import async from "async"; 
+import dnode from "dnode";
 import getUploaderOrDefault        from "../Functions/Upload/getUploaderOrDefault";
 import getImageFilenameIfExists    from "../Functions/Upload/getImageFilenameIfExists";
 import scanAndRemoveFile           from "../Functions/Upload/scanAndRemoveFile";
@@ -32,6 +33,14 @@ const queue = async.queue(async task => {
  */
 const renameFile = fileName => crypto.randomBytes(6)
                                      .toString("hex") + "_" + fileName;
+
+const scanFile = fileName => {
+    const externalFunctions = dnode.connect(parseInt(process.env.MESSAGE_SERVER_PORT));
+    externalFunctions.on("remote", remote => {
+        remote.scan(fileName);
+        externalFunctions.end();
+    });
+}
 
 /**
  * UPLOAD
@@ -80,12 +89,7 @@ router.post("/", async (req, res) => {
             file.duplicate = false;
             file.name = await renameFile(file.name);
             await rename(file.path, path.join(form.uploadDir, file.name));
-
-
-            queue.push({
-                name: file.name,
-                hash: file.hash
-            });
+            scanFile(file.name);
         }
 
         await addImageToDatabase(file, uploader.id);

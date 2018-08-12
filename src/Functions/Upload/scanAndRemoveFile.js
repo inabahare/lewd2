@@ -9,7 +9,7 @@ const unlink   = promisify(fs.unlink);
  * @param {string} fullPath The full path of the file to scan 
  * @param {string} fileSha The sha1 hash of the file to scan
  */
-const scanAndRemoveFile = (fullPath, fileSha) => {
+const scanAndRemoveFile = fileName => {
     return new Promise((resolve, reject) => {
         const scanner = spawn("/opt/sophos-av/bin/savscan", ["-nc", 
                                                             "-nb", 
@@ -17,7 +17,7 @@ const scanAndRemoveFile = (fullPath, fileSha) => {
                                                             "-remove", 
                                                             "-archive", 
                                                             "-suspicious", 
-                                                            fullPath]);
+                                                            process.env.UPLOAD_DESTINATION + fileName]);
 
         scanner.stderr.on("data", data => {
             console.log("error", data);
@@ -36,7 +36,7 @@ const scanAndRemoveFile = (fullPath, fileSha) => {
                 // Remove the file
     
     
-                await client.query(`DELETE FROM "Uploads" WHERE filesha = $1`, [fileSha]);
+                await client.query(`DELETE FROM "Uploads" WHERE filename = $1`, [fileName]);
                 await client.release();
             }
 

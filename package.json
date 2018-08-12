@@ -22,6 +22,7 @@
     "cookie-parser": "^1.4.3",
     "cookie-session": "^2.0.0-beta.3",
     "del": "^3.0.0",
+    "dnode": "^1.2.2",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "express-flash": "^0.0.2",
