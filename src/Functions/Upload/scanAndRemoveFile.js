@@ -27,7 +27,7 @@ const scanAndRemoveFile = fileName => {
         scanner.on("close", async code => {
             if (code === 0) {
                 // The file is clean
-                // Do nothing I guess
+                resolve(fileName);
             } else if (code === 3 || code === 2) {
                 // The file contains a virus and/or is password protected
                 const client = await db.connect();
@@ -38,9 +38,10 @@ const scanAndRemoveFile = fileName => {
     
                 await client.query(`DELETE FROM "Uploads" WHERE filename = $1`, [fileName]);
                 await client.release();
+
+                resolve(null);
             }
 
-            resolve();
         });
     });
 };
