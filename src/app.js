@@ -2,14 +2,16 @@
 require('dotenv').config();
 
 import express       from "express";
-import handlebars    from "express-handlebars";
-import path          from 'path';
-import flash         from "express-flash";
-import cookieSession from "cookie-session";
-import bodyParser    from "body-parser";
-import cookieParser from "cookie-parser";
-import frontEndError from "./helpers/frontendErrorFormatter";
+import handlebars     from "express-handlebars";
+import path           from 'path';
+import flash          from "express-flash";
+import cookieSession  from "cookie-session";
+import bodyParser     from "body-parser";
+import cookieParser   from "cookie-parser";
+import frontEndError  from "./helpers/frontendErrorFormatter";
 import getUserDetails from './Functions/User/getUserDetails';
+import fs             from "fs";
+import { promisify }  from "util"
 
 import db       from "./helpers/database";
 import passport from "./helpers/passport";
@@ -21,6 +23,10 @@ import upload   from "./Routes/upload";
 import user     from "./Routes/user";
 import register from "./Routes/register";
 import deleter  from "./Routes/delete"; // God damn reserved keywords
+
+const readdir = promisify(fs.readdir);
+
+const randomNumber  = (x, y) =>  Math.floor((Math.random() * y) + x); 
 
 const app = express();
 
@@ -40,6 +46,15 @@ app.engine ("hbs", handlebars ({
         }, 
         partial: function (name) {
             return name;
+        },
+        waifu: () => {
+            const files = fs.readdirSync(__dirname + "/Public/Images/Waifus");
+            
+            if (files.length === 0)
+                return "";
+
+            const randomIndex = randomNumber(0, files.length);
+            return process.env.SITE_NAME + "Images/Waifus/" + files[randomIndex];
         }
     }
 }));
@@ -48,7 +63,7 @@ app.set('views', path.join(__dirname, "Views"));
 // app.enable('view cache');
 
 // Static files
-app.use(express.static(path.join(__dirname, "Public")));
+// app.use(express.static(path.join(__dirname, "Public")));
 
 // parse various different custom JSON types as JSON
 app.use(bodyParser.json({ type: 'application/*+json' }))
