@@ -98,7 +98,7 @@ router.post("/", async (req, res) => {
             "status": 200,
             "data": {
                 "link": process.env.UPLOAD_LINK + file.name,
-                "deleteionURL": process.env.SITE_NAME + "delete/" + file.deletionKey
+                "deleteionURL": process.env.SITE_LINK + "delete/" + file.deletionKey
             }
         };
 

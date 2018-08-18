@@ -37,13 +37,6 @@ app.engine ("hbs", handlebars ({
     extname: "hbs",
     partialsDir: __dirname + "/Views/partials/",
     helpers: {
-        is: function (a, b, opts) {
-            if (a == b) {
-                return opts.fn(this)
-            } else {
-                return opts.inverse(this)
-            }
-        }, 
         partial: function (name) {
             return name;
         },
@@ -54,7 +47,7 @@ app.engine ("hbs", handlebars ({
                 return "";
 
             const randomIndex = randomNumber(0, files.length);
-            return process.env.SITE_NAME + "Images/Waifus/" + files[randomIndex];
+            return process.env.SITE_LINK + "Images/Waifus/" + files[randomIndex];
         }
     }
 }));
@@ -71,15 +64,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser("lewd"));
 app.use(cookieSession({
     secret: "lewd",
-    httpOnly: true, 
+    // httpOnly: true, 
     maxAge: 30 * 60 * 1000,
-    secure: false,
+    secure: true,
     overwrite: false
 }));
 app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.locals.siteName = process.env.SITE_NAME;
 
 // Set local user
 app.use(async (req, res, next) => {

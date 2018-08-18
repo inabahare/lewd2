@@ -102,7 +102,7 @@ router.post("/admin/token", [
 
     res.render("user", {
         menuItem: "token",
-        registerUrl: process.env.SITE_NAME + "register/" + registerToken
+        registerUrl: process.env.SITE_LINK + "register/" + registerToken
     })
 });
 
