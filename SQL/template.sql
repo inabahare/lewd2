@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 10.4 (Ubuntu 10.4-0ubuntu0.18.04)
--- Dumped by pg_dump version 10.4 (Ubuntu 10.4-0ubuntu0.18.04)
+-- Dumped from database version 10.5 (Ubuntu 10.5-0ubuntu0.18.04)
+-- Dumped by pg_dump version 10.5 (Ubuntu 10.5-0ubuntu0.18.04)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -34,6 +34,35 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: LoginTokens; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."LoginTokens" (
+    token character varying(255),
+    registered timestamp(6) without time zone,
+    userid integer
+);
+
+
+ALTER TABLE public."LoginTokens" OWNER TO postgres;
+
+--
+-- Name: RegisterTokens; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."RegisterTokens" (
+    token character varying(255) NOT NULL,
+    registered timestamp(0) without time zone DEFAULT now() NOT NULL,
+    used boolean DEFAULT false,
+    roleid integer DEFAULT 0 NOT NULL,
+    uploadsize integer NOT NULL,
+    isadmin boolean DEFAULT false
+);
+
+
+ALTER TABLE public."RegisterTokens" OWNER TO postgres;
+
+--
 -- Name: Roles; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -47,20 +76,6 @@ CREATE TABLE public."Roles" (
 ALTER TABLE public."Roles" OWNER TO postgres;
 
 --
--- Name: Tokens; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public."Tokens" (
-    token character varying(255) NOT NULL,
-    registered timestamp(0) without time zone DEFAULT now() NOT NULL,
-    used boolean DEFAULT false,
-    roleid integer DEFAULT 0 NOT NULL
-);
-
-
-ALTER TABLE public."Tokens" OWNER TO postgres;
-
---
 -- Name: Uploads; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -71,11 +86,24 @@ CREATE TABLE public."Uploads" (
     uploaddate timestamp(6) without time zone DEFAULT now(),
     filesha character varying(255),
     deleted boolean DEFAULT false NOT NULL,
-    duplicate boolean DEFAULT false NOT NULL
+    duplicate boolean DEFAULT false NOT NULL,
+    originalname character varying(255) NOT NULL,
+    virus boolean DEFAULT false,
+    passworded boolean DEFAULT false,
+    deletionkey character varying(255),
+    size integer,
+    "scannedTwice" boolean DEFAULT false
 );
 
 
 ALTER TABLE public."Uploads" OWNER TO postgres;
+
+--
+-- Name: COLUMN "Uploads".size; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN public."Uploads".size IS 'Size in bytes';
+
 
 --
 -- Name: Uploads_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -108,7 +136,9 @@ CREATE TABLE public."Users" (
     username character varying(255),
     password character varying(255),
     token character varying(255),
-    roleid smallint
+    roleid smallint,
+    uploadsize integer,
+    isadmin boolean DEFAULT false
 );
 
 
@@ -150,6 +180,9 @@ ALTER TABLE ONLY public."Uploads" ALTER COLUMN id SET DEFAULT nextval('public."U
 ALTER TABLE ONLY public."Users" ALTER COLUMN id SET DEFAULT nextval('public."Users_id_seq"'::regclass);
 
 
+
+
+
 --
 -- Data for Name: Roles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -162,19 +195,27 @@ COPY public."Roles" (id, name, uploadsize) FROM stdin;
 
 
 --
--- Data for Name: Tokens; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public."Tokens" (token, registered, used, roleid) FROM stdin;
-\.
-
---
 -- Data for Name: Users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."Users" (username, password, token, roleid) FROM stdin;
-Username	Password	Token	3
+COPY public."Users" (id, username, password, token, roleid, uploadsize, isadmin) FROM stdin;
+0	null	default	default	0	280000000	f
+1	username	asdfasfasfhjadfajhsfas	Token	3	1000000000	t
 \.
+
+
+--
+-- Name: Uploads_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Uploads_id_seq"', 1295, true);
+
+
+--
+-- Name: Users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Users_id_seq"', 7, true);
 
 
 --
