@@ -1,10 +1,11 @@
 import express from "express";
-import Dnode from "dnode";
-
 
 const router = express.Router();
 
-router.get("/", (req, res) => res.render("index"));
+router.get("/",             (req, res) => res.render("index"));
+router.get("/info",         (req, res) => res.render("info"));
+router.get("/transparency", (req, res) => res.render("transparency"));
+
 
 router.get("/lewd.sxcu", (req, res) => {
     res.type('sxcu; charset=utf8');

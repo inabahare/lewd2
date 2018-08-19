@@ -64,9 +64,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser("lewd"));
 app.use(cookieSession({
     secret: "lewd",
-    // httpOnly: true, 
+    httpOnly: true, 
     maxAge: 30 * 60 * 1000,
-    secure: true,
+    // secure: true,
     overwrite: false
 }));
 app.use(flash());
