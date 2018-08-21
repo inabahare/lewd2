@@ -3,7 +3,8 @@
         <aside class="menu">
             <p class="menu-label">User</p>
             <ul class="menu-list">
-                <li><a href="/user/">View uploads</a></li>
+                <li><a href="/user">{{{ user.username }}}</a></li>
+                <li><a href="/user/view-uploads">View uploads</a></li>
             </ul>
 
             {{#if user.isadmin}}

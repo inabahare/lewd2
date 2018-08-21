@@ -21,7 +21,9 @@ router.use((req, res, next) => {
     next();
 });
 
-router.get("/", async (req, res) => {
+router.get("/", (req, res) => res.render("user", { menuItem: "index"}));
+
+router.get("/view-uploads", async (req, res) => {
     const client     = await db.connect();
     const getUploads = await client.query(`SELECT filename, originalname, uploaddate, duplicate, virus, passworded, deletionkey  
                                            FROM "Uploads" 

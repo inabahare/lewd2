@@ -200,7 +200,7 @@ COPY public."Roles" (id, name, uploadsize) FROM stdin;
 
 COPY public."Users" (id, username, password, token, roleid, uploadsize, isadmin) FROM stdin;
 0	null	default	default	0	280000000	f
-1	username	asdfasfasfhjadfajhsfas	Token	3	1000000000	t
+1	USERNAME_HERE	PASSWORD_HERE	TOKEN_HERE	3	1000000000	t
 \.
 
 

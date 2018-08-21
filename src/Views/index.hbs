@@ -12,8 +12,6 @@
 
 
 {{#if user.username}}
-    <h1 class="title is-3">This is your access token. You need this for ShareX</h1>
-    <h2 class="subtitle is-3" id="token">{{ user.token }}</h2>
     <div class="is-hidden" id="uploadSize">{{ user.uploadsize }}</div>
 {{else}}
     <div class="is-hidden" id="uploadSize">{{ maxUploadSize }}</div>
