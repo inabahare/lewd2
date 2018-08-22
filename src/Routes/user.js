@@ -1,13 +1,14 @@
-import express                      from "express";
-import db                           from "../helpers/database";
-import { check, validationResult }  from 'express-validator/check';
-import crypto                       from "crypto";
-import formatUploadSize             from "../Functions/Token/formatUploadSize";
-import moment                       from "moment";
-import getUsers                     from "../Functions/Admin/getUsers";
-import deleteUser                   from "../Functions/Admin/deleteUser";
-import { promisify }                from 'util';
-import fs                           from "fs";
+import express                     from "express";
+import db                          from "../helpers/database";
+import { check, validationResult } from 'express-validator/check';
+import crypto                      from "crypto";
+import formatUploadSize            from "../Functions/Token/formatUploadSize";
+import moment                      from "moment";
+import getUsers                    from "../Functions/Admin/getUsers";
+import deleteUser                  from "../Functions/Admin/deleteUser";
+import { promisify }               from 'util';
+import fs                          from "fs";
+import bcrypt                      from "bcrypt";
 
 const router = express.Router();
 const unlink = promisify(fs.unlink);
@@ -15,6 +16,7 @@ const readFile = promisify(fs.readFile);
 
 // Check if user is logged in
 router.use((req, res, next) => {
+    console.log(res.locals);
     if (res.locals.user.username === null)
         return res.render("login");
     
@@ -43,6 +45,34 @@ router.get("/view-uploads", async (req, res) => {
         menuItem: "viewuploads",
         uploads: getUploads.rows
     })
+});
+
+router.post("/change-password", async (req, res) => {
+    console.log(req.body)
+
+    // Get password
+    const client          = await db.connect();
+    const getPassword     = await client.query(`SELECT password FROM "Users" WHERE id = $1;`, [res.locals.user.id]);
+    const currentPassword = getPassword.rows[0].password;
+
+    console.log(currentPassword);
+    // Check password
+    const passwordCheck = await bcrypt.compare(req.body["old-password"], currentPassword)
+    
+    if (!passwordCheck) {
+        req.flash("incorrectOldPassword", "Your old password is incorrect");
+        return res.redirect("/user");
+    }
+    
+    // Change password
+    const newPassword = await bcrypt.hash(req.body["new-password"], parseInt(process.env.BCRYT_SALT_ROUNDS));
+
+    await client.query(`UPDATE "Users" SET password = $1 WHERE id = $2;`, [newPassword, res.locals.user.id]);
+    await client.release();
+    
+    // Return
+    req.flash("passwordChanged", "Your password has now been updated");
+    res.redirect("/user");
 });
 
 /////////////////

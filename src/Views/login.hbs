@@ -1,12 +1,12 @@
 <form action="/login" method="post">
 
-    {{#if error}}
+    {{#if message.error}}
         <article class="message is-danger">
             <div class="message-header">
-                <p>Error!</p>
+                <p>Failed to login!</p>
             </div>
             <div class="message-body">
-                {{{ error }}}
+                {{{ message.error }}}
             </div>
         </article>
     {{/if}}
@@ -20,7 +20,7 @@
     <div class="field">
         <label for="password" class="label">Password</label>
         <div class="control">
-            <input class="input" type="password" id="password" name="password">
+            <input class="input" type="password" id="password" maxlength="72" name="password">
         </div>
     </div>
 
