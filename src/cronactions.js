@@ -5,11 +5,25 @@ import scanAndRemoveFile        from "./Functions/Upload/scanAndRemoveFile";
 import getFilesToDelete         from "./Functions/FileDeletion/getFilesToDelete";
 import deleteFiles              from "./Functions/FileDeletion/deleteFiles";
 import getFilesForSecondaryScan from "./Functions/SecondaryScan/GetFilesForSecondaryScan";
-
+import VirusTotal               from "node-virustotal";
 
 import dotenv from "dotenv";
 import markAsScannedTwice from './Functions/SecondaryScan/markAsScannedTwice';
 dotenv.config();
+
+const virusTotal = VirusTotal.MakePublicConnection();
+virusTotal.setKey(process.env.VIRUSTOTAL_KEY);
+
+virusTotal.rescanFile("2546dcffc5ad854d4ddc64fbf056871cd5a00f2471cb7a5bfd4ac23b6e9eedad", data => {
+    virusTotal.getFileReport(data["scan_id"], scanData => {
+        const positives = scanData["positives"];
+    }, error => {
+        console.log(error);
+    });
+}, error => {
+    console.log("Error");
+    console.log(error);
+});
 
 /**
  * Limits the AV scans
