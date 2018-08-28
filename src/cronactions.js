@@ -15,7 +15,10 @@ const virusTotal = VirusTotal.MakePublicConnection();
 virusTotal.setKey(process.env.VIRUSTOTAL_KEY);
 
 virusTotal.rescanFile("2546dcffc5ad854d4ddc64fbf056871cd5a00f2471cb7a5bfd4ac23b6e9eedad", data => {
+    console.log("Scanning");
+    console.log(data);
     virusTotal.getFileReport(data["scan_id"], scanData => {
+        console.log("Got positives")
         const positives = scanData["positives"];
     }, error => {
         console.log(error);
