@@ -44,8 +44,6 @@ const messageServer = dnode({
     }
 });
 
-
-
 /**
  * Remove files that are too old
  */
