@@ -5,25 +5,18 @@ import scanAndRemoveFile        from "./Functions/Upload/scanAndRemoveFile";
 import getFilesToDelete         from "./Functions/FileDeletion/getFilesToDelete";
 import deleteFiles              from "./Functions/FileDeletion/deleteFiles";
 import getFilesForSecondaryScan from "./Functions/SecondaryScan/GetFilesForSecondaryScan";
-import VirusTotal               from "node-virustotal";
+import getFileReport            from "./Functions/VirusTotal/getFileReport";
 
 import dotenv from "dotenv";
 import markAsScannedTwice from './Functions/SecondaryScan/markAsScannedTwice';
 dotenv.config();
 
-const virusTotal = VirusTotal.MakePublicConnection();
-virusTotal.setKey(process.env.VIRUSTOTAL_KEY);
-
-virusTotal.rescanFile("2546dcffc5ad854d4ddc64fbf056871cd5a00f2471cb7a5bfd4ac23b6e9eedad", data => {
-    virusTotal.getFileReport(data["scan_id"], scanData => {
-        const positives = scanData["positives"];
-    }, error => {
-        console.log(error);
-    });
-}, error => {
-    console.log("Error");
-    console.log(error);
-});
+setTimeout(async () => {
+    console.log("Getting file report");
+    const fileReport = await getFileReport("2546dcffc5ad854d4ddc64fbf056871cd5a00f2471cb7a5bfd4ac23b6e9eedad", process.env.VIRUSTOTAL_KEY);
+    console.log(fileReport.positives);
+    console.log("Report gotten");
+}, 1000);
 
 /**
  * Limits the AV scans
@@ -43,6 +36,8 @@ const messageServer = dnode({
         });
     }
 });
+
+
 
 /**
  * Remove files that are too old
