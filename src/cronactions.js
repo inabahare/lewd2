@@ -18,6 +18,7 @@ setTimeout(async () => {
     console.log("Report gotten");
 }, 1000);
 
+
 /**
  * Limits the AV scans
  */
