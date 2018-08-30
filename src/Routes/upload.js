@@ -92,6 +92,7 @@ router.post("/", async (req, res) => {
             scanFile(file.name);
         }
 
+        console.log(uploader);
         await addImageToDatabase(file, uploader.id);
 
         const resultJson = {

@@ -93,8 +93,8 @@ CREATE TABLE public."Uploads" (
     deletionkey character varying(255),
     size integer,
     "scannedTwice" boolean DEFAULT false,
-    "virustotalOne" boolean,
-    "virustotalTwo" boolean,
+    "virustotalOne" boolean DEFAULT false,
+    "virustotalTwo" boolean DEFAULT false,
     "virustotalThree" boolean DEFAULT false
 );
 

@@ -6,6 +6,7 @@ import db from "../../helpers/database";
  */
 const getUploaderOrDefault = async token => { 
     const client      = await db.connect();
+
     let getUploader = await client.query(`SELECT id, uploadsize
                                           FROM "Users"
                                           WHERE token = $1;`, [

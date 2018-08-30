@@ -1,7 +1,6 @@
 const tokenContainer   = document.getElementById("token");
 const uploadList       = document.getElementById("uploads")
-const token            = tokenContainer == null ? "default" 
-                                                : tokenContainer.innerHTML;
+const token            = tokenContainer.defaultValue;
 
 const maxSizeContainer = document.getElementById("uploadSize");
 const maxFilesize      = parseInt(maxSizeContainer.innerHTML) / 1000000; // Needs to be in Megabytes
@@ -43,7 +42,6 @@ dropZone.on("error", file => {
     const fileName     = file.name;
     const error        = errorAsArray[errorAsArray.length - 1];
 
-    console.log(errorAsArray);
     uploadList.innerHTML += `<article class="notification is-danger">
                                 <button class="delete" aria-label="delete"></button>
                                 <div class="columns">

@@ -16,7 +16,6 @@ const readFile = promisify(fs.readFile);
 
 // Check if user is logged in
 router.use((req, res, next) => {
-    console.log(res.locals);
     if (res.locals.user.username === null)
         return res.render("login");
     
@@ -48,14 +47,11 @@ router.get("/view-uploads", async (req, res) => {
 });
 
 router.post("/change-password", async (req, res) => {
-    console.log(req.body)
-
     // Get password
     const client          = await db.connect();
     const getPassword     = await client.query(`SELECT password FROM "Users" WHERE id = $1;`, [res.locals.user.id]);
     const currentPassword = getPassword.rows[0].password;
 
-    console.log(currentPassword);
     // Check password
     const passwordCheck = await bcrypt.compare(req.body["old-password"], currentPassword)
     
