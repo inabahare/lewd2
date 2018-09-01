@@ -92,7 +92,10 @@ CREATE TABLE public."Uploads" (
     passworded boolean DEFAULT false,
     deletionkey character varying(255),
     size integer,
-    "scannedTwice" boolean DEFAULT false
+    "scannedTwice" boolean DEFAULT false,
+    "virustotalOne" boolean DEFAULT false,
+    "virustotalTwo" boolean DEFAULT false,
+    "virustotalThree" boolean DEFAULT false
 );
 
 
@@ -180,7 +183,20 @@ ALTER TABLE ONLY public."Uploads" ALTER COLUMN id SET DEFAULT nextval('public."U
 ALTER TABLE ONLY public."Users" ALTER COLUMN id SET DEFAULT nextval('public."Users_id_seq"'::regclass);
 
 
+--
+-- Data for Name: LoginTokens; Type: TABLE DATA; Schema: public; Owner: postgres
+--
 
+COPY public."LoginTokens" (token, registered, userid) FROM stdin;
+\.
+
+
+--
+-- Data for Name: RegisterTokens; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."RegisterTokens" (token, registered, used, roleid, uploadsize, isadmin) FROM stdin;
+\.
 
 
 --
@@ -188,9 +204,14 @@ ALTER TABLE ONLY public."Users" ALTER COLUMN id SET DEFAULT nextval('public."Use
 --
 
 COPY public."Roles" (id, name, uploadsize) FROM stdin;
-2	approved	5369000000
-3	admin	10740000000
-0	default	134200000
+\.
+
+
+--
+-- Data for Name: Uploads; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Uploads" (id, filename, userid, uploaddate, filesha, deleted, duplicate, originalname, virus, passworded, deletionkey, size, "scannedTwice", "virustotalOne", "virustotalTwo", "virustotalThree") FROM stdin;
 \.
 
 
@@ -200,23 +221,8 @@ COPY public."Roles" (id, name, uploadsize) FROM stdin;
 
 COPY public."Users" (id, username, password, token, roleid, uploadsize, isadmin) FROM stdin;
 0	null	default	default	0	280000000	f
-1	USERNAME_HERE	PASSWORD_HERE	TOKEN_HERE	3	1000000000	t
+1	username	password	token	3	100000000	t
 \.
-
-
---
--- Name: Uploads_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public."Uploads_id_seq"', 1295, true);
-
-
---
--- Name: Users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public."Users_id_seq"', 7, true);
-
 
 --
 -- Name: Uploads Uploads_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres

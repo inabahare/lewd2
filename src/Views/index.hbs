@@ -23,9 +23,9 @@
     </div>
 
     {{#if user.username}}
-        <input type="hidden" name="thetoken" value="{{ user.token }}">
+        <input id="token" type="hidden" name="thetoken" value="{{ user.token }}">
     {{else}}
-        <input type="hidden" name="thetoken" value="default">
+        <input id="token" type="hidden" name="thetoken" value="default">
     {{/if}}
 </form> 
 
