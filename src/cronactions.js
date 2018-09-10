@@ -11,20 +11,12 @@ import sleep                    from "./Functions/sleep";
 import dotenv from "dotenv";
 import markAsScannedTwice from './Functions/SecondaryScan/markAsScannedTwice';
 dotenv.config();
-/*
-setTimeout(async () => {
-    console.log("Getting file report");
-    const fileReport = await getFileReport("2546dcffc5ad854d4ddc64fbf056871cd5a00f2471cb7a5bfd4ac23b6e9eedad", process.env.VIRUSTOTAL_KEY);
-    console.log(fileReport.positives);
-    console.log("Report gotten");
-}, 1000);
-*/
 
 /**
  * Limits the AV scans
  */
 const sophosQueue = async.queue(async (task) => {
-    // Gets the filename if scan is positive fpr secondary scan
+    // Gets the filename if scan is positive fpr secondarlsy scan
     const filename = await scanAndRemoveFile(task.fileName);
 }, 1);
 
@@ -44,12 +36,6 @@ const virustotalQueue = async.queue(async task => {
         amountOfScans = 0;
     }
 }, 1);
-
-virustotalQueue.push({fileHash: "Hello World"});
-virustotalQueue.push({fileHash: "Hello World"});
-virustotalQueue.push({fileHash: "Hello World"});
-virustotalQueue.push({fileHash: "Hello World"});
-virustotalQueue.push({fileHash: "Hello World"});
 
 /**
  * Functions the app can call

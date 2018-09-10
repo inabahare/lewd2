@@ -5,8 +5,10 @@ import crypto                      from "crypto";
 import formidable                  from "formidable";
 import path                        from "path";
 import escape                      from "../Functions/Upload/escape";
-import async from "async"; 
-import dnode from "dnode";
+import multer                      from "multer";
+import async                       from "async"; 
+import dnode                       from "dnode";
+// import formidable from "express-formidable"
 import getUploaderOrDefault        from "../Functions/Upload/getUploaderOrDefault";
 import getImageFilenameIfExists    from "../Functions/Upload/getImageFilenameIfExists";
 import scanAndRemoveFile           from "../Functions/Upload/scanAndRemoveFile";
@@ -17,7 +19,6 @@ import deletionKey                 from "../Functions/Upload/deletionKey";
 const router = express.Router();
 
 const unlink   = promisify(fs.unlink);
-const readFile = promisify(fs.readFile);
 const rename   = promisify(fs.rename);
 const fileSizeError = /maxFileSize exceeded, received (\d*) bytes of file data/;
 
@@ -34,38 +35,46 @@ const queue = async.queue(async task => {
 const renameFile = fileName => crypto.randomBytes(6)
                                      .toString("hex") + "_" + fileName;
 
+
+const externalFunctions = dnode.connect(parseInt(process.env.MESSAGE_SERVER_PORT));
 const scanFile = fileName => {
-    const externalFunctions = dnode.connect(parseInt(process.env.MESSAGE_SERVER_PORT));
     externalFunctions.on("remote", remote => {
         remote.scan(fileName);
         externalFunctions.end();
     });
 }
 
+const storageOptions = multer.diskStorage({
+    destination: (req, file, next) => next(null, process.eng.UPLOAD_DESTINATION),
+    filename: (req, file, next) => next(null, renameFile(file.originalname)) 
+});
+
+const upload = multer({ storage: storageOptions });
+
+router.post("/", async (req, res) => {
+    upload.
+});
+
 /**
  * UPLOAD
  */
 router.post("/", async (req, res) => {
     const uploader   = await getUploaderOrDefault(req.headers.token);
-    
-    const form       = new formidable.IncomingForm();
-    form.uploadDir   = process.env.UPLOAD_DESTINATION;
-    form.encoding    = "utf-8";
-    form.hash        = "sha1";
-    form.maxFileSize = uploader.uploadsize;
+    console.log(res.locals);
 
-    form.on("error", err => {
-        if (fileSizeError.test(err.message)) {
-            return res.status(400)
-                      .send("The uploaded file is too big");
-        }
-
-        return res.status(400)
-                  .send("Something went wrong on upload");
+    const form       = new formidable.IncomingForm({
+        uploadDir  :process.env.UPLOAD_DESTINATION,
+        encoding   :"utf-8",
+        hash       :"sha1",
+        maxFileSize: uploader.uploadsize
     });
 
-    // When file has been uploaded
-    form.on("file", async (fields, file) => {
+    form.parse(req, async (err, fields, file) => {
+        if (err) {
+            return res.status(400)
+                      .send(err);
+        }
+
         file.name = escape(file.name);
 
         // Check if filename is too long
@@ -92,7 +101,6 @@ router.post("/", async (req, res) => {
             scanFile(file.name);
         }
 
-        console.log(uploader);
         await addImageToDatabase(file, uploader.id);
 
         const resultJson = {
@@ -105,8 +113,6 @@ router.post("/", async (req, res) => {
 
         res.send(resultJson);
     });
-
-    form.parse(req);
 });
 
 export default router;

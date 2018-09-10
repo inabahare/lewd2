@@ -26,6 +26,7 @@
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "express-flash": "^0.0.2",
+    "express-formidable": "^1.0.0",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.6",
     "express-validator": "^5.2.0",
