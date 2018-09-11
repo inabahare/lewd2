@@ -23,8 +23,8 @@ const addImageToDatabase = async (file, userid) => {
 
     const insertUpload = await client.query(`INSERT INTO "Uploads" (filename, originalName, filesha, userid, duplicate, uploaddate, deletionkey, size) 
                                              VALUES ($1, $2, $3, $4, $5, NOW(), $6, $7);`, [
-                                                 file.name,
-                                                 file.originalName, 
+                                                 file.filename,
+                                                 file.originalname, 
                                                  file.hash, 
                                                  userid, 
                                                  file.duplicate.toString(),

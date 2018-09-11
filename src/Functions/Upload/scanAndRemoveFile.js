@@ -9,7 +9,7 @@ const unlink   = promisify(fs.unlink);
  * @param {string} fullPath The full path of the file to scan 
  * @param {string} fileSha The sha1 hash of the file to scan
  */
-const scanAndRemoveFile = fileName => {
+const scanAndRemoveFile = filepath => {
     return new Promise((resolve, reject) => {
         const scanner = spawn("/opt/sophos-av/bin/savscan", ["-nc", 
                                                             "-nb", 
@@ -17,7 +17,7 @@ const scanAndRemoveFile = fileName => {
                                                             "-remove", 
                                                             "-archive", 
                                                             "-suspicious", 
-                                                            process.env.UPLOAD_DESTINATION + fileName]);
+                                                            filepath]);
 
         scanner.stderr.on("data", data => {
             console.log("error", data);
@@ -31,10 +31,6 @@ const scanAndRemoveFile = fileName => {
             } else if (code === 3 || code === 2) {
                 // The file contains a virus and/or is password protected
                 const client = await db.connect();
-                // Select file file to be removed
-                // Log the file to the database with the reason
-                // Remove the file
-    
     
                 await client.query(`DELETE FROM "Uploads" WHERE filename = $1`, [fileName]);
                 await client.release();
