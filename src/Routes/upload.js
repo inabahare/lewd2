@@ -1,27 +1,17 @@
 import express                     from "express";
-import {promisify}                 from 'util';
-import fs                          from "fs";
 import crypto                      from "crypto";
-import formidable                  from "formidable";
-import path                        from "path";
 import escape                      from "../Functions/Upload/escape";
 import multer                      from "multer";
-import async                       from "async"; 
 import dnode                       from "dnode";
 // import formidable from "express-formidable"
 import getUploaderOrDefault        from "../Functions/Upload/getUploaderOrDefault";
 import getImageFilenameIfExists    from "../Functions/Upload/getImageFilenameIfExists";
-import scanAndRemoveFile           from "../Functions/Upload/scanAndRemoveFile";
 import addImageToDatabase          from "../Functions/Upload/addImageToDatabase";
 import updateExistingFile          from "../Functions/Upload/updateExistingFile";
 import deletionKey                 from "../Functions/Upload/deletionKey";
 import hashFile                    from "../Functions/Upload/hashFile";
 
 const router = express.Router();
-
-const unlink   = promisify(fs.unlink);
-const rename   = promisify(fs.rename);
-const fileSizeError = /maxFileSize exceeded, received (\d*) bytes of file data/;
 
 /**
  * Takes the filename and returns a new name 
@@ -30,12 +20,18 @@ const fileSizeError = /maxFileSize exceeded, received (\d*) bytes of file data/;
 const renameFile = fileName => crypto.randomBytes(6)
                                      .toString("hex") + "_" + fileName;
 
-
 const sophosScan = fileName => {
     const externalFunctions = dnode.connect(parseInt(process.env.MESSAGE_SERVER_PORT));
     externalFunctions.on("remote", remote => {
-        console.log(fileName);
         remote.scan(fileName);
+        externalFunctions.end();
+    });
+}
+
+const virusTotalScan = fileHash => {
+    const externalFunctions = dnode.connect(parseInt(process.env.MESSAGE_SERVER_PORT));
+    externalFunctions.on("remove", remote => {
+        remote.virusTotalScan(fileHash, 1);
         externalFunctions.end();
     });
 }
@@ -73,12 +69,13 @@ router.post("/", async (req, res) => {
         const existingFileName = await getImageFilenameIfExists(file.hash);
         if (existingFileName) { // If file has been uploaded and not deleted
             updateExistingFile(file);
-            file.filename = existingFileName;
+            file.filename  = existingFileName;
             file.duplicate = true;
         } 
         else { // If file doesn't exist or has been deleted
             file.duplicate = false;
             sophosScan(file.filename);
+            virusTotalScan(file.hash);
         }
     
         file.deletionKey = deletionKey(10);

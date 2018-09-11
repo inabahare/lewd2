@@ -34,6 +34,7 @@ const virustotalQueue = async.queue(async task => {
         console.log("Waiting");
         await sleep(parseInt(60000));
         amountOfScans = 0;
+        console.log(waiting);
     }
 }, 1);
 
@@ -42,10 +43,15 @@ const virustotalQueue = async.queue(async task => {
  */
 const messageServer = dnode({
     scan: fileName => {
-        console.log(1);
         sophosQueue.push({
             fileName: fileName,
         });
+    },
+    virusTotalScan: (filehash, scanNumber) => {
+        virustotalQueue.push({
+            filehash: filehash,
+            scanNumber: scanNumber
+        })
     }
 });
 
