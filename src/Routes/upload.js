@@ -31,9 +31,10 @@ const renameFile = fileName => crypto.randomBytes(6)
                                      .toString("hex") + "_" + fileName;
 
 
-const externalFunctions = dnode.connect(parseInt(process.env.MESSAGE_SERVER_PORT));
-const scanFile = fileName => {
+const sophosScan = fileName => {
+    const externalFunctions = dnode.connect(parseInt(process.env.MESSAGE_SERVER_PORT));
     externalFunctions.on("remote", remote => {
+        console.log(fileName);
         remote.scan(fileName);
         externalFunctions.end();
     });
@@ -70,7 +71,6 @@ router.post("/", async (req, res) => {
         file.hash = await hashFile(file.path);
 
         const existingFileName = await getImageFilenameIfExists(file.hash);
-        
         if (existingFileName) { // If file has been uploaded and not deleted
             updateExistingFile(file);
             file.filename = existingFileName;
@@ -78,10 +78,9 @@ router.post("/", async (req, res) => {
         } 
         else { // If file doesn't exist or has been deleted
             file.duplicate = false;
-            scanFile(file.path);
+            sophosScan(file.filename);
         }
     
-        console.log(file);
         file.deletionKey = deletionKey(10);
 
         await addImageToDatabase(file, uploader.id);

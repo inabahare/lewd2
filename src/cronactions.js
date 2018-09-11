@@ -42,6 +42,7 @@ const virustotalQueue = async.queue(async task => {
  */
 const messageServer = dnode({
     scan: fileName => {
+        console.log(1);
         sophosQueue.push({
             fileName: fileName,
         });
