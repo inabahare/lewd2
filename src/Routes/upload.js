@@ -5,11 +5,9 @@ import crypto                      from "crypto";
 import formidable                  from "formidable";
 import path                        from "path";
 import escape                      from "../Functions/Upload/escape";
-import async from "async"; 
-import dnode from "dnode";
+import dnode                       from "dnode";
 import getUploaderOrDefault        from "../Functions/Upload/getUploaderOrDefault";
 import getImageFilenameIfExists    from "../Functions/Upload/getImageFilenameIfExists";
-import scanAndRemoveFile           from "../Functions/Upload/scanAndRemoveFile";
 import addImageToDatabase          from "../Functions/Upload/addImageToDatabase";
 import updateExistingFile          from "../Functions/Upload/updateExistingFile";
 import deletionKey                 from "../Functions/Upload/deletionKey";
@@ -17,14 +15,9 @@ import deletionKey                 from "../Functions/Upload/deletionKey";
 const router = express.Router();
 
 const unlink   = promisify(fs.unlink);
-const readFile = promisify(fs.readFile);
 const rename   = promisify(fs.rename);
 const fileSizeError = /maxFileSize exceeded, received (\d*) bytes of file data/;
 
-
-const queue = async.queue(async task => {
-    await scanAndRemoveFile(process.env.UPLOAD_DESTINATION + task.name, task.hash);
-}, 1);
 
 
 /**
@@ -37,7 +30,7 @@ const renameFile = fileName => crypto.randomBytes(6)
 const scanFile = fileName => {
     const externalFunctions = dnode.connect(parseInt(process.env.MESSAGE_SERVER_PORT));
     externalFunctions.on("remote", remote => {
-        remote.scan(fileName);
+        remote.sophosScan(fileName);
         externalFunctions.end();
     });
 }

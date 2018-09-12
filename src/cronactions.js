@@ -46,17 +46,11 @@ const virustotalQueue = async.queue(async task => {
     }
 }, 1);
 
-virustotalQueue.push({fileHash: "Hello World"});
-virustotalQueue.push({fileHash: "Hello World"});
-virustotalQueue.push({fileHash: "Hello World"});
-virustotalQueue.push({fileHash: "Hello World"});
-virustotalQueue.push({fileHash: "Hello World"});
-
 /**
  * Functions the app can call
  */
 const messageServer = dnode({
-    scan: fileName => {
+    sophosScan: fileName => {
         sophosQueue.push({
             fileName: fileName,
         });
