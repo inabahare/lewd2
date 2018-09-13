@@ -31,7 +31,12 @@ const getFileReport = (hash, APIKey) => {
                 end += d;
             });
 
-            res.on("end", () => resolve(JSON.parse(end)));
+            res.on("end", () => {
+                const result = end.length === 0 ? null 
+                                                : json.parse(end);
+
+                resolve(result);
+            });
 
             res.on("error", e => {
                 console.log(e);
