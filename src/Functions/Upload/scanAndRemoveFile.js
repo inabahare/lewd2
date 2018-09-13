@@ -20,7 +20,7 @@ const scanAndRemoveFile = filename => {
                                                             process.env.UPLOAD_DESTINATION + filename]);
 
         scanner.stderr.on("data", data => {
-            console.log("error", data);
+            // console.log("error", data);
             reject();
         });
 

@@ -3,7 +3,6 @@ import crypto                      from "crypto";
 import escape                      from "../Functions/Upload/escape";
 import multer                      from "multer";
 import dnode                       from "dnode";
-// import formidable from "express-formidable"
 import getUploaderOrDefault        from "../Functions/Upload/getUploaderOrDefault";
 import getImageFilenameIfExists    from "../Functions/Upload/getImageFilenameIfExists";
 import addImageToDatabase          from "../Functions/Upload/addImageToDatabase";
@@ -20,27 +19,25 @@ const router = express.Router();
 const renameFile = fileName => crypto.randomBytes(6)
                                      .toString("hex") + "_" + fileName;
 
-const sophosScan = fileName => {
-    const externalFunctions = dnode.connect(parseInt(process.env.MESSAGE_SERVER_PORT));
-    externalFunctions.on("remote", remote => {
-        remote.scan(fileName);
-        externalFunctions.end();
+                                     
+/**
+ * Scans a file with sophos and gets a file report from VirusTotal
+ */
+const scan = (fileName, fileHash) => {
+    const external = dnode.connect(parseInt(process.env.MESSAGE_SERVER_PORT));
+    external.on("remote", remote => {
+        remote.sophosScan(fileName);
+        remote.virusTotalScan(fileHash, 1);
+        external.end();
     });
 }
 
-const virusTotalScan = fileHash => {
-    const externalFunctions = dnode.connect(parseInt(process.env.MESSAGE_SERVER_PORT));
-    externalFunctions.on("remove", remote => {
-        remote.virusTotalScan(fileHash, 1);
-        externalFunctions.end();
-    });
-}
+
 
 const storageOptions = multer.diskStorage({
     destination: (req, file, next) => next(null, process.env.UPLOAD_DESTINATION),
     filename:    (req, file, next) => next(null, renameFile(escape(file.originalname))) 
 });
-
 
 /**
  * UPLOAD
@@ -74,8 +71,7 @@ router.post("/", async (req, res) => {
         } 
         else { // If file doesn't exist or has been deleted
             file.duplicate = false;
-            sophosScan(file.filename);
-            virusTotalScan(file.hash);
+            scan(file.filename, file.hash);
         }
     
         file.deletionKey = deletionKey(10);

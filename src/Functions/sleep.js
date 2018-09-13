@@ -1,4 +1,5 @@
 /**
+
  * Waits n amount of milliseconds in an awaitable manner
  * @param {Number} milliseconds 
  */

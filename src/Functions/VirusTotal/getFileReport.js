@@ -31,10 +31,20 @@ const getFileReport = (hash, APIKey) => {
                 end += d;
             });
 
-            res.on("end", () => resolve(JSON.parse(end)));
+            res.on("end", () => {
+                // JSON.parse will throw an exception if what is given is an empty string
+                const result = end.length == 0 ? null 
+                                               : end;
+                
+                if (end.length != 0) {
+                    resolve(JSON.parse(result))
+                } else {
+                    resolve(null);
+                }
+            });
 
             res.on("error", e => {
-                console.log(e);
+                console.log("e " + e);
             });
         });
     

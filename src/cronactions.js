@@ -20,21 +20,27 @@ const sophosQueue = async.queue(async (task) => {
     const filename = await scanAndRemoveFile(task.fileName);
 }, 1);
 
+(async () => {
+    await sleep(1000);
+    const report = await getFileReport("2dd7c164b0ba24a0797745d15952c1781f0e844cb22f830b8b9b942d38d1575d", process.env.VIRUSTOTAL_KEY);
+
+    console.log(report);
+})()
+
 /**
  * Virutotal scans
  */
 let amountOfScans = 0;
 const virustotalQueue = async.queue(async task => {
     amountOfScans++;
+    const report = await getFileReport(task.fileHash, process.env.VIRUSTOTAL_KEY);
 
-
-    console.log(task.fileHash + amountOfScans);
+    console.log(report);
 
     if (amountOfScans == parseInt(process.env.VIRUSTOTAL_MAX_SCANS_PR_MINUTE)) {
         console.log("Waiting");
         await sleep(parseInt(60000));
         amountOfScans = 0;
-        console.log(waiting);
     }
 }, 1);
 
@@ -42,7 +48,7 @@ const virustotalQueue = async.queue(async task => {
  * Functions the app can call
  */
 const messageServer = dnode({
-    scan: fileName => {
+    sophosScan: fileName => {
         sophosQueue.push({
             fileName: fileName,
         });
