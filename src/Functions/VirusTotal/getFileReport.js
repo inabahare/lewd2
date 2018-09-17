@@ -33,13 +33,13 @@ const getFileReport = (hash, APIKey) => {
 
             res.on("end", () => {
                 const result = end.length === 0 ? null 
-                                                : json.parse(end);
+                                                : JSON.parse(end);
 
                 resolve(result);
             });
 
             res.on("error", e => {
-                console.log(e);
+                reject(e);
             });
         });
     

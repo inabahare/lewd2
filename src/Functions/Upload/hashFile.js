@@ -7,10 +7,10 @@ import crypto from "crypto";
  */
 const hashFile = async fullPath =>  new Promise((resolve, reject) => {
     try {
-        const hash = crypto.createHash("sha1");
+        const hash = crypto.createHash("sha256");
         const stream = fs.ReadStream(fullPath);
         stream.on("data", data => hash.update(data));
-        sstream.on("end", () => {
+        stream.on("end", () => {
             const result = hash.digest("hex");
             return resolve(result);
         });

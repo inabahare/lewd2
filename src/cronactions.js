@@ -11,22 +11,21 @@ import sleep                    from "./Functions/sleep";
 import dotenv from "dotenv";
 import markAsScannedTwice from './Functions/SecondaryScan/markAsScannedTwice';
 dotenv.config();
-/*
-setTimeout(async () => {
-    console.log("Getting file report");
-    const fileReport = await getFileReport("2546dcffc5ad854d4ddc64fbf056871cd5a00f2471cb7a5bfd4ac23b6e9eedad", process.env.VIRUSTOTAL_KEY);
-    console.log(fileReport.positives);
-    console.log("Report gotten");
-}, 1000);
-*/
 
 /**
  * Limits the AV scans
  */
 const sophosQueue = async.queue(async (task) => {
-    // Gets the filename if scan is positive fpr secondary scan
+    // Gets the filename if scan is positive fpr secondarlsy scan
     const filename = await scanAndRemoveFile(task.fileName);
 }, 1);
+
+
+(async () => {
+    const report = await getFileReport("b7bb3b55ca308ce0d235469f877d21f8188960aec5cd473349ab66cac089927d", process.env.VIRUSTOTAL_KEY);
+
+    console.log(report);
+})()
 
 /**
  * Virutotal scans
@@ -34,16 +33,23 @@ const sophosQueue = async.queue(async (task) => {
 let amountOfScans = 0;
 const virustotalQueue = async.queue(async task => {
     amountOfScans++;
-
-
-    console.log(task.fileHash + amountOfScans);
-
     if (amountOfScans == parseInt(process.env.VIRUSTOTAL_MAX_SCANS_PR_MINUTE)) {
         console.log("Waiting");
         await sleep(parseInt(60000));
         amountOfScans = 0;
-        //
     }
+
+    const report = await getFileReport(task.fileHash, process.env.VIRUSTOTAL_KEY);
+
+    // Should I wait and try again?
+    if (report === null) 
+        return;
+
+    console.log(report.positives);
+
+    if (report.positives < parseInt(process.env.VIRUSTOTAL_MIN_ALLOWED_POSITIVES))
+        return;
+
 }, 1);
 
 /**
@@ -54,6 +60,12 @@ const messageServer = dnode({
         sophosQueue.push({
             fileName: fileName,
         });
+    },
+    virusTotalScan: (filehash, scanNumber) => {
+        virustotalQueue.push({
+            filehash: filehash,
+            scanNumber: scanNumber
+        })
     }
 });
 
