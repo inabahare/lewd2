@@ -7,50 +7,34 @@ import deleteFiles              from "./Functions/FileDeletion/deleteFiles";
 import getFilesForSecondaryScan from "./Functions/SecondaryScan/GetFilesForSecondaryScan";
 import getFileReport            from "./Functions/VirusTotal/getFileReport";
 import sleep                    from "./Functions/sleep";
+import VirusTotalScanner        from "./Classes/VirusTotalScanner";
 
 import dotenv from "dotenv";
 import markAsScannedTwice from './Functions/SecondaryScan/markAsScannedTwice';
 dotenv.config();
 
+const virusTotal = new VirusTotalScanner(process.env.VIRUSTOTAL_KEY,
+                                         process.env.VIRUSTOTAL_MAX_SCAN_WAIT_MS,
+                                         process.env.VIRUSTOTAL_MAX_SCANS_PR_MINUTE,
+                                         process.env.VIRUSTOTAL_MIN_ALLOWED_POSITIVES,
+                                         process.env.UPLOAD_DESTINATION)
+
 /**
  * Limits the AV scans
  */
 const sophosQueue = async.queue(async (task) => {
-    // Gets the filename if scan is positive fpr secondarlsy scan
-    const filename = await scanAndRemoveFile(task.fileName);
+     await scanAndRemoveFile(task.fileName);
 }, 1);
-
 
 (async () => {
-    const report = await getFileReport("b7bb3b55ca308ce0d235469f877d21f8188960aec5cd473349ab66cac089927d", process.env.VIRUSTOTAL_KEY);
+    await sleep(1000);
+    virusTotal.scan("b7bb3b55ca308ce0d235469f877d21f8188960aec5cd473349ab66cac089927d", "test.txt", 1);
+    virusTotal.scan("b7bb3b55ca308ce0d235469f877d21f8188960aec5cd473349ab66cac089927d", "test.txt", 1);
+    virusTotal.scan("b7bb3b55ca308ce0d235469f877d21f8188960aec5cd473349ab66cac089927d", "test.txt", 1);
+    virusTotal.scan("b7bb3b55ca308ce0d235469f877d21f8188960aec5cd473349ab66cac089927d", "test.txt", 1);
+    virusTotal.scan("b7bb3b55ca308ce0d235469f877d21f8188960aec5cd473349ab66cac089927d", "test.txt", 1);
+})();
 
-    console.log(report);
-})()
-
-/**
- * Virutotal scans
- */
-let amountOfScans = 0;
-const virustotalQueue = async.queue(async task => {
-    amountOfScans++;
-    if (amountOfScans == parseInt(process.env.VIRUSTOTAL_MAX_SCANS_PR_MINUTE)) {
-        console.log("Waiting");
-        await sleep(parseInt(60000));
-        amountOfScans = 0;
-    }
-
-    const report = await getFileReport(task.fileHash, process.env.VIRUSTOTAL_KEY);
-
-    // Should I wait and try again?
-    if (report === null) 
-        return;
-
-    console.log(report.positives);
-
-    if (report.positives < parseInt(process.env.VIRUSTOTAL_MIN_ALLOWED_POSITIVES))
-        return;
-
-}, 1);
 
 /**
  * Functions the app can call
