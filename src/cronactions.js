@@ -26,16 +26,6 @@ const sophosQueue = async.queue(async (task) => {
      await scanAndRemoveFile(task.fileName);
 }, 1);
 
-(async () => {
-    await sleep(1000);
-    virusTotal.scan("b7bb3b55ca308ce0d235469f877d21f8188960aec5cd473349ab66cac089927d", "test.txt", 1);
-    virusTotal.scan("b7bb3b55ca308ce0d235469f877d21f8188960aec5cd473349ab66cac089927d", "test.txt", 1);
-    virusTotal.scan("b7bb3b55ca308ce0d235469f877d21f8188960aec5cd473349ab66cac089927d", "test.txt", 1);
-    virusTotal.scan("b7bb3b55ca308ce0d235469f877d21f8188960aec5cd473349ab66cac089927d", "test.txt", 1);
-    virusTotal.scan("b7bb3b55ca308ce0d235469f877d21f8188960aec5cd473349ab66cac089927d", "test.txt", 1);
-})();
-
-
 /**
  * Functions the app can call
  */
@@ -45,11 +35,8 @@ const messageServer = dnode({
             fileName: fileName,
         });
     },
-    virusTotalScan: (filehash, scanNumber) => {
-        virustotalQueue.push({
-            filehash: filehash,
-            scanNumber: scanNumber
-        })
+    virusTotalScan: (fileHash, fileName, scanNumber) => {
+        virusTotal.scan(fileHash, fileName, scanNumber);
     }
 });
 

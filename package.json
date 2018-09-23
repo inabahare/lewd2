@@ -9,7 +9,7 @@
   "private": true,
   "scripts": {
     "start": "node build/app.js",
-    "start:dev": "nodemon --inspect build/app.js",
+    "start:dev": "nodemon build/app.js",
     "cron:dev": "nodemon build/cronactions.js",
     "build:dev": "gulp watch",
     "build:prod": "gulp build"

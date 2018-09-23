@@ -5,6 +5,7 @@ import { promisify } from "util";
 import fs            from "fs";
 import sleep         from "../Functions/sleep";
 import db            from "../helpers/database";
+import deleteFiles   from "../Functions/FileDeletion/deleteFiles";
 
 const unlink   = promisify(fs.unlink);
 
@@ -87,12 +88,21 @@ class VirusTotalScanner {
             return;
             
         // If there are too few positives
-        if (report.positives < parseInt(process.env.VIRUSTOTAL_MIN_ALLOWED_POSITIVES))
+        if (report.positives < parseInt(process.env.VIRUSTOTAL_MIN_ALLOWED_POSITIVES)) {
+            console.log(`${task.fileName} is clean :3`)
             return;
+        }
 
         // Remove the file if there are too many positives
+        deleteFiles(task.fileName);
     }
 
+    /**
+     * 
+     * @param {String} filehash - The files hash 
+     * @param {String} filename - The name of the file on disk
+     * @param {Number} scanNumber - The scan that has been performed
+     */
     scan(filehash, filename, scanNumber) {
         this.queue.push({
             fileHash: filehash,

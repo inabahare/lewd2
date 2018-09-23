@@ -23,11 +23,11 @@ const renameFile = fileName => crypto.randomBytes(6)
 /**
  * Scans a file with sophos and gets a file report from VirusTotal
  */
-const scan = (fileName, fileHash) => {
+const scan = (fileHash, fileName) => {
     const external = dnode.connect(parseInt(process.env.MESSAGE_SERVER_PORT));
     external.on("remote", remote => {
         remote.sophosScan(fileName);
-        remote.virusTotalScan(fileHash, 1);
+        remote.virusTotalScan(fileHash, fileName, 1);
         external.end();
     });
 }
@@ -61,6 +61,7 @@ router.post("/", async (req, res) => {
         }
 
         const file = req.file;
+        console.log(req);
         file.hash = await hashFile(file.path);
 
         const existingFileName = await getImageFilenameIfExists(file.hash);

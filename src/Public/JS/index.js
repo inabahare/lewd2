@@ -8,6 +8,7 @@ const maxUploadSize    = parseInt(maxSizeContainer.innerHTML) / 1000000; // Need
 const dropZone = new Dropzone("#uploader", {
     url: "/upload",
     // maxFiles: 12,
+    paramName: "file",
     maxFilesize: maxUploadSize,
     headers: {
         token: token
