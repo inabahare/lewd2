@@ -30,7 +30,6 @@ const randomNumber  = (x, y) =>  Math.floor((Math.random() * y) + x);
 
 const app = express();
 
-
 // Load views
 app.engine ("hbs", handlebars ({ 
     defaultLayout: __dirname + "/Views/main",
@@ -107,5 +106,11 @@ app.use("/delete",   deleter);
 app.use((req, res, next) =>{
     res.status(404).send("404 - Page not found");
 });
+
+if (!fs.existsSync(process.env.UPLOAD_DESTINATION)) {
+    console.error(`Could not open ${process.env.UPLOAD_DESTINATION}`);
+    process.exit(1);
+}
+
 
 app.listen(parseInt(process.env.SITE_PORT), () => console.log("It's up and running :3"));

@@ -58,10 +58,12 @@ router.post("/", async (req, res) => {
                 return res.status(400)
                           .send(`You can't upload more than ${uploader.uploadsize / 1000} kB`);
             }
+            console.log(err);
+            return;
         }
 
         const file = req.file;
-        console.log(req);
+        console.log(req.files);
         file.hash = await hashFile(file.path);
 
         const existingFileName = await getImageFilenameIfExists(file.hash);
