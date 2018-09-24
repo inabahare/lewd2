@@ -5,7 +5,7 @@ import scanAndRemoveFile        from "./Functions/Upload/scanAndRemoveFile";
 import getFilesToDelete         from "./Functions/FileDeletion/getFilesToDelete";
 import deleteFiles              from "./Functions/FileDeletion/deleteFiles";
 import getFilesForSecondaryScan from "./Functions/SecondaryScan/GetFilesForSecondaryScan";
-import getFileReport            from "./Functions/VirusTotal/getFileReport";
+import getFileReport            from "./Functions/VirusTotal/getFilesToScan";
 import sleep                    from "./Functions/sleep";
 import VirusTotalScanner        from "./Classes/VirusTotalScanner";
 
@@ -78,5 +78,9 @@ schedule(process.env.SECONDARY_SCAN_CRON, async () => {
         });
     })
 });
+
+schedule(process.env.VIRUSTOTAL_SECOND_AND_THIRD_SCAN_CRON, async () => {
+    
+})
  
 messageServer.listen(parseInt(process.env.MESSAGE_SERVER_PORT));

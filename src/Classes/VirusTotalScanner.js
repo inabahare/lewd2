@@ -10,6 +10,14 @@ import deleteFiles   from "../Functions/FileDeletion/deleteFiles";
 const unlink   = promisify(fs.unlink);
 
 class VirusTotalScanner {
+    /**
+     * 
+     * @param {String} APIKey 
+     * @param {Number} waitTime 
+     * @param {Number} scansPrMinute 
+     * @param {Number} maximumPositives 
+     * @param {String} uploadDir 
+     */
     constructor(APIKey, waitTime, scansPrMinute, maximumPositives, uploadDir) {
         this.APIKey           = APIKey;
         this.uploadDir        = uploadDir;
@@ -30,6 +38,13 @@ class VirusTotalScanner {
         }
 
         this.queue = async.queue(async task => {
+            if (this.amountOfScans == this.scansPrMinute) {
+                console.log("Sleeping");
+                await sleep(this.waitTime);
+                this.amountOfScans = 0;
+            }
+            this.amountOfScans++;
+
             await this._onScan(task);
         }, 1);
     }
@@ -72,29 +87,35 @@ class VirusTotalScanner {
     } 
 
     async _onScan(task) {
-        if (this.amountOfScans == this.scansPrMinute) {
-            console.log("Sleeping");
-            await sleep(this.waitTime);
-            this.amountOfScans = 0;
-        }
-        this.amountOfScans++;
-    
+        console.log(`${this.amountOfScans}: Scanning`);
         const report = await this._getFileReport(task.fileHash);
-
-
-        console.log(`${this.amountOfScans}: ${report.positives}`);
+        console.log(report === null);
         // Should I wait and try again?
-        if (report === null) 
+        if (report === null)  {
             return;
-            
+        }
+        
         // If there are too few positives
-        if (report.positives < parseInt(process.env.VIRUSTOTAL_MIN_ALLOWED_POSITIVES)) {
+        if (report.positives < parseInt(process.env.VIRUSTOTAL_MIN_ALLOWED_POSITIVES) || report.response_code === 0) {
             console.log(`${task.fileName} is clean :3`)
+            await this._updateFileVirustotalScanCountInDb(task.fileName, task.scanNumber);
             return;
         }
 
         // Remove the file if there are too many positives
-        deleteFiles(task.fileName);
+        deleteFiles([task.fileName]);
+    }
+
+    /**
+     * 
+     * @param {*} fileName 
+     * @param {*} scanNumber 
+     */
+    async _updateFileVirustotalScanCountInDb(fileName, scanNumber) {
+        console.log(fileName, scanNumber);
+        const client = await db.connect();
+                       await client.query(`UPDATE "Uploads" SET "virustotalScan" = $1 WHERE filename = $2;`, [scanNumber, fileName]);
+                       await client.release();
     }
 
     /**
