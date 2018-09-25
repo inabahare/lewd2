@@ -1,9 +1,33 @@
-<!-- How to upload -->
-<p>
-    Curl:
-    curl {{#if user.username}}--header "token: {{{user.token}}}"{{/if}} -F "file=@2018-07-20 23-22-14.png" http://localhost/upload
-</p>
+    <!-- How to upload -->
+<section class="content">
+    <h2>These are ways you can upload</h2>
+
+    <ul>
+        <li>
+            <p>
+                <span class="has-text-weight-bold">Curl:</span>
+                curl {{#if user.username}}--header "token: {{{user.token}}}"{{/if}} -F "file=@filename" http://localhost/upload
+            </p>
+        </li>
+
+        <li>
+            <p>
+                <span class="has-text-weight-bold">ShareX:</span>
+                <a href="/lewd.sxcu">Download ShareX config file</a>
+            </p>
+        </li>
+    </ul>
+
+</section>
 
 <!-- Transparency Link -->
+<section class="content">
+    <h2>Link to transparency</h2>
+    <a href="/transparency">Click me</a>
+</section>
 
 <!-- Who's behind it all -->
+
+<section>
+    
+</section>
