@@ -5,7 +5,7 @@ import scanAndRemoveFile        from "./Functions/Upload/scanAndRemoveFile";
 import getFilesToDelete         from "./Functions/FileDeletion/getFilesToDelete";
 import deleteFiles              from "./Functions/FileDeletion/deleteFiles";
 import getFilesForSecondaryScan from "./Functions/SecondaryScan/GetFilesForSecondaryScan";
-import getFileReport            from "./Functions/VirusTotal/getFilesToScan";
+import getFilesToScan            from "./Functions/VirusTotal/getFilesToScan";
 import sleep                    from "./Functions/sleep";
 import VirusTotalScanner        from "./Classes/VirusTotalScanner";
 
@@ -64,12 +64,17 @@ schedule(process.env.FILE_DELETION_CRON, async () => {
 schedule(process.env.SECONDARY_SCAN_CRON, async () => {
     const files = await getFilesForSecondaryScan();
 
-    if (files.length === 0)
+    if (!files) {
         return;
+    }
+
+    if (files.length === 0) {
+        return;
+    }
+        
 
     const uniqueFilenames = [...new Set(files.map(file => file.filename))];
 
-    await markAsScannedTwice(files);
 
 
     uniqueFilenames.forEach(fileName => {
@@ -79,8 +84,24 @@ schedule(process.env.SECONDARY_SCAN_CRON, async () => {
     })
 });
 
+
+let num = 0;
 schedule(process.env.VIRUSTOTAL_SECOND_AND_THIRD_SCAN_CRON, async () => {
+    const files = await getFilesToScan();
+
+    num++;
+
+    if (!files) {
+        return;
+    }
+
+    if (files.length === 0) {
+        return;
+    }
     
+    files.forEach(file => {
+        virusTotal.scan(file.filehash, file.filename, ++file.virusTotalScan);
+    });    
 })
  
 messageServer.listen(parseInt(process.env.MESSAGE_SERVER_PORT));

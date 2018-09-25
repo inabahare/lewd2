@@ -32,14 +32,14 @@ class VirusTotalScanner {
             path: "/vtapi/v2/file/report",
             method: "POST",
             headers: {
-                "Accept-Encoding": "gzip deflate",
-                "User-Agent": "gzip inabaa"
+                "Accept-Encoding": "gzip, deflate",
+                "User-Agent": "gzip, " + process.env.VIRUSTOTAL_USER
             }
         }
 
         this.queue = async.queue(async task => {
+            // This is how the scanner i limited to 4 scans pr minute
             if (this.amountOfScans == this.scansPrMinute) {
-                console.log("Sleeping");
                 await sleep(this.waitTime);
                 this.amountOfScans = 0;
             }
@@ -87,21 +87,25 @@ class VirusTotalScanner {
     } 
 
     async _onScan(task) {
-        console.log(`${this.amountOfScans}: Scanning`);
         const report = await this._getFileReport(task.fileHash);
-        console.log(report === null);
+
         // Should I wait and try again?
         if (report === null)  {
+            await this._updateFileVirustotalScanCountInDb(task.fileName, task.scanNumber);
             return;
         }
         
+        const virusTotalDemands =  report.positives < parseInt(process.env.VIRUSTOTAL_MIN_ALLOWED_POSITIVES)
+                                || report.response_code === 0 // The file is not in the database
+                                || report.length === 0;       // ^
+
         // If there are too few positives
-        if (report.positives < parseInt(process.env.VIRUSTOTAL_MIN_ALLOWED_POSITIVES) || report.response_code === 0) {
-            console.log(`${task.fileName} is clean :3`)
+        if (virusTotalDemands) {
             await this._updateFileVirustotalScanCountInDb(task.fileName, task.scanNumber);
             return;
         }
 
+        
         // Remove the file if there are too many positives
         deleteFiles([task.fileName]);
     }
@@ -112,7 +116,6 @@ class VirusTotalScanner {
      * @param {*} scanNumber 
      */
     async _updateFileVirustotalScanCountInDb(fileName, scanNumber) {
-        console.log(fileName, scanNumber);
         const client = await db.connect();
                        await client.query(`UPDATE "Uploads" SET "virustotalScan" = $1 WHERE filename = $2;`, [scanNumber, fileName]);
                        await client.release();
