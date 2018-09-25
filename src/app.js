@@ -13,7 +13,6 @@ import getUserDetails from './Functions/User/getUserDetails';
 import fs             from "fs";
 import { promisify }  from "util"
 
-import db       from "./helpers/database";
 import passport from "./helpers/passport";
  
 // Routers
@@ -23,8 +22,6 @@ import upload   from "./Routes/upload";
 import user     from "./Routes/user";
 import register from "./Routes/register";
 import deleter  from "./Routes/delete"; // God damn reserved keywords
-
-const readdir = promisify(fs.readdir);
 
 const randomNumber  = (x, y) =>  Math.floor((Math.random() * y) + x); 
 
@@ -54,19 +51,20 @@ app.set ("view engine", "hbs");
 app.set('views', path.join(__dirname, "Views"));
 // app.enable('view cache');
 // Static files
-app.use(express.static(path.join(__dirname, "Public")));
+// app.use(express.static(path.join(__dirname, "Public")));
 
 // parse various different custom JSON types as JSON
-app.use(bodyParser.json({ type: 'application/*+json' }))
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 app.use(cookieParser("lewd"));
 app.use(cookieSession({
+    name: "session",
     secret: "lewd",
-    httpOnly: true, 
     maxAge: 30 * 60 * 1000,
-    // secure: true,
     overwrite: false
 }));
+
 app.use(flash());
 
 app.use(passport.initialize());

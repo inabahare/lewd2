@@ -7,8 +7,9 @@ import getUploaderOrDefault        from "../Functions/Upload/getUploaderOrDefaul
 import getImageFilenameIfExists    from "../Functions/Upload/getImageFilenameIfExists";
 import addImageToDatabase          from "../Functions/Upload/addImageToDatabase";
 import updateExistingFile          from "../Functions/Upload/updateExistingFile";
-import deletionKey                 from "../Functions/Upload/deletionKey";
+import generateDeletionKey         from "../Functions/Upload/deletionKey";
 import hashFile                    from "../Functions/Upload/hashFile";
+import bodyParser from "body-parser";
 
 const router = express.Router();
 
@@ -26,7 +27,7 @@ const renameFile = fileName => crypto.randomBytes(6)
 const scan = (fileName, fileHash) => {
     const external = dnode.connect(parseInt(process.env.MESSAGE_SERVER_PORT));
     external.on("remote", remote => {
-        // remote.sophosScan(fileName);
+        remote.sophosScan(fileName);
         remote.virusTotalScan(fileHash, fileName, 1);
         external.end();
     });
@@ -63,6 +64,12 @@ router.post("/", async (req, res) => {
         }
 
         const file = req.file;
+
+        if (!file) {
+            return res.status(400)
+                      .send(`You need to select a file to upload`);
+        }
+        
         file.hash = await hashFile(file.path);
 
         const existingFileName = await getImageFilenameIfExists(file.hash);
@@ -76,7 +83,7 @@ router.post("/", async (req, res) => {
             scan(file.filename, file.hash);
         }
     
-        file.deletionKey = deletionKey(10);
+        file.deletionKey = generateDeletionKey(10);
 
         await addImageToDatabase(file, uploader.id);
 
@@ -87,8 +94,12 @@ router.post("/", async (req, res) => {
                 "deleteionURL": process.env.SITE_LINK + "delete/" + file.deletionKey
             }
         };
-
-        res.send(resultJson);
+        if (req.body.js === "false") {
+            req.flash("uploadData", JSON.stringify(resultJson));
+            res.redirect("/");
+        } else {
+            res.send(resultJson);
+        }
     });
 });
 

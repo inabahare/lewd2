@@ -52,4 +52,7 @@ dropZone.on("error", file => {
                             </article>`;  
 });
 
-// dropZone.
+const message = document.querySelector(".dz-message.hidden");
+message.classList.remove("hidden");
+
+console.log(message);

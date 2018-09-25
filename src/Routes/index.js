@@ -2,6 +2,16 @@ import express from "express";
 
 const router = express.Router();
 
+// Transform the result json from string to array
+// For the benifit of those who have JS disabled
+router.use((req, res, next) => {
+  if (res.locals.message)
+    if (res.locals.message.uploadData)
+      res.locals.message.uploadData = JSON.parse(res.locals.message.uploadData);
+  
+  next();
+})
+
 router.get("/",             (req, res) => res.render("index"));
 router.get("/info",         (req, res) => res.render("info"));
 router.get("/transparency", (req, res) => res.render("transparency"));

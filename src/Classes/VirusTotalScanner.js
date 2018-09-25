@@ -32,8 +32,8 @@ class VirusTotalScanner {
             path: "/vtapi/v2/file/report",
             method: "POST",
             headers: {
-                "Accept-Encoding": "gzip, deflate",
-                "User-Agent": "gzip, " + process.env.VIRUSTOTAL_USER
+                "Accept-Encoding": "gzip deflate",
+                "User-Agent": "gzip " + process.env.VIRUSTOTAL_USER
             }
         }
 
