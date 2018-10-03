@@ -9,7 +9,6 @@ import addImageToDatabase          from "../Functions/Upload/addImageToDatabase"
 import updateExistingFile          from "../Functions/Upload/updateExistingFile";
 import generateDeletionKey         from "../Functions/Upload/deletionKey";
 import hashFile                    from "../Functions/Upload/hashFile";
-import bodyParser from "body-parser";
 
 const router = express.Router();
 
@@ -32,8 +31,6 @@ const scan = (fileName, fileHash) => {
         external.end();
     });
 }
-
-
 
 const storageOptions = multer.diskStorage({
     destination: (req, file, next) => next(null, process.env.UPLOAD_DESTINATION),
@@ -71,6 +68,9 @@ router.post("/", async (req, res) => {
         }
         
         file.hash = await hashFile(file.path);
+
+        // Check for blocklist
+
 
         const existingFileName = await getImageFilenameIfExists(file.hash);
         if (existingFileName) { // If file has been uploaded and not deleted

@@ -155,8 +155,9 @@ router.post("/admin/delete", [
     }
 
     const userid = parseInt(req.body.userid);
+    const deleteFiles = req.body.deleteFiles === "on";
 
-    await deleteUser(userid);
+    await deleteUser(userid, deleteFiles);
     return res.redirect("/user/admin/view-users");
 });
 

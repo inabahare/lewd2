@@ -38,7 +38,19 @@
                     <td class="">
                         <form action="/user/admin/delete" method="POST" onsubmit="return deletionCheck('{{{ this.username }}}')">
                             <input type="hidden" value="{{{ this.id }}}" name="userid"/>
-                            <input type="submit" class="button is-danger" value="Delete"/>
+
+                            <div class="columns">
+
+                                <div class="column">
+                                    <input type="submit" class="button is-danger" value="Delete"/>
+                                </div>
+
+                                <div class="column">                          
+                                    <label class="checkbox">Delete files
+                                        <input type="checkbox" name="deleteFiles"/>
+                                    </label>
+                                </div>
+                            </div>  
                         </form>
                     </td>
                 </tr>
