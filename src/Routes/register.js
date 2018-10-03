@@ -35,7 +35,7 @@ router.post("/", [
                   .isLength({min: 10}).withMessage("Token too short"),
 
     check("username").isLength({min: 2}).withMessage("Username needs to be at least 2 characters long")
-                    .custom(checkIfUsernameExists).withMessage("Username taken"),
+                    .custom(checkIfUsernameExists).withMessage("Username already in use"),
 
     check("password").exists().withMessage("Please select a username")
                      .isLength({min: 2, max: 72}).withMessage("Password needs to be 2 characters long")
@@ -50,7 +50,7 @@ router.post("/", [
     // Report errors
     if (tokenIsInvalid) {
         req.session.err = tokenIsInvalid;
-        return res.redirect("/");
+        return res.redirect("/register/" + req.body.token);
     }
     
     ////////////////////////
@@ -63,10 +63,21 @@ router.post("/", [
         return res.redirect("/register/" + req.body.token);
     }
 
+    //////////////////////////
+    // Check if user exists // 
+    //////////////////////////
+    const client = await db.connect();
+
+    const getUser = await client.query(`SELECT username FROM "Users" WHERE username = $1;`, [req.body.username]);
+    if (getUser.rows.length === 1) {
+        await client.release();
+
+        return res.redirect("/register/" + req.body.token);
+    }
+
     //////////////
     // Add user //
     //////////////
-    
     const username = req.body.username;
     const password = await bcrypt.hash(req.body.password, parseInt(process.env.BCRYPT_SALT_ROUNDS));
     const token    = crypto.createHash("sha1")
@@ -77,7 +88,6 @@ router.post("/", [
     const uploadSize = tokenData.uploadsize;
     const isAdmin    = tokenData.isadmin;
 
-    const client = await db.connect();
     await client.query(`INSERT INTO "Users" (username, password, token, roleid, uploadsize, isadmin)
                         VALUES ($1, $2, $3, $4, $5, $6);`, [
                             username, 
