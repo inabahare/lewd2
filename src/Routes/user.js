@@ -9,6 +9,7 @@ import deleteUser                  from "../Functions/Admin/deleteUser";
 import { promisify }               from 'util';
 import fs                          from "fs";
 import bcrypt                      from "bcrypt";
+import logToTransparency           from "../Functions/Transparency/logToTransparency";
 
 const router = express.Router();
 const unlink = promisify(fs.unlink);
@@ -154,7 +155,7 @@ router.post("/admin/delete", [
         return res.redirect("/user/admin/view-users");
     }
 
-    const userid = parseInt(req.body.userid);
+    const userid      = parseInt(req.body.userid);
     const deleteFiles = req.body.deleteFiles === "on";
 
     await deleteUser(userid, deleteFiles);
@@ -177,6 +178,8 @@ router.post("/admin/remove-files", async (req, res) => {
 
     const fileNames = linkArray.map(l => l.replace(process.env.UPLOAD_LINK, ""));
 
+    console.log(fileNames);
+
     const client = await db.connect();
 
     fileNames.forEach(async fileName => {
@@ -184,13 +187,13 @@ router.post("/admin/remove-files", async (req, res) => {
 
         if (fs.existsSync(fullFileName)) {
             await unlink(fullFileName);
-            await client.query(`DELETE FROM "Uploads" WHERE filename = $1;`, [fileName]);
+            const fileSha = await client.query(`DELETE FROM "Uploads" WHERE filename = $1 RETURNING filesha;`, [fileName]);
+            await logToTransparency(fileName, fileSha.rows[0].filesha, "Google/Katt does not approve", "Google/Katt");
         }
     });
 
-    // TODO: Send a post request to Cloudfare to remove the file from the cache
-
     await client.release();
+    res.redirect("/user/admin/remove-files");
 });
 
 export default router;
