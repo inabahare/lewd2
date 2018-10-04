@@ -20,9 +20,7 @@ const virusTotal = new VirusTotalScanner(process.env.VIRUSTOTAL_KEY,
 /**
  * Limits the AV scans
  */
-let scan = 0;
 const sophosQueue = async.queue(async (task) => {
-    console.log(scan++);
      await scanAndRemoveFile(task.fileName, task.fileSha);
 }, 1);
 
@@ -72,12 +70,7 @@ schedule(process.env.SECONDARY_SCAN_CRON, async () => {
     if (files.length === 0) {
         return;
     }
-        
-    console.log("SecondScan");
-    // const uniqueFilenames = [...new Set(files.map(file => file.filename))];
-
-
-
+ 
     files.forEach(file => {
         sophosQueue.push({
             fileName: file.fileName,

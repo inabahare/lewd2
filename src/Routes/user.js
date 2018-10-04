@@ -187,7 +187,12 @@ router.post("/admin/remove-files", async (req, res) => {
 
         if (fs.existsSync(fullFileName)) {
             await unlink(fullFileName);
-            const fileSha = await client.query(`DELETE FROM "Uploads" WHERE filename = $1 RETURNING filesha;`, [fileName]);
+            const fileSha = await client.query(`DELETE FROM "Uploads"
+                                                WHERE filename = $1 
+                                                RETURNING filesha;`, [
+                                                    fileName
+                                                ]);
+
             await logToTransparency(fileName, fileSha.rows[0].filesha, "Google/Katt does not approve", "Google/Katt");
         }
     });
