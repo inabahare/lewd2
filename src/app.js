@@ -22,6 +22,7 @@ import upload   from "./Routes/upload";
 import user     from "./Routes/user";
 import register from "./Routes/register";
 import deleter  from "./Routes/delete"; // God damn reserved keywords
+import admin    from "./Routes/admin";
 
 const randomNumber  = (x, y) =>  Math.floor((Math.random() * y) + x); 
 
@@ -94,12 +95,13 @@ app.use((req, res, next) => {
 });
 
 // Set the routes
-app.use("/",         index);
-app.use("/login",    login);
-app.use("/upload",   upload);
-app.use("/user",     user);
-app.use("/register", register);
-app.use("/delete",   deleter);
+app.use("/",           index);
+app.use("/login",      login);
+app.use("/upload",     upload);
+app.use("/user",       user);
+app.use("/register",   register);
+app.use("/delete",     deleter);
+app.use("/user/admin", admin)
 
 // 404
 app.use((req, res, next) =>{

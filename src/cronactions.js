@@ -70,16 +70,8 @@ schedule(process.env.SECONDARY_SCAN_CRON, async () => {
     if (files.length === 0) {
         return;
     }
-<<<<<<< HEAD
-    
-    // This should be done in the SQL call tho
-    const uniqueFilenames = [...new Set(files.map(file => file.filename))];
-
-    uniqueFilenames.forEach(fileName => {
-=======
  
     files.forEach(file => {
->>>>>>> f82dd6e649eca2f180dea8b19e3911056ce702dd
         sophosQueue.push({
             fileName: file.fileName,
             fileSha: file.filesha

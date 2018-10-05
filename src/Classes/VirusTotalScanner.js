@@ -106,7 +106,7 @@ class VirusTotalScanner {
             return;
         }
 
-        await logToTransparency(task.fileName, task.fileHash, report.permalink, "Virustotal");
+       await logToTransparency(task.fileName, task.fileHash, report.permalink, "Virustotal");
         // Remove the file if there are too many positives
         deleteFiles([task.fileName]);
     }
