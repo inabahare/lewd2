@@ -6,18 +6,12 @@ import db       from "../../helpers/database";
  */
 const checkIfUsernameExists = value => {
     return db.query(`SELECT username FROM "Users" WHERE username = $1;`, [value])
-             .then(res => {
-                 if (req.body[0])
+             .then(result => {
+                 if (result.rows.length === 0)
                     return Promise.resolve();
-
-                return Promise.reject("Username already in use");
-             })
-             .catch(e => {
-                if (typeof e === "string")
-                    return Promise.reject();
-
-                return Promise.resolve();
-            });
+                 
+                 return Promise.reject("");
+             });
 };
 
 export default checkIfUsernameExists;

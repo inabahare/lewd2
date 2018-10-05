@@ -6,6 +6,7 @@ import fs            from "fs";
 import sleep         from "../Functions/sleep";
 import db            from "../helpers/database";
 import deleteFiles   from "../Functions/FileDeletion/deleteFiles";
+import logToTransparency from "../Functions/Transparency/logToTransparency";
 
 const unlink   = promisify(fs.unlink);
 
@@ -105,7 +106,7 @@ class VirusTotalScanner {
             return;
         }
 
-        
+        await logToTransparency(task.fileName, task.fileHash, report.permalink, "Virustotal");
         // Remove the file if there are too many positives
         deleteFiles([task.fileName]);
     }

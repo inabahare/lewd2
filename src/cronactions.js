@@ -6,11 +6,9 @@ import getFilesToDelete         from "./Functions/FileDeletion/getFilesToDelete"
 import deleteFiles              from "./Functions/FileDeletion/deleteFiles";
 import getFilesForSecondaryScan from "./Functions/SecondaryScan/GetFilesForSecondaryScan";
 import getFilesToScan            from "./Functions/VirusTotal/getFilesToScan";
-import sleep                    from "./Functions/sleep";
 import VirusTotalScanner        from "./Classes/VirusTotalScanner";
 
 import dotenv from "dotenv";
-import markAsScannedTwice from './Functions/SecondaryScan/markAsScannedTwice';
 dotenv.config();
 
 const virusTotal = new VirusTotalScanner(process.env.VIRUSTOTAL_KEY,
@@ -23,16 +21,17 @@ const virusTotal = new VirusTotalScanner(process.env.VIRUSTOTAL_KEY,
  * Limits the AV scans
  */
 const sophosQueue = async.queue(async (task) => {
-     await scanAndRemoveFile(task.fileName);
+     await scanAndRemoveFile(task.fileName, task.fileSha);
 }, 1);
 
 /**
  * Functions the app can call
  */
 const messageServer = dnode({
-    sophosScan: fileName => {
+    sophosScan: (fileName, fileSha) => {
         sophosQueue.push({
             fileName: fileName,
+            fileSha: fileSha
         });
     },
     virusTotalScan: (fileHash, fileName, scanNumber) => {
@@ -71,13 +70,19 @@ schedule(process.env.SECONDARY_SCAN_CRON, async () => {
     if (files.length === 0) {
         return;
     }
+<<<<<<< HEAD
     
     // This should be done in the SQL call tho
     const uniqueFilenames = [...new Set(files.map(file => file.filename))];
 
     uniqueFilenames.forEach(fileName => {
+=======
+ 
+    files.forEach(file => {
+>>>>>>> f82dd6e649eca2f180dea8b19e3911056ce702dd
         sophosQueue.push({
-            fileName: fileName
+            fileName: file.fileName,
+            fileSha: file.filesha
         });
     })
 });

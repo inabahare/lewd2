@@ -58,6 +58,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(cookieParser("lewd"));
+
 app.use(cookieSession({
     name: "session",
     secret: "lewd",
@@ -75,7 +76,7 @@ app.locals.siteName = process.env.SITE_NAME;
 // Set local user
 app.use(async (req, res, next) => {
     res.locals.user = await getUserDetails(req.user);
-    next()
+    next();
 });
 
 // Set errors (if any)
