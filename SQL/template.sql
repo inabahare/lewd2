@@ -95,7 +95,7 @@ ALTER TABLE public."Transparency" OWNER TO postgres;
 --
 
 CREATE TABLE public."Uploads" (
-    id integer NOT NULL,
+    id serial NOT NULL,
     filename character varying(255) NOT NULL,
     userid integer NOT NULL,
     uploaddate timestamp(6) without time zone DEFAULT now(),
@@ -122,35 +122,12 @@ ALTER TABLE public."Uploads" OWNER TO postgres;
 
 COMMENT ON COLUMN public."Uploads".size IS 'Size in bytes';
 
-
---
--- Name: Uploads_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public."Uploads_id_seq"
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public."Uploads_id_seq" OWNER TO postgres;
-
---
--- Name: Uploads_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public."Uploads_id_seq" OWNED BY public."Uploads".id;
-
-
 --
 -- Name: Users; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."Users" (
-    id integer NOT NULL,
+    id serial NOT NULL,
     username character varying(255),
     password character varying(255),
     token character varying(255),
@@ -161,42 +138,6 @@ CREATE TABLE public."Users" (
 
 
 ALTER TABLE public."Users" OWNER TO postgres;
-
---
--- Name: Users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public."Users_id_seq"
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public."Users_id_seq" OWNER TO postgres;
-
---
--- Name: Users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public."Users_id_seq" OWNED BY public."Users".id;
-
-
---
--- Name: Uploads id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Uploads" ALTER COLUMN id SET DEFAULT nextval('public."Uploads_id_seq"'::regclass);
-
-
---
--- Name: Users id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Users" ALTER COLUMN id SET DEFAULT nextval('public."Users_id_seq"'::regclass);
-
 
 --
 -- Data for Name: LoginTokens; Type: TABLE DATA; Schema: public; Owner: postgres
@@ -246,10 +187,6 @@ COPY public."Users" (id, username, password, token, roleid, uploadsize, isadmin)
 0	null	default	default	0	280000000	f
 1	UserName	PasswordHashed	YourToken	3	1000000000	t
 \.
-
-
-
-
 
 --
 -- Name: Uploads Uploads_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
