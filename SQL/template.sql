@@ -248,18 +248,7 @@ COPY public."Users" (id, username, password, token, roleid, uploadsize, isadmin)
 \.
 
 
---
--- Name: Uploads_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
 
-SELECT pg_catalog.setval('public."Uploads_id_seq"', 1918, true);
-
-
---
--- Name: Users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public."Users_id_seq"', 10, true);
 
 
 --
