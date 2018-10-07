@@ -76,6 +76,21 @@ CREATE TABLE public."Roles" (
 ALTER TABLE public."Roles" OWNER TO postgres;
 
 --
+-- Name: Transparency; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."Transparency" (
+    "Date" date,
+    "FileName" character varying(255),
+    "FileHash" character varying(255),
+    "Type" character varying(255),
+    "Origin" character varying(255)
+);
+
+
+ALTER TABLE public."Transparency" OWNER TO postgres;
+
+--
 -- Name: Uploads; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -208,6 +223,14 @@ COPY public."Roles" (id, name, uploadsize) FROM stdin;
 
 
 --
+-- Data for Name: Transparency; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."Transparency" ("Date", "FileName", "FileHash", "Type", "Origin") FROM stdin;
+\.
+
+
+--
 -- Data for Name: Uploads; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -221,8 +244,23 @@ COPY public."Uploads" (id, filename, userid, uploaddate, filesha, deleted, dupli
 
 COPY public."Users" (id, username, password, token, roleid, uploadsize, isadmin) FROM stdin;
 0	null	default	default	0	280000000	f
-1	username	password	token	3	100000000	t
+1	UserName	PasswordHashed	YourToken	3	1000000000	t
 \.
+
+
+--
+-- Name: Uploads_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Uploads_id_seq"', 1918, true);
+
+
+--
+-- Name: Users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."Users_id_seq"', 10, true);
+
 
 --
 -- Name: Uploads Uploads_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
