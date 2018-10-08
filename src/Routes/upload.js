@@ -9,6 +9,7 @@ import addImageToDatabase          from "../Functions/Upload/addImageToDatabase"
 import updateExistingFile          from "../Functions/Upload/updateExistingFile";
 import generateDeletionKey         from "../Functions/Upload/deletionKey";
 import hashFile                    from "../Functions/Upload/hashFile";
+import symlink                     from "../Functions/Upload/symlink";
 
 const router = express.Router();
 

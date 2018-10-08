@@ -1,7 +1,10 @@
 import fs from "fs";
 
-fs.symlink()
-
+/**
+ * 
+ * @param {string} target 
+ * @param {string} path 
+ */
 const symlink = (target, path) => {
     return new Promise((resolve, reject) => {
         fs.symlink(target, path, err => {
