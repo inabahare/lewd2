@@ -96,7 +96,7 @@ class VirusTotalScanner {
             return;
         }
         
-        const virusTotalDemands =  report.positives < parseInt(process.env.VIRUSTOTAL_MIN_ALLOWED_POSITIVES)
+        const virusTotalDemands =  report.positives < parseInt(this.maximumPositives)
                                 || report.response_code === 0 // The file is not in the database
                                 || report.length === 0;       // ^
 
