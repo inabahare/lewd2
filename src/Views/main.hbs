@@ -9,7 +9,34 @@
   </head>
   <body>
     <header>
-        <nav class="navbar has-shadow is-spaced" role="navigation" aria-label="main navigation">
+        <nav class="navbar" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <a href="/" class="navbar-item">
+                    <p href="/" class="title is-3">{{{ siteName }}}</p>
+                </a>
+
+                <a class="navbar-burger burger" role="button" aria-label="menu" aria-expanded="false" data-target="nav-items">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+
+            <div class="navbar-menu" id="nav-items">
+                <div class="navbar-end">        
+                    <div class="navbar-item"><a href="/transparency">Transparency</a></div>
+                    <div class="navbar-item"><a href="/info">Info</a></div>
+                    {{#if user.username}}
+                        <div class="navbar-item"><a href="/user">{{user.username}}</a></div>
+                    {{else}}
+                        <div class="navbar-item"><a href="/login">Sign In</a></div>
+                    {{/if}}
+                    <div class="navbar-item"><a href="https://discordapp.com/invite/AKGeqgN">Discord</a></div>
+                </div>
+            </div>
+        </nav>
+
+        {{!-- <nav class="navbar has-shadow is-spaced" role="navigation" aria-label="main navigation">
             <div class="container">
                 <div class="navbar-start navbar-menu">
                     <div class="navbar-item">
@@ -27,7 +54,7 @@
                     <div class="navbar-item"><a href="https://discordapp.com/invite/AKGeqgN">Discord</a></div>
                 </div>
             </div>
-        </nav>
+        </nav> --}}
     </header>
     <main class="section">
          <!--[if IE]>
@@ -61,6 +88,7 @@
                 </article>
             </section>
         </noscript>
+        <script src="/JS/main.js"></script>
     </main>
   </body>
 </html> 
