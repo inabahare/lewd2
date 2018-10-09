@@ -3,6 +3,7 @@ import crypto                      from "crypto";
 import escape                      from "../Functions/Upload/escape";
 import multer                      from "multer";
 import dnode                       from "dnode";
+import fs from "fs";
 import getUploaderOrDefault        from "../Functions/Upload/getUploaderOrDefault";
 import getImageFilenameIfExists    from "../Functions/Upload/getImageFilenameIfExists";
 import addImageToDatabase          from "../Functions/Upload/addImageToDatabase";
@@ -57,12 +58,11 @@ router.post("/", async (req, res) => {
                 return res.status(400)
                           .send(`You can't upload more than ${uploader.uploadsize / 1000} kB`);
             }
-            console.log(err);
             return;
         }
 
         const file = req.file;
-
+        console.log(file);
         if (!file) {
             return res.status(400)
                       .send(`You need to select a file to upload`);
@@ -70,13 +70,9 @@ router.post("/", async (req, res) => {
         
         file.hash = await hashFile(file.path);
 
-        // Check for blocklist
-
-
         const existingFileName = await getImageFilenameIfExists(file.hash);
         if (existingFileName) { // If file has been uploaded and not deleted
-            updateExistingFile(file);
-            file.filename  = existingFileName;
+            
             file.duplicate = true;
         } 
         else { // If file doesn't exist or has been deleted
@@ -95,6 +91,7 @@ router.post("/", async (req, res) => {
                 "deleteionURL": process.env.SITE_LINK + "delete/" + file.deletionKey
             }
         };
+
         if (req.body.js === "false") {
             req.flash("uploadData", JSON.stringify(resultJson));
             res.redirect("/");
