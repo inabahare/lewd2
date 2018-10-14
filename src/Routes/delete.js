@@ -24,7 +24,7 @@ router.get("/:key", async (req, res) => {
     }
 
     await deleteFiles([file.filename]);
-    res.redirect("/");
+    res.send(`${file.filename} has just been deleted`);
 });
 
 export default router;
