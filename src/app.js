@@ -72,8 +72,9 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.locals.siteName = process.env.SITE_NAME;
-
+app.locals.siteName   = process.env.SITE_NAME;
+app.locals.uploadLink = process.env.UPLOAD_LINK;
+console.log(app.locals.uploadLink);
 // Set local user
 app.use(async (req, res, next) => {
     res.locals.user = await getUserDetails(req.user);

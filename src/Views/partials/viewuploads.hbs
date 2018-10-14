@@ -14,7 +14,7 @@
             <tbody>
                 {{#each uploads}}
                     <tr>
-                        <td>{{{ this.originalname }}}</td>
+                        <td><a href="{{ @root.uploadLink }}{{{ this.filename }}}">{{{ this.originalname }}}</a></td>
                         <td>{{{ this.uploaddate }}}</td>
 
                         {{#if this.duplicate}}
