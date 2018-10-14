@@ -104,7 +104,6 @@ router.post("/remove-files", async (req, res) => {
     const linkArray = req.body.theLinks.split("\r\n");
 
     if (!linkArray[0]) {
-        console.log("No!");
         return;
     }
 
