@@ -3,7 +3,8 @@ import crypto                      from "crypto";
 import escape                      from "../Functions/Upload/escape";
 import multer                      from "multer";
 import dnode                       from "dnode";
-import fs from "fs";
+import fs                          from "fs";
+import { promisify }               from "util";
 import getUploaderOrDefault        from "../Functions/Upload/getUploaderOrDefault";
 import getImageFilenameIfExists    from "../Functions/Upload/getImageFilenameIfExists";
 import addImageToDatabase          from "../Functions/Upload/addImageToDatabase";
@@ -13,6 +14,7 @@ import hashFile                    from "../Functions/Upload/hashFile";
 import symlink                     from "../Functions/Upload/symlink";
 
 const router = express.Router();
+const unlink = promisify(fs.unlink);
 
 /**
  * Takes the filename and returns a new name 
@@ -62,7 +64,6 @@ router.post("/", async (req, res) => {
         }
 
         const file = req.file;
-        console.log(file);
         if (!file) {
             return res.status(400)
                       .send(`You need to select a file to upload`);
@@ -72,7 +73,9 @@ router.post("/", async (req, res) => {
 
         const existingFileName = await getImageFilenameIfExists(file.hash);
         if (existingFileName) { // If file has been uploaded and not deleted
-            
+            await unlink(process.env.UPLOAD_DESTINATION + file.filename);
+            await symlink(process.env.UPLOAD_DESTINATION + existingFileName,
+                          process.env.UPLOAD_DESTINATION + file.filename);
             file.duplicate = true;
         } 
         else { // If file doesn't exist or has been deleted
