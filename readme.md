@@ -6,6 +6,7 @@
 * NodeJS (Tested on 8.11.3)
 * PostgreSQL
 * NGINX
+* Sophos AV
 
 #### Optional
 * yarn (npm alternative)
@@ -18,7 +19,7 @@
 First pull the repository
 
 ### Database
-First open SQL/templates.sql and find this on line just search for it
+First copy SQL/templates.sql.dist to SQL/templates.sql and find this on line just search for it
 ```sql
 COPY public."Users" (username, password, token, roleid) FROM stdin;
 UserNameHere	PasswordHere	TokenHere	3
