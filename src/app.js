@@ -74,7 +74,7 @@ app.use(passport.session());
 
 app.locals.siteName   = process.env.SITE_NAME;
 app.locals.uploadLink = process.env.UPLOAD_LINK;
-console.log(app.locals.uploadLink);
+
 // Set local user
 app.use(async (req, res, next) => {
     res.locals.user = await getUserDetails(req.user);
@@ -106,7 +106,8 @@ app.use("/user/admin", admin)
 
 // 404
 app.use((req, res, next) =>{
-    res.status(404).send("404 - Page not found");
+    res.status(404)
+       .render("404");
 });
 
 if (!fs.existsSync(process.env.UPLOAD_DESTINATION)) {

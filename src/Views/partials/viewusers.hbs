@@ -23,7 +23,7 @@
                     <form action="/user/admin/update" method="POST" onsubmit="return saveCheck('{{{ this.username }}}')">
                         <td>{{{ this.id }}}</td>
                         <td>{{{ this.username }}}</td>
-                        <td><input type="number" class="input" value="{{{ this.uploadsize }}}" name="uploadsize" /></td>
+                        <td><input type="number" class="input" value="{{{ this.uploadsize }}}" maxlength="100" name="uploadsize" /></td>
 
                         <td>
                             <label class="checkbox">
