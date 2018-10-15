@@ -55,7 +55,7 @@ CREATE TABLE public."RegisterTokens" (
     registered timestamp(0) without time zone DEFAULT now() NOT NULL,
     used boolean DEFAULT false,
     roleid integer DEFAULT 0 NOT NULL,
-    uploadsize integer NOT NULL,
+    uploadsize bigint NOT NULL,
     isadmin boolean DEFAULT false
 );
 
@@ -106,7 +106,7 @@ CREATE TABLE public."Uploads" (
     virus boolean DEFAULT false,
     passworded boolean DEFAULT false,
     deletionkey character varying(255),
-    size integer,
+    size bigint,
     "scannedTwice" boolean DEFAULT false,
     "virustotalOne" boolean DEFAULT false,
     "virustotalTwo" boolean DEFAULT false,
@@ -132,7 +132,7 @@ CREATE TABLE public."Users" (
     password character varying(255),
     token character varying(255),
     roleid smallint,
-    uploadsize integer,
+    uploadsize bigint,
     isadmin boolean DEFAULT false
 );
 
