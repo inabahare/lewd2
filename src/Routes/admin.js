@@ -36,7 +36,7 @@ router.post("/token", [
     check("size").exists().withMessage("You need to set an upload size")
                  .isNumeric().withMessage("Upload size must be a number"),
 
-    check("unit").isLength({ min: 1, max: 2 }).withMessage("Upload unit needs to be a unit")
+    check("unit").isLength({ min: 1, max: 3 }).withMessage("Upload unit needs to be a unit")
 ], async (req, res) => {
     const errors = validationResult(req);
 
