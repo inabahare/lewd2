@@ -17,3 +17,4 @@ const formatUploadSize = (size, unit) => parseInt(size) * units[unit];
 
 
 export default formatUploadSize;
+

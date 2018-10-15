@@ -33,10 +33,16 @@ router.get("/token", async (req, res) => res.render("user", {
  * Generate the tokens a user signs up with
  */
 router.post("/token", [
-    check("size").exists().withMessage("You need to set an upload size")
-                 .isNumeric().withMessage("Upload size must be a number"),
+    check("size").exists()   .withMessage("You need to set an upload size")
+                 .isNumeric().withMessage("Upload size must be a number")
+                 .isInt()    .withMessage("Upload size needs to be a number")
+                 .isLength({
+                     min: 1,
+                     max: 999999999999
+                 }).withMessage("Upload size can't be less than 1 byte or greater than 1TB (0.91TiB)"),
 
-    check("unit").isLength({ min: 1, max: 3 }).withMessage("Upload unit needs to be a unit")
+    check("unit").isLength({ min: 1, max: 3 }).withMessage("Upload unit needs to be a valid unit")
+                 .isIn([ "B", "kB", "MB", "GB", "KiB", "MiB", "GiB" ]).withMessage("Upload unit needs to be a valid unit")
 ], async (req, res) => {
     const errors = validationResult(req);
 
@@ -45,14 +51,15 @@ router.post("/token", [
         return res.redirect("/user/admin/token");
     }
 
-    const uploadSize = formatUploadSize(req.body.size, req.body.unit);
-
+    // Generate user information
+    const uploadSize    = formatUploadSize(req.body.size, req.body.unit);
+    const isAdmin       = req.body.isadmin === "on";
     const registerToken = crypto.createHash("sha1")
-        .update("You can register now" + Date.now().toString())
-        .digest("hex");
+                                .update("You can register now" + Date.now().toString())
+                                .digest("hex");
 
-    const isAdmin = req.body.isadmin === "on";
-
+    
+    // Insert said user
     const client = await db.connect();
     await client.query(`INSERT INTO "RegisterTokens" (token, registered, used, uploadsize, isadmin)
                         VALUES ($1, NOW(), $2, $3, $4);`, [registerToken,
@@ -64,7 +71,7 @@ router.post("/token", [
     res.render("user", {
         menuItem: "token",
         registerUrl: process.env.SITE_LINK + "register/" + registerToken
-    })
+    });
 });
 
 router.get("/view-users", async (req, res) => {
@@ -77,7 +84,7 @@ router.get("/view-users", async (req, res) => {
 });
 
 router.post("/delete", [
-    check("userid").isInt().withMessage("The userid must be a number")
+    check("userid").isInt()           .withMessage("The userid must be a number")
                    .not().isIn([0, 1]).withMessage("These users cannot be removed")
 ], async (req, res) => {
     const errors = validationResult(req);
@@ -87,7 +94,8 @@ router.post("/delete", [
         return res.redirect("/user/admin/view-users");
     }
 
-    const userid = parseInt(req.body.userid);
+    // Get information about deletion
+    const userid      = parseInt(req.body.userid);
     const deleteFiles = req.body.deleteFiles === "on";
 
     await deleteUser(userid, deleteFiles);
