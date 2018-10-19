@@ -1,8 +1,10 @@
-import fs            from "fs";
-import { promisify } from "util"
-import { spawn }     from "child_process";
-import db            from "../../helpers/database";
+import fs                from "fs";
+import { promisify }     from "util"
+import { spawn }         from "child_process";
+import db                from "../../helpers/database";
 import logToTransparency from "../Transparency/logToTransparency";
+import sleep             from "../sleep";
+import deleteFiles       from "../FileDeletion/deleteFiles";
 
 const unlink = promisify(fs.unlink);
 
@@ -21,34 +23,21 @@ const scanAndRemoveFile = (filename, fileSha) => {
                                                             "-suspicious", 
                                                             filePath]);
 
-
-        scanner.stderr.on("data", data => {
-            // console.log("error", data);
-            reject();
-        });
-
         let info = "";
 
-        scanner.stdout.on("data", async (data) => {
+        scanner.stdout.on("data", async data => {
             info += data;
         });
 
-        scanner.on("close", async (code) => {
+        scanner.on("close", async code => {
             // Not having this here will cause savscan to report an error. 
             // This is in case VirusTotal removes the file first
-            if (!fs.existsSync(filePath))
-                return resolve();
-            
             if (code === 0) {
                 // The file is clean
                 resolve(filename);
             } else if (code === 3 || code === 2) {
                 // The file contains a virus and/or is password protected
-                const client = await db.connect();                
-                await client.query(`DELETE FROM "Uploads" WHERE filename = $1`, [filename]);
-                await client.release();
-
-                await unlink(filePath);
+                const fileGotDeleted = await deleteFiles([filename], "Sophos");
                 
                 // By now info will be
                 //     1. Useful life of Scan has been exceeded
@@ -58,8 +47,8 @@ const scanAndRemoveFile = (filename, fileSha) => {
                 const reason = info.split("\n")[1]
                                    .split(">>> ")[1];
 
-                                   
-                await logToTransparency(filename, fileSha, reason, "Sophos")
+                if (fileGotDeleted)
+                    await logToTransparency(filename, fileSha, reason, "Sophos")
 
                 resolve(null);
             } else {

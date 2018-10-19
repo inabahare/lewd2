@@ -96,6 +96,8 @@ class VirusTotalScanner {
             return;
         }
         
+
+
         const virusTotalDemands =  report.positives < parseInt(this.maximumPositives)
                                 || report.response_code === 0 // The file is not in the database
                                 || report.length === 0;       // ^
@@ -106,9 +108,11 @@ class VirusTotalScanner {
             return;
         }
 
-       await logToTransparency(task.fileName, task.fileHash, report.permalink, "Virustotal");
         // Remove the file if there are too many positives
-        deleteFiles([task.fileName]);
+        const fileGotDeleted = await deleteFiles([task.fileName], "VirusTotal");
+
+        if (fileGotDeleted)
+            await logToTransparency(task.fileName, task.fileHash, report.permalink, "Virustotal");
     }
 
     /**

@@ -12,7 +12,6 @@ import frontEndError  from "./helpers/frontendErrorFormatter";
 import getUserDetails from './Functions/User/getUserDetails';
 import fs             from "fs";
 import { promisify }  from "util"
-
 import passport from "./helpers/passport";
  
 // Routers
