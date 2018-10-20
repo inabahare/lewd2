@@ -1,1 +1,24 @@
-<iframe src="https://lewd.se/transparency/%5B25adc84f246f474a%5D%20%20Cloudflare%20received%20a%20DMCA%20copyright%20infringement%20complaint%20regarding%20your%20site..txt" style="width:100%;" frameborder="0"></iframe>
+{{#if transparencyElements}}
+    <table class="table is-fullwidth is-hoverable">
+        <thead>
+            <th>Date</th>
+            <th>File Name</th>
+            <th>Hash</th>
+            <th>Type</th>
+            <th>Origin</th>
+        </thead>
+        <tbody>
+            {{#each transparencyElements as |transparency|}}
+                <tr>
+                    <td>{{{ dateFormatter transparency.Date }}}</td>
+                    <td>{{  transparency.FileName           }} </td>
+                    <td>{{  transparency.FileHash           }} </td>
+                    <td>{{{ typeFormatter transparency.Type }}}</td>
+                    <td>{{  transparency.Origin             }} </td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+{{else}}
+    <h2>No bad files has been uploaded :3</h2>
+{{/if}}

@@ -117,9 +117,7 @@ router.post("/remove-files", async (req, res) => {
 
     const fileNames = linkArray.map(l => l.replace(process.env.UPLOAD_LINK, ""));
 
-    console.log(fileNames);
-
-    const client = await db.connect();
+    const client    = await db.connect();
 
     fileNames.forEach(async fileName => {
         const fullFileName = process.env.UPLOAD_DESTINATION + fileName;

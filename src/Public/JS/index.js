@@ -54,5 +54,3 @@ dropZone.on("error", file => {
 
 const message = document.querySelector(".dz-message.hidden");
 message.classList.remove("hidden");
-
-console.log(message);

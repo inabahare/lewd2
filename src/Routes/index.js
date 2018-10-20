@@ -1,4 +1,5 @@
-import express from "express";
+import express                from "express";
+import getAllFromTransparency from "../Functions/Transparency/getAllFromTransparency";
 
 const router = express.Router();
 
@@ -12,9 +13,16 @@ router.use((req, res, next) => {
   next();
 })
 
-router.get("/",             (req, res) => res.render("index"));
-router.get("/info",         (req, res) => res.render("info"));
-router.get("/transparency", (req, res) => res.render("transparency"));
+router.get("/",     (req, res) => res.render("index"));
+router.get("/info", (req, res) => res.render("info"));
+
+router.get("/transparency", async (req, res) => {
+    const transparency = await getAllFromTransparency();
+    
+    res.render("transparency", {
+        transparencyElements: transparency
+    });
+});
 
 
 router.get("/lewd.sxcu", (req, res) => {

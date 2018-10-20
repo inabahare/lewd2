@@ -19,6 +19,8 @@ const handleInputs = input => {
     // Filter out inputs that are t text, password, number, etc.
     if (input.maxLength) {
         const label = document.querySelector(`label[for="${input.id}"`);
+
+        // Format the input name for when it needs to be shown
         const inputName = input.id
                                .capitalize()
                                .split("-")

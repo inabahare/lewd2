@@ -12,8 +12,9 @@ import frontEndError  from "./helpers/frontendErrorFormatter";
 import getUserDetails from './Functions/User/getUserDetails';
 import fs             from "fs";
 import { promisify }  from "util"
-import passport from "./helpers/passport";
- 
+import passport       from "./helpers/passport";
+import moment         from "moment"; 
+
 // Routers
 import index    from "./Routes";
 import login    from "./Routes/login";
@@ -44,6 +45,20 @@ app.engine ("hbs", handlebars ({
 
             const randomIndex = randomNumber(0, files.length);
             return process.env.SITE_LINK + "Images/Waifus/" + files[randomIndex];
+        },
+        dateFormatter: function(date) {
+            return moment(date).format("LL");
+        }, 
+        typeFormatter: function(data) {
+            if (data.startsWith("https://") || data.startsWith("http://")) {
+                return `<a href="${data}">Link</a>`;
+            } else {
+                console.log(data.split(`found in file ${process.env.UPLOAD_DESTINATION}`)[0]
+                .split("Virus ")[1]);
+                return data.split(`found in file ${process.env.UPLOAD_DESTINATION}`)[0]
+                           .split("Virus ")[1]
+                           .split("'")[1]
+            }
         }
     }
 }));
@@ -110,7 +125,7 @@ app.use((req, res, next) =>{
 });
 
 if (!fs.existsSync(process.env.UPLOAD_DESTINATION)) {
-    console.error(`Could not open ${process.env.UPLOAD_DESTINATION}`);
+    console.error(`Could not open upload directory: ${process.env.UPLOAD_DESTINATION}`);
     process.exit(1);
 }
 
