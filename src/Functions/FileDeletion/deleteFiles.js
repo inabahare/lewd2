@@ -45,7 +45,7 @@ const handleSymlink = async (client, fileName, fileSha) => {
  * @param {Array} fileNames - List of filenames to delete 
  * @returns {boolean} gotRemoved - Due to a race condition between the AV scanners this is needed
  */
-const deleteFiles = async (fileNames, location = null) => {
+const deleteFiles = async (fileNames, location = "null") => {
     const debug = debugge(location);
     const client = await db.connect();
 

@@ -53,8 +53,6 @@ app.engine ("hbs", handlebars ({
             if (data.startsWith("https://") || data.startsWith("http://")) {
                 return `<a href="${data}">Link</a>`;
             } else {
-                console.log(data.split(`found in file ${process.env.UPLOAD_DESTINATION}`)[0]
-                .split("Virus ")[1]);
                 return data.split(`found in file ${process.env.UPLOAD_DESTINATION}`)[0]
                            .split("Virus ")[1]
                            .split("'")[1]

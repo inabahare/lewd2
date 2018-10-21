@@ -4,7 +4,7 @@ import bcrypt                                   from "bcrypt";
 import { check, validationResult }              from 'express-validator/check';
 import crypto                                   from "crypto";
 import { getTokenData, checkTokenDataForErrors} from "../Functions/Register/tokenData";
-import checkIfUsernameExists                    from "../Functions/Register/checkIfUsernameExists";
+import { checkIfUsernameNotExists }             from "../Functions/Register/checkIfUsernameExists";
 
 const router = express.Router();
 
@@ -35,7 +35,7 @@ router.post("/", [
                   .isLength({min: 10}).withMessage("Token too short"),
 
     check("username").isLength({min: 2}).withMessage("Username needs to be at least 2 characters long")
-                    .custom(checkIfUsernameExists).withMessage("Username already in use"),
+                     .custom(checkIfUsernameNotExists).withMessage("Username already in use"),
 
     check("password").exists().withMessage("Please select a username")
                      .isLength({min: 2, max: 72}).withMessage("Password needs to be 2 characters long")

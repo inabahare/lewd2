@@ -2,12 +2,13 @@ import express                     from "express";
 import db                          from "../helpers/database";
 import { check, validationResult } from 'express-validator/check';
 import crypto                      from "crypto";
+import { promisify }               from 'util';
+import fs                          from "fs";
 import formatUploadSize            from "../Functions/Token/formatUploadSize";
 import getUsers                    from "../Functions/Admin/getUsers";
 import deleteUser                  from "../Functions/Admin/deleteUser";
-import { promisify }               from 'util';
-import fs                          from "fs";
 import logToTransparency           from "../Functions/Transparency/logToTransparency";
+import { checkIfUsernameExists }   from "../Functions/Register/checkIfUsernameExists";
 
 const router = express.Router();
 const unlink = promisify(fs.unlink);
@@ -25,13 +26,14 @@ router.use((req, res, next) => {
     return res.render("login");
 });
 
+/////////////////////
+// TOKEN GENERATOR //
+/////////////////////
+
 router.get("/token", async (req, res) => res.render("user", {
     menuItem: "token"
 }));
 
-/**
- * Generate the tokens a user signs up with
- */
 router.post("/token", [
     check("size").exists()   .withMessage("You need to set an upload size")
                  .isNumeric().withMessage("Upload size must be a number")
@@ -74,11 +76,50 @@ router.post("/token", [
     });
 });
 
+////////////////////
+// PASSWORD RESET //
+////////////////////
+
+router.get("/reset-password", (req, res) => {
+    res.render("user", {
+        menuItem: "reset-password"
+    });
+});
+
+router.post("/generate-reset-link", [
+    check("username").isLength({ min: 3 })               .withMessage("Username too short")
+                     .custom(checkIfUsernameExists).withMessage("This user does not exist")
+], async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        req.session.err = errors.array();
+        return res.redirect("/user/admin/reset-password");
+    }
+
+    const key = crypto.randomBytes(20)
+                      .toString("hex")
+                      .slice(0, 20);
+
+    const client = await db.connect();
+    await client.query(`INSERT INTO "UpdatePasswordKeys" ("key", "registered", "userId")
+                        VALUES ($1, NOW(), (SELECT id FROM "Users" WHERE username = $2));`, 
+                        [key, req.body.username]);
+    await client.release();
+    req.flash("link", `${process.env.SITE_LINK}/change-password/${key}`);
+
+    res.redirect("/user/admin/reset-password");
+});
+
+////////////////////////
+// DELETE USERS/FILES //
+////////////////////////
+
 router.get("/view-users", async (req, res) => {
     const users = await getUsers();
 
     res.render("user", {
-        menuItem: "viewusers",
+        menuItem: "view-users",
         users: users
     });
 });
@@ -104,7 +145,7 @@ router.post("/delete", [
 
 router.get("/remove-files", (req, res) => {
     res.render("user", {
-        menuItem: "removefiles"
+        menuItem: "remove-files"
     });
 });
 

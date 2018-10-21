@@ -216,3 +216,10 @@ ALTER TABLE ONLY public."Users"
 -- PostgreSQL database dump complete
 --
 
+DROP TABLE IF EXISTS "public"."UpdatePasswordKeys";
+CREATE TABLE "public"."UpdatePasswordKeys" (
+  "key" varchar(20) COLLATE "pg_catalog"."default",
+  "registered" timestamp(6),
+  "userId" int8
+)
+;

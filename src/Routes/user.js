@@ -32,10 +32,11 @@ router.get("/view-uploads", async (req, res) => {
 
 
     res.render("user", {
-        menuItem: "viewuploads",
+        menuItem: "view-uploads",
         uploads: getUploads.rows
     })
 });
+
 
 router.post("/change-password", async (req, res) => {
     // Get password

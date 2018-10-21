@@ -1,6 +1,7 @@
 import { schedule }             from 'node-cron';
 import dnode                    from "dnode";
 import async                    from "async"; 
+import debugge                  from "debug";
 import scanAndRemoveFile        from "./Functions/Upload/scanAndRemoveFile";
 import getFilesToDelete         from "./Functions/FileDeletion/getFilesToDelete";
 import deleteFiles              from "./Functions/FileDeletion/deleteFiles";
@@ -17,11 +18,13 @@ const virusTotal = new VirusTotalScanner(process.env.VIRUSTOTAL_KEY,
                                          process.env.VIRUSTOTAL_MIN_ALLOWED_POSITIVES,
                                          process.env.UPLOAD_DESTINATION)
 
+
 /**
  * Limits the AV scans
  */
 const sophosQueue = async.queue(async (task) => {
-     await scanAndRemoveFile(task.fileName, task.fileSha);
+    debugge("sophos-call")(task);
+    await scanAndRemoveFile(task.fileName, task.fileSha);
 }, 1);
 
 /**
@@ -70,6 +73,8 @@ schedule(process.env.SECONDARY_SCAN_CRON, async () => {
     if (files.length === 0) {
         return;
     }
+
+    debugge("scanner-schedule")(files);
  
     files.forEach(file => {
         sophosQueue.push({

@@ -5,6 +5,7 @@ import db                from "../../helpers/database";
 import logToTransparency from "../Transparency/logToTransparency";
 import sleep             from "../sleep";
 import deleteFiles       from "../FileDeletion/deleteFiles";
+import debugge           from "debug";
 
 const unlink = promisify(fs.unlink);
 
@@ -15,6 +16,7 @@ const unlink = promisify(fs.unlink);
  */
 const scanAndRemoveFile = (filename, fileSha) => {
     return new Promise((resolve, reject) => {
+        debugge("sophos")(fileSha);
         const filePath = process.env.UPLOAD_DESTINATION + filename;
         const scanner = spawn("/opt/sophos-av/bin/savscan", ["-nc", 
                                                             "-nb", 
