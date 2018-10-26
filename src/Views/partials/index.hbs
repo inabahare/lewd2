@@ -35,6 +35,16 @@
                     </div>
                 </article>  
             {{/if}}
+            {{#if error.old-password}}
+                <article class="message is-danger">
+                    <div class="message-header">
+                        <p>Password error</p>
+                    </div>
+                    <div class="message-body">
+                        {{{ error.old-password }}}
+                    </div>
+                </article>  
+            {{/if}}
             <div class="field">
                 <label for="current-password" class="label">Current password</label>
                 <div class="control">
@@ -44,13 +54,33 @@
         </section>
 
         <section class="content">
+            {{#if error.new-password}}
+                <article class="message is-danger">
+                    <div class="message-header">
+                        <p>Password error</p>
+                    </div>
+                    <div class="message-body">
+                        {{{ error.new-password }}}
+                    </div>
+                </article>  
+            {{/if}}
             <div class="field">
                 <label for="new-password" class="label">New password</label>
                 <div class="control">
                     <input class="input" type="password" id="new-password" maxlength="72" name="new-password">
                 </div>
             </div>
-            
+
+            {{#if error.password-check}}
+                <article class="message is-danger">
+                    <div class="message-header">
+                        <p>Password error</p>
+                    </div>
+                    <div class="message-body">
+                        {{{ error.password-check }}}
+                    </div>
+                </article>  
+            {{/if}}
             <div class="field">
                 <label for="password-check" class="label">New password once again</label>
                 <div class="control">

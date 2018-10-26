@@ -1,5 +1,5 @@
-import express                from "express";
-import getAllFromTransparency from "../Functions/Transparency/getAllFromTransparency";
+import express    from "express";
+import * as index from "../Controllers/index";
 
 const router = express.Router();
 
@@ -13,32 +13,9 @@ router.use((req, res, next) => {
   next();
 })
 
-router.get("/",     (req, res) => res.render("index"));
-router.get("/info", (req, res) => res.render("info"));
-
-router.get("/transparency", async (req, res) => {
-    const transparency = await getAllFromTransparency();
-    
-    res.render("transparency", {
-        transparencyElements: transparency
-    });
-});
-
-
-router.get("/lewd.sxcu", (req, res) => {
-    res.type('sxcu; charset=utf8');
-    const shareXConfig = `{
-        "Name": "Local",
-        "DestinationType": "ImageUploader, FileUploader",
-        "RequestURL": "${process.env.UPLOAD_LINK}",
-        "FileFormName": "file",
-        "Headers": {
-          "token": "${res.locals.user.token}"
-        },
-        "URL": "$json:data.link$"
-      }`;
-
-    res.send(shareXConfig);
-});
+router.get("/",             index.index.get);
+router.get("/info",         index.info.get);
+router.get("/transparency", index.transparency.get);
+router.get("/lewd.sxcu",    index.sharex.get);
 
 export default router;
