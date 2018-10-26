@@ -1,8 +1,4 @@
-import express                     from "express";
-import db                          from "../helpers/database";
-import moment                      from "moment";
-import bcrypt                      from "bcrypt";
-
+import express   from "express";
 import * as user from "../Controllers/user";
 
 const router = express.Router();
@@ -19,6 +15,7 @@ router.get("/", user.index.get);
 
 router.get("/view-uploads", user.viewUploads.get);
 
-router.post("/change-password", user.changePassword.post);
+router.post("/change-password", user.changePassword.validate, 
+                                user.changePassword.post);
 
 export default router;
