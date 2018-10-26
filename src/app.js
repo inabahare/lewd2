@@ -11,7 +11,6 @@ import cookieParser   from "cookie-parser";
 import frontEndError  from "./helpers/frontendErrorFormatter";
 import getUserDetails from './Functions/User/getUserDetails';
 import fs             from "fs";
-import { promisify }  from "util"
 import passport       from "./helpers/passport";
 import moment         from "moment"; 
 
@@ -123,7 +122,8 @@ app.use((req, res, next) =>{
 });
 
 if (!fs.existsSync(process.env.UPLOAD_DESTINATION)) {
-    console.error(`Could not open upload directory: ${process.env.UPLOAD_DESTINATION}`);
+    console.error(`Could not open upload directory at: ${process.env.UPLOAD_DESTINATION}`);
+    console.error(`Try checking if the UPLOAD_DESTINATION environment variable is correct`);
     process.exit(1);
 }
 
