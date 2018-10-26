@@ -37,7 +37,7 @@ router.post("/", [
     check("username").isLength({min: 2}).withMessage("Username needs to be at least 2 characters long")
                      .custom(checkIfUsernameNotExists).withMessage("Username already in use"),
 
-    check("password").exists().withMessage("Please select a username")
+    check("password").exists().withMessage("Please select a password")
                      .isLength({min: 2, max: 72}).withMessage("Password needs to be 2 characters long")
 ] , async (req, res) => {
     ////////////////////////

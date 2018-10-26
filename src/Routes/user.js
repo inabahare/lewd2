@@ -63,5 +63,4 @@ router.post("/change-password", async (req, res) => {
     res.redirect("/user");
 });
 
-
 export default router;

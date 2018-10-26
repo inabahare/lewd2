@@ -87,7 +87,7 @@ router.get("/reset-password", (req, res) => {
 });
 
 router.post("/generate-reset-link", [
-    check("username").isLength({ min: 3 })               .withMessage("Username too short")
+    check("username").isLength({ min: 3 })         .withMessage("Username too short")
                      .custom(checkIfUsernameExists).withMessage("This user does not exist")
 ], async (req, res) => {
     const errors = validationResult(req);
@@ -102,11 +102,11 @@ router.post("/generate-reset-link", [
                       .slice(0, 20);
 
     const client = await db.connect();
-    await client.query(`INSERT INTO "UpdatePasswordKeys" ("key", "registered", "userId")
+    await client.query(`INSERT INTO "UpdatePasswordKeys" ("token", "registered", "userId")
                         VALUES ($1, NOW(), (SELECT id FROM "Users" WHERE username = $2));`, 
                         [key, req.body.username]);
     await client.release();
-    req.flash("link", `${process.env.SITE_LINK}/change-password/${key}`);
+    req.flash("link", `${process.env.SITE_LINK}login/forgot-password/${key}`);
 
     res.redirect("/user/admin/reset-password");
 });
