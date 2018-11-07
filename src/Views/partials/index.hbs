@@ -35,13 +35,13 @@
                     </div>
                 </article>  
             {{/if}}
-            {{#if error.old-password}}
+            {{#if errors.old-password}}
                 <article class="message is-danger">
                     <div class="message-header">
                         <p>Password error</p>
                     </div>
                     <div class="message-body">
-                        {{{ error.old-password }}}
+                        {{{ errors.old-password }}}
                     </div>
                 </article>  
             {{/if}}
@@ -54,13 +54,13 @@
         </section>
 
         <section class="content">
-            {{#if error.new-password}}
+            {{#if errors.new-password}}
                 <article class="message is-danger">
                     <div class="message-header">
                         <p>Password error</p>
                     </div>
                     <div class="message-body">
-                        {{{ error.new-password }}}
+                        {{{ errors.new-password }}}
                     </div>
                 </article>  
             {{/if}}
@@ -71,13 +71,13 @@
                 </div>
             </div>
 
-            {{#if error.password-check}}
+            {{#if errors.password-check}}
                 <article class="message is-danger">
                     <div class="message-header">
                         <p>Password error</p>
                     </div>
                     <div class="message-body">
-                        {{{ error.password-check }}}
+                        {{{ errors.password-check }}}
                     </div>
                 </article>  
             {{/if}}

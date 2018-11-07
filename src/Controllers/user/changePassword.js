@@ -16,7 +16,7 @@ async function post(req, res) {
 
     if (!errors.isEmpty()) {
         req.session.err = errors.array();
-        return res.redirect("/user/admin/view-users");
+        return res.redirect("/user");
     }
 
     // Get password

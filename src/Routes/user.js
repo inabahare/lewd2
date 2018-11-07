@@ -18,4 +18,6 @@ router.get("/view-uploads", user.viewUploads.get);
 router.post("/change-password", user.changePassword.validate, 
                                 user.changePassword.post);
 
+router.get("/logout", user.logout.get);
+
 export default router;
