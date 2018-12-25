@@ -60,7 +60,7 @@ app.engine ("hbs", handlebars ({
     }
 }));
 app.set ("view engine", "hbs");
-app.set('views', path.join(__dirname, "Views"));
+// app.set('views', path.join(__dirname, "Views"));
 // app.enable('view cache');
 // Static files
 app.use(express.static(path.join(__dirname, "Public")));
