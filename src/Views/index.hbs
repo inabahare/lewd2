@@ -11,46 +11,45 @@
 {{/if}}
 
 
-{{#if user.username}}
-    <div class="is-hidden" id="uploadSize">{{ user.uploadsize }}</div>
-    
-    <form method="post" action="/upload" class="theUploader" enctype="multipart/form-data" id="uploader">
-        <div class="fallback">
-            <input type="hidden" name="js" value="false">
-            <input type="file" name="file">
-            <input type="submit" name="submit">
-        </div>
-        
-        <div class="dz-message hidden" data-dz-message><span>Click or drag files here to upload them</span></div>
-        
-        {{#if user.username}}
-            <input id="token" type="hidden" name="thetoken" value="{{ user.token }}">
-        {{else}}
-            <input id="token" type="hidden" name="thetoken" value="default">
-        {{/if}}
-    </form> 
+<div class="is-hidden" id="uploadSize">{{ user.uploadsize }}</div>
 
-    <div id="uploads" class="section">
-        {{#if message.uploadData}}
-            <article class="notification is-success">
-                <button class="delete" aria-label="delete"></button>
-                <div class="columns">
-                    <div class="column has-text-left">
-                        <p>Your file has been uploaded!</p>
-                    </div> 
-                    <div class="column has-text-right">
-                        <a href="{{ message.uploadData.data.link }}" target="_blank">link</a>
-                        <a href="{{ message.uploadData.data.deletionURL }}">Delete</a>
-                    </div>
-                </div>
-            </article>
-            <picture>
-                <source srcset="{{ message.uploadData.data.link }}">
-                <img src="{{ message.uploadData.data.link }}" alt="">
-            </picture>
-        {{/if}}
+<form method="post" action="/upload" class="theUploader" enctype="multipart/form-data" id="uploader">
+    <div class="fallback">
+        <input type="hidden" name="js" value="false">
+        <input type="file" name="file">
+        <input type="submit" name="submit">
     </div>
-{{/if}}
+    
+    <div class="dz-message hidden" data-dz-message><span>Click or drag files here to upload them</span></div>
+    
+    {{#if user.username}}
+        <input id="token" type="hidden" name="thetoken" value="{{ user.token }}">
+    {{else}}
+        <input id="token" type="hidden" name="thetoken" value="default">
+    {{/if}}
+</form> 
+
+<div id="uploads" class="section">
+    {{#if message.uploadData}}
+        <article class="notification is-success">
+            <button class="delete" aria-label="delete"></button>
+            <div class="columns">
+                <div class="column has-text-left">
+                    <p>Your file has been uploaded!</p>
+                </div> 
+                <div class="column has-text-right">
+                    <a href="{{ message.uploadData.data.link }}" target="_blank">link</a>
+                    <a href="{{ message.uploadData.data.deletionURL }}">Delete</a>
+                </div>
+            </div>
+        </article>
+        <picture>
+            <source srcset="{{ message.uploadData.data.link }}">
+            <img src="{{ message.uploadData.data.link }}" alt="">
+        </picture>
+    {{/if}}
+</div>
+    
 
 <script src="/JS/dropzone.js"></script>
 <script src="/JS/index.js"></script>

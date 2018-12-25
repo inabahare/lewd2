@@ -5,7 +5,6 @@ import db from "../../helpers/database";
  * @param {string} token If falsy the stock user will be returned
  */ 
 const getUserDetails = async loginToken => {
-    let query = "";
     let userId = 0;
 
     const client  = await db.connect();

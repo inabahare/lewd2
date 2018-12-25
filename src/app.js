@@ -63,7 +63,7 @@ app.set ("view engine", "hbs");
 app.set('views', path.join(__dirname, "Views"));
 // app.enable('view cache');
 // Static files
-// app.use(express.static(path.join(__dirname, "Public")));
+app.use(express.static(path.join(__dirname, "Public")));
 
 // parse various different custom JSON types as JSON
 app.use(bodyParser.urlencoded({ extended: true }));
