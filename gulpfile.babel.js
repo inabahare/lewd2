@@ -11,16 +11,12 @@ const del = require("del");
 
 const paths = {
     styles: {
-        src:"src/Public/CSS/main.less",
-        dest: "build/Public/CSS",
+        src:"Public/CSS/main.less",
+        dest: "Public/CSS",
     },
     js: {
         src: ["src/**/*.js",],
         dest: "build",
-    },
-    moveViews: {
-        src: "src/Views/**/*.hbs",
-        dest: "build/Views/",
     }
 }
 
@@ -46,24 +42,13 @@ const scripts = () => gulp.src(paths.js.src)
                           .pipe(sourcemaps.write("."))
                           .pipe(gulp.dest(paths.js.dest));
 
-const publicScripts = () => gulp.src(paths.publicJs.src)
-                          .pipe(plumber(handler))
-                          .pipe(sourcemaps.init())
-                          .pipe(babel())
-                          .pipe(sourcemaps.write("."))
-                          .pipe(gulp.dest(paths.publicJs.dest));
 
 
-
-const views = () => gulp.src(paths.moveViews.src)
-                        .pipe(gulp.dest(paths.moveViews.dest));
-
-const build = gulp.series(clean, gulp.parallel(styles, scripts, views));
+const build = gulp.series(clean, gulp.parallel(styles, scripts));
 
 const watcher = () => {
     gulp.watch(paths.styles.src, styles);
     gulp.watch(paths.js.src, scripts);
-    gulp.watch(paths.moveViews.src, views)
 }
 
 gulp.task("build", build);
