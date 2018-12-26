@@ -10,8 +10,8 @@
   "scripts": {
     "start": "node dist/app.js",
     "start:dev": "nodemon dist/app.js",
-    "build:dev": "node_modules/.bin/concurrently \"npm:watch-server\" \"npm:watch-server\"",
-    "build:prod": "node_modules/.bin/concurrently \"npm:build-server\" \"npm:build-server\"",
+    "watch": "node_modules/.bin/concurrently \"npm:watch-server\" \"npm:watch-less\"",
+    "build": "node_modules/.bin/concurrently \"npm:build-server\" \"npm:build-less\"",
     "build-server": "node_modules/.bin/parcel build src/app.js src/cronactions.js --target node",
     "build-less": "node_modules/.bin/parcel build Public/CSS/main.less --out-dir Public/CSS",
     "watch-server": "node_modules/.bin/parcel src/app.js src/cronactions.js --target node",
@@ -51,6 +51,7 @@
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
     "concurrently": "^4.1.0",
+    "less": "^3.9.0",
     "parcel": "^1.11.0"
   }
 }
