@@ -2,14 +2,12 @@
 require('dotenv').config();
 
 import express        from "express";
-import handlebars     from "express-handlebars";
 import path           from 'path';
 import flash          from "express-flash";
 import cookieSession  from "cookie-session";
 import bodyParser     from "body-parser";
 import cookieParser   from "cookie-parser";
 import fs             from "fs";
-import moment         from "moment"; 
 import frontEndError  from "./helpers/frontendErrorFormatter";
 import getUserDetails from './Functions/User/getUserDetails';
 import passport       from "./helpers/passport";
@@ -17,7 +15,6 @@ import passport       from "./helpers/passport";
 import { Routes } from "./config/app/Routes";
 import { Views } from "./config/app/Views";
 
-const randomNumber  = (x, y) =>  Math.floor((Math.random() * y) + x); 
 
 const app = express();
 
