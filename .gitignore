@@ -4,3 +4,6 @@ dist/
 .env
 SQL/template.sql
 .cache/
+package-lock.json
+Public/CSS/main.css
+Public/CSS/main.map

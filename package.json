@@ -9,11 +9,15 @@
   "private": true,
   "scripts": {
     "start": "node dist/app.js",
-    "start:dev": "nodemon dist/app.js",
-    "watch": "node_modules/.bin/concurrently \"npm:watch-server\" \"npm:watch-less\"",
+    "start-watch": "node_modules/.bin/concurrently \"npm:start-app\" \"npm:start-cron\"",
+    "start-app": "nodemon --inspect dist/app.js",
+    "start-cron": "nodemon dist/cronactions.js",
+
     "build": "node_modules/.bin/concurrently \"npm:build-server\" \"npm:build-less\"",
     "build-server": "node_modules/.bin/parcel build src/app.js src/cronactions.js --target node",
     "build-less": "node_modules/.bin/parcel build Public/CSS/main.less --out-dir Public/CSS",
+    
+    "build-watch": "node_modules/.bin/concurrently \"npm:watch-server\" \"npm:watch-less\"",
     "watch-server": "node_modules/.bin/parcel src/app.js src/cronactions.js --target node",
     "watch-less": "node_modules/.bin/parcel watch Public/CSS/main.less --out-dir Public/CSS"
   },

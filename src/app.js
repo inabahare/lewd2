@@ -20,7 +20,7 @@ import login    from "./Routes/login";
 import upload   from "./Routes/upload";
 import user     from "./Routes/user";
 import register from "./Routes/register";
-import deleter  from "./Routes/delete"; // God damn reserved keywords
+import deleter  from "./Routes/delete"; // God damn reserved keywo~~rds
 import admin    from "./Routes/admin";
 
 const randomNumber  = (x, y) =>  Math.floor((Math.random() * y) + x); 
@@ -29,7 +29,7 @@ const app = express();
 
 // Load views
 app.engine ("hbs", handlebars ({ 
-    defaultLayout: __dirname + "/../views/main",
+    defaultLayout: "main",
     extname: "hbs",
     partialsDir: __dirname + "/../views/partials/",
     helpers: {
@@ -60,10 +60,12 @@ app.engine ("hbs", handlebars ({
     }
 }));
 app.set ("view engine", "hbs");
-// app.set('views', path.join(__dirname, "Views"));
+app.set('views', path.join(__dirname, "/../views"));
 // app.enable('view cache');
 // Static files
-app.use(express.static(path.join(__dirname, "/../Public")));
+if (process.env.NODE_ENV === "development") {
+    app.use(express.static(path.join(__dirname, "/../Public")));
+}
 
 // parse various different custom JSON types as JSON
 app.use(bodyParser.urlencoded({ extended: true }));

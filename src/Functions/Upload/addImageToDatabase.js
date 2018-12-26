@@ -1,4 +1,3 @@
-import jsStringEscape      from "js-string-escape";
 import db          from "../../helpers/database";
 import deletionKey from "./deletionKey";
 
