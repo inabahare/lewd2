@@ -4,9 +4,6 @@ require('dotenv').config();
 import express        from "express";
 import path           from 'path';
 import flash          from "express-flash";
-import cookieSession  from "cookie-session";
-import bodyParser     from "body-parser";
-import cookieParser   from "cookie-parser";
 import fs             from "fs";
 import frontEndError  from "./helpers/frontendErrorFormatter";
 import getUserDetails from './Functions/User/getUserDetails';
@@ -14,7 +11,7 @@ import passport       from "./helpers/passport";
 
 import { Routes } from "./config/app/Routes";
 import { Views } from "./config/app/Views";
-
+import { Headers } from "./config/app/Headers";
 
 const app = express();
 
@@ -29,17 +26,10 @@ if (process.env.NODE_ENV === "development") {
 }
 
 // parse various different custom JSON types as JSON
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+Headers.SetBodyParser(app);
+Headers.SetCookieParser(app);
+Headers.SetSession(app);
 
-app.use(cookieParser("lewd"));
-
-app.use(cookieSession({
-    name: "session",
-    secret: "lewd",
-    maxAge: 30 * 60 * 1000,
-    overwrite: false
-}));
 
 app.use(flash());
 
