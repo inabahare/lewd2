@@ -29,15 +29,15 @@ const app = express();
 
 // Load views
 app.engine ("hbs", handlebars ({ 
-    defaultLayout: __dirname + "/Views/main",
+    defaultLayout: __dirname + "/../views/main",
     extname: "hbs",
-    partialsDir: __dirname + "/Views/partials/",
+    partialsDir: __dirname + "/../views/partials/",
     helpers: {
         partial: function (name) {
             return name;
         },
         waifu: () => {
-            const files = fs.readdirSync(__dirname + "/Public/Images/Waifus");
+            const files = fs.readdirSync(__dirname + "/../Public/Images/Waifus");
             
             if (files.length === 0)
                 return "";
@@ -60,10 +60,10 @@ app.engine ("hbs", handlebars ({
     }
 }));
 app.set ("view engine", "hbs");
-app.set('views', path.join(__dirname, "Views"));
+// app.set('views', path.join(__dirname, "Views"));
 // app.enable('view cache');
 // Static files
-// app.use(express.static(path.join(__dirname, "Public")));
+app.use(express.static(path.join(__dirname, "/../Public")));
 
 // parse various different custom JSON types as JSON
 app.use(bodyParser.urlencoded({ extended: true }));

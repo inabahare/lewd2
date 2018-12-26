@@ -1,5 +1,10 @@
 function get(req, res) {
-    res.render("index");
+    if (res.locals.user.username){
+        res.render("index");
+    }        
+    else {
+        res.render("login");
+    }
 }
 
 export { get }

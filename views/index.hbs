@@ -11,11 +11,7 @@
 {{/if}}
 
 
-{{#if user.username}}
-    <div class="is-hidden" id="uploadSize">{{ user.uploadsize }}</div>
-{{else}}
-    <div class="is-hidden" id="uploadSize">{{ maxUploadSize }}</div>
-{{/if}}
+<div class="is-hidden" id="uploadSize">{{ user.uploadsize }}</div>
 
 <form method="post" action="/upload" class="theUploader" enctype="multipart/form-data" id="uploader">
     <div class="fallback">
@@ -53,6 +49,7 @@
         </picture>
     {{/if}}
 </div>
+    
 
 <script src="/JS/dropzone.js"></script>
 <script src="/JS/index.js"></script>

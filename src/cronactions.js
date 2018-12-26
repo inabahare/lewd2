@@ -24,7 +24,10 @@ const virusTotal = new VirusTotalScanner(process.env.VIRUSTOTAL_KEY,
  */
 const sophosQueue = async.queue(async (task) => {
     debugge("sophos-call")(task);
-    await scanAndRemoveFile(task.fileName, task.fileSha);
+    
+    // This is a hack that makes it possible to develop without having Sophos installed. Don't tell anyone :v
+    if (process.env.NODE_ENV === "production")
+        await scanAndRemoveFile(task.fileName, task.fileSha);
 }, 1);
 
 /**
