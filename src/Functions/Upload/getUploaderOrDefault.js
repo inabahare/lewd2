@@ -12,13 +12,6 @@ const getUploaderOrDefault = async token => {
                                           WHERE token = $1;`, [
                                               token
                                             ]);
-    
-    // Uploader not found send default user                                            
-    if (!getUploader.rows[0]) {
-        getUploader = await client.query(`SELECT id, uploadsize
-                                          FROM "Users"
-                                          WHERE id = 0;`);
-    }
 
     await client.release();
 

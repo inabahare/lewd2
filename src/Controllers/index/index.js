@@ -1,5 +1,5 @@
 function get(req, res) {
-    if (res.locals.user.username){
+    if (res.locals.user){
         res.render("index");
     }        
     else {

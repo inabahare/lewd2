@@ -41,7 +41,10 @@ app.locals.uploadLink = process.env.UPLOAD_LINK;
 
 // Set local user
 app.use(async (req, res, next) => {
-    res.locals.user = await getUserDetails(req.user);
+    if (req.user) {
+        res.locals.user = await getUserDetails(req.user);
+    }
+
     next();
 });
 
