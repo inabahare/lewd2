@@ -9,11 +9,12 @@
   "private": true,
   "scripts": {
     "start": "node dist/app.js",
+    "debug": "node --nolazy --inspect-brk=9229 dist/app.js",
     "start-watch": "node_modules/.bin/concurrently \"npm:start-app\" \"npm:start-cron\"",
     "start-app": "nodemon --inspect dist/app.js",
     "start-cron": "nodemon dist/cronactions.js",
 
-    "build": "node_modules/.bin/concurrently \"npm:build-server\" \"npm:build-less\"",
+    "build": "node_modules/.bin/concurrently \"npm:build-server\" \"npm:build-less\" && mv dist/app.map dist/app.js.map",
     "build-server": "node_modules/.bin/parcel build src/app.js src/cronactions.js --target node",
     "build-less": "node_modules/.bin/parcel build Public/CSS/main.less --out-dir Public/CSS",
     
