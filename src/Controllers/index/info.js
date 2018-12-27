@@ -1,5 +1,5 @@
 function get(req, res) {
-    res.render("info")
+    res.render("info");
 }
 
-export { get }
+export { get };

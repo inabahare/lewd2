@@ -1,5 +1,5 @@
 function get(req, res) {
-    res.type('sxcu; charset=utf8');
+    res.type("sxcu; charset=utf8");
     const shareXConfig = `{
         "Name": "Local",
         "DestinationType": "ImageUploader, FileUploader",
@@ -14,4 +14,4 @@ function get(req, res) {
     res.send(shareXConfig);
 }
 
-export { get }
+export { get };

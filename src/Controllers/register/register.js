@@ -1,6 +1,6 @@
 import db                                       from "../../helpers/database";
 import bcrypt                                   from "bcrypt";
-import { check, validationResult }              from 'express-validator/check';
+import { check, validationResult }              from "express-validator/check";
 import crypto                                   from "crypto";
 import { getTokenData, checkTokenDataForErrors} from "../../Functions/Register/tokenData";
 import { checkIfUsernameNotExists }             from "../../Functions/Register/checkIfUsernameExists";
@@ -86,7 +86,7 @@ async function post(req, res) {
     await client.query(`UPDATE "RegisterTokens" SET used = TRUE WHERE token = $1;`, [req.body.token]);
     await client.release();
 
-    req.flash('userAdded', 'You are now ready to sign in');
+    req.flash("userAdded", "You are now ready to sign in");
     res.redirect("/");
 }
 
@@ -100,6 +100,6 @@ const validate = [
     check("password").exists().withMessage("Please select a password")
                      .isLength({min: 3, max: 72}).withMessage("Password needs to be 2 characters long")
 
-]
+];
 
-export { get, post, validate }
+export { get, post, validate };

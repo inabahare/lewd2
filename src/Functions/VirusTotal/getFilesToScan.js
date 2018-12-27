@@ -10,6 +10,6 @@ const getFilesToScan = async () => {
     await client.release();
 
     return files.rows;
-}
+};
 
 export default getFilesToScan;

@@ -1,19 +1,19 @@
-import express                     from "express";
-import db                          from "../helpers/database";
-import passport                    from "../helpers/passport";
-import { check, validationResult } from "express-validator/check"
-import bcrypt                      from "bcrypt";
+// import express                     from "express";
+// import db                          from "../helpers/database";
+// import passport                    from "../helpers/passport";
+// import { check, validationResult } from "express-validator/check";
+// import bcrypt                      from "bcrypt";
 
-function get(req, res) {
+// function get(req, res) {
 
-}
+// }
 
-function post(req, res) {
+// function post(req, res) {
 
-}
+// }
 
-const validate = [
+// const validate = [
 
-]
+// ];
 
-export { get, post, validate }
+// export { get, post, validate };

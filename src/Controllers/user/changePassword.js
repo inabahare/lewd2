@@ -1,6 +1,6 @@
 import db     from "../../helpers/database";
 import bcrypt from "bcrypt";
-import { check, validationResult } from 'express-validator/check';
+import { check, validationResult } from "express-validator/check";
 
 // Are the password and password checker identical?
 const isPasswordsIdentical = (value, { req }) => {
@@ -9,7 +9,7 @@ const isPasswordsIdentical = (value, { req }) => {
     } else {
         return true;
     }
-}
+};
 
 async function post(req, res) {
     const errors = validationResult(req);
@@ -28,7 +28,7 @@ async function post(req, res) {
     const currentPassword = getPassword.rows[0].password;
 
     // Check password
-    const passwordCheck = await bcrypt.compare(req.body["old-password"], currentPassword)
+    const passwordCheck = await bcrypt.compare(req.body["old-password"], currentPassword);
     
     if (!passwordCheck) {
         req.flash("incorrectOldPassword", "Your old password is incorrect");
@@ -57,6 +57,6 @@ const validate = [
     check("password-check").exists()                   .withMessage("Password checker is incorrect")
                            .isLength({min: 3, max: 72}).withMessage("Must be more than 3 characters long"),
 
-]
+];
 
-export { post, validate }
+export { post, validate };

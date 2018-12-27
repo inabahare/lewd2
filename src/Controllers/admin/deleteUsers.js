@@ -1,4 +1,4 @@
-import { check, validationResult } from 'express-validator/check';
+import { check, validationResult } from "express-validator/check";
 import getUsers                    from "../../Functions/Admin/getUsers";
 import deleteUser                  from "../../Functions/Admin/deleteUser";
 
@@ -32,6 +32,6 @@ const validate = [
     check("userid").isInt()           .withMessage("The userid must be a number")
                    .not().isIn([0, 1]).withMessage("These users cannot be removed")
 
-]
+];
 
-export { get, post, validate }
+export { get, post, validate };

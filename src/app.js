@@ -1,12 +1,12 @@
 "use strict";
-require('dotenv').config();
+require("dotenv").config();
 
 import express        from "express";
-import path           from 'path';
+import path           from "path";
 import flash          from "express-flash";
 import fs             from "fs";
 import frontEndError  from "./helpers/frontendErrorFormatter";
-import getUserDetails from './Functions/User/getUserDetails';
+import getUserDetails from "./Functions/User/getUserDetails";
 import passport       from "./helpers/passport";
 
 import { Routes } from "./config/app/Routes";
@@ -19,7 +19,7 @@ const app = express();
 Views.SetEngine(app);
 Views.SetDetails(app);
 
-// app.enable('view cache');
+// app.enable("view cache");
 // Static files
 if (process.env.NODE_ENV === "development") {
     app.use(express.static(path.join(__dirname, "/../Public")));
@@ -59,7 +59,8 @@ app.use((req, res, next) => {
         res.locals.message = req.session.flash;
         delete req.session.flash;
     }
-    next()
+    
+    next();
 });
 
 // Set the routes
@@ -70,7 +71,7 @@ Routes.SetErrorPages(app);
 
 if (!fs.existsSync(process.env.UPLOAD_DESTINATION)) {
     console.error(`Could not open upload directory at: ${process.env.UPLOAD_DESTINATION}`);
-    console.error(`Try checking if the UPLOAD_DESTINATION environment variable is correct`);
+    console.error("Try checking if the UPLOAD_DESTINATION environment variable is correct");
     process.exit(1);
 }
 

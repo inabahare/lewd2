@@ -1,5 +1,5 @@
 import handlebars     from "express-handlebars";
-import path           from 'path';
+import path           from "path";
 import fs             from "fs";
 import moment         from "moment"; 
 
@@ -47,15 +47,15 @@ class Views {
         } else {
             return data.split(`found in file ${process.env.UPLOAD_DESTINATION}`)[0]
                        .split("Virus ")[1]
-                       .split("'")[1]
+                       .split("'")[1];
         }
 
     }
 
     static SetDetails(app) {
         app.set ("view engine", "hbs");
-        app.set('views', path.join(__dirname, "/../views"));
+        app.set("views", path.join(__dirname, "/../views"));
     }
 }
 
-export { Views }
+export { Views };

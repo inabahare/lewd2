@@ -38,7 +38,7 @@ async function post(req, res) {
         if (err) {
             if (err.message === "File too large") {
                 return res.status(400)
-                          .send(`You can't upload more than ${uploader.uploadsize / 1000} kB`);
+                            .send(`You can't upload more than ${uploader.uploadsize / 1000} kB`);
             }
             return;
         }
@@ -46,7 +46,7 @@ async function post(req, res) {
         const file = req.file;
         if (!file) {
             return res.status(400)
-                      .send(`You need to select a file to upload`);
+                      .send("You need to select a file to upload");
         }
         
         file.hash = await hashFile(file.path);
@@ -84,4 +84,4 @@ async function post(req, res) {
     });
 }
 
-export { post }
+export { post };

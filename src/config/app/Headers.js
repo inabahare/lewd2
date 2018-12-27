@@ -22,4 +22,4 @@ class Headers {
     }
 }
 
-export { Headers }
+export { Headers };

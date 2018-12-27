@@ -7,7 +7,7 @@ const units = {
     KiB: 1024,
     MiB: 1048576,
     GiB: 1073741824
-}
+};
 /**
  * Returns the input size in bytes according to the unit
  * @param {number} size 

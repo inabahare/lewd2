@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Navicat Premium 12
+Exec=env WINEPREFIX="/home/inaba/.wine" wine C:\\\\windows\\\\command\\\\start.exe /Unix /home/inaba/.wine/dosdevices/c:/users/Public/Desktop/Navicat\\ Premium\\ 12.lnk
+Type=Application
+StartupNotify=true
+Path=/home/inaba/.wine/dosdevices/c:/Program Files/PremiumSoft/Navicat Premium 12
+Icon=8F8C_navicat.0
+StartupWMClass=navicat.exe

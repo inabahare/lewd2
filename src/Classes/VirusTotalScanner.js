@@ -1,14 +1,10 @@
 import https         from "https";
 import queryString   from "querystring";
 import async         from "async";
-import { promisify } from "util";
-import fs            from "fs";
 import sleep         from "../Functions/sleep";
 import db            from "../helpers/database";
 import deleteFiles   from "../Functions/FileDeletion/deleteFiles";
 import logToTransparency from "../Functions/Transparency/logToTransparency";
-
-const unlink   = promisify(fs.unlink);
 
 class VirusTotalScanner {
     /**
@@ -36,7 +32,7 @@ class VirusTotalScanner {
                 "Accept-Encoding": "gzip deflate",
                 "User-Agent": "gzip " + process.env.VIRUSTOTAL_USER
             }
-        }
+        };
 
         this.queue = async.queue(async task => {
             // This is how the scanner i limited to 4 scans pr minute
@@ -80,7 +76,7 @@ class VirusTotalScanner {
         
             req.on("error", e => {
                 reject(e);
-            })
+            });
             
             req.write(postData);
             req.end();
@@ -137,7 +133,7 @@ class VirusTotalScanner {
             fileHash: filehash,
             fileName: filename,
             scanNumber: scanNumber
-        })
+        });
     }
 }
 

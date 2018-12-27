@@ -1,5 +1,5 @@
 import passport                      from "passport";
-import { Strategy as LocalStrategy } from 'passport-local';
+import { Strategy as LocalStrategy } from "passport-local";
 import db                            from "./database";
 import bcrypt                        from "bcrypt";
 import crypto                        from "crypto";

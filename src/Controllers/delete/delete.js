@@ -20,12 +20,6 @@ async function get(req, res) {
     res.send(`${file.filename} has just been deleted`);
 }
 
-function post(req, res) {
 
-}
 
-const validate = [
-
-]
-
-export { get, post, validate }
+export { get };

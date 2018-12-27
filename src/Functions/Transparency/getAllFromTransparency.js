@@ -11,6 +11,6 @@ const getAllFromTransparency = async () => {
     
     return getTransparency.rows.length > 0 ? getTransparency.rows 
                                            : null; 
-}
+};
 
 export default getAllFromTransparency;

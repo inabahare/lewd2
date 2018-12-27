@@ -10,6 +10,10 @@ const scan = (fileName, fileHash) => {
         remote.virusTotalScan(fileHash, fileName, 1);
         external.end();
     });
-}
+
+    external.on("error", function (err) {
+        console.error(err);
+    }); 
+};
 
 export default scan;

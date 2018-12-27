@@ -14,6 +14,6 @@ const logToTransparency = async (fileName, fileHash, reason, origin) => {
                             fileName, fileHash, reason, origin
                         ]);
     await client.release();
-}
+};
 
 export default logToTransparency;

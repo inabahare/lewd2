@@ -1,5 +1,5 @@
 import { Pool } from "pg";
-require('dotenv').config();
+require("dotenv").config();
 
 const pool = new Pool({
     user:     process.env.DB_USER,     
@@ -9,7 +9,7 @@ const pool = new Pool({
     port:     parseInt(process.env.DB_PORT),   
 });
 
-pool.on("error", (error, client) => {
+pool.on("error", (error) => {
     console.error("Unexpected db error", error);
     process.exit(-1);
 });

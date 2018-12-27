@@ -7,7 +7,7 @@ const getFilesForSecondaryScan = async () => {
                                          WHERE "scannedTwice" = FALSE;`);
                      await client.release();
 
-    return getFiles.rows
-}
+    return getFiles.rows;
+};
 
 export default getFilesForSecondaryScan;

@@ -15,6 +15,6 @@ const symlink = (target, path) => {
             }
         });
     });
-}
+};
 
 export default symlink;

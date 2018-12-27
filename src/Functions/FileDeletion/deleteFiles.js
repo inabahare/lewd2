@@ -4,7 +4,7 @@ import symlink       from "../Upload/symlink";
 import db            from "../../helpers/database";
 import debugge       from "debug";
 
-require('dotenv').config();
+require("dotenv").config();
 
 const unlink = promisify(fs.unlink);
 const move   = promisify(fs.rename);
@@ -38,7 +38,7 @@ const handleSymlink = async (client, fileName, fileSha) => {
                       process.env.UPLOAD_DESTINATION + file.filename);
         
     }
-}
+};
 
 /**
  * 

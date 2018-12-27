@@ -1,5 +1,5 @@
 import db                          from "../../helpers/database";
-import { check, validationResult } from "express-validator/check"
+import { check, validationResult } from "express-validator/check";
 import bcrypt                      from "bcrypt";
 
 // /forgot-password/:token
@@ -26,7 +26,7 @@ const passwordCheck = (value, { req }) => {
     } else {
         return true;
     }
-}
+};
 
 // /reset-password
 async function post(req, res) {
@@ -75,6 +75,6 @@ const validate = [
                            .custom(passwordCheck).withMessage("The two passwords must be the same"),
     check("token").exists().withMessage("You need to supply a valid token")                              
 
-]
+];
 
-export { get, post, validate }
+export { get, post, validate };

@@ -1,4 +1,4 @@
-import { schedule }             from 'node-cron';
+import { schedule }             from "node-cron";
 import dnode                    from "dnode";
 import async                    from "async"; 
 import debugge                  from "debug";
@@ -16,7 +16,7 @@ const virusTotal = new VirusTotalScanner(process.env.VIRUSTOTAL_KEY,
                                          process.env.VIRUSTOTAL_MAX_SCAN_WAIT_MS,
                                          process.env.VIRUSTOTAL_MAX_SCANS_PR_MINUTE,
                                          process.env.VIRUSTOTAL_MIN_ALLOWED_POSITIVES,
-                                         process.env.UPLOAD_DESTINATION)
+                                         process.env.UPLOAD_DESTINATION);
 
 
 /**
@@ -84,10 +84,11 @@ schedule(process.env.SECONDARY_SCAN_CRON, async () => {
             fileName: file.fileName,
             fileSha: file.filesha
         });
-    })
+    });
 });
 
 
+// eslint-disable-next-line no-unused-vars
 let num = 0;
 schedule(process.env.VIRUSTOTAL_SECOND_AND_THIRD_SCAN_CRON, async () => {
     const files = await getFilesToScan();
@@ -105,6 +106,6 @@ schedule(process.env.VIRUSTOTAL_SECOND_AND_THIRD_SCAN_CRON, async () => {
     files.forEach(file => {
         virusTotal.scan(file.filehash, file.filename, ++file.virusTotalScan);
     });    
-})
+});
  
 messageServer.listen(parseInt(process.env.MESSAGE_SERVER_PORT));

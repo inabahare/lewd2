@@ -1,6 +1,10 @@
-import fs                from "fs";
+import fs            from "fs";
+import { promisify } from "util";
 import db                from "../../helpers/database";
 import logToTransparency from "../../Functions/Transparency/logToTransparency";
+
+const unlink = promisify(fs.unlink);
+
 
 function get(req, res) {
     res.render("user", {
@@ -41,6 +45,6 @@ async function post(req, res) {
 
 const validate = [
 
-]
+];
 
-export { get, post, validate }
+export { get, post, validate };

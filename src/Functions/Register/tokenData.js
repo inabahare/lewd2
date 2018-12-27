@@ -18,7 +18,7 @@ const getTokenData = async token => {
                       await client.release();
 
     return getClient.rows[0];   
-}
+};
 
 /**
  * 
@@ -46,5 +46,5 @@ const checkTokenDataForErrors = tokenData => {
     return null;
 };
 
-export { getTokenData as getTokenData }
-export { checkTokenDataForErrors as checkTokenDataForErrors }
+export { getTokenData as getTokenData };
+export { checkTokenDataForErrors as checkTokenDataForErrors };

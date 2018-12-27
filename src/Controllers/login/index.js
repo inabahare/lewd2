@@ -10,4 +10,4 @@ const post = passport.authenticate("local", {
     failureFlash: "Invalid username or password"
 });
 
-export { get, post }
+export { get, post };

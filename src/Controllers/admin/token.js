@@ -1,5 +1,5 @@
 import crypto                      from "crypto";
-import { check, validationResult } from 'express-validator/check';
+import { check, validationResult } from "express-validator/check";
 import db                          from "../../helpers/database";
 import formatUploadSize            from "../../Functions/Token/formatUploadSize";
 
@@ -51,6 +51,6 @@ const validate = [
 
     check("unit").isLength({ min: 1, max: 3 }).withMessage("Upload unit needs to be a valid unit")
                  .isIn([ "B", "kB", "MB", "GB", "KiB", "MiB", "GiB" ]).withMessage("Upload unit needs to be a valid unit")
-]
+];
 
-export { get, post, validate }
+export { get, post, validate };

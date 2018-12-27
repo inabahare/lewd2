@@ -9,11 +9,11 @@ const unlink = promisify(fs.unlink);
  * @param {object} file The formidable file object 
  */
 const updateExistingFile = async (file) => {
-    const client      = await db.connect();
-    const updateQuery = await db.query(`UPDATE "Uploads" SET uploaddate = NOW() WHERE filesha = $1`, [file.hash]);
-                        await client.release();
+    const client = await db.connect();
+                   await db.query(`UPDATE "Uploads" SET uploaddate = NOW() WHERE filesha = $1`, [file.hash]);
+                   await client.release();
 
     unlink(file.path);
-}
+};
 
 export default updateExistingFile;

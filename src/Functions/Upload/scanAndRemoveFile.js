@@ -1,13 +1,8 @@
-import fs                from "fs";
-import { promisify }     from "util"
 import { spawn }         from "child_process";
-import db                from "../../helpers/database";
 import logToTransparency from "../Transparency/logToTransparency";
-import sleep             from "../sleep";
 import deleteFiles       from "../FileDeletion/deleteFiles";
 import debugge           from "debug";
 
-const unlink = promisify(fs.unlink);
 
 /**
  * 
@@ -15,7 +10,7 @@ const unlink = promisify(fs.unlink);
  * @param {string} fileSha The sha hash of the file to scan
  */
 const scanAndRemoveFile = (filename, fileSha) => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         debugge("sophos")(fileSha);
         const filePath = process.env.UPLOAD_DESTINATION + filename;
         const scanner = spawn("/opt/sophos-av/bin/savscan", ["-nc", 
@@ -50,7 +45,7 @@ const scanAndRemoveFile = (filename, fileSha) => {
                                    .split(">>> ")[1];
 
                 if (fileGotDeleted)
-                    await logToTransparency(filename, fileSha, reason, "Sophos")
+                    await logToTransparency(filename, fileSha, reason, "Sophos");
 
                 resolve(null);
             } else {

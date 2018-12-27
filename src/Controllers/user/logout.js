@@ -9,4 +9,4 @@ async function get(req, res) {
     res.redirect("/");
 }
 
-export { get }
+export { get };

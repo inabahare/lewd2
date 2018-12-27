@@ -11,6 +11,6 @@ const getAllUsers = async () => {
     // Remove default users
     allUsers.rows.shift();
     return allUsers.rows;
-}
+};
 
 export default getAllUsers;

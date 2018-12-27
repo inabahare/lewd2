@@ -7,4 +7,4 @@ function get(req, res) {
     }
 }
 
-export { get }
+export { get };

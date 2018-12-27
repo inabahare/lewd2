@@ -11,6 +11,6 @@ const markAsScannedTwice = async files => {
                          
     });
     await client.release();
-}
+};
 
 export default markAsScannedTwice;

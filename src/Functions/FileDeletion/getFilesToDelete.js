@@ -9,4 +9,4 @@ export default async () => {
   await client.release();
 
   return getFiles.rows;
-}
+};

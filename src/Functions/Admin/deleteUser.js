@@ -9,7 +9,7 @@ import removeFiles from "../FileDeletion/deleteFiles";
 const deleteUser = async (id, deleteFiles = false) => {
     const client = await db.connect();
                    await client.query(`DELETE FROM "Users" WHERE id = $1;`, [id]);
-                   await client.query(`DELETE FROM "LoginTokens" WHERE userid = $1;`, [id])
+                   await client.query(`DELETE FROM "LoginTokens" WHERE userid = $1;`, [id]);
 
     if (deleteFiles) {
         const getFiles = await client.query(`SELECT 
@@ -34,7 +34,7 @@ const deleteUser = async (id, deleteFiles = false) => {
     }
     
     await client.release();
-} 
+}; 
 
 
 export default deleteUser;

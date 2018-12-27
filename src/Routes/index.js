@@ -11,7 +11,7 @@ router.use((req, res, next) => {
       res.locals.message.uploadData = JSON.parse(res.locals.message.uploadData);
   
   next();
-})
+});
 
 router.get("/",             index.index.get);
 router.get("/info",         index.info.get);

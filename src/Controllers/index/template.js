@@ -1,17 +1,17 @@
-import express                from "express";
-import getAllFromTransparency from "../Functions/Transparency/getAllFromTransparency";
+// import express                from "express";
+// import getAllFromTransparency from "../Functions/Transparency/getAllFromTransparency";
 
 
-function get(req, res) {
+// function get(req, res) {
 
-}
+// }
 
-function post(req, res) {
+// function post(req, res) {
 
-}
+// }
 
-const validate = [
+// const validate = [
 
-]
+// ];
 
-export { get, post, validate }
+// export { get, post, validate };

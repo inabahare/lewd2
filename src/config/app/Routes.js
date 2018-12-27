@@ -15,15 +15,15 @@ class Routes {
         app.use("/user",       user);
         app.use("/register",   register);
         app.use("/delete",     deleter);
-        app.use("/user/admin", admin)
+        app.use("/user/admin", admin);
     }
 
     static SetErrorPages(app) {
-        app.use((req, res, next) =>{
+        app.use((req, res,) =>{
             res.status(404)
                .render("404");
         });
     }
 }
 
-export { Routes }
+export { Routes };

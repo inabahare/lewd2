@@ -1,4 +1,4 @@
-import { check, validationResult } from 'express-validator/check';
+import { check, validationResult } from "express-validator/check";
 import crypto                      from "crypto";
 import db                          from "../../helpers/database";
 import { checkIfUsernameExists }   from "../../Functions/Register/checkIfUsernameExists";
@@ -37,4 +37,4 @@ const validate = [
 
 ];
 
-export { get, post, validate }
+export { get, post, validate };

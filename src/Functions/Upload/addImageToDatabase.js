@@ -20,17 +20,17 @@ const addImageToDatabase = async (file, userid) => {
                                                                       // IE if the above query is not undefined then it needs to generate a new token
     } while (deltionKeyCheck);
 
-    const insertUpload = await client.query(`INSERT INTO "Uploads" (filename, originalName, filesha, userid, duplicate, uploaddate, deletionkey, size) 
-                                             VALUES ($1, $2, $3, $4, $5, NOW(), $6, $7);`, [
-                                                 file.filename,
-                                                 file.originalname, 
-                                                 file.hash, 
-                                                 userid, 
-                                                 file.duplicate.toString(),
-                                                 file.deletionKey,
-                                                 file.size
-                                                ]);
-                         await client.release();
+    await client.query(`INSERT INTO "Uploads" (filename, originalName, filesha, userid, duplicate, uploaddate, deletionkey, size) 
+                        VALUES ($1, $2, $3, $4, $5, NOW(), $6, $7);`, [
+                            file.filename,
+                            file.originalname, 
+                            file.hash, 
+                            userid, 
+                            file.duplicate.toString(),
+                            file.deletionKey,
+                            file.size
+                        ]);
+    await client.release();
 };
 
 export default addImageToDatabase;
