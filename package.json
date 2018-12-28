@@ -13,15 +13,12 @@
     "start-watch": "node_modules/.bin/concurrently \"npm:start-app\" \"npm:start-cron\"",
     "start-app": "nodemon --inspect dist/app.js",
     "start-cron": "nodemon dist/cronactions.js",
-
     "build": "node_modules/.bin/concurrently \"npm:build-server\" \"npm:build-less\" && npm run move-sourcemaps",
     "build-server": "node_modules/.bin/parcel build src/app.js src/cronactions.js --target node --no-minify",
     "build-less": "node_modules/.bin/parcel build Public/CSS/main.less --out-dir Public/CSS",
-    
     "build-watch": "node_modules/.bin/concurrently \"npm:watch-server\" \"npm:watch-less\"",
     "watch-server": "node_modules/.bin/parcel src/app.js src/cronactions.js --target node",
     "watch-less": "node_modules/.bin/parcel watch Public/CSS/main.less --out-dir Public/CSS",
-
     "move-sourcemaps": "mv dist/app.map dist/app.js.map"
   },
   "dependencies": {
@@ -52,7 +49,8 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "pg": "^7.4.3",
-    "sha1": "^1.1.1"
+    "sha1": "^1.1.1",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

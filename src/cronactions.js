@@ -35,12 +35,14 @@ const sophosQueue = async.queue(async (task) => {
  */
 const messageServer = dnode({
     sophosScan: (fileName, fileSha) => {
+        debugge("scan")("Scanning with sophos");
         sophosQueue.push({
             fileName: fileName,
             fileSha: fileSha
         });
     },
     virusTotalScan: (fileHash, fileName, scanNumber) => {
+        debugge("scan")("Scanning with virustotal");
         virusTotal.scan(fileHash, fileName, scanNumber);
     }
 });

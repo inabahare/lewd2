@@ -3,15 +3,16 @@ import debug from "debug";
 import bcrypt from "bcrypt";
 
 class Database {
-    static async SetUP() {
+    /**
+     * Runs all the database setup stuff
+     */
+    static async SetUp() {
         const client = await db.connect();
 
         await this.AddAdmin(client);
 
         await client.release();
     }
-
-    // 
 
     static async AddAdmin(client) {
         this.AdminLog("Checking if admin exists");

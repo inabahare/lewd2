@@ -80,7 +80,7 @@ if (!fs.existsSync(process.env.UPLOAD_DESTINATION)) {
 // STARTUP SETUP //
 ///////////////////
 (async function() {
-    await Setup.Database.SetUP();
+    await Setup.Database.SetUp();
 })();
 
 

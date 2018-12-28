@@ -6,6 +6,7 @@ import dnode from "dnode";
 const scan = (fileName, fileHash) => {
     const external = dnode.connect(parseInt(process.env.MESSAGE_SERVER_PORT));
     external.on("remote", remote => {
+        console.log("What");
         remote.sophosScan(fileName, fileHash);
         remote.virusTotalScan(fileHash, fileName, 1);
         external.end();
