@@ -11,6 +11,8 @@ class Database {
         await client.release();
     }
 
+    // 
+
     static async AddAdmin(client) {
         this.AdminLog("Checking if admin exists");
         const user = await client.query(`SELECT username FROM "Users" WHERE username = $1;`, [ process.env.ADMIN_DEFAULT_USERNAME ]);
