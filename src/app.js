@@ -13,6 +13,8 @@ import { Routes } from "./config/app/Routes";
 import { Views } from "./config/app/Views";
 import { Headers } from "./config/app/Headers";
 
+import { Setup } from "./config/setup";
+
 const app = express();
 
 // Load views
@@ -29,7 +31,6 @@ if (process.env.NODE_ENV === "development") {
 Headers.SetBodyParser(app);
 Headers.SetCookieParser(app);
 Headers.SetSession(app);
-
 
 app.use(flash());
 
@@ -74,6 +75,13 @@ if (!fs.existsSync(process.env.UPLOAD_DESTINATION)) {
     console.error("Try checking if the UPLOAD_DESTINATION environment variable is correct");
     process.exit(1);
 }
+
+///////////////////
+// STARTUP SETUP //
+///////////////////
+(async function() {
+    await Setup.Database.SetUP();
+})();
 
 
 app.listen(parseInt(process.env.SITE_PORT), () => console.log("It's up and running :3"));
