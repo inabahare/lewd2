@@ -66,7 +66,6 @@ class VirusTotalScanner {
                     const result = end.length === 0 ? null 
                                                     : JSON.parse(end);
     
-                    console.log(end);
                     resolve(result);
                 });
     
