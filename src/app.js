@@ -5,15 +5,15 @@ import express        from "express";
 import path           from "path";
 import flash          from "express-flash";
 import fs             from "fs";
-import frontEndError  from "./helpers/frontendErrorFormatter";
-import getUserDetails from "./Functions/User/getUserDetails";
-import passport       from "./helpers/passport";
+import frontEndError  from "./app/helpers/frontendErrorFormatter";
+import getUserDetails from "./app/Functions/User/getUserDetails";
+import passport       from "./app/helpers/passport";
 
-import { Routes } from "./config/app/Routes";
-import { Views } from "./config/app/Views";
-import { Headers } from "./config/app/Headers";
+import { Routes }  from "./app/config/app/Routes";
+import { Views }   from "./app/config/app/Views";
+import { Headers } from "./app/config/app/Headers";
 
-import { Setup } from "./config/setup";
+import { Setup } from "./app/config/setup";
 
 const app = express();
 

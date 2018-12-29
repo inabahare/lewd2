@@ -1,16 +1,18 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import { schedule }             from "node-cron";
 import dnode                    from "dnode";
 import async                    from "async"; 
 import debugge                  from "debug";
-import scanAndRemoveFile        from "./Functions/Upload/scanAndRemoveFile";
-import getFilesToDelete         from "./Functions/FileDeletion/getFilesToDelete";
-import deleteFiles              from "./Functions/FileDeletion/deleteFiles";
-import getFilesForSecondaryScan from "./Functions/SecondaryScan/GetFilesForSecondaryScan";
-import getFilesToScan            from "./Functions/VirusTotal/getFilesToScan";
-import VirusTotalScanner        from "./Classes/VirusTotalScanner";
+import scanAndRemoveFile        from "./app/Functions/Upload/scanAndRemoveFile";
+import getFilesToDelete         from "./app/Functions/FileDeletion/getFilesToDelete";
+import deleteFiles              from "./app/Functions/FileDeletion/deleteFiles";
+import getFilesForSecondaryScan from "./app/Functions/SecondaryScan/GetFilesForSecondaryScan";
+import getFilesToScan           from "./app/Functions/VirusTotal/getFilesToScan";
+import VirusTotalScanner        from "./app/Classes/VirusTotalScanner";
 
-import dotenv from "dotenv";
-dotenv.config();
+
 
 const virusTotal = new VirusTotalScanner(process.env.VIRUSTOTAL_KEY,
                                          process.env.VIRUSTOTAL_MAX_SCAN_WAIT_MS,
@@ -23,8 +25,6 @@ const virusTotal = new VirusTotalScanner(process.env.VIRUSTOTAL_KEY,
  * Limits the AV scans
  */
 const sophosQueue = async.queue(async (task) => {
-    debugge("sophos-call")(task);
-    
     // This is a hack that makes it possible to develop without having Sophos installed. Don't tell anyone :v
     if (process.env.NODE_ENV === "production")
         await scanAndRemoveFile(task.fileName, task.fileSha);
@@ -35,14 +35,12 @@ const sophosQueue = async.queue(async (task) => {
  */
 const messageServer = dnode({
     sophosScan: (fileName, fileSha) => {
-        debugge("scan")("Scanning with sophos");
         sophosQueue.push({
             fileName: fileName,
             fileSha: fileSha
         });
     },
     virusTotalScan: (fileHash, fileName, scanNumber) => {
-        debugge("scan")("Scanning with virustotal");
         virusTotal.scan(fileHash, fileName, scanNumber);
     }
 });
