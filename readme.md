@@ -7,7 +7,7 @@
 * PostgreSQL (Tested on 9.6)
 * A webserver with reverse proxying (Tested on NGINX 1.10.3)
 * Sophos AV
-* g++ (Tested on 7.3.0)
+* g++ (Tested on 6.3.0)
 
 #### Optional
 * yarn (npm alternative)
