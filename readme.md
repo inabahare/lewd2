@@ -46,7 +46,7 @@ And you're done with the database. Type exit to log out of the postgres user and
 
 ### Node
 
-First rename **.env.dist** to **.env** and edit *DB_PASSWORD*, *DB_DATABASE* to the password and database you set previously. Also edit the *SITE DETAILS* so they're relevant. 
+First rename **.env.dist** to **.env** and edit *DB_PASSWORD*, *DB_DATABASE* to the password and database you set previously. Then edit the *SITE DETAILS* so they're relevant. Oh and also ADMIN_DEFAULT_TOKEN to set a custom upload token for the admin account
 
 Save and then run the command 
 

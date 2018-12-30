@@ -6,7 +6,7 @@ module.exports = {
         error : "./logs/app.error.log",
         log   : "./logs/app.combined.outerr.log",
         env: {
-            NODE_ENV: "production"
+            NODE_ENV: "development"
         },
         env_production : {
             NODE_ENV: "production"
