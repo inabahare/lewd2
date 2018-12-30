@@ -23,8 +23,8 @@ const getUserDetails = async loginToken => {
                                         ]);
                     await client.release();
 
-    if (getUser.rows[0].username === "null")
-        getUser.rows[0].username = null;
+    if (getUser.rows.length == 0)
+        return null;
     
     return getUser.rows[0];
 };
