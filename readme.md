@@ -3,20 +3,19 @@
 ## Requirements
 
 ### Install these
-* NodeJS (Tested on 8.11.3)
-* PostgreSQL
-* NGINX
+* NodeJS (Tested on 10.14.2)
+* PostgreSQL (Tested on 9.6)
+* A webserver with reverse proxying (Tested on NGINX 1.10.3)
 * Sophos AV
 
 #### Optional
 * yarn (npm alternative)
 
-### Then run this command
+## Setup
+First pull this repository and install pm2
 ```bash
 # npm install pm2 -g
 ```
-## Setup
-First pull the repository
 
 ### Database
 First copy SQL/templates.sql.dist to SQL/templates.sql and find this on line just search for it
@@ -78,7 +77,7 @@ to build the project. Then spin up the server with
 $ pm2 start ecosystem.config.js
 ```
 
-### NGINX
+### NGINX config 
 
 The bare minimum you need in _/etc/nginx/sites-available/default_ is the following:
 
