@@ -5,6 +5,7 @@ module.exports = {
         output: "./logs/app.out.log",
         error : "./logs/app.error.log",
         log   : "./logs/app.combined.outerr.log",
+        log_date_format : "YYYY-MM-DD HH:mm Z",
         env: {
             NODE_ENV: "development"
         },
@@ -17,5 +18,7 @@ module.exports = {
         output: "./logs/cron.out.log",
         error : "./logs/cron.error.log",
         log   : "./logs/cron.combined.outerr.log",
+        log_date_format : "YYYY-MM-DD HH:mm Z",
+        
     }]
 };
