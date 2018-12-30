@@ -38,6 +38,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.locals.siteName   = process.env.SITE_NAME;
+app.locals.siteLink   = process.env.SITE_LINK;
 app.locals.uploadLink = process.env.UPLOAD_LINK;
 
 // Set local user

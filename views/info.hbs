@@ -6,7 +6,7 @@
         <li>
             <p>
                 <span class="has-text-weight-bold">Curl:</span>
-                curl {{#if user.username}}--header "token: {{{user.token}}}"{{/if}} -F "file=@filename" http://localhost/upload
+                curl {{#if user.username}}--header "token: {{{user.token}}}"{{/if}} -F "file=@filename" {{ siteLink }}upload
             </p>
         </li>
 

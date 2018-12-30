@@ -106,3 +106,12 @@ Where of course, client_max_body_size should be changed if larger files should b
 ## When you're done
 
 Now when it's all set up you're ready you can go to your domain and log in with admin and admin as username and password
+
+# Starting, stopping, and monitoring 
+
+
+```bash
+$ pm2 start ecosystem.config.js
+$ pm2 stop all
+$ pm2 start ecosystem.config.js
+```
