@@ -7,6 +7,7 @@
 * PostgreSQL (Tested on 9.6)
 * A webserver with reverse proxying (Tested on NGINX 1.10.3)
 * Sophos AV
+* g++ (Tested on 7.3.0)
 
 #### Optional
 * yarn (npm alternative)
@@ -18,13 +19,7 @@ First pull this repository and install pm2
 ```
 
 ### Database
-First copy SQL/templates.sql.dist to SQL/templates.sql and find this on line just search for it
-```sql
-COPY public."Users" (username, password, token, roleid) FROM stdin;
-UserNameHere	PasswordHere	TokenHere	3
-\.
-```
-Then find a *username* for the first user. Then go here [here](https://www.dailycred.com/article/bcrypt-calculator) to generate a password, and then set the (upload) token. Save the file and type
+First you should change the default users password. This is done by first switching to the postgres user
 
 ```bash
 $ sudo -i -u postgres 
@@ -41,16 +36,10 @@ and set the database password with
 \password postgres
 ```
 
-After that run
-
-```sql
-CREATE DATABASE ____;
-```
-
-with the underscores replaced with a database name. Then exit the database with **\q** and while still logged in as *postgres*, navigate to /where/you/clone/the/repo/SQL and run the following command
+ Then exit the database with **\q** and while still logged in as *postgres*, navigate to /where/you/clone/the/repo/SQL and run the following command
 
 ```bash
-$ psql ____ <  template.sql
+$ psql postgres <  template.sql
 ```
 
 And you're done with the database. Type exit to log out of the postgres user and we can set up node
