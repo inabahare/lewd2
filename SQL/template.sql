@@ -116,9 +116,7 @@ CREATE TABLE "public"."Uploads" (
   "deletionkey" varchar(36) COLLATE "pg_catalog"."default",
   "size" int8,
   "scannedTwice" bool DEFAULT false,
-  "virustotalOne" bool DEFAULT false,
-  "virustotalTwo" bool DEFAULT false,
-  "virustotalThree" bool DEFAULT false
+  "virustotalScan" int4 NOT NULL
 )
 ;
 COMMENT ON COLUMN "public"."Uploads"."size" IS 'Size in bytes';
