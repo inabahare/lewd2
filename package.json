@@ -9,16 +9,21 @@
   "private": true,
   "scripts": {
     "start": "node dist/app.js",
-    "start:dev": "nodemon dist/app.js",
-    "build:dev": "node_modules/.bin/concurrently \"npm:watch-server\" \"npm:watch-server\"",
-    "build:prod": "node_modules/.bin/concurrently \"npm:build-server\" \"npm:build-server\"",
-    "build-server": "node_modules/.bin/parcel build src/app.js src/cronactions.js --target node",
+    "debug": "node --nolazy --inspect-brk=9229 dist/app.js",
+    "start-watch": "node_modules/.bin/concurrently \"npm:start-app\" \"npm:start-cron\"",
+    "start-app": "nodemon --inspect dist/app.js",
+    "start-cron": "nodemon dist/cronactions.js",
+    "build": "node_modules/.bin/concurrently \"npm:build-server\" \"npm:build-less\" && npm run move-sourcemaps",
+    "build-server": "node_modules/.bin/parcel build src/app.js src/cronactions.js src/AntiVirusApi.js --target node --no-minify",
     "build-less": "node_modules/.bin/parcel build Public/CSS/main.less --out-dir Public/CSS",
+    "build-watch": "node_modules/.bin/concurrently \"npm:watch-server\" \"npm:watch-less\"",
     "watch-server": "node_modules/.bin/parcel src/app.js src/cronactions.js --target node",
-    "watch-less": "node_modules/.bin/parcel watch Public/CSS/main.less --out-dir Public/CSS"
+    "watch-less": "node_modules/.bin/parcel watch Public/CSS/main.less --out-dir Public/CSS",
+    "move-sourcemaps": "mv dist/app.map dist/app.js.map"
   },
   "dependencies": {
     "async": "^2.6.1",
+    "axios": "^0.18.0",
     "babel-runtime": "^6.26.0",
     "bcrypt": "^3.0.1",
     "body-parser": "^1.18.3",
@@ -45,12 +50,14 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "pg": "^7.4.3",
-    "sha1": "^1.1.1"
+    "sha1": "^1.1.1",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
     "concurrently": "^4.1.0",
+    "less": "^3.9.0",
     "parcel": "^1.11.0"
   }
 }

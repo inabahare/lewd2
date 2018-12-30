@@ -1,225 +1,139 @@
---
--- PostgreSQL database dump
---
-
--- Dumped from database version 10.5 (Ubuntu 10.5-0ubuntu0.18.04)
--- Dumped by pg_dump version 10.5 (Ubuntu 10.5-0ubuntu0.18.04)
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET client_min_messages = warning;
-SET row_security = off;
-
---
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
---
-
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
-
-
---
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
---
-
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
-
-SET default_tablespace = '';
-
-SET default_with_oids = false;
-
---
--- Name: LoginTokens; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public."LoginTokens" (
-    token character varying(255),
-    registered timestamp(6) without time zone,
-    userid integer
-);
-
-
-ALTER TABLE public."LoginTokens" OWNER TO postgres;
-
---
--- Name: RegisterTokens; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public."RegisterTokens" (
-    token character varying(255) NOT NULL,
-    registered timestamp(0) without time zone DEFAULT now() NOT NULL,
-    used boolean DEFAULT false,
-    roleid integer DEFAULT 0 NOT NULL,
-    uploadsize bigint NOT NULL,
-    isadmin boolean DEFAULT false
-);
-
-
-ALTER TABLE public."RegisterTokens" OWNER TO postgres;
-
---
--- Name: Roles; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public."Roles" (
-    id integer NOT NULL,
-    name character varying(255),
-    uploadsize bigint DEFAULT 134200000
-);
-
-
-ALTER TABLE public."Roles" OWNER TO postgres;
-
---
--- Name: Transparency; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public."Transparency" (
-    "Date" date,
-    "FileName" character varying(255),
-    "FileHash" character varying(255),
-    "Type" character varying(255),
-    "Origin" character varying(255)
-);
-
-
-ALTER TABLE public."Transparency" OWNER TO postgres;
-
---
--- Name: Uploads; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public."Uploads" (
-    id serial NOT NULL,
-    filename character varying(255) NOT NULL,
-    userid integer NOT NULL,
-    uploaddate timestamp(6) without time zone DEFAULT now(),
-    filesha character varying(255),
-    deleted boolean DEFAULT false NOT NULL,
-    duplicate boolean DEFAULT false NOT NULL,
-    originalname character varying(255) NOT NULL,
-    virus boolean DEFAULT false,
-    passworded boolean DEFAULT false,
-    deletionkey character varying(255),
-    size bigint,
-    "scannedTwice" boolean DEFAULT false,
-    "virustotalOne" boolean DEFAULT false,
-    "virustotalTwo" boolean DEFAULT false,
-    "virustotalThree" boolean DEFAULT false
-);
-
-
-ALTER TABLE public."Uploads" OWNER TO postgres;
-
---
--- Name: COLUMN "Uploads".size; Type: COMMENT; Schema: public; Owner: postgres
---
-
-COMMENT ON COLUMN public."Uploads".size IS 'Size in bytes';
-
---
--- Name: Users; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public."Users" (
-    id serial NOT NULL,
-    username character varying(255),
-    password character varying(255),
-    token character varying(255),
-    roleid smallint,
-    uploadsize bigint,
-    isadmin boolean DEFAULT false
-);
-
-
-ALTER TABLE public."Users" OWNER TO postgres;
-
---
--- Data for Name: LoginTokens; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public."LoginTokens" (token, registered, userid) FROM stdin;
-\.
-
-
---
--- Data for Name: RegisterTokens; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public."RegisterTokens" (token, registered, used, roleid, uploadsize, isadmin) FROM stdin;
-\.
-
-
---
--- Data for Name: Roles; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public."Roles" (id, name, uploadsize) FROM stdin;
-\.
-
-
---
--- Data for Name: Transparency; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public."Transparency" ("Date", "FileName", "FileHash", "Type", "Origin") FROM stdin;
-\.
-
-
---
--- Data for Name: Uploads; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public."Uploads" (id, filename, userid, uploaddate, filesha, deleted, duplicate, originalname, virus, passworded, deletionkey, size, "scannedTwice", "virustotalOne", "virustotalTwo", "virustotalThree") FROM stdin;
-\.
-
-
---
--- Data for Name: Users; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public."Users" (id, username, password, token, roleid, uploadsize, isadmin) FROM stdin;
-0	null	default	default	0	280000000	f
-1	UserName	PasswordHashed	YourToken	3	1000000000	t
-\.
-
---
--- Name: Uploads Uploads_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Uploads"
-    ADD CONSTRAINT "Uploads_id_key" UNIQUE (id);
-
-
---
--- Name: Uploads Uploads_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Uploads"
-    ADD CONSTRAINT "Uploads_pkey" PRIMARY KEY (id);
-
-
---
--- Name: Users Users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Users"
-    ADD CONSTRAINT "Users_pkey" PRIMARY KEY (id);
-
-
---
--- PostgreSQL database dump complete
---
-
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : LocalPost
+ Source Server Type    : PostgreSQL
+ Source Server Version : 100006
+ Source Host           : localhost:5432
+ Source Catalog        : lewd
+ Source Schema         : public
+
+ Target Server Type    : PostgreSQL
+ Target Server Version : 100006
+ File Encoding         : 65001
+
+ Date: 29/12/2018 13:19:40
+*/
+
+
+-- ----------------------------
+-- Sequence structure for Uploads_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."Uploads_id_seq";
+CREATE SEQUENCE "public"."Uploads_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 2147483647
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for Users_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "public"."Users_id_seq";
+CREATE SEQUENCE "public"."Users_id_seq" 
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 2147483647
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Table structure for LoginTokens
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."LoginTokens";
+CREATE TABLE "public"."LoginTokens" (
+  "token" varchar(255) COLLATE "pg_catalog"."default",
+  "registered" timestamp(6),
+  "userid" int4
+)
+;
+
+-- ----------------------------
+-- Table structure for RegisterTokens
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."RegisterTokens";
+CREATE TABLE "public"."RegisterTokens" (
+  "token" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "registered" timestamp(0) NOT NULL DEFAULT now(),
+  "used" bool DEFAULT false,
+  "roleid" int4 NOT NULL DEFAULT 0,
+  "uploadsize" int8 NOT NULL,
+  "isadmin" bool DEFAULT false
+)
+;
+
+-- ----------------------------
+-- Table structure for Roles
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."Roles";
+CREATE TABLE "public"."Roles" (
+  "id" int4 NOT NULL,
+  "name" varchar(255) COLLATE "pg_catalog"."default",
+  "uploadsize" int8 DEFAULT 134200000
+)
+;
+
+-- ----------------------------
+-- Table structure for Transparency
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."Transparency";
+CREATE TABLE "public"."Transparency" (
+  "Date" date,
+  "FileName" varchar(255) COLLATE "pg_catalog"."default",
+  "FileHash" varchar(255) COLLATE "pg_catalog"."default",
+  "Type" varchar(255) COLLATE "pg_catalog"."default",
+  "Origin" varchar(255) COLLATE "pg_catalog"."default"
+)
+;
+
+-- ----------------------------
+-- Table structure for UpdatePasswordKeys
+-- ----------------------------
 DROP TABLE IF EXISTS "public"."UpdatePasswordKeys";
 CREATE TABLE "public"."UpdatePasswordKeys" (
   "key" varchar(20) COLLATE "pg_catalog"."default",
   "registered" timestamp(6),
   "userId" int8
+)
+;
+
+-- ----------------------------
+-- Table structure for Uploads
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."Uploads";
+CREATE TABLE "public"."Uploads" (
+  "id" int4 NOT NULL DEFAULT nextval('"Uploads_id_seq"'::regclass),
+  "filename" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "userid" int4 NOT NULL,
+  "uploaddate" timestamp(6) DEFAULT now(),
+  "filesha" varchar(255) COLLATE "pg_catalog"."default",
+  "deleted" bool NOT NULL DEFAULT false,
+  "duplicate" bool NOT NULL DEFAULT false,
+  "originalname" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "virus" bool DEFAULT false,
+  "passworded" bool DEFAULT false,
+  "deletionkey" varchar(36) COLLATE "pg_catalog"."default",
+  "size" int8,
+  "scannedTwice" bool DEFAULT false,
+  "virustotalOne" bool DEFAULT false,
+  "virustotalTwo" bool DEFAULT false,
+  "virustotalThree" bool DEFAULT false
+)
+;
+COMMENT ON COLUMN "public"."Uploads"."size" IS 'Size in bytes';
+
+-- ----------------------------
+-- Table structure for Users
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."Users";
+CREATE TABLE "public"."Users" (
+  "id" int4 NOT NULL DEFAULT nextval('"Users_id_seq"'::regclass),
+  "username" varchar(255) COLLATE "pg_catalog"."default",
+  "password" varchar(255) COLLATE "pg_catalog"."default",
+  "token" varchar(255) COLLATE "pg_catalog"."default",
+  "roleid" int2,
+  "uploadsize" int8,
+  "isadmin" bool DEFAULT false
 )
 ;
