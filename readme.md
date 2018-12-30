@@ -51,8 +51,8 @@ First rename **.env.dist** to **.env** and edit the following
 * DB_PASSWORD
 * Everything under # Site detals
 * VIRUSTOTAL_KEY  
-* VIRUSTOTAL_USER
-* ADMIN_DEFAULT_TOKEN
+* VIRUSTOTAL_USER (This is the username of your virustotal account (yes it needs))
+* ADMIN_DEFAULT_TOKEN (This is the admins upload key for this site. Put in anything really (though I'm not sure using # is a good since .env uses those for comments))
 
 to fit the sites specs.
 
