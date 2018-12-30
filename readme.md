@@ -46,7 +46,15 @@ And you're done with the database. Type exit to log out of the postgres user and
 
 ### Node
 
-First rename **.env.dist** to **.env** and edit *DB_PASSWORD*, *DB_DATABASE* to the password and database you set previously. Then edit the *SITE DETAILS* so they're relevant. Oh and also ADMIN_DEFAULT_TOKEN to set a custom upload token for the admin account
+First rename **.env.dist** to **.env** and edit the following 
+
+* DB_PASSWORD
+* Everything under # Site detals
+* VIRUSTOTAL_KEY  
+* VIRUSTOTAL_USER
+* ADMIN_DEFAULT_TOKEN
+
+to fit the sites specs.
 
 Save and then run the command 
 
@@ -57,7 +65,7 @@ $ npm install
 to install all the dependencies and dev dependencies. When that's done run
 
 ```bash
-$ npm run build:prod
+$ npm run build
 ```
 
 to build the project. Then spin up the server with
