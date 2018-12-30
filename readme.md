@@ -94,3 +94,7 @@ server {
 ```
 
 Where of course, client_max_body_size should be changed if larger files should be uploaded. Setting it to 0 will disable the check, but will also allow people to upload infinitely large files
+
+## When you're done
+
+Now when it's all set up you're ready you can go to your domain and log in with admin and admin as username and password
