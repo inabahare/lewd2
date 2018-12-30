@@ -3,7 +3,7 @@ function get(req, res) {
     const shareXConfig = `{
         "Name": "Local",
         "DestinationType": "ImageUploader, FileUploader",
-        "RequestURL": "${process.env.UPLOAD_LINK}",
+        "RequestURL": "${process.env.SITE_LINK}uploads",
         "FileFormName": "file",
         "Headers": {
           "token": "${res.locals.user.token}"
