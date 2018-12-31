@@ -69,6 +69,10 @@ server {
         gzip on;
 
         location / {
+                try_files $uri @backend;
+        }
+
+        location @backend {
                 proxy_pass http://localhost:8080;
         }
 }
