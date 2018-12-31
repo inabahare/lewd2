@@ -10,8 +10,13 @@ function get(req, res) {
         },
         "URL": "$json:data.link$"
       }`;
-
-    res.send(shareXConfig);
+    
+    if (res.locals.user) {
+      res.send(shareXConfig);
+    }
+    else {
+      res.send("You need to be logged in for this");
+    }
 }
 
 export { get };
