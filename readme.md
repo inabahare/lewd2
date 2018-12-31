@@ -1,8 +1,7 @@
-# Lewd.se uploader
+# lewd.se uploader
+
 
 ## Requirements
-
-### Install these
 * NodeJS (Tested on 10.14.2)
 * PostgreSQL (Tested on 9.6)
 * A webserver with reverse proxying (Tested on NGINX 1.10.3)
@@ -12,41 +11,29 @@
 #### Optional
 * yarn (npm alternative)
 
+
 ## Setup
 First pull this repository and install pm2
-```bash
-# npm install pm2 -g
-```
+
+`# npm install pm2 -g`
+
 
 ### Database
-First you should change the default users password. This is done by first switching to the postgres user
+First you should change the default users password. This is easily done by executing psql as the postgres user
 
-```bash
-$ sudo -i -u postgres 
-```
-Then log in to postgres with 
+`$ sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'topsecret';"`
 
-```bash
-$ psql
-```
+like so, then we'll proceed to import the template
 
-and set the database password with
+`$ sudo -u postgres psql postgres < /path/to/lewd2/SQL/template.sql`
 
-```bash
-\password postgres
-```
 
- Then exit the database with **\q** and while still logged in as *postgres*, navigate to /where/you/clone/the/repo/SQL and run the following command
+And you're done with the database!
 
-```bash
-$ psql postgres <  template.sql
-```
-
-And you're done with the database. Type exit to log out of the postgres user and we can set up node
 
 ### Node
 
-First rename **.env.dist** to **.env** and edit the following 
+Copy **.env.dist** to **.env** and edit the following 
 
 * DB_PASSWORD
 * Everything under # Site detals
@@ -56,23 +43,13 @@ First rename **.env.dist** to **.env** and edit the following
 
 to fit the sites specs.
 
-Save and then run the command 
+Save and then run the command `$ npm install` to install all the dependencies.
 
-```bash
-$ npm install
-```
 
-to install all the dependencies and dev dependencies. When that's done run
+Assuming nothing went wrong you can now build the project with `$ npm run build` and spin up the server
 
-```bash
-$ npm run build
-```
+`$ pm2 start ecosystem.config.js`
 
-to build the project. Then spin up the server with
-
-```bash
-$ pm2 start ecosystem.config.js
-```
 
 ### NGINX config 
 
@@ -108,10 +85,10 @@ Where of course, client_max_body_size should be changed if larger files should b
 Now when it's all set up you're ready you can go to your domain and log in with admin and admin as username and password
 
 # Starting, stopping, and monitoring 
-
+More can be found [here](http://pm2.keymetrics.io/)
 
 ```bash
 $ pm2 start ecosystem.config.js
 $ pm2 stop all
-$ pm2 start ecosystem.config.js
+$ pm2 monit
 ```
