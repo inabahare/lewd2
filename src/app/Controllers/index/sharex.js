@@ -1,9 +1,12 @@
 function get(req, res) {
-    res.type("sxcu; charset=utf8");
 
     if (!res.locals.user) {
+      res.setHeader("content-type", "text/javascript");
       return res.send("You need to be logged in for this");
     }
+
+
+    res.type("sxcu; charset=utf8");
 
     const shareXConfig = `{
         "Name": "Local",
