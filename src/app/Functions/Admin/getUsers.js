@@ -8,8 +8,6 @@ const getAllUsers = async () => {
     const allUsers  = await db.query(`SELECT id, username, uploadsize, isadmin FROM "Users" ORDER BY id ASC;`);
                       await client.release();
 
-    // Remove default users
-    allUsers.rows.shift();
     return allUsers.rows;
 };
 

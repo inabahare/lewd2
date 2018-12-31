@@ -6,6 +6,19 @@
             {{{ errors.userid }}}
         </div>    
     {{/if}}
+
+    {{#if message.UserUpdated }}
+        <div class="notification is-success">
+            {{{ message.UserUpdated }}}
+        </div>   
+    {{/if}}
+    
+    {{#if message.AdminRightsRemovedFromAdmin }}
+        <div class="notification is-danger">
+            {{{ message.AdminRightsRemovedFromAdmin }}}
+        </div>   
+    {{/if}}
+
     <table class="table">
         <thead>
             <tr>
@@ -21,13 +34,15 @@
             {{#each users}}
                 <tr>
                     <form action="/user/admin/update" method="POST" onsubmit="return saveCheck('{{{ this.username }}}')">
+                        <input type="hidden" name="id" value="{{{ this.id }}}">
+                        <input type="hidden" name="username" value="{{{ this.username }}}">
                         <td>{{{ this.id }}}</td>
                         <td>{{{ this.username }}}</td>
                         <td><input type="number" class="input" value="{{{ this.uploadsize }}}" maxlength="100" name="uploadsize" /></td>
 
                         <td>
                             <label class="checkbox">
-                                <input type="checkbox" {{#if this.isadmin}}checked="checked"{{/if}}/>
+                                <input type="checkbox" {{#if this.isadmin}}checked="checked"{{/if}} name="isadmin"/>
                             </label>
                         </td>
                         
@@ -58,18 +73,12 @@
 
     <script>
         function saveCheck(username) {
-            confirm("Are you sure you want to update" + username + "?");
-            confirm("This hasn't been implemented yet, so you have to wait");
-            return false;
+
         }
 
         function deletionCheck(username) {
             if (!confirm("Are you sure you want to delete: " + username + "?")) 
                 return false;
-
-            if (username == '{{{ user.username }}}')
-                if (!confirm("Are you sure you want to delete yourself?")) 
-                    return false;
         }
     </script>
 {{else}}

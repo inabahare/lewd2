@@ -31,14 +31,20 @@ router.get("/reset-password",       admin.resetPassword.get);
 router.post("/generate-reset-link", admin.resetPassword.validate, 
                                     admin.resetPassword.post);
 
-////////////////////////
-// DELETE USERS/FILES //
-////////////////////////
+///////////////////////////////
+// DELETE/UPDATE USERS/FILES //
+///////////////////////////////
 router.get("/view-users", admin.deleteUsers.get);
 router.post("/delete",    admin.deleteUsers.validate, 
                           admin.deleteUsers.post);
 
+router.post("/update", admin.updateUser.validate, 
+                       admin.updateUser.post);
+
 router.get("/remove-files",  admin.deleteFiles.get);
 router.post("/remove-files", admin.deleteFiles.post);
+
+
+
 
 export default router;
