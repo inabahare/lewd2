@@ -2,6 +2,7 @@ function get(req, res) {
 
     if (!res.locals.user) {
       res.setHeader("content-type", "text/javascript");
+      res.status(401);
       return res.send("You need to be logged in for this");
     }
 
