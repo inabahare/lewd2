@@ -10,7 +10,7 @@ function get(req, res) {
     res.type("sxcu; charset=utf8");
 
     const shareXConfig = `{
-        "Name": "Local",
+        "Name": "lewd dot se",
         "DestinationType": "ImageUploader, FileUploader",
         "RequestURL": "${process.env.SITE_LINK}upload",
         "FileFormName": "file",
