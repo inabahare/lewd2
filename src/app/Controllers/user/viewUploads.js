@@ -6,7 +6,7 @@ async function get(req, res) {
     const getUploads = await client.query(`SELECT filename, originalname, uploaddate, duplicate, virus, passworded, deletionkey  
                                            FROM "Uploads" 
                                            WHERE userid = $1
-                                           ORDER BY id ASC;`, [res.locals.user.id]);
+                                           ORDER BY id DESC;`, [res.locals.user.id]);
                        await client.release();
 
     // If there are dates then format them
