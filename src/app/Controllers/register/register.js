@@ -94,11 +94,11 @@ const validate = [
     check("token").isString().withMessage("Invalid token")
                   .isLength({min: 10}).withMessage("Token too short"),
 
-    check("username").isLength({min: 2}).withMessage("Username needs to be at least 2 characters long")
+    check("username").isLength({min: 3}).withMessage("Username needs to be at least 3 characters long")
                      .custom(checkIfUsernameNotExists).withMessage("Username already in use"),
 
     check("password").exists().withMessage("Please select a password")
-                     .isLength({min: 3, max: 72}).withMessage("Password needs to be 2 characters long")
+                     .isLength({min: 3, max: 72}).withMessage("Password needs to be 3 characters long")
 
 ];
 
