@@ -1,24 +1,19 @@
-import moment                      from "moment";
-import db                          from "../../helpers/database";
+import moment         from "moment";
+import { getUploads } from "../../Functions/User/getUploads";
 
 async function get(req, res) {
-    const client     = await db.connect();
-    const getUploads = await client.query(`SELECT filename, originalname, uploaddate, duplicate, virus, passworded, deletionkey  
-                                           FROM "Uploads" 
-                                           WHERE userid = $1
-                                           ORDER BY id DESC;`, [res.locals.user.id]);
-                       await client.release();
+    const uploads = await getUploads(res.locals.user.id);
 
     // If there are dates then format them
-    if (getUploads.rows[0]) {
-        getUploads.rows.forEach(upload => {
+    if (uploads) {
+        uploads.forEach(upload => {
             upload.uploaddate = moment(upload.uploaddate).format("LL");
         });
     }
 
     res.render("user", {
         menuItem: "view-uploads",
-        uploads: getUploads.rows
+        uploads: uploads
     });
 }
 
