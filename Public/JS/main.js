@@ -28,8 +28,9 @@ const handleInputs = input => {
         
         input.addEventListener("input", e => {
             // If too many characters
-            if (input.value.length == input.maxLength) {
-                label.innerText = `${inputName} must be ${input.maxLength} characters or less`;
+            if (input.value.length === input.maxLength) {
+                console.log(input.value.length);
+                label.innerText = `${inputName} must be ${--input.maxLength} characters or less`;
                 input.classList.toggle("is-danger");
                 input.classList.remove("is-success");
             } 
