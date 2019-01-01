@@ -3,7 +3,7 @@ function get(req, res) {
         res.render("index");
     }        
     else {
-        res.render("login");
+        res.redirect("/login");
     }
 }
 

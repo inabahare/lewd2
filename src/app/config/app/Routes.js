@@ -12,9 +12,9 @@ class Routes {
         app.use("/",           index);
         app.use("/login",      login);
         app.use("/upload",     upload);
-        app.use("/user",       user);
         app.use("/register",   register);
         app.use("/delete",     deleter);
+        app.use("/user",       user);
         app.use("/user/admin", admin);
     }
 

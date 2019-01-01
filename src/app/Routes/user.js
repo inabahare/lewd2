@@ -6,7 +6,7 @@ const router = express.Router();
 // Check if user is logged in
 router.use((req, res, next) => {
     if (res.locals.user === null)
-        return res.render("login");
+        return res.redirect("/login");
     
     next();
 });

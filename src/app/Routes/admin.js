@@ -10,10 +10,16 @@ const router = express.Router();
  * By now the user needs to be admin
  */
 router.use((req, res, next) => {
-    if (res.locals.user.isadmin)
-        return next();
+    console.log(res.locals);
+    if (!res.locals.user) {
+        return res.redirect("/login");
+    }
 
-    return res.render("login");
+    if (!res.locals.user.isadmin) {
+        return res.redirect("/");
+    }
+
+    next();
 });
 
 /////////////////////
