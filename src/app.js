@@ -1,6 +1,11 @@
 "use strict";
 require("dotenv").config();
 
+// Catch all exceptions in production mode
+if (process.env.NODE_ENV === "production")
+    process.on("uncaughtException", err => console.log(err));
+  
+
 import express        from "express";
 import path           from "path";
 import flash          from "express-flash";
@@ -85,4 +90,4 @@ if (!fs.existsSync(process.env.UPLOAD_DESTINATION)) {
 })();
 
 
-app.listen(parseInt(process.env.SITE_PORT), () => console.log("It's up and running :3"));
+app.listen(parseInt(process.env.SITE_PORT), () => console.log(`It's up and running in ${process.env.NODE_ENV} mode :3`));
