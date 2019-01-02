@@ -7,7 +7,7 @@ import fs from "fs";
  */
 const symlink = (target, path) => {
     return new Promise((resolve, reject) => {
-        fs.symlink(target, path, err => {
+        fs.link(target, path, err => {
             if (err) {
                 reject(err);
             } else {
