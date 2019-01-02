@@ -51,6 +51,7 @@
                     <td class="">
                         <form action="/user/admin/delete" method="POST" onsubmit="return deletionCheck('{{{ this.username }}}')">
                             <input type="hidden" value="{{{ this.id }}}" name="userid"/>
+                            <input type="hidden" name="username" value="{{{ this.username }}}">
 
                             <div class="columns">
 

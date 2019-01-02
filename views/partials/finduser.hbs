@@ -36,10 +36,12 @@
                 <tbody>
                     {{#each uploaders as |uploader|}}
                     <form action="/user/admin/delete" method="POST">
-                        <input type="hidden" name="userid" value={{uploader.userid}}>
+                        <input type="hidden" name="userid" value={{{uploader.userid}}}>
+                        <input type="hidden" name="username" value="{{{ uploader.username }}}">
+
                         <tr>
                             <td>
-                                    {{uploader.username}}
+                                {{uploader.username}}
                             </td>
                             <td>
                                 <input type="submit" class="button is-danger" value="Delete"/>
