@@ -10,8 +10,7 @@ const pool = new Pool({
 });
 
 pool.on("error", (error) => {
-    console.error("Unexpected db error", error);
-    process.exit(-1);
+    console.log("Unexpected db error", error);
 });
 
 (async function() {
