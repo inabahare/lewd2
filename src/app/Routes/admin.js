@@ -49,7 +49,8 @@ router.post("/update", admin.updateUser.validate,
 router.get("/remove-files",  admin.deleteFiles.get);
 router.post("/remove-files", admin.deleteFiles.post);
 
-
+router.get("/find-user-by-file",  admin.findUser.get);
+router.post("/find-user-by-file", admin.findUser.post);
 
 
 export default router;
