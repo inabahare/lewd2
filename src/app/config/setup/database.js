@@ -1,4 +1,4 @@
-import db from "../../helpers/database";
+import { DbClient } from "../../helpers/database";
 import debug from "debug";
 import bcrypt from "bcrypt";
 import uuid from "uuid/v1";
@@ -10,11 +10,12 @@ class Database {
      * Runs all the database setup stuff
      */
     static async SetUp() {
-        const client = await db.connect();
+        const client = DbClient();
+        await client.connect();
 
         await this.AddAdmin(client);
 
-        await client.release();
+        await client.end();
     }
 
     static async AddAdmin(client) {

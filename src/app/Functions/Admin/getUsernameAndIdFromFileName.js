@@ -1,4 +1,4 @@
-import db from "../../helpers/database";
+import { DbClient } from "../../helpers/database";
 
 async function getUsernameAndIdFromFileName(fileName) {
     // In case nothing provided
@@ -6,14 +6,15 @@ async function getUsernameAndIdFromFileName(fileName) {
         return null;
     }
 
-    const client = await db.connect();
+    const client = DbClient();
+    await client.connect();
     const user = await client.query(`SELECT userid, username 
                                      FROM "Uploads", "Users" 
                                      WHERE "Uploads".userid = "Users".id 
                                      AND "filename" = $1 `, [ 
         fileName 
     ]);
-    await client.release();
+    await client.end();
 
     // In case nothing found
     if (user.rows.length === 0) {

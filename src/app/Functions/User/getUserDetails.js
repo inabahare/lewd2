@@ -1,15 +1,16 @@
-import db from "../../helpers/database";
+import { DbClient } from "../../helpers/database";
 
 /**
  * Gets the user currently logged in
  * @param {string} token If falsy the stock user will be returned
  */ 
 const getUserDetails = async loginToken => {
+    const client = DbClient();
     let userId = 0;
 
-    const client  = await db.connect();
+    await client.connect();
 
-    const loginTokenCheck = await db.query(`SELECT userid FROM "LoginTokens" WHERE token = $1 LIMIT 1;`, [loginToken]);
+    const loginTokenCheck = await client.query(`SELECT userid FROM "LoginTokens" WHERE token = $1 LIMIT 1;`, [loginToken]);
 
     if (loginTokenCheck.rows[0])
         userId = loginTokenCheck.rows[0].userid;
@@ -21,7 +22,7 @@ const getUserDetails = async loginToken => {
                                         WHERE "Users".id = $1`, [
                                             userId
                                         ]);
-                    await client.release();
+                    await client.end();
 
     if (getUser.rows.length == 0)
         return null;

@@ -2,7 +2,7 @@ import https         from "https";
 import queryString   from "querystring";
 import async         from "async";
 import sleep         from "../Functions/sleep";
-import db            from "../helpers/database";
+import { DbClient }            from "../helpers/database";
 import deleteFiles   from "../Functions/FileDeletion/deleteFiles";
 import logToTransparency from "../Functions/Transparency/logToTransparency";
 
@@ -115,9 +115,10 @@ class VirusTotalScanner {
      * @param {*} scanNumber 
      */
     async _updateFileVirustotalScanCountInDb(fileName, scanNumber) {
-        const client = await db.connect();
+        const client = DbClient();
+        await client.connect();
                        await client.query(`UPDATE "Uploads" SET "virustotalScan" = $1 WHERE filename = $2;`, [scanNumber, fileName]);
-                       await client.release();
+                       await client.end();
     }
 
     /**

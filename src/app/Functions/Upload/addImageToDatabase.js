@@ -1,4 +1,4 @@
-import db          from "../../helpers/database";
+import { DbClient }          from "../../helpers/database";
 import deletionKey from "./deletionKey";
 
 /**
@@ -7,7 +7,8 @@ import deletionKey from "./deletionKey";
  * @param {number} userid 
  */
 const addImageToDatabase = async (file, userid) => {
-    const client       = await db.connect();
+    const client = DbClient();
+    await client.connect();
 
     let deltionKeyCheck = true;
 
@@ -30,7 +31,7 @@ const addImageToDatabase = async (file, userid) => {
                             file.deletionKey,
                             file.size
                         ]);
-    await client.release();
+    await client.end();
 };
 
 export default addImageToDatabase;

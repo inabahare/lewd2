@@ -1,7 +1,8 @@
-import db from "../../helpers/database";
+import { DbClient } from "../../helpers/database";
 
 const markAsScannedTwice = async files => {
-    const client = await db.connect();
+    const client = DbClient();
+    await client.connect();
     files.forEach(async fileName => {
         await client.query(`UPDATE "Uploads"
                             SET "scannedTwice" = TRUE
@@ -10,7 +11,7 @@ const markAsScannedTwice = async files => {
                             ]);
                          
     });
-    await client.release();
+    await client.end();
 };
 
 export default markAsScannedTwice;

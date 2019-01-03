@@ -1,6 +1,6 @@
 import passport                      from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import db                            from "./database";
+import { DbClient }                  from "./database";
 import bcrypt                        from "bcrypt";
 import crypto                        from "crypto";
 
@@ -12,7 +12,8 @@ passport.use(new LocalStrategy({
     usernameField: "username",
     passwordField: "password"
 }, async (username, password, next) => {
-    const client = await db.connect();
+    const client = DbClient();
+    await client.connect();
     const res    = await client.query(`SELECT id, password 
                                        FROM "Users" 
                                        WHERE username = $1;`, [username]);
@@ -31,10 +32,10 @@ passport.use(new LocalStrategy({
                                             userToken,
                                             userId
                                         ]);
-                    await client.release(); 
+                    await client.end(); 
                     return next(null, userToken);
               } else {
-                    await client.release();
+                    await client.end();
                     return next(null, false);
               }
           });

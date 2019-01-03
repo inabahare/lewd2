@@ -1,5 +1,5 @@
 // import express                     from "express";
-// import db                          from "../helpers/database";
+// import { DbClient }                          from "../helpers/database";
 // import moment                      from "moment";
 // import bcrypt                      from "bcrypt";
 

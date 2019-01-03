@@ -1,13 +1,14 @@
-import db from "../../helpers/database";
+import { DbClient } from "../../helpers/database";
 
 /**
  * 
  */
 const getAllFromTransparency = async () => {
-    const client          = await db.connect();
+    const client = DbClient();
+    await client.connect();
     const getTransparency = await client.query(`SELECT "Date", "FileName", "FileHash", "Type", "Origin"
                                                 FROM "Transparency"`);
-                            await client.release();
+                            await client.end();
     
     return getTransparency.rows.length > 0 ? getTransparency.rows 
                                            : null; 

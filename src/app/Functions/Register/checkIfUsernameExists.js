@@ -1,11 +1,13 @@
-import db       from "../../helpers/database";
+import { DbClient }       from "../../helpers/database";
 
 /**
  * Custom express validator to check if a username exists
  * @param {string} value The username to check 
  */
 const checkIfUsernameNotExists = value => {
-    return db.query(`SELECT username FROM "Users" WHERE username = $1;`, [value])
+    const client = DbClient();
+    client.connect();
+    return client.query(`SELECT username FROM "Users" WHERE username = $1;`, [value])
              .then(result => {
                  // User not found
                  if (result.rows.length === 0)
@@ -21,7 +23,9 @@ const checkIfUsernameNotExists = value => {
  * @param {string} value The username to check 
  */
 const checkIfUsernameExists = value => {
-    return db.query(`SELECT username FROM "Users" WHERE username = $1;`, [value])
+    const client = DbClient();
+    client.connect();
+    return client.query(`SELECT username FROM "Users" WHERE username = $1;`, [value])
              .then(result => {
                  if (result.rows.length === 0)
                     return Promise.reject("aaaaaaa");

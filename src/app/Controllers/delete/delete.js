@@ -1,9 +1,10 @@
-import db            from "../../helpers/database";
+import { DbClient }            from "../../helpers/database";
 import deleteFiles   from "../../Functions/FileDeletion/deleteFiles";
 
 async function get(req, res) {
     const deletionKey = req.params.key;
-    const client = await db.connect();
+    const client = DbClient();
+    await client.connect();
 
     // Find the file to be deleted
     const getFileData = await client.query(`SELECT id, filename, filesha, duplicate 

@@ -1,25 +1,15 @@
-import { Pool } from "pg";
+import { Client } from "pg";
 require("dotenv").config();
 
-const pool = new Pool({
-    user:     process.env.DB_USER,     
-    host:     process.env.DB_HOST,     
-    database: process.env.DB_DATABASE, 
-    password: process.env.DB_PASSWORD, 
-    port:     parseInt(process.env.DB_PORT),   
-});
 
-pool.on("error", (error) => {
-    console.log("Unexpected db error", error);
-});
+function DbClient() {
+    return new Client({
+        user:     process.env.DB_USER,     
+        host:     process.env.DB_HOST,     
+        database: process.env.DB_DATABASE, 
+        password: process.env.DB_PASSWORD, 
+        port:     parseInt(process.env.DB_PORT),   
+    });
+}
 
-(async function() {
-    try {
-        const connection = await pool.connect();
-        await connection.release();
-    } catch (e) {
-        console.error(e.message);
-    }
-})();
-
-export default pool;
+export { DbClient };

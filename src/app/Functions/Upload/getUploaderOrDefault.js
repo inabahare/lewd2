@@ -1,11 +1,12 @@
 
-import db from "../../helpers/database";
+import { DbClient } from "../../helpers/database";
 /**
  * Take a token and get the 
  * @param {string} token 
  */
 const getUploader = async token => { 
-    const client      = await db.connect();
+    const client = DbClient();
+    await client.connect();
 
     let getUploader = await client.query(`SELECT id, uploadsize
                                           FROM "Users"
@@ -13,7 +14,7 @@ const getUploader = async token => {
                                               token
                                             ]);
 
-    await client.release();
+    await client.end();
 
     return getUploader.rows[0];
 };
