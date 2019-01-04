@@ -45,6 +45,7 @@ class Database {
         else {
             this.AdminLog("Admin already exists");
         }
+        await client.end();
     }
 
     static AdminLog(message) {

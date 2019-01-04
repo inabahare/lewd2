@@ -9,6 +9,7 @@ const checkIfUsernameNotExists = value => {
     client.connect();
     return client.query(`SELECT username FROM "Users" WHERE username = $1;`, [value])
              .then(result => {
+                client.end();
                  // User not found
                  if (result.rows.length === 0)
                     return Promise.resolve();
@@ -27,6 +28,7 @@ const checkIfUsernameExists = value => {
     client.connect();
     return client.query(`SELECT username FROM "Users" WHERE username = $1;`, [value])
              .then(result => {
+                await client.end();
                  if (result.rows.length === 0)
                     return Promise.reject("aaaaaaa");
                  

@@ -81,6 +81,7 @@ const deleteFiles = async (fileNames, location = "null") => {
         } 
     }
 
+    await client.end();
     return true;
 };
 

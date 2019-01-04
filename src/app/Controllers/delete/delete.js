@@ -10,7 +10,7 @@ async function get(req, res) {
     const getFileData = await client.query(`SELECT id, filename, filesha, duplicate 
                                             FROM "Uploads"
                                             WHERE deletionkey = $1;`, [deletionKey]);
-
+    await client.end();
     const file = getFileData.rows[0];
     // Do nothing if there is no file
     if (file === undefined) {
