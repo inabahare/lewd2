@@ -1,4 +1,4 @@
-import { DbClient } from "../../helpers/database";
+import { db } from "../../helpers/database";
 import debug from "debug";
 import bcrypt from "bcrypt";
 import uuid from "uuid/v1";
@@ -10,12 +10,11 @@ class Database {
      * Runs all the database setup stuff
      */
     static async SetUp() {
-        const client = DbClient();
-        await client.connect();
+        const client = await await db.connect();
 
         await this.AddAdmin(client);
 
-        await client.end();
+        await client.release();
     }
 
     static async AddAdmin(client) {
@@ -45,7 +44,6 @@ class Database {
         else {
             this.AdminLog("Admin already exists");
         }
-        await client.end();
     }
 
     static AdminLog(message) {

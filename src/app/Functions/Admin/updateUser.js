@@ -1,12 +1,11 @@
-import { DbClient } from "../../helpers/database";
+import { db } from "../../helpers/database";
 
 async function updateUser(userId, uploadSize, isAdmin) {
-    const client = DbClient();
-    await client.connect();
+    const client = await db.connect();
     await client.query(`UPDATE "Users" 
                         SET uploadsize = $2, isadmin = $3
                         WHERE id = $1`, [userId, uploadSize, isAdmin]);
-    await client.end();
+    await client.release();
 }
 
 export { updateUser };

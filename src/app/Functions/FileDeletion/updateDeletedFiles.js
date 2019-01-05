@@ -1,12 +1,11 @@
-import { DbClient } from "../../helpers/database";
+import { db } from "../../helpers/database";
 
 export default async files => {
-    const client = DbClient();
-    await client.connect();
+    const client = await db.connect();
 
     files.forEach(async file => {
         client.query("UPDATE \"Uploads\" SET deleted = TRUE WHERE id = $1;", [file.id]);
     });
 
-    await client.end();
+    await client.release();
 };

@@ -1,4 +1,4 @@
-import { DbClient } from "../../helpers/database";
+import { db } from "../../helpers/database";
 import removeFiles from "../FileDeletion/deleteFiles";
 
 /**
@@ -7,10 +7,9 @@ import removeFiles from "../FileDeletion/deleteFiles";
  * @param {Boolean} deleteFiles - If the users files needs to be deleted as well
  */
 const deleteUser = async (id, deleteFiles = false) => {
-    const client = DbClient();
-    await client.connect();
-                   await client.query(`DELETE FROM "Users" WHERE id = $1;`, [id]);
-                   await client.query(`DELETE FROM "LoginTokens" WHERE userid = $1;`, [id]);
+    const client = await db.connect();
+    await client.query(`DELETE FROM "Users" WHERE id = $1;`, [id]);
+    await client.query(`DELETE FROM "LoginTokens" WHERE userid = $1;`, [id]);
 
     if (deleteFiles) {
         const getFiles = await client.query(`SELECT 
@@ -34,7 +33,7 @@ const deleteUser = async (id, deleteFiles = false) => {
         }
     }
     
-    await client.end();
+    await client.release();
 }; 
 
 

@@ -1,4 +1,4 @@
-import { DbClient }                                       from "../../helpers/database";
+import { db }                                       from "../../helpers/database";
 import bcrypt                                   from "bcrypt";
 import { check, validationResult }              from "express-validator/check";
 import crypto                                   from "crypto";
@@ -51,12 +51,10 @@ async function post(req, res) {
     //////////////////////////
     // Check if user exists // 
     //////////////////////////
-    const client = DbClient();
-    await client.connect();
-
+    const client = await db.connect();
     const getUser = await client.query(`SELECT username FROM "Users" WHERE username = $1;`, [req.body.username]);
     if (getUser.rows.length === 1) {
-        await client.end();
+        await client.release();
 
         return res.redirect("/register/" + req.body.token);
     }
@@ -85,7 +83,7 @@ async function post(req, res) {
                         ]);
 
     await client.query(`UPDATE "RegisterTokens" SET used = TRUE WHERE token = $1;`, [req.body.token]);
-    await client.end();
+    await client.release();
 
     req.flash("userAdded", "You are now ready to sign in");
     res.redirect("/");

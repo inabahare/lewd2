@@ -1,6 +1,6 @@
 import crypto                      from "crypto";
 import { check, validationResult } from "express-validator/check";
-import { DbClient }                          from "../../helpers/database";
+import { db }                          from "../../helpers/database";
 import formatUploadSize            from "../../Functions/Token/formatUploadSize";
 
 function get(req, res) {
@@ -26,14 +26,13 @@ async function post(req, res) {
 
     
     // Insert said user
-    const client = DbClient();
-    await client.connect();
+    const client = await db.connect();
     await client.query(`INSERT INTO "RegisterTokens" (token, registered, used, uploadsize, isadmin)
                         VALUES ($1, NOW(), $2, $3, $4);`, [registerToken,
                                                            false,
                                                            uploadSize,
                                                            isAdmin]);
-    await client.end();
+    await client.release();
 
     res.render("user", {
         menuItem: "token",

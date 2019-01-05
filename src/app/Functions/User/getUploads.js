@@ -1,17 +1,16 @@
-import { DbClient } from "../../helpers/database";
+import { db } from "../../helpers/database";
 
 async function getUploads(userId) {
     if (!userId) {
         return null;
     }
-    const client = DbClient();
+    const client = await db.connect();
 
-    await client.connect();
     const uploads = await client.query(`SELECT filename, originalname, uploaddate, duplicate, virus, passworded, deletionkey  
-                                           FROM "Uploads" 
-                                           WHERE userid = $1
-                                           ORDER BY id DESC;`, [ userId ]);
-                    await client.end();
+                                        FROM "Uploads" 
+                                        WHERE userid = $1
+                                        ORDER BY id DESC;`, [ userId ]);
+    await client.release();
 
     return uploads.rows;
 }

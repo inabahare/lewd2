@@ -1,4 +1,4 @@
-import { DbClient } from "../../helpers/database";
+import { db } from "../../helpers/database";
 
 /**
  * In case the antivirus catches something, use this to log the caught stuff
@@ -8,13 +8,14 @@ import { DbClient } from "../../helpers/database";
  * @param {string} origin   - Weather the block reason comes from Google, VirusTotal, or Sophos
  */
 const logToTransparency = async (fileName, fileHash, reason, origin) => {
-    const client = DbClient();
-    await client.connect();
+    const client = await db.connect();
+
     await client.query(`INSERT INTO "Transparency" ("Date", "FileName", "FileHash", "Type", "Origin")
                         VALUES (NOW(), $1, $2, $3, $4);`, [
                             fileName, fileHash, reason, origin
                         ]);
-    await client.end();
+                        
+    await client.release();
 };
 
 export default logToTransparency;

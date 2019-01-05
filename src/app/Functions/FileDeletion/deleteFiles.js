@@ -1,7 +1,7 @@
 import fs            from "fs";
 import { promisify } from "util";
 import symlink       from "../Upload/symlink";
-import { DbClient }            from "../../helpers/database";
+import { db }            from "../../helpers/database";
 import debugge       from "debug";
 
 require("dotenv").config();
@@ -46,9 +46,8 @@ const handleSymlink = async (client, fileName, fileSha) => {
  * @returns {boolean} gotRemoved - Due to a race condition between the AV scanners this is needed
  */
 const deleteFiles = async (fileNames, location = "null") => {
-    const client = DbClient();
+    const client = await db.connect();
     const debug = debugge(location);
-    await client.connect();
 
     for (let fileName of fileNames) {
         debug(fileName);
@@ -60,12 +59,11 @@ const deleteFiles = async (fileNames, location = "null") => {
         
         // If the file has already been deleted
         if (getFile.rows.length === 0) {
-            await client.end();
+            await client.release();
             return false;
         }
-        
 
-        const file    = getFile.rows[0];
+        const file = getFile.rows[0];
                                     
         ////////////////////
         // HANDLE SYMLINK //
@@ -81,7 +79,7 @@ const deleteFiles = async (fileNames, location = "null") => {
         } 
     }
 
-    await client.end();
+    await client.release();
     return true;
 };
 

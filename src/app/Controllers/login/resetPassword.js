@@ -1,12 +1,11 @@
-import { DbClient }                          from "../../helpers/database";
+import { db }                          from "../../helpers/database";
 import { check, validationResult } from "express-validator/check";
 import bcrypt                      from "bcrypt";
 
 // /forgot-password/:token
 async function get(req, res) {
     // Get user info
-    const client = DbClient();
-    await client.connect();
+    const client = await db.connect();
     const getUserInfo = await client.query(`SELECT "userId", "UpdatePasswordKeys"."token", username
                                             FROM "UpdatePasswordKeys", "Users"
                                             WHERE "UpdatePasswordKeys"."token" = $1
@@ -14,7 +13,7 @@ async function get(req, res) {
                                             AND "userId" = id;`, 
                                             [ req.params.token ]);
     
-    await client.end();
+    await client.release();
     res.render("change-password", {
         user: getUserInfo.rows.length === 0 ? null
                                             : getUserInfo.rows[0]
@@ -38,8 +37,7 @@ async function post(req, res) {
         return res.redirect("/login/forgot-password/" + req.body.token);
     }
 
-    const client = DbClient();
-    await client.connect();
+    const client = await db.connect();
     const getUserInfo = await client.query(`SELECT id, username
                                             FROM "UpdatePasswordKeys", "Users"
                                             WHERE "UpdatePasswordKeys"."token" = $1
@@ -49,7 +47,7 @@ async function post(req, res) {
 
     // If this is all bullshit
     if (getUserInfo.rows.length === 0) {
-        await client.end();
+        await client.release();
         res.send("Congratulations on finding the secret message. You have the honour of telling the developer that a proper error needs to be implemented.");
         return;
     }
@@ -62,7 +60,7 @@ async function post(req, res) {
     // Clear login tokens
     await client.query(`DELETE FROM "LoginTokens"        WHERE  userid  = $1;
                         DELETE FROM "UpdatePasswordKeys" WHERE "userId" = $1;`, [user.id]);
-    await client.end();
+    await client.release();
 
     req.flash("userAdded", "Your password has been updated");
     res.redirect("/");

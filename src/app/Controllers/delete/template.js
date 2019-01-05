@@ -1,7 +1,7 @@
 // import express       from "express";
 // import fs            from "fs";
 // import { promisify } from "util";
-// import { DbClient }            from "../helpers/database";
+// import { db }            from "../helpers/database";
 // import deleteFiles   from "../Functions/FileDeletion/deleteFiles";
 
 // function get(req, res) {
