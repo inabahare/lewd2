@@ -34,7 +34,6 @@ async function post(req, res) {
 
         const uploadHandler = new HandleUpload(req, res);
         await uploadHandler.AddHash();
-        
         await uploadHandler.HandleExistingFile();
               uploadHandler.AddDeletionKey();
         await uploadHandler.AddImageToDatabase(uploader.id);
