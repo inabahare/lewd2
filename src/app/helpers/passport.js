@@ -18,8 +18,10 @@ passport.use(new LocalStrategy({
                                        WHERE username = $1;`, [username]);
     const user = res.rows[0];
 
-    if (user === undefined)
+    if (user === undefined) {
+        await client.release();
         return next(null, false);
+    }
 
     const checkPassword = await bcrypt.compare(password, user.password);
     if (checkPassword == true){
