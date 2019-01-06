@@ -51,11 +51,11 @@ async function post(req, res) {
     //////////////////////////
     // Check if user exists // 
     //////////////////////////
-    const client = await ();
+    const client = await db.connect();
     const getUser = await client.query(`SELECT username FROM "Users" WHERE username = $1;`, [req.body.username]);
+    
     if (getUser.rows.length === 1) {
         await client.release();
-
         return res.redirect("/register/" + req.body.token);
     }
 
