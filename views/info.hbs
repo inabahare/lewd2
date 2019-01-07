@@ -1,9 +1,17 @@
-    <!-- How to upload -->
+<!-- How to upload -->
+<section class="content">
+    <h2>Some cool stats</h2>
+    {{#if stats}}
+        <p>Serving {{ stats.totalUploads }} files totalling {{ stats.totalUploadSize }} bytes</p>
+        <p>Today there have been {{ stats.uploadsFromToday }} uploads</p>
+        <p>And on average there are {{ stats.averageFileCountPrDay }} uploads pr. day</p>
+    {{/if}}
+</section>
+
+<!-- How to upload -->
 <section class="content">
     <h2>These are ways you can upload</h2>
-
     <p>First you must log in!</p>
-
 </section>
 
 <!-- Transparency Link -->
