@@ -2,9 +2,11 @@
 <section class="content">
     <h2>Some cool stats</h2>
     {{#if stats}}
-        <p>Serving {{ stats.totalUploads }} files totalling {{ stats.totalUploadSize }} bytes</p>
+        <p>Serving {{ stats.totalUploads }} files totalling {{ stats.uploadSize }} {{stats.uploadUnit}}</p>
         <p>Today there have been {{ stats.uploadsFromToday }} uploads</p>
         <p>And on average there are {{ stats.averageFileCountPrDay }} uploads per day</p>
+    {{else}}
+        <p>No files have been uploaded yet :<</p>
     {{/if}}
 </section>
 

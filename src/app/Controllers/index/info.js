@@ -5,6 +5,7 @@ async function get(req, res) {
     const days = getAmountOfDaysFilesAreStored();
     const stats = await getStatistics(days);
 
+
     res.render("info", {
         stats: stats
     });
