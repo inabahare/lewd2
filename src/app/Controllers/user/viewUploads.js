@@ -10,7 +10,7 @@ async function get(req, res) {
         count = uploads.length;
         uploads.forEach(upload => {
             upload.uploaddate = moment(upload.uploaddate)
-                               .format("DD-MM-YYYY HH:mm:ss");
+                               .format("DD-MM-YYYY HH:mm:xss");
         });
     }
 
