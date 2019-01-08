@@ -10,8 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const inputs = document.querySelectorAll("input");
     if (inputs.length > 0) {
         inputs.forEach(handleInputs);
-    } else {
-        console.log("There are no inputs :<");
     }
 });
 
@@ -29,7 +27,6 @@ const handleInputs = input => {
         input.addEventListener("input", e => {
             // If too many characters
             if (input.value.length === input.maxLength) {
-                console.log(input.value.length);
                 label.innerText = `${inputName} must be ${--input.maxLength} characters or less`;
                 input.classList.toggle("is-danger");
                 input.classList.remove("is-success");
