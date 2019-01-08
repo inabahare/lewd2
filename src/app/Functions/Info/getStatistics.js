@@ -14,7 +14,7 @@ async function getStatistics(daysFilesAreStored) {
                                             COUNT("filesha") "totalUploads",
                                             ROUND(COUNT(fileSha) / '${daysFilesAreStored}'::DECIMAL, 2) "averageFileCountPrDay",
                                             (SELECT COUNT(fileSha) FROM "Uploads" WHERE "uploaddate" > CURRENT_DATE + interval '1h') "uploadsFromToday",
-                                            SUM("size") "totalUploadSize"
+                                            (SELECT SUM("size") FROM "Uploads" WHERE duplicate = FALSE) "totalUploadSize"
                                         FROM "Uploads";`);
     await client.release();
 
