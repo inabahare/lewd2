@@ -7,11 +7,9 @@ import removeFiles from "../FileDeletion/deleteFiles";
  * @param {Boolean} deleteFiles - If the users files needs to be deleted as well
  */
 const deleteUser = async (id, deleteFiles = false) => {
-    const client = await db.connect();
-    await client.query(`DELETE FROM "Users" WHERE id = $1;`, [id]);
-    await client.query(`DELETE FROM "LoginTokens" WHERE userid = $1;`, [id]);
-
+    
     if (deleteFiles) {
+        const client = await db.connect();
         const getFiles = await client.query(`SELECT 
                                                 DISTINCT ON (filename) 
                                                 filename
@@ -23,6 +21,9 @@ const deleteUser = async (id, deleteFiles = false) => {
                                                 filename NOT IN (SELECT filename FROM "Uploads" WHERE userid != $1);`, [
                                                     id
                                                 ]);
+       
+        await client.release();
+        
         if (getFiles.rows.length != 0) {
             // Transform rows from [ { filename: '80931ac767d1_176.20.222.243.zip' }, { filename: '80931ac767d1_176.20.222.243.zip' } ]
             // To [ '80931ac767d1_176.20.222.243.zip', '80931ac767d1_176.20.222.243.zip' ]
@@ -31,8 +32,12 @@ const deleteUser = async (id, deleteFiles = false) => {
                                   .map(f => f.filename);
             await removeFiles(files);
         }
+
     }
-    
+
+    const client = await db.connect();
+    await client.query(`DELETE FROM "Users" WHERE id = $1;`, [id]);
+    await client.query(`DELETE FROM "LoginTokens" WHERE userid = $1;`, [id]);
     await client.release();
 }; 
 

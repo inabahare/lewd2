@@ -27,8 +27,9 @@ function convertNumberToBestByteUnit(number) {
     let unit = null;
     
     for (const n of units) {
+        unit = n;
+        
         if (number > n.value) {
-            unit = n;
             break;
         }
     }
