@@ -13,9 +13,14 @@ const storageOptions = multer.diskStorage({
 });
 
 async function post(req, res) {
-    const uploader   = await getUploader(req.headers.token);
+    if (!req.headers.token) {
+        return res.status(400)
+                  .send("You need to be signed in to upload");
+    }
+
+    const uploader = await getUploader(req.headers.token);
     
-    if (uploader === null) {
+    if (!uploader) {
         return res.status(400)
                   .send("You need to be signed in to upload");
     }
