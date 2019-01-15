@@ -91,13 +91,3 @@ if (!fs.existsSync(process.env.UPLOAD_DESTINATION)) {
 
 
 app.listen(parseInt(process.env.SITE_PORT), () => console.log(`It's up and running in ${process.env.NODE_ENV} mode :3`));
-
-
-class Shit {
-    constructor() {
-        this.poo;
-    }
-}
-
-const aa = new Shit();
-aa.
