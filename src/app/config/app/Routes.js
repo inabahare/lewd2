@@ -9,9 +9,12 @@ import admin    from "../../Routes/admin";
 
 class Routes {
     static SetPages(app) {
+        app.use("/upload",     upload);
+
+
+
         app.use("/",           index);
         app.use("/login",      login);
-        app.use("/upload",     upload);
         app.use("/register",   register);
         app.use("/delete",     deleter);
         app.use("/user",       user);

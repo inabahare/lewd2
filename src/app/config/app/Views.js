@@ -2,6 +2,9 @@ import handlebars     from "express-handlebars";
 import path           from "path";
 import fs             from "fs";
 import moment         from "moment"; 
+// import {promisify} from 'util';
+
+// const readDir = promisify(fs.readdir);
 
 const randomNumber  = (x, y) =>  Math.floor((Math.random() * y) + x); 
 
@@ -25,21 +28,25 @@ class Views {
         return name;
     }
 
-    // This is used for the pictures shown on the site
+    // This is used for the pictures shown on the site 
     static _getRandomImage() {
-        const files = fs.readdirSync(__dirname + "/../Public/Images/Waifus");
-                    
+        const waifuDir = path.join(__dirname, "/../Public/Images/Waifus");
+        const files = fs.readdirSync(waifuDir);
+        
+        
         if (files.length === 0)
             return "";
 
         const randomIndex = randomNumber(0, files.length);
-        return process.env.SITE_LINK + "Images/Waifus/" + files[randomIndex];
+        const randomWaifuLink = path.join(process.env.SITE_LINK, "Images/Waifus/", files[randomIndex])
+
+        return randomWaifuLink;
     }
 
     // Used when showing time on the site
     static _dateFormatter(date) {
         return moment(date).format("LL");
-    }
+    } 
 
     static _typeFormatter(data) {
         if (data.startsWith("https://") || data.startsWith("http://")) {
