@@ -1,4 +1,4 @@
-import { db } from "../../helpers/database";
+import { db } from "../../../app/helpers/database";
 
 /**
  * In case the antivirus catches something, use this to log the caught stuff

@@ -1,4 +1,4 @@
-import { db } from "../../helpers/database";
+import { db } from "../../../app/helpers/database";
 
 /**
  * 

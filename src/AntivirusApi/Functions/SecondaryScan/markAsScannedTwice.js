@@ -1,4 +1,4 @@
-import { db } from "../../helpers/database";
+import { db } from "../../../app/helpers/database";
 
 const markAsScannedTwice = async files => {
     const client = await db.connect();

@@ -1,8 +1,8 @@
 import https         from "https";
 import queryString   from "querystring";
 import async         from "async";
-import sleep         from "../Functions/sleep";
-import { db }            from "../helpers/database";
+import sleep         from "../../app/Functions/sleep";
+import { db }            from "../../app/helpers/database";
 import deleteFiles   from "../Functions/FileDeletion/deleteFiles";
 import logToTransparency from "../Functions/Transparency/logToTransparency";
 
