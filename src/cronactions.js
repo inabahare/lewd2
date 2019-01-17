@@ -6,13 +6,11 @@ import dnode                    from "dnode";
 import async                    from "async"; 
 import debugge                  from "debug";
 import scanAndRemoveFile        from "./AntivirusApi/Functions/scanAndRemoveFile";
-import getFilesToDelete         from "./AntivirusApi/Functions/FileDeletion/getFilesToDelete";
-import deleteFiles              from "./AntivirusApi/Functions/FileDeletion/deleteFiles";
 import getFilesForSecondaryScan from "./AntivirusApi/Functions/SecondaryScan/GetFilesForSecondaryScan";
 import getFilesToScan           from "./AntivirusApi/Functions/VirusTotal/getFilesToScan";
 import VirusTotalScanner        from "./AntivirusApi/Classes/VirusTotalScanner";
 
-
+import { fileDeletion } from "./AntivirusApi/Controllers/Cron/fileDeletion";
 
 const virusTotal = new VirusTotalScanner(process.env.VIRUSTOTAL_KEY,
                                          process.env.VIRUSTOTAL_MAX_SCAN_WAIT_MS,
@@ -48,18 +46,7 @@ const messageServer = dnode({
 /**
  * Remove files that are too old
  */
-schedule(process.env.FILE_DELETION_CRON, async () => {
-    const files = await getFilesToDelete();
-    
-    // Prevent additional files from being scanned
-    if (files.length === 0)
-        return;
-
-    // Removes duplicates
-    const unique = [...new Set(files.map(file => file.filename))];
-
-    deleteFiles(unique);
-});
+schedule(process.env.FILE_DELETION_CRON, fileDeletion);
 
 /**
  * Secondary AV scan of uploaded files

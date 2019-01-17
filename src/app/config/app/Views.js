@@ -38,7 +38,7 @@ class Views {
             return "";
 
         const randomIndex = randomNumber(0, files.length);
-        const randomWaifuLink = path.join(process.env.SITE_LINK, "Images/Waifus/", files[randomIndex])
+        const randomWaifuLink = process.env.SITE_LINK + "Images/Waifus/" + files[randomIndex]
 
         return randomWaifuLink;
     }

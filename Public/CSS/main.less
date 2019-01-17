@@ -464,10 +464,14 @@
 }
 
 #waifu {
-    background-position: 90% 100%;
-    background-repeat: no-repeat,repeat;
-    background-size: auto 40%;
-    min-height: 100%;
+    position: fixed;
+    bottom: 10px;
+    right:10px;
+
+    img {
+        width:55%;
+        float: right; // So this is a hack I had to make because somehow the div gets a weird width D:
+    }
 }
 
 .hidden {
