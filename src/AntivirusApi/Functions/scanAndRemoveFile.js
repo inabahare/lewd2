@@ -1,6 +1,6 @@
 import { spawn }         from "child_process";
-import logToTransparency from "../Transparency/logToTransparency";
-import deleteFiles       from "../FileDeletion/deleteFiles";
+import logToTransparency from "./Transparency/logToTransparency";
+import deleteFiles       from "./FileDeletion/deleteFiles";
 import debugge           from "debug";
 
 

@@ -5,12 +5,12 @@ import { schedule }             from "node-cron";
 import dnode                    from "dnode";
 import async                    from "async"; 
 import debugge                  from "debug";
-import scanAndRemoveFile        from "./app/Functions/Upload/scanAndRemoveFile";
-import getFilesToDelete         from "./app/Functions/FileDeletion/getFilesToDelete";
-import deleteFiles              from "./app/Functions/FileDeletion/deleteFiles";
-import getFilesForSecondaryScan from "./app/Functions/SecondaryScan/GetFilesForSecondaryScan";
-import getFilesToScan           from "./app/Functions/VirusTotal/getFilesToScan";
-import VirusTotalScanner        from "./app/Classes/VirusTotalScanner";
+import scanAndRemoveFile        from "./AntivirusApi/Functions/scanAndRemoveFile";
+import getFilesToDelete         from "./AntivirusApi/Functions/FileDeletion/getFilesToDelete";
+import deleteFiles              from "./AntivirusApi/Functions/FileDeletion/deleteFiles";
+import getFilesForSecondaryScan from "./AntivirusApi/Functions/SecondaryScan/GetFilesForSecondaryScan";
+import getFilesToScan           from "./AntivirusApi/Functions/VirusTotal/getFilesToScan";
+import VirusTotalScanner        from "./AntivirusApi/Classes/VirusTotalScanner";
 
 
 
@@ -25,9 +25,7 @@ const virusTotal = new VirusTotalScanner(process.env.VIRUSTOTAL_KEY,
  * Limits the AV scans
  */
 const sophosQueue = async.queue(async (task) => {
-    // This is a hack that makes it possible to develop without having Sophos installed. Don't tell anyone :v
-    if (process.env.NODE_ENV === "production")
-        await scanAndRemoveFile(task.fileName, task.fileSha);
+    await scanAndRemoveFile(task.fileName, task.fileSha);
 }, 1);
 
 /**

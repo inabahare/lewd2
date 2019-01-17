@@ -1,7 +1,7 @@
 import fs            from "fs";
 import { promisify } from "util";
 import db                from "../../helpers/database";
-import logToTransparency from "../../Functions/Transparency/logToTransparency";
+import logToTransparency from "../../../AntivirusApi/Functions/Transparency/logToTransparency";
 
 const unlink = promisify(fs.unlink);
 

@@ -1,5 +1,4 @@
-
-import db from "../../helpers/database";
+import { db } from "../../../app/helpers/database";
 
 const getFilesToScan = async () => {
     const client = await db.connect();

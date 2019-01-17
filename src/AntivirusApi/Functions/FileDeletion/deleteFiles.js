@@ -1,6 +1,6 @@
 import fs            from "fs";
 import { promisify } from "util";
-import { db }        from "../../helpers/database";
+import { db }        from "../../../app/helpers/database";
 import debugge       from "debug";
 
 require("dotenv").config();
