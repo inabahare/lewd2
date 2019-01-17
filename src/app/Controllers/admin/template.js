@@ -3,7 +3,7 @@
 // import crypto                      from "crypto";
 // import { promisify }               from "util";
 // import fs                          from "fs";
-// import db                          from "../../helpers/database";
+// import { db }                          from "../../helpers/database";
 // import formatUploadSize            from "../../Functions/Token/formatUploadSize";
 // import getUsers                    from "../../Functions/Admin/getUsers";
 // import deleteUser                  from "../../Functions/Admin/deleteUser";

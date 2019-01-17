@@ -1,7 +1,7 @@
 import fs            from "fs";
 import { promisify } from "util";
-import db                from "../../helpers/database";
-import logToTransparency from "../../../AntivirusApi/Functions/Transparency/logToTransparency";
+import { db }                from "../../helpers/database";
+import logToTransparency from "../../Functions/Transparency/logToTransparency";
 
 const unlink = promisify(fs.unlink);
 
@@ -22,7 +22,7 @@ async function post(req, res) {
     // Get array of filenames from linkarray
     const fileNames = linkArray.map(l => l.replace(process.env.UPLOAD_LINK, ""));
 
-    const client    = await db.connect();
+    const client = await db.connect();
 
     fileNames.forEach(async fileName => {
         const fullFileName = process.env.UPLOAD_DESTINATION + fileName;

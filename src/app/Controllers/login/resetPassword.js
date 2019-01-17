@@ -1,11 +1,11 @@
-import db                          from "../../helpers/database";
+import { db }                          from "../../helpers/database";
 import { check, validationResult } from "express-validator/check";
 import bcrypt                      from "bcrypt";
 
 // /forgot-password/:token
 async function get(req, res) {
     // Get user info
-    const client      = await db.connect();
+    const client = await db.connect();
     const getUserInfo = await client.query(`SELECT "userId", "UpdatePasswordKeys"."token", username
                                             FROM "UpdatePasswordKeys", "Users"
                                             WHERE "UpdatePasswordKeys"."token" = $1
@@ -37,7 +37,7 @@ async function post(req, res) {
         return res.redirect("/login/forgot-password/" + req.body.token);
     }
 
-    const client      = await db.connect();
+    const client = await db.connect();
     const getUserInfo = await client.query(`SELECT id, username
                                             FROM "UpdatePasswordKeys", "Users"
                                             WHERE "UpdatePasswordKeys"."token" = $1

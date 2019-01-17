@@ -1,4 +1,4 @@
-import db from "../../helpers/database";
+import { db } from "../../helpers/database";
 
 export default async files => {
     const client = await db.connect();

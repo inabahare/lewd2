@@ -7,5 +7,10 @@ package-lock.json
 Public/CSS/main.css
 Public/CSS/main.map
 Public/uploads
+<<<<<<< HEAD
 Public/Waifus/*
 logs/
+=======
+Public/Images/Waifus
+logs/
+>>>>>>> development

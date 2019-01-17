@@ -49,7 +49,7 @@ const scanAndRemoveFile = (filename, fileSha) => {
 
                 resolve(null);
             } else {
-                console.log("??");
+                console.log("??", info, code);
             }
 
         });

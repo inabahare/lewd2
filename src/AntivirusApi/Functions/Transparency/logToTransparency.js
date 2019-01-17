@@ -1,4 +1,4 @@
-import db from "../../../app/helpers/database";
+import { db } from "../../helpers/database";
 
 /**
  * In case the antivirus catches something, use this to log the caught stuff
@@ -9,10 +9,12 @@ import db from "../../../app/helpers/database";
  */
 const logToTransparency = async (fileName, fileHash, reason, origin) => {
     const client = await db.connect();
+
     await client.query(`INSERT INTO "Transparency" ("Date", "FileName", "FileHash", "Type", "Origin")
                         VALUES (NOW(), $1, $2, $3, $4);`, [
                             fileName, fileHash, reason, origin
                         ]);
+                        
     await client.release();
 };
 

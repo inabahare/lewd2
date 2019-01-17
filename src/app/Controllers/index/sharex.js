@@ -2,6 +2,7 @@ function get(req, res) {
 
     if (!res.locals.user) {
       res.setHeader("content-type", "text/javascript");
+      res.status(401);
       return res.send("You need to be logged in for this");
     }
 
@@ -9,7 +10,7 @@ function get(req, res) {
     res.type("sxcu; charset=utf8");
 
     const shareXConfig = `{
-        "Name": "Local",
+        "Name": "lewd dot se",
         "DestinationType": "ImageUploader, FileUploader",
         "RequestURL": "${process.env.SITE_LINK}upload",
         "FileFormName": "file",

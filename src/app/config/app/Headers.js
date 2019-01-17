@@ -16,7 +16,7 @@ class Headers {
         app.use(cookieSession({
             name: "session",
             secret: "lewd",
-            maxAge: 30 * 60 * 1000,
+            maxAge: parseInt(process.env.SITE_COOKIE_MAX_AGE), // One year
             overwrite: false
         }));
     }

@@ -1,4 +1,4 @@
-import db     from "../../helpers/database";
+import { db }     from "../../helpers/database";
 import bcrypt from "bcrypt";
 import { check, validationResult } from "express-validator/check";
 
@@ -19,18 +19,18 @@ async function post(req, res) {
         return res.redirect("/user");
     }
 
+    const client = await db.connect();
     // Get password
-    const client          = await db.connect();
-    const getPassword     = await client.query(`SELECT password 
-                                                FROM "Users" 
-                                                WHERE id = $1;`, [res.locals.user.id]);
+    const getPassword = await client.query(`SELECT password 
+                                            FROM "Users" 
+                                            WHERE id = $1;`, [res.locals.user.id]);
 
     const currentPassword = getPassword.rows[0].password;
 
-    // Check password
+    // Check for invalid password
     const passwordCheck = await bcrypt.compare(req.body["old-password"], currentPassword);
-    
     if (!passwordCheck) {
+        await client.release();
         req.flash("incorrectOldPassword", "Your old password is incorrect");
         return res.redirect("/user");
     }

@@ -1,4 +1,4 @@
-import db            from "../../helpers/database";
+import { db }            from "../../helpers/database";
 import { promisify } from "util";
 import fs            from "fs";
 
@@ -10,8 +10,9 @@ const unlink = promisify(fs.unlink);
  */
 const updateExistingFile = async (file) => {
     const client = await db.connect();
-                   await db.query(`UPDATE "Uploads" SET uploaddate = NOW() WHERE filesha = $1`, [file.hash]);
-                   await client.release();
+    await client.query(`UPDATE "Uploads" SET uploaddate = NOW() 
+                        WHERE filesha = $1`, [file.hash]);
+    await client.release();
 
     unlink(file.path);
 };

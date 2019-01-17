@@ -25,6 +25,7 @@ async function post(req, res) {
     const deleteFiles = req.body.deleteFiles === "on";
 
     await deleteUser(userid, deleteFiles);
+    req.flash("UserDeleted", `<i>${req.body.username}</i> has now been purged`);
     return res.redirect("/user/admin/view-users");
 }
 

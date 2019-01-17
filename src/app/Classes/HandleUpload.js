@@ -22,6 +22,10 @@ class HandleUpload {
         this.file = req.file;
     }
 
+    _FormatFileName(fileName) {
+        return encodeURI(fileName);
+    }
+
     async AddHash() {
         this.file.hash = await hashFile(this.file.path);
     }
@@ -49,7 +53,7 @@ class HandleUpload {
         return {
             "status": 200,
             "data": {
-                "link": uploadLink + this.file.filename,
+                "link": uploadLink + this._FormatFileName(this.file.filename),
                 "deleteionURL": siteLink + "delete/" + this.file.deletionKey
             }
         };

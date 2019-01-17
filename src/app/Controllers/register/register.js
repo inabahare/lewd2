@@ -1,4 +1,4 @@
-import db                                       from "../../helpers/database";
+import { db }                                       from "../../helpers/database";
 import bcrypt                                   from "bcrypt";
 import { check, validationResult }              from "express-validator/check";
 import crypto                                   from "crypto";
@@ -52,11 +52,10 @@ async function post(req, res) {
     // Check if user exists // 
     //////////////////////////
     const client = await db.connect();
-
     const getUser = await client.query(`SELECT username FROM "Users" WHERE username = $1;`, [req.body.username]);
+    
     if (getUser.rows.length === 1) {
         await client.release();
-
         return res.redirect("/register/" + req.body.token);
     }
 
@@ -94,11 +93,11 @@ const validate = [
     check("token").isString().withMessage("Invalid token")
                   .isLength({min: 10}).withMessage("Token too short"),
 
-    check("username").isLength({min: 2}).withMessage("Username needs to be at least 2 characters long")
+    check("username").isLength({min: 3, max: 30}).withMessage("Username needs to be between 3 and 30 characters long")
                      .custom(checkIfUsernameNotExists).withMessage("Username already in use"),
 
     check("password").exists().withMessage("Please select a password")
-                     .isLength({min: 3, max: 72}).withMessage("Password needs to be 2 characters long")
+                     .isLength({min: 3, max: 72}).withMessage("Password needs to be 3 characters long")
 
 ];
 

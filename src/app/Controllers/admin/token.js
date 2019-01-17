@@ -1,6 +1,6 @@
 import crypto                      from "crypto";
 import { check, validationResult } from "express-validator/check";
-import db                          from "../../helpers/database";
+import { db }                          from "../../helpers/database";
 import formatUploadSize            from "../../Functions/Token/formatUploadSize";
 
 function get(req, res) {

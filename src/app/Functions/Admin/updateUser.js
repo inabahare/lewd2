@@ -1,4 +1,4 @@
-import db from "../../helpers/database";
+import { db } from "../../helpers/database";
 
 async function updateUser(userId, uploadSize, isAdmin) {
     const client = await db.connect();
