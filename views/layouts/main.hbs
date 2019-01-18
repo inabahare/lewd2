@@ -38,28 +38,10 @@
 
     </header>
     <main class="section">
-         <!--[if IE]>
-        <section class="container">
-            <article class="message is-danger">
-                <div class="message-header">
-                    <p>Dude wtf???</p>
-                    <button class="delete" aria-label="delete"></button>
-                </div>
-                <div class="message-body">
-                    <p>For your own sanity install either firefox, chrome, opera, or something much better.</p>
-                </div>
-            </article>
-        </section>    
-        <![endif]--> 
-
         <section class="container">
             {{{ body }}}
         </section>
 
-        <div id="waifu">
-            <img src="{{{waifu}}}" alt="Cute pic or meme">
-        </div>
-        
         <noscript>
             <section class="container">
                 <article class="message is-warning">
@@ -75,5 +57,8 @@
         </noscript>
         <script src="/JS/main.js"></script>
     </main>
+
+    <img id="waifu" src="{{{waifu}}}" alt="Cute pic or meme">
+
   </body>
 </html> 
