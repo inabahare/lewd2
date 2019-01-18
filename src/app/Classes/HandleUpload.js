@@ -1,7 +1,7 @@
 import fs                       from "fs";
 import { promisify }            from "util";
 import path                     from "path";
-import getImageFilenameIfExists from "../Functions/Upload/getImageFilenameIfExists";
+import { getFilenameAndAmount } from "../Functions/Upload/getImageFilenameIfExists";
 import addImageToDatabase       from "../Functions/Upload/addImageToDatabase";
 import generateDeletionKey      from "../Functions/Upload/deletionKey";
 import hashFile                 from "../Functions/Upload/hashFile";
@@ -35,9 +35,18 @@ class HandleUpload {
     }
 
     async HandleExistingFile() {
-        const existingFileName = await getImageFilenameIfExists(this.file.hash);
-        if (existingFileName) { // If file has been uploaded and not deleted
-            await this.fileExists(existingFileName, this.file.destination);
+        const existingFile = await getFilenameAndAmount(this.file.hash);
+
+        if (existingFile) { // If file has been uploaded and not deleted
+            // This is to prevent too many hardlinks
+            // The ++ is because existingFile.amount contains the amount in the database
+            if ((parseInt(existingFile.amount) + 1) > parseInt(process.env.UPLOAD_MAX_HARDLINKS)) {
+                this.res.status(500)
+                     .send("Too many duplicates");
+                return;
+            }
+
+            await this.fileExists(existingFile.filename, this.file.destination);
         } 
         else { // If file doesn't exist or has been deleted
             this.newFile(this.file);
