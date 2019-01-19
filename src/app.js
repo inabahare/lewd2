@@ -84,7 +84,7 @@ if (!fs.existsSync(process.env.UPLOAD_DESTINATION)) {
     await Setup.Database.SetUp();
 })();
 
-// Catch all exceptions in production mode
+// Catch all exceptions and rehections and shit in production mode
 if (process.env.NODE_ENV === "production") {
     process.on("uncaughtException", err => console.error("app.js", err));
     process.on('unhandledRejection', (reason, p) => {
