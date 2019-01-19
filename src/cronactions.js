@@ -93,4 +93,12 @@ schedule(process.env.VIRUSTOTAL_SECOND_AND_THIRD_SCAN_CRON, async () => {
     });    
 });
  
+// Catch all exceptions in production mode
+if (process.env.NODE_ENV === "production") {
+    process.on("uncaughtException", err => console.error("app.js", err));
+    process.on('unhandledRejection', (reason, p) => {
+        console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
+    });
+}
+
 messageServer.listen(parseInt(process.env.MESSAGE_SERVER_PORT));
