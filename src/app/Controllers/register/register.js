@@ -5,6 +5,15 @@ import crypto                                   from "crypto";
 import { getTokenData, checkTokenDataForErrors} from "../../Functions/Register/tokenData";
 import { checkIfUsernameNotExists }             from "../../Functions/Register/checkIfUsernameExists";
 
+// Are the password and password checker identical?
+const isPasswordsIdentical = (value, { req }) => {
+    if (req.body["password"] !== req.body["password-check"]) {
+        throw new Error("Passwords do not match");
+    } else {
+        return true;
+    }
+};
+
 // /:token
 async function get(req, res) {
     // Get token data
@@ -105,8 +114,12 @@ const validate = [
                      .custom(checkIfUsernameNotExists).withMessage("Username already in use"),
 
     check("password").exists().withMessage("Please select a password")
-                     .isLength({min: 3, max: 72}).withMessage("Password needs to be 3 characters long")
+                     .isLength({min: 3, max: 72}).withMessage("Password needs to be between 3 and 72 characters long")
+                     .custom(isPasswordsIdentical),
 
+    check("password-check").exists().withMessage("Please write the password once again")
+                           .isLength({min: 3, max: 72}).withMessage("The secondary password check also needs to be between 3 and 72 characters")
+                           .custom(isPasswordsIdentical)
 ];
 
 export { get, post, validate };

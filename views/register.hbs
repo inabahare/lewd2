@@ -36,26 +36,46 @@
                 </div>
             </div>
 
-            <div class="field">
-                {{#if errors.password}}
-                    <article class="message is-danger">
-                        <div class="message-header">
-                            <p>Password</p>
-                        </div>
-                        <div class="message-body">
-                            {{{ errors.password }}}
-                        </div>
-                    </article>  
-                {{/if}}
-                <label for="password" class="label">Password</label>
-                <div class="control">
-                    <input type="password" id="password" class="input" name="password" maxlength="73" placeholder="password">
+            <div class="password-confirmations">
+                <div class="field">
+                    {{#if errors.password}}
+                        <article class="message is-danger">
+                            <div class="message-header">
+                                <p>Password</p>
+                            </div>
+                            <div class="message-body">
+                                {{{ errors.password }}}
+                            </div>
+                        </article>  
+                    {{/if}}
+                    <label for="password" class="label">Password</label>
+                    <div class="control">
+                        <input type="password" id="password" class="input" name="password" maxlength="73" placeholder="password">
+                    </div>
+                </div>
+
+                <div class="field">
+                    {{#if errors.password-again }}
+                        <article class="message is-danger">
+                            <div class="message-header">
+                                <p>Password</p>
+                            </div>
+                            <div class="message-body">
+                                {{{ errors.password-again }}}
+                            </div>
+                        </article>  
+                    {{/if}}
+                    <label for="password-check" class="label">Confirm password:</label>
+                    <div class="control">
+                        <input type="password" id="password-check" class="input" name="password-check" maxlength="73" placeholder="Password confirm">
+                    </div>
                 </div>
             </div>
-            
+
+
             <div class="field is-grouped is-grouped-right">
                 <div class="control">
-                    <input type="submit" class="button is-link" value="Register">
+                    <input type="submit" class="button is-primary" value="Register">
                 </div>
             </div>
         </form>        
