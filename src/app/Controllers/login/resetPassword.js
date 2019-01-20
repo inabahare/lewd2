@@ -6,9 +6,9 @@ import bcrypt                      from "bcrypt";
 async function get(req, res) {
     // Get user info
     const client = await db.connect();
-    const getUserInfo = await client.query(`SELECT "userId", "UpdatePasswordKeys"."token", username
+    const getUserInfo = await client.query(`SELECT "userId", "UpdatePasswordKeys"."key", username
                                             FROM "UpdatePasswordKeys", "Users"
-                                            WHERE "UpdatePasswordKeys"."token" = $1
+                                            WHERE "UpdatePasswordKeys"."key" = $1
                                             AND registered > NOW() - '${process.env.HOW_OLD_PASSWORD_RESET_TOKENS_CAN_BE}'::INTERVAL
                                             AND "userId" = id;`, 
                                             [ req.params.token ]);
@@ -40,7 +40,7 @@ async function post(req, res) {
     const client = await db.connect();
     const getUserInfo = await client.query(`SELECT id, username
                                             FROM "UpdatePasswordKeys", "Users"
-                                            WHERE "UpdatePasswordKeys"."token" = $1
+                                            WHERE "UpdatePasswordKeys"."key" = $1
                                             AND registered > NOW() - '${process.env.HOW_OLD_PASSWORD_RESET_TOKENS_CAN_BE}'::INTERVAL
                                             AND "userId" = id;`, 
                                             [ req.body.token ]);
@@ -58,8 +58,8 @@ async function post(req, res) {
                         SET password = $1
                         WHERE id = $2`,  [newPassword, user.id]);
     // Clear login tokens
-    await client.query(`DELETE FROM "LoginTokens"        WHERE  userid  = $1;
-                        DELETE FROM "UpdatePasswordKeys" WHERE "userId" = $1;`, [user.id]);
+    await client.query(`DELETE FROM "LoginTokens"        WHERE  userid  = $1;`, [user.id]);
+    await client.query(`DELETE FROM "UpdatePasswordKeys" WHERE "userId" = $1;`, [user.id]);
     await client.release();
 
     req.flash("userAdded", "Your password has been updated");

@@ -23,11 +23,14 @@ async function post(req, res) {
 
     const client = await db.connect();
 
-    await client.query(`INSERT INTO "UpdatePasswordKeys" ("token", "registered", "userId")
+    await client.query(`INSERT INTO "UpdatePasswordKeys" ("key", "registered", "userId")
                         VALUES ($1, NOW(), (SELECT id FROM "Users" WHERE username = $2));`, 
                         [key, req.body.username]);
                         
     await client.release();
+
+    console.log(key, req.body.username);
+
     req.flash("link", `${process.env.SITE_LINK}login/forgot-password/${key}`);
 
     res.redirect("/user/admin/reset-password");
