@@ -1,5 +1,6 @@
 import { spawn }  from "child_process";
 import path from "path";
+import async from "async"; 
 
 const returnCodes = {
     CLEAN: 0,
@@ -27,12 +28,23 @@ class SophosReturnObject {
 }
 
 class Sophos {
-    constructor(location = "/opt/sophos-av/bin/savscan") {
-        this._scanData = "";
+    constructor(amountOfSophosProcessesRunningAtOnce, location = "/opt/sophos-av/bin/savscan") {
+        this._scanData  = "";
         this.sophosPath = location;
+        this.scanQueue  = async.queue(this._scan, amountOfSophosProcessesRunningAtOnce);
     }
 
-    scan(filePath) {
+    static get returnCodes() { return returnCodes; }
+
+    async _queueFunction(task) {
+        const scanResult = await this._scan(task.filePath);
+
+        consople.log(scanResult);
+
+        
+    }
+
+    _scan(filePath) {
         return new Promise((resolve, reject) => {
             const scanner = spawn(this.sophosPath, ["-nc", 
                                                     "-nb", 
@@ -53,6 +65,10 @@ class Sophos {
         });
     }
 
+    scan(filePath) {
+
+    }
+
     _clear() {
         this._scanData = "";
     }
@@ -61,7 +77,5 @@ class Sophos {
         this._scanData += data;
     }
 }
-
-Sophos.returnCodes = returnCodes;
 
 module.exports = Sophos;

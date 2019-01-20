@@ -24,15 +24,26 @@ passport.use(new LocalStrategy({
     }
 
     const checkPassword = await bcrypt.compare(password, user.password);
+
     if (checkPassword == true){
         const userId    = parseInt(user.id);
-        const userToken = generateLoginToken(userId);
-        await client.query(`INSERT INTO "LoginTokens" (token, registered, userid)
-                            VALUES ($1, NOW(), $2);`, [
-                                userToken,
-                                userId
-                            ]);
-        await client.release(); 
+        let userToken = generateLoginToken(userId);
+
+        try {
+            await client.query(`INSERT INTO "LoginTokens" (token, registered, userid)
+            VALUES ($1, NOW(), $2);`, [
+                userToken,
+                userId
+            ]);
+        } 
+        catch(ex) {
+            console.error(`Failed to insert to LoginToken with message ${ex.message}`);
+            userToken = null;
+        }
+        finally {
+            await client.release(); 
+        }
+
         return next(null, userToken);
     } else {
         await client.release();

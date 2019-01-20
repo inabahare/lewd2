@@ -72,18 +72,26 @@ async function post(req, res) {
     const uploadSize = tokenData.uploadsize;
     const isAdmin    = tokenData.isadmin;
 
-    await client.query(`INSERT INTO "Users" (username, password, token, roleid, uploadsize, isadmin)
-                        VALUES ($1, $2, $3, $4, $5, $6);`, [
-                            username, 
-                            password, 
-                            token, 
-                            roleid, 
-                            uploadSize,
-                            isAdmin
-                        ]);
-
-    await client.query(`UPDATE "RegisterTokens" SET used = TRUE WHERE token = $1;`, [req.body.token]);
-    await client.release();
+    try {
+        await client.query(`INSERT INTO "Users" (username, password, token, roleid, uploadsize, isadmin)
+                            VALUES ($1, $2, $3, $4, $5, $6);`, [
+                                username, 
+                                password, 
+                                token, 
+                                roleid, 
+                                uploadSize,
+                                isAdmin
+                            ]);
+    
+        await client.query(`DELETE FROM "RegisterTokens" WHERE token = $1;`, [req.body.token]);
+    }
+    catch(ex) {
+        console.error(`Failed to register user with error: ${ex.message}`);
+    }
+    finally {
+        await client.release();
+    }
+    
 
     req.flash("userAdded", "You are now ready to sign in");
     res.redirect("/");

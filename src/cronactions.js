@@ -72,13 +72,9 @@ schedule(process.env.SECONDARY_SCAN_CRON, async () => {
     });
 });
 
-
-// eslint-disable-next-line no-unused-vars
-let num = 0;
 schedule(process.env.VIRUSTOTAL_SECOND_AND_THIRD_SCAN_CRON, async () => {
     const files = await getFilesToScan();
 
-    num++;
 
     if (!files) {
         return;
