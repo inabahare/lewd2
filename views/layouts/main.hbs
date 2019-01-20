@@ -55,10 +55,15 @@
                 </article>
             </section>
         </noscript>
-        <script src="/JS/main.js"></script>
+        <script src="/JS/dist/main.js"></script>
     </main>
 
     <img id="waifu" src="{{{waifu}}}" alt="Cute pic or meme">
-
+    
+    {{#if js}}
+        {{#each js as |script|}}
+            <script src="/JS/dist/{{script}}.js"></script>
+        {{/each}}
+    {{/if}}
   </body>
 </html> 

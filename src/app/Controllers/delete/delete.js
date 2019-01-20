@@ -13,13 +13,11 @@ async function get(req, res) {
     const file = getFileData.rows[0];
     // Do nothing if there is no file
     if (file === undefined) {
-        return res.redirect("/");
+        return res.send("No file to delete, sorry");
     }
 
     await deleteFiles([file.filename]);
     res.send(`${file.filename} has just been deleted`);
 }
-
-
 
 export { get };

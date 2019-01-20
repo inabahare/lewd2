@@ -17,7 +17,8 @@ async function get(req, res) {
     res.render("user", {
         menuItem: "view-uploads",
         uploads: uploads,
-        count: count
+        count: count,
+        js: ["viewUploads"]
     });
 }
 

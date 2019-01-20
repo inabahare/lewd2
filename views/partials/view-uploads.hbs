@@ -37,11 +37,12 @@
                             <td class="">No</td>
                         {{/if}}
 
-                        <td><a href="/delete/{{{ this.deletionkey }}}" class="button is-danger">Delete</a></td>
+                        <td><a href="/delete/{{{ this.deletionkey }}}" data-key="{{{ this.deletionkey }}}" class="button is-danger delete-one">Delete</a></td>
                     </tr>
                 {{/each}}
             </tbody>
         </table>
+
     {{else}}
         <h1>You haven't uploaded any files :<</h1>
     {{/if}}

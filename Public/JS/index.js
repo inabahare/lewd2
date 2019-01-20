@@ -1,3 +1,5 @@
+import Dropzone from "./dropzone";
+
 const tokenContainer   = document.getElementById("token");
 const uploadList       = document.getElementById("uploads")
 const token            = tokenContainer.defaultValue;
