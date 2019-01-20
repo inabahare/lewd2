@@ -87,12 +87,21 @@ if (!fs.existsSync(process.env.UPLOAD_DESTINATION)) {
 // Catch all exceptions in production mode
 if (process.env.NODE_ENV === "production") {
     process.on("uncaughtException", err => {
+        console.error("<app.js>")
         console.error("app.js", err)
+        console.error("/app.js>");
         process.exit(1);
     });
 
     process.on("unhandledRejection", (reason, p) => {
-        console.error("app.js", `Promise: ${p}`, `Reason: ${reason}`);
+        console.error("<app.js>")
+        console.error(`Reason: `, reason);
+        console.error("--------------------------");
+        console.error(reason.stack);
+        
+        console.error("--------------------------");
+        console.error(p);
+        console.error("</app.js>");
         process.exit(1);
     });
 }
