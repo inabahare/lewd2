@@ -17,7 +17,8 @@ const dropZone = new Dropzone("#uploader", {
     }, 
     params: {
         test: "test"
-    }
+    },
+    timeOut: 3000000000 // Fuck this timeOut limit shit
 });
 
 

@@ -4,7 +4,6 @@ import path                     from "path";
 import { getFilenameAndAmount } from "../Functions/Upload/getImageFilenameIfExists";
 import addImageToDatabase       from "../Functions/Upload/addImageToDatabase";
 import generateDeletionKey      from "../Functions/Upload/deletionKey";
-import hashFile                 from "../Functions/Upload/hashFile";
 import symlink                  from "../Functions/Upload/symlink";
 import scan                     from "../Functions/Upload/scan";
  
@@ -26,9 +25,9 @@ class HandleUpload {
         return encodeURI(fileName);
     }
 
-    async AddHash() {
-        this.file.hash = await hashFile(this.file.path);
-    }
+    // async AddHash() {
+    //     // this.file.hash = await hashFile(this.file.path);
+    // }
 
     AddDeletionKey() {
         this.file.deletionKey = generateDeletionKey(10);

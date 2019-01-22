@@ -16,7 +16,7 @@
     "build": "node_modules/.bin/concurrently \"npm:build-server\" \"npm:build-less\" \"npm:build-js\" && npm run move-sourcemaps",
     "build-server": "node_modules/.bin/parcel build src/app.js src/cronactions.js src/AntiVirusApi.js --target node --no-minify",
     "build-less": "node_modules/.bin/parcel build Public/CSS/main.less --out-dir Public/CSS/dist",
-    "build-js": "node_modules/.bin/parcel build Public/JS/index.js Public/JS/main.js Public/JS/viewUploads.js --out-dir Public/JS/dist --target browser",
+    "build-js": "node_modules/.bin/parcel build Public/JS/index.js Public/JS/main.js Public/JS/viewUploads.js --out-dir Public/JS/dist --target browser --no-minify",
     "build-watch": "node_modules/.bin/concurrently \"npm:watch-server\" \"npm:watch-less\"",
     "watch-server": "node_modules/.bin/parcel src/app.js src/cronactions.js --target node",
     "watch-less": "node_modules/.bin/parcel watch Public/CSS/main.less --out-dir Public/CSS",
@@ -53,7 +53,15 @@
     "passport-local": "^1.0.0",
     "pg": "^7.4.3",
     "sha1": "^1.1.1",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "append-field": "^1.0.0",
+    "busboy": "^0.2.11",
+    "concat-stream": "^1.5.2",
+    "mkdirp": "^0.5.1",
+    "object-assign": "^4.1.1",
+    "on-finished": "^2.3.0",
+    "type-is": "^1.6.4",
+    "xtend": "^4.0.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
