@@ -2,7 +2,7 @@
 
 
 ## Requirements
-* NodeJS (Tested on 10.14.2)
+* NodeJS (Tested on 10.15.0)
 * PostgreSQL (Tested on 9.6)
 * A webserver with reverse proxying (Tested on NGINX 1.10.3)
 * Sophos AV
