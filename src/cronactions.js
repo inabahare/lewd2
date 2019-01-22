@@ -92,7 +92,7 @@ schedule(process.env.VIRUSTOTAL_SECOND_AND_THIRD_SCAN_CRON, async () => {
 // Catch all exceptions in production mode
 if (process.env.NODE_ENV === "production") {
     process.on("uncaughtException", err => {
-        console.error("cronactions.js", err)
+        console.error("cronactions.js", err);
         process.exit(1);
     });
 

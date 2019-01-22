@@ -1,6 +1,8 @@
 import { db }            from "../../helpers/database";
 import deleteFiles   from "../../Functions/FileDeletion/deleteFiles";
 
+
+
 async function get(req, res) {
     const deletionKey = req.params.key;
     const client = await db.connect();

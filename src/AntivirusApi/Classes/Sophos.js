@@ -1,5 +1,4 @@
 import { spawn }  from "child_process";
-import path from "path";
 import async from "async"; 
 
 const returnCodes = {
@@ -39,7 +38,7 @@ class Sophos {
     async _queueFunction(task) {
         const scanResult = await this._scan(task.filePath);
 
-        consople.log(scanResult);
+        console.log(scanResult);
 
         
     }
@@ -59,14 +58,14 @@ class Sophos {
                 const result = new SophosReturnObject(code, this._scanData);
                 this._clear();
                 resolve(result);
-            })
+            });
 
-            scanner.on("error", err => reject);
+            scanner.on("error", err => reject(err));
         });
     }
 
     scan(filePath) {
-
+        console.log(filePath);
     }
 
     _clear() {
