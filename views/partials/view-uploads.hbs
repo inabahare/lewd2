@@ -1,7 +1,7 @@
 
 <div class="content">
     {{#if uploads}}
-        <h2 class="title is-3">Showing {{ count }} uploads:</h2>
+        <h2 class="title is-3">Showing <span id="upload-count">{{ count }}</span> uploads:</h2>
         <table class="table">
             <thead>
                 <tr>
@@ -15,7 +15,7 @@
             </thead>
             <tbody>
                 {{#each uploads}}
-                    <tr>
+                    <tr id="{{{ this.deletionkey }}}">
                         <td><a href="{{ @root.uploadLink }}{{{ this.filename }}}">{{{ this.originalname }}}</a></td>
                         <td>{{{ this.uploaddate }}}</td>
 

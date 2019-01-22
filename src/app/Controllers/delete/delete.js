@@ -12,10 +12,12 @@ async function get(req, res) {
                                             FROM "Uploads"
                                             WHERE deletionkey = $1;`, [deletionKey]);
     await client.release();
+    
     const file = getFileData.rows[0];
     // Do nothing if there is no file
-    if (file === undefined) {
-        return res.send("No file to delete, sorry");
+    if (!file) {
+        return res.status(400)
+                  .send("No file to delete, sorry");
     }
 
     await deleteFiles([file.filename]);

@@ -20,6 +20,7 @@
     "build-watch": "node_modules/.bin/concurrently \"npm:watch-server\" \"npm:watch-less\"",
     "watch-server": "node_modules/.bin/parcel src/app.js src/cronactions.js --target node",
     "watch-less": "node_modules/.bin/parcel watch Public/CSS/main.less --out-dir Public/CSS",
+    "watch-js": "node_modules/.bin/parcel watch Public/JS/index.js Public/JS/main.js Public/JS/viewUploads.js --out-dir Public/JS/dist --target browser",
     "move-sourcemaps": "mv dist/app.map dist/app.js.map"
   },
   "dependencies": {
@@ -56,6 +57,7 @@
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "concurrently": "^4.1.0",
     "less": "^3.9.0",
