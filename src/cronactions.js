@@ -61,7 +61,7 @@ schedule(process.env.SECONDARY_SCAN_CRON, async () => {
         return;
     }
 
-    console.log(`Performing secondaty scan on ${files.length + 1} files`);
+    console.log(`Performing secondary scan on ${files.length + 1} files`);
 
     files.forEach(file => {
         sophosQueue.push({

@@ -12,7 +12,7 @@ async function post(req, res) {
 
     res.render("user", {
         menuItem: "finduser",
-        post: true, // Using this to check for post request. It's too late and I can't be botered to think of any other way to make it go "no users found :<". Yes it will be dirty but I will fix later (never)
+        post: true, // Using this to check for post request. It's too late and I can't be bothered to think of any other way to make it go "no users found :<". Yes it will be dirty but I will fix later (never)
         uploaders: uploaders
     });
 }
