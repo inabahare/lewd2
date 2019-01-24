@@ -2,9 +2,10 @@ import https         from "https";
 import queryString   from "querystring";
 import async         from "async";
 import sleep         from "../../app/Functions/sleep";
-import { db }            from "../../app/helpers/database";
+import { db }        from "../../app/helpers/database";
 import deleteFiles   from "../Functions/FileDeletion/deleteFiles";
 import logToTransparency from "../Functions/Transparency/logToTransparency";
+import axios from "axios";
 
 class VirusTotalScanner {
     /**
@@ -26,13 +27,15 @@ class VirusTotalScanner {
         this.options = {
             hostname: "virustotal.com",
             port: "443",
-            path: "/vtapi/v2/file/report",
+            path: "",
             method: "POST",
             headers: {
                 "Accept-Encoding": "gzip deflate",
                 "User-Agent": "gzip " + process.env.VIRUSTOTAL_USER
             }
         };
+
+        axios.post("virustotal.com/vtapi/v2/file/report")
 
         this.queue = async.queue(async task => {
             // This is how the scanner i limited to 4 scans pr minute
