@@ -4,7 +4,6 @@ dotenv.config();
 import { schedule }             from "node-cron";
 import dnode                    from "dnode";
 import async                    from "async"; 
-import debugge                  from "debug";
 import scanAndRemoveFile        from "./AntivirusApi/Functions/scanAndRemoveFile";
 import getFilesForSecondaryScan from "./AntivirusApi/Functions/SecondaryScan/GetFilesForSecondaryScan";
 import getFilesToScan           from "./AntivirusApi/Functions/VirusTotal/getFilesToScan";
@@ -62,8 +61,8 @@ schedule(process.env.SECONDARY_SCAN_CRON, async () => {
         return;
     }
 
-    debugge("scanner-schedule")(files);
- 
+    console.log(`Performing secondaty scan on ${files.length + 1} files`);
+
     files.forEach(file => {
         sophosQueue.push({
             fileName: file.fileName,
@@ -84,6 +83,9 @@ schedule(process.env.VIRUSTOTAL_SECOND_AND_THIRD_SCAN_CRON, async () => {
         return;
     }
     
+    console.log(`Performing tertiary scan on ${files.length + 1} files`);
+
+
     files.forEach(file => {
         virusTotal.scan(file.filehash, file.filename, ++file.virusTotalScan);
     });    
@@ -103,3 +105,5 @@ if (process.env.NODE_ENV === "production") {
 }
 
 messageServer.listen(parseInt(process.env.MESSAGE_SERVER_PORT));
+
+console.log("Now doing cron operations :3");

@@ -9,6 +9,8 @@ async function fileDeletion() {
     if (files.length === 0)
         return;
 
+    console.log(`Deleting ${files.length + 1} files`);
+
     // Removes duplicates
     const unique = [...new Set(files.map(file => file.filename))];
 
