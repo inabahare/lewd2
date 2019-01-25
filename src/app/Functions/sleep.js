@@ -1,6 +1,6 @@
 /**
 
- * Waits n amount of milliseconds in an awaitable manner
+ * Waits n amount of milliseconds in an timely manner
  * @param {Number} milliseconds 
  */
 const sleep = milliseconds => {

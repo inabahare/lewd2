@@ -1,5 +1,5 @@
 /**
- * Replaces dangerous charactes
+ * Replaces dangerous characters
  * @param {string} str 
  */
 const escape = str => str.replace(/&/g, "&amp;")

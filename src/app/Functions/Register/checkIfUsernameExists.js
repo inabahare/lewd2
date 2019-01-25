@@ -21,7 +21,7 @@ const checkIfUsernameNotExists = value => {
 };
 
 /**
- * Custom express validator to check if a username exists because express-validator is a bastich and broke when not().custom() was usedasdfas kjfhasfjhg
+ * Custom express validator to check if a username exists because express-validator is a bitch and broke when not().custom() was <keyboard mashing>
  * @param {string} value The username to check 
  */
 const checkIfUsernameExists = value => {
