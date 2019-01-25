@@ -5,7 +5,6 @@ import sleep         from "../../app/Functions/sleep";
 import { db }        from "../../app/helpers/database";
 import deleteFiles   from "../Functions/FileDeletion/deleteFiles";
 import logToTransparency from "../Functions/Transparency/logToTransparency";
-import axios from "axios";
 
 class VirusTotalScanner {
     /**
@@ -35,7 +34,6 @@ class VirusTotalScanner {
             }
         };
 
-        axios.post("virustotal.com/vtapi/v2/file/report")
 
         this.queue = async.queue(async task => {
             // This is how the scanner i limited to 4 scans pr minute
