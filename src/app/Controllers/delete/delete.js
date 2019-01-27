@@ -1,4 +1,4 @@
-import { db }            from "../../helpers/database";
+import { db } from "../../helpers/database";
 import deleteFiles   from "../../Functions/FileDeletion/deleteFiles";
 
 

@@ -4,7 +4,7 @@ import queue from "async/queue";
 const url    = "https://www.virustotal.com/vtapi/v2/file/report"; 
 
 class VirusTotal {
-    constructor(apikey) {
+    constructor(apikey, scansPrMinute = 4) {
         this.apikey = apikey;
 
         this.headers = {
@@ -13,7 +13,7 @@ class VirusTotal {
         };
 
         this.amountOfScans = 0;
-        this.scansPrMinute = 4;
+        this.scansPrMinute = parseInt(scansPrMinute);
 
         // So get around the fact that virustotal's API limits the amount of requests pr minutes
         this.waitTime = 60001; 
@@ -75,7 +75,7 @@ class VirusTotal {
      *  Call this to start a scan
      * @param {string} fileHash 
      */
-    getFileReport(fileHash) {
+    scan(fileHash) {
         this.queue.push({
             fileHash: fileHash
         });

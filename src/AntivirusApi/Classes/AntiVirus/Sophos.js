@@ -38,11 +38,9 @@ class Sophos {
 
         this._onScanCallback = () => { throw new Error("The sophos onScanDone callback has not been set"); };
 
-        this.scanQueue  = queue((task, callback) => {
-            this._worker(task)
-            .then(() => {
-                callback();
-            });
+        this.scanQueue  = queue(async (task, callback) => {
+            await this._worker(task);
+            callback();
         }, amountOfSophosProcessesRunningAtOnce);
     }
 

@@ -7,41 +7,41 @@ require("dotenv").config();
 
 const unlink = promisify(fs.unlink);
 
-/**
- * 
- * @param {Array} fileNames - List of filenames to delete 
- * @returns {boolean} gotRemoved - Due to a race condition between the AV scanners this is needed
- */
-const deleteFiles = async (fileNames) => {
+
+async function deleteFilesByFileHash(fileHash, folderLocation) {
+    if (!fileHash) {
+        throw new Error("To delete file by hash and return a filename you need to set the filehash");
+    }
+
+    let filenames = null;
+    const client  = await db.connect();
     
-    for (let fileName of fileNames) {
-        const client = await db.connect();
-        
-        const fullFileName = path.join(process.env.UPLOAD_DESTINATION, fileName);
-        console.log(`Removing: ${fullFileName}`);
-        const getFile = await client.query(`DELETE FROM "Uploads" 
-                                            WHERE filename = $1 
-                                            RETURNING filesha, duplicate;`, [fileName]);
-        
-        // If the file has already been deleted
-        if (getFile.rows.length === 0) {
-            await client.release();
-            return false;
-        }
-
-        // const file = getFile.rows[0];
-                                    
-        ////////////////////
-        // HANDLE SYMLINK //
-        ///////////////////
-        if (fileName !== "robots.txt") {
-            await unlink(fullFileName);
-        } 
-
+    try {
+        filenames = await client.query(`DELETE FROM "Uploads"
+                                       WHERE filesha = $1
+                                       RETURNING filename`, [ fileHash ]);
+    }
+    catch(ex) {
+        console.error("deleteFilesByFileHash", fileHash, ex.message);
+    }
+    finally {
         await client.release();
     }
 
-    return true;
-};
+    if (filenames.rows.length === 0) {
+        return false;
+    }
 
-export default deleteFiles;
+    // Since the output from the query will be an array containing objects where the field will be filename. 
+    // IE loads of {filename: whatever} I'll just turn them into an array of filenames instead!
+    const files = filenames.rows.map(f => f.filename);
+
+    for(const filename of files) {
+        await unlink(path.join(folderLocation, filename));
+    }
+
+    return true;
+}
+
+
+export { deleteFilesByFileHash };
