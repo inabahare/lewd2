@@ -2,10 +2,12 @@ import { VirusTotal } from "./AntiVirus/VirusTotal";
 import { deleteFilesByFileHash } from "../Functions/FileDeletion/deleteFiles";
 import { db } from "../../app/helpers/database";
 import { logToTransparency } from "../Functions/Transparency/logToTransparency";
+import cron from "node-cron";
 
 const uploadDestination   = process.env.UPLOAD_DESTINATION;
 const minAllowedPositives = parseInt(process.env.VIRUSTOTAL_MIN_ALLOWED_POSITIVES);
 const apiKey              = process.env.VIRUSTOTAL_KEY;
+const cronString          = process.env.VIRUSTOTAL_SECOND_AND_THIRD_SCAN_CRON;
 // const maxScansPrDay       = parseInt(process.env.VIRUSTOTAL_MAX_SCANS_PR_DAY);
 
 const virusTotal = new VirusTotal(apiKey);
@@ -17,6 +19,10 @@ class VirusTotalScanner {
         this.virusTotal = virusTotal;
         virusTotal._onScanCallback = this._onScanDone;
         this._scans = 0;
+        
+        this._findFilesToScan();
+
+        // this.cron = cron.schedule(cronString, async () => this._findFilesToScan());
     }
     
     
@@ -34,6 +40,24 @@ class VirusTotalScanner {
 //#endregion
 
 //#region PRIVATE
+    async _findFilesToScan() {
+        const client = await db.connect();
+        const files  = await client.query(`SELECT DISTINCT filesha
+                                           FROM "Uploads"
+                                           WHERE (uploaddate < NOW() - '${process.env.VIRUSTOTAL_SECOND_SCAN_DELAY}'::INTERVAL AND "virustotalScan" = 1)
+                                           OR    (uploaddate < NOW() - '${process.env.VIRUSTOTAL_THIRD_SCAN_DELAY}'::INTERVAL AND "virustotalScan" = 2);`);
+        await client.release();
+
+        if(files.rows.length === 0) {
+            // No files to scan
+            return;
+        }
+
+        files.rows.forEach(file => this.scan({fileHash: file.filesha}));
+    }
+
+
+
     async _onScanDone(virusTotalData) {
         if (virusTotalData.positives >= minAllowedPositives) {
             await VirusTotalScanner._handleVirus(virusTotalData);

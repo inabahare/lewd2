@@ -6,7 +6,10 @@ class ScannerService {
     }
 
     Start() {
-
+        console.log("Scanners:")
+        scanners.forEach(scanner => {
+            console.log(`\t ${scanner.toString()}`);
+        });
     }
 
 
