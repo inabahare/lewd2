@@ -6,6 +6,7 @@ import { logToTransparency } from "../Functions/Transparency/logToTransparency";
 const uploadDestination   = process.env.UPLOAD_DESTINATION;
 const minAllowedPositives = parseInt(process.env.VIRUSTOTAL_MIN_ALLOWED_POSITIVES);
 const apiKey              = process.env.VIRUSTOTAL_KEY;
+const maxScansPrDay       = parseInt(process.env.VIRUSTOTAL_MAX_SCANS_PR_DAY);
 
 const virusTotal = new VirusTotal(apiKey);
 
@@ -15,6 +16,7 @@ class VirusTotalScanner {
     constructor() {
         this.virusTotal = virusTotal;
         virusTotal._onScanCallback = this._onScanDone;
+        this._scans = 0;
     }
     
     
