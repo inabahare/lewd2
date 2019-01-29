@@ -5,20 +5,20 @@ const url    = "https://www.virustotal.com/vtapi/v2/file/report";
 
 class VirusTotal {
     constructor(apikey, scansPrMinute = 4) {
-        this.apikey = apikey;
+        this._apikey = apikey;
 
-        this.headers = {
+        this._headers = {
             "Accept-Encoding": "gzip deflate",
             "User-Agent": "gzip"
         };
 
-        this.amountOfScans = 0;
-        this.scansPrMinute = parseInt(scansPrMinute);
+        this._amountOfScans = 0;
+        this._scansPrMinute = parseInt(scansPrMinute);
 
         // So get around the fact that virustotal's API limits the amount of requests pr minutes
-        this.waitTime = 60001; 
+        this._waitTime = 60001; 
 
-        this.queue = queue((task, callback) => {
+        this._queue = queue((task, callback) => {
             this._worker(task)
                 .then(() => {
                     callback();
@@ -53,22 +53,22 @@ class VirusTotal {
 
     _createConfig(fileSha) {
         return {
-            headers: this.headers,
+            headers: this._headers,
             params: {
-                "apikey": this.apikey,
+                "apikey": this._apikey,
                 "resource": fileSha
             }
         };
     }
 
     async _checkPause() {
-        if (this.amountOfScans === this.scansPrMinute) {
+        if (this._amountOfScans === this._scansPrMinute) {
             console.log("Waiting a minute");
-            await this._sleep(this.waitTime);
-            this.amountOfScans = 0;
+            await this._sleep(this._waitTime);
+            this._amountOfScans = 0;
         }
 
-        this.amountOfScans++;
+        this._amountOfScans++;
     }
 
     /**
@@ -76,7 +76,7 @@ class VirusTotal {
      * @param {string} fileHash 
      */
     scan(fileHash) {
-        this.queue.push({
+        this._queue.push({
             fileHash: fileHash
         });
     }

@@ -16,20 +16,21 @@ class VirusTotalScanner {
 //#region PUBLIC
 
     constructor() {
-        this.virusTotal = virusTotal;
         virusTotal._onScanCallback = this._onScanDone;
+        
+        this.virusTotal = virusTotal;
         this._scans = 0;
         
-        this._findFilesToScan();
-
-        // this.cron = cron.schedule(cronString, async () => this._findFilesToScan());
+        this.cron = cron.schedule(cronString, async () => {
+            this._findFilesToScanAndScanThem();
+        });
     }
     
-    
-    scan({fileHash = null} = {}) {
+    scan({fileHash}) {
         if (!fileHash) {
             throw new Error("Filehash not provided for virustotal scanner");
         }
+
         virusTotal.scan(fileHash);
     }
     
@@ -40,7 +41,9 @@ class VirusTotalScanner {
 //#endregion
 
 //#region PRIVATE
-    async _findFilesToScan() {
+    async _findFilesToScanAndScanThem() {
+        console.log(`Finding files to scan`);
+
         const client = await db.connect();
         const files  = await client.query(`SELECT DISTINCT filesha
                                            FROM "Uploads"
@@ -48,11 +51,15 @@ class VirusTotalScanner {
                                            OR    (uploaddate < NOW() - '${process.env.VIRUSTOTAL_THIRD_SCAN_DELAY}'::INTERVAL AND "virustotalScan" = 2);`);
         await client.release();
 
+        console.log(`Found ${files.rows.length} files`);
+
         if(files.rows.length === 0) {
             // No files to scan
+            console.log(`Skipping this scan`);
             return;
         }
 
+        console.log(`Queueing files to scan`);
         files.rows.forEach(file => this.scan({fileHash: file.filesha}));
     }
 

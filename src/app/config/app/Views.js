@@ -30,8 +30,15 @@ class Views {
 
     // This is used for the pictures shown on the site 
     static _getRandomImage() {
-        const waifuDir = path.join(__dirname, "/../Public/Images/Waifus");
-        const files = fs.readdirSync(waifuDir);
+        let waifuDir = null;
+        let files    = null;
+        try {
+            waifuDir = path.join(__dirname, "/../Public/Images/Waifus");
+            files = fs.readdirSync(waifuDir);
+        }
+        catch(ex) {
+            return;
+        }
         
         
         if (files.length === 0)

@@ -10,6 +10,10 @@ class ScannerService {
         scanners.forEach(scanner => {
             console.log(`\t ${scanner.toString()}`);
         });
+
+        scanners.forEach(scanner => {
+            console.log(`Starting cronjob for ${scanner.toString()}`);
+        })
     }
 
 
