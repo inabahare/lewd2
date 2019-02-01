@@ -19,7 +19,7 @@ async function post(req, res) {
         return;
     }
 
-    // Get array of filenames from linkarray
+    // Get array of filenames from link array
     const fileNames = linkArray.map(l => l.replace(process.env.UPLOAD_LINK, ""));
 
     const client = await db.connect();

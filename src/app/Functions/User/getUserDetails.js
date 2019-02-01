@@ -2,7 +2,7 @@ import { db } from "../../helpers/database";
 
 /**
  * Gets the user currently logged in
- * @param {string} token If falsy the stock user will be returned
+ * @param {string} token If false the stock user will be returned
  */ 
 const getUserDetails = async loginToken => {
     const client = await db.connect();

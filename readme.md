@@ -36,12 +36,11 @@ And you're done with the database!
 Copy **.env.dist** to **.env** and edit the following 
 
 * DB_PASSWORD
-* Everything under # Site detals
+* Everything under # Site details
 * VIRUSTOTAL_KEY  
-* VIRUSTOTAL_USER (This is the username of your virustotal account (yes it needs))
-* ADMIN_DEFAULT_TOKEN (This is the admins upload key for this site. Put in anything really (though I'm not sure using # is a good since .env uses those for comments))
+* VIRUSTOTAL_USER (This is the username of your virustotal account (yes it is needed))
 
-to fit the sites specs.
+to suit your needs.
 
 Save and then run the command `$ npm install` to install all the dependencies.
 
@@ -82,7 +81,7 @@ Where of course, client_max_body_size should be changed if larger files should b
 
 ## When you're done
 
-Now when it's all set up you're ready you can go to your domain and log in with admin and admin as username and password
+Now when it's all set up you're ready. You can go to your domain and log in with admin and admin as username and password.
 
 # Starting, stopping, and monitoring 
 More can be found [here](http://pm2.keymetrics.io/)
