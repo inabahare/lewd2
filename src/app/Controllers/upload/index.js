@@ -48,6 +48,7 @@ async function post(req, res) {
               uploadHandler.AddDeletionKey();
         await uploadHandler.AddImageToDatabase(uploader.id);
 
+        const resultJson = uploadHandler.GenerateResultJson(process.env.UPLOAD_LINK, process.env.SITE_LINK);
         uploadHandler.HandleSuccess(resultJson);
 
     });
