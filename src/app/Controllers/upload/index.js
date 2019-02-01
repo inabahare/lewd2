@@ -48,11 +48,8 @@ async function post(req, res) {
               uploadHandler.AddDeletionKey();
         await uploadHandler.AddImageToDatabase(uploader.id);
 
-        const resultJson = uploadHandler.GenerateResultJson(process.env.UPLOAD_LINK, process.env.SITE_LINK);
         uploadHandler.HandleSuccess(resultJson);
 
-        const uploadTime = process.hrtime(uploadTimer);
-        console.log(`It took ${uploadTime[1]} nanoseconds to process ${req.file.filename}`);
     });
 }
 
