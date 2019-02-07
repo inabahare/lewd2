@@ -1,0 +1,58 @@
+<section class="container">
+    <h2 class="title is-2">
+        Find a user by filename
+    </h2>
+</section>
+
+<section class="container columns">
+    <div class="column is-3">
+        <form action="/user/admin/find-user-by-file" method="POST">
+            <div class="field">
+                <label for="filename">Filename</label>
+                <div class="control">
+                    <input type="text" id="filename" class="input" name="filename" placeholder="Filename">
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <input type="submit" name="submit" class="button" value="Find the basterd who uploaded this filth!">
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+{{#if post}}
+    <section class="container">
+        {{#if uploaders}}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Delete?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each uploaders as |uploader|}}
+                    <form action="/user/admin/delete" method="POST">
+                        <input type="hidden" name="userid" value={{{uploader.userid}}}>
+                        <input type="hidden" name="username" value="{{{ uploader.username }}}">
+
+                        <tr>
+                            <td>
+                                {{uploader.username}}
+                            </td>
+                            <td>
+                                <input type="submit" class="button is-danger" value="Delete"/>
+                            </td>
+                        </tr>
+                    </form>
+                    {{/each}}  
+                </tbody>
+            </table>
+        {{else}}
+            <h2 class="title is-2">No user found for this file??</h2>    
+        {{/if}}
+    </section>
+{{/if}}

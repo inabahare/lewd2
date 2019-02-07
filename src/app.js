@@ -40,6 +40,7 @@ app.use(passport.session());
 app.locals.siteName   = process.env.SITE_NAME;
 app.locals.siteLink   = process.env.SITE_LINK;
 app.locals.uploadLink = process.env.UPLOAD_LINK;
+app.locals.timeFileCanStayAlive = process.env.TIME_FILE_CAN_STAY_ALIVE;
 
 // Set local user
 app.use(async (req, res, next) => {
