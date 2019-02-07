@@ -38,7 +38,7 @@ function convertNumberToBestByteUnit(number) {
         throw new Error(`Couldn't find unit for ${number}`);
     
     const result = {
-        value: number / unit.value,
+        value: (number / unit.value).toFixed(2),
         unit: unit.unit,
     };
 

@@ -6,7 +6,7 @@ async function getUploads(userId) {
     }
     const client = await db.connect();
 
-    const uploads = await client.query(`SELECT filename, originalname, uploaddate, duplicate, virus, passworded, deletionkey  
+    const uploads = await client.query(`SELECT filename, size, originalname, uploaddate, duplicate, virus, passworded, deletionkey  
                                         FROM "Uploads" 
                                         WHERE userid = $1
                                         ORDER BY id DESC;`, [ userId ]);

@@ -1,5 +1,6 @@
 import moment         from "moment";
 import { getUploads } from "../../Functions/User/getUploads";
+import { convertNumberToBestByteUnit } from "../../Functions/convertNumberToBestByteUnit";
 
 async function get(req, res) {
     const uploads = await getUploads(res.locals.user.id);
@@ -11,6 +12,8 @@ async function get(req, res) {
         uploads.forEach(upload => {
             upload.uploaddate = moment(upload.uploaddate)
                                .format("YYYY-MM-DD HH:mm:ss");
+
+            upload.size = convertNumberToBestByteUnit(upload.size);
         });
     }
 
