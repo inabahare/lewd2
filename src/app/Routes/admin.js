@@ -52,5 +52,6 @@ router.post("/remove-files", admin.deleteFiles.post);
 router.get("/find-user-by-file",  admin.findUser.get);
 router.post("/find-user-by-file", admin.findUser.post);
 
+router.get("/view-all-uploads", admin.viewAllUploads.get);
 
 export default router;

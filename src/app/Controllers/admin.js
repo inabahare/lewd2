@@ -4,6 +4,7 @@ import * as deleteUsers from "./admin/deleteUsers";
 import * as deleteFiles from "./admin/deleteFiles";
 import * as updateUser from "./admin/updateUser";
 import * as findUser from "./admin/findUser";
+import * as viewAllUploads from "./admin/viewAllUploads";
 
 export { 
     token, 
@@ -11,5 +12,6 @@ export {
     deleteUsers,
     deleteFiles,
     updateUser,
-    findUser
+    findUser,
+    viewAllUploads
 };
