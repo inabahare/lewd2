@@ -28,7 +28,7 @@ async function getStatistics(daysFilesAreStored) {
     }
 
     const uploadUnit = convertNumberToBestByteUnit(result.totalUploadSize);
-    result.uploadSize = uploadUnit.value.toFixed(2);
+    result.uploadSize = uploadUnit.value;
     result.uploadUnit = uploadUnit.unit;
 
     return result;
