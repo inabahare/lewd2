@@ -1,9 +1,18 @@
-import db                                       from "../../helpers/database";
+import { db }                                       from "../../helpers/database";
 import bcrypt                                   from "bcrypt";
 import { check, validationResult }              from "express-validator/check";
 import crypto                                   from "crypto";
 import { getTokenData, checkTokenDataForErrors} from "../../Functions/Register/tokenData";
 import { checkIfUsernameNotExists }             from "../../Functions/Register/checkIfUsernameExists";
+
+// Are the password and password checker identical?
+const isPasswordsIdentical = (value, { req }) => {
+    if (req.body["password"] !== req.body["password-check"]) {
+        throw new Error("Passwords do not match");
+    } else {
+        return true;
+    }
+};
 
 // /:token
 async function get(req, res) {
@@ -52,11 +61,10 @@ async function post(req, res) {
     // Check if user exists // 
     //////////////////////////
     const client = await db.connect();
-
     const getUser = await client.query(`SELECT username FROM "Users" WHERE username = $1;`, [req.body.username]);
+    
     if (getUser.rows.length === 1) {
         await client.release();
-
         return res.redirect("/register/" + req.body.token);
     }
 
@@ -73,18 +81,26 @@ async function post(req, res) {
     const uploadSize = tokenData.uploadsize;
     const isAdmin    = tokenData.isadmin;
 
-    await client.query(`INSERT INTO "Users" (username, password, token, roleid, uploadsize, isadmin)
-                        VALUES ($1, $2, $3, $4, $5, $6);`, [
-                            username, 
-                            password, 
-                            token, 
-                            roleid, 
-                            uploadSize,
-                            isAdmin
-                        ]);
-
-    await client.query(`UPDATE "RegisterTokens" SET used = TRUE WHERE token = $1;`, [req.body.token]);
-    await client.release();
+    try {
+        await client.query(`INSERT INTO "Users" (username, password, token, roleid, uploadsize, isadmin)
+                            VALUES ($1, $2, $3, $4, $5, $6);`, [
+                                username, 
+                                password, 
+                                token, 
+                                roleid, 
+                                uploadSize,
+                                isAdmin
+                            ]);
+    
+        await client.query(`DELETE FROM "RegisterTokens" WHERE token = $1;`, [req.body.token]);
+    }
+    catch(ex) {
+        console.error(`Failed to register user with error: ${ex.message}`);
+    }
+    finally {
+        await client.release();
+    }
+    
 
     req.flash("userAdded", "You are now ready to sign in");
     res.redirect("/");
@@ -94,12 +110,16 @@ const validate = [
     check("token").isString().withMessage("Invalid token")
                   .isLength({min: 10}).withMessage("Token too short"),
 
-    check("username").isLength({min: 2}).withMessage("Username needs to be at least 2 characters long")
+    check("username").isLength({min: 3, max: 30}).withMessage("Username needs to be between 3 and 30 characters long")
                      .custom(checkIfUsernameNotExists).withMessage("Username already in use"),
 
     check("password").exists().withMessage("Please select a password")
-                     .isLength({min: 3, max: 72}).withMessage("Password needs to be 2 characters long")
+                     .isLength({min: 3, max: 72}).withMessage("Password needs to be between 3 and 72 characters long")
+                     .custom(isPasswordsIdentical),
 
+    check("password-check").exists().withMessage("Please write the password once again")
+                           .isLength({min: 3, max: 72}).withMessage("The secondary password check also needs to be between 3 and 72 characters")
+                           .custom(isPasswordsIdentical)
 ];
 
 export { get, post, validate };

@@ -1,26 +1,27 @@
 <div class="content">
     <h2 class="title is-2" >Hello {{{ user.username }}}</h2>
+    <p class="subtitle is-4">Your upload size is {{{ getSizeAndUnit user.uploadsize }}} pr file</p>
 </div>
 
 <div class="content">
     <h2 class="title is-4">Tool assisted uploads</h2>
 
     <p><span class="has-text-weight-bold">ShareX:</span> <a href="/lewd.sxcu">Get shareX config</a><br/>
-    <span class="has-text-weight-bold">curl:</span> <i>curl -X POST -F "file=@FILE_NAME" -H "token: {{{ user.token }}}" {{ siteLink }}upload</i></p>
+    <span class="has-text-weight-bold">curl:</span> <i>curl -X POST -F "file=@FILE_NAME" -H "token: <span class="token">{{{ user.token }}}</span>" {{ siteLink }}upload</i></p>
 </div>
 
 <div class="content">
     <h2 class="title is-4">Change password</h2>
 
     {{#if message.passwordChanged}}
-            <article class="message is-success">
-                <div class="message-header">
-                    <p>Password Changed</p>
-                </div>
-                <div class="message-body">
-                    {{{ message.passwordChanged }}}
-                </div>
-            </article>  
+        <article class="message is-success">
+            <div class="message-header">
+                <p>Password Changed</p>
+            </div>
+            <div class="message-body">
+                {{{ message.passwordChanged }}}
+            </div>
+        </article>  
     {{/if}}
 
     <form action="/user/change-password" method="POST">
@@ -48,7 +49,7 @@
             <div class="field">
                 <label for="current-password" class="label">Current password</label>
                 <div class="control">
-                    <input class="input" type="password" id="current-password" maxlength="72" name="old-password">
+                    <input class="input" type="password" id="current-password" maxlength="73" name="old-password">
                 </div>
             </div>
         </section>
@@ -67,7 +68,7 @@
             <div class="field">
                 <label for="new-password" class="label">New password</label>
                 <div class="control">
-                    <input class="input" type="password" id="new-password" maxlength="72" name="new-password">
+                    <input class="input" type="password" id="new-password" maxlength="73" name="new-password">
                 </div>
             </div>
 
@@ -84,13 +85,13 @@
             <div class="field">
                 <label for="password-check" class="label">New password once again</label>
                 <div class="control">
-                    <input class="input" type="password" id="password-check" maxlength="72" name="password-check">
+                    <input class="input" type="password" id="password-check" maxlength="73" name="password-check">
                 </div>
             </div>
         </section>
 
-        <seciton class="content">
+        <section class="content">
             <input type="submit" class="button" value="Change password">
-        </seciton>
+        </section>
     </form>
 </div>

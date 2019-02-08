@@ -1,13 +1,16 @@
-import db from "../../helpers/database";
+import { db } from "../../helpers/database";
 import debug from "debug";
 import bcrypt from "bcrypt";
+import uuid from "uuid/v1";
+
+
 
 class Database {
     /**
      * Runs all the database setup stuff
      */
     static async SetUp() {
-        const client = await db.connect();
+        const client = await await db.connect();
 
         await this.AddAdmin(client);
 
@@ -27,7 +30,7 @@ class Database {
                                     VALUES ($1, $2, $3, $4, $5);`, [
                     process.env.ADMIN_DEFAULT_USERNAME,
                     passwordHashed,
-                    process.env.ADMIN_DEFAULT_TOKEN,
+                    uuid(),
                     process.env.ADMIN_DEFAULT_UPLOAD_SIZE,
                     true
                 ]);

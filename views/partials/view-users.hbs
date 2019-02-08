@@ -19,11 +19,12 @@
         </div>   
     {{/if}}
 
-    <table class="table">
+    <table class="table is-fullwidth ">
         <thead>
             <tr>
                 <th><abbr title="id">Id</abbr></th>
                 <th><abbr title="uname">Username</abbr></th>
+                <th><abbr title="usize">Uploads</abbr></th>
                 <th><abbr title="usize">Upload Size</abbr></th>
                 <th><abbr title="admin">Is admin?</abbr></th>
                 <th><abbr title="save">Save</abbr></th>
@@ -38,6 +39,7 @@
                         <input type="hidden" name="username" value="{{{ this.username }}}">
                         <td>{{{ this.id }}}</td>
                         <td>{{{ this.username }}}</td>
+                        <td>{{{ this.amountOfUploads }}}</td>
                         <td><input type="number" class="input" value="{{{ this.uploadsize }}}" maxlength="100" name="uploadsize" /></td>
 
                         <td>
@@ -51,6 +53,7 @@
                     <td class="">
                         <form action="/user/admin/delete" method="POST" onsubmit="return deletionCheck('{{{ this.username }}}')">
                             <input type="hidden" value="{{{ this.id }}}" name="userid"/>
+                            <input type="hidden" name="username" value="{{{ this.username }}}">
 
                             <div class="columns">
 

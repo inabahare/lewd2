@@ -40,6 +40,7 @@ app.use(passport.session());
 app.locals.siteName   = process.env.SITE_NAME;
 app.locals.siteLink   = process.env.SITE_LINK;
 app.locals.uploadLink = process.env.UPLOAD_LINK;
+app.locals.timeFileCanStayAlive = process.env.TIME_FILE_CAN_STAY_ALIVE;
 
 // Set local user
 app.use(async (req, res, next) => {
@@ -84,5 +85,26 @@ if (!fs.existsSync(process.env.UPLOAD_DESTINATION)) {
     await Setup.Database.SetUp();
 })();
 
+// Catch all exceptions in production mode
+if (process.env.NODE_ENV === "production") {
+    process.on("uncaughtException", err => {
+        console.error("<app.js>");
+        console.error("app.js", err);
+        console.error("/app.js>");
+        process.exit(1);
+    });
 
-app.listen(parseInt(process.env.SITE_PORT), () => console.log("It's up and running :3"));
+    process.on("unhandledRejection", (reason, p) => {
+        console.error("<app.js>");
+        console.error(`Reason: `, reason);
+        console.error("--------------------------");
+        console.error(reason.stack);
+        
+        console.error("--------------------------");
+        console.error(p);
+        console.error("</app.js>");
+        process.exit(1);
+    });
+}
+
+app.listen(parseInt(process.env.SITE_PORT), () => console.log(`It's up and running in ${process.env.NODE_ENV} mode :3`));

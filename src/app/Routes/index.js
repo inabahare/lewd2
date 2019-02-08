@@ -4,7 +4,7 @@ import * as index from "../Controllers/index";
 const router = express.Router();
 
 // Transform the result json from string to array
-// For the benifit of those who have JS disabled
+// For the benefit of those who have JS disabled
 router.use((req, res, next) => {
   if (res.locals.message)
     if (res.locals.message.uploadData)

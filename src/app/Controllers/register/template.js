@@ -1,5 +1,5 @@
 // import express                                  from "express";
-// import db                                       from "../helpers/database";
+// import { db }                                       from "../helpers/database";
 // import bcrypt                                   from "bcrypt";
 // import { check, validationResult }              from "express-validator/check";
 // import crypto                                   from "crypto";

@@ -2,9 +2,7 @@ import handlebars     from "express-handlebars";
 import path           from "path";
 import fs             from "fs";
 import moment         from "moment"; 
-// import {promisify} from 'util';
-
-// const readDir = promisify(fs.readdir);
+import { convertNumberToBestByteUnit } from "../../Functions/convertNumberToBestByteUnit";
 
 const randomNumber  = (x, y) =>  Math.floor((Math.random() * y) + x); 
 
@@ -18,7 +16,8 @@ class Views {
                 partial: this._partial,
                 waifu: this._getRandomImage,
                 dateFormatter: this._dateFormatter, 
-                typeFormatter: this._typeFormatter
+                typeFormatter: this._typeFormatter, 
+                getSizeAndUnit: this._sizeFormatter,
             }
         }));
     }
@@ -28,17 +27,29 @@ class Views {
         return name;
     }
 
+    static _sizeFormatter(size) {
+        const sizeFormatted = convertNumberToBestByteUnit(size);
+        return `${sizeFormatted.value} ${sizeFormatted.unit}`;
+    }
+
     // This is used for the pictures shown on the site 
     static _getRandomImage() {
-        const waifuDir = path.join(__dirname, "/../Public/Images/Waifus");
-        const files = fs.readdirSync(waifuDir);
+        let waifuDir = null;
+        let files    = null;
+        try {
+            waifuDir = path.join(__dirname, "/../Public/Images/Waifus");
+            files = fs.readdirSync(waifuDir);
+        }
+        catch(ex) {
+            return;
+        }
         
         
         if (files.length === 0)
             return "";
 
         const randomIndex = randomNumber(0, files.length);
-        const randomWaifuLink = path.join(process.env.SITE_LINK, "Images/Waifus/", files[randomIndex])
+        const randomWaifuLink = process.env.SITE_LINK + "Images/Waifus/" + files[randomIndex];
 
         return randomWaifuLink;
     }

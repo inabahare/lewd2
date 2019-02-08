@@ -1,23 +1,25 @@
-    <!-- How to upload -->
+<!-- Limits -->
+<section class="content">
+    <h2>How long do files stay?</h2>
+    <p>Files are kept for {{{ timeFileCanStayAlive }}} after being uploaded.</p>
+</section>
+
+<!-- How to upload -->
+<section class="content">
+    <h2>Some cool stats</h2>
+    {{#if stats}}
+        <p>Serving {{ stats.totalUploads }} files totalling {{ stats.uploadSize }} {{stats.uploadUnit}}</p>
+        <p>Today there have been {{ stats.uploadsFromToday }} uploads</p>
+        <p>And on average there are {{ stats.averageFileCountPrDay }} uploads per day</p>
+    {{else}}
+        <p>No files have been uploaded yet :<</p>
+    {{/if}}
+</section>
+
+<!-- How to upload -->
 <section class="content">
     <h2>These are ways you can upload</h2>
-
-    <ul>
-        <li>
-            <p>
-                <span class="has-text-weight-bold">Curl:</span>
-                curl {{#if user.username}}--header "token: {{{user.token}}}"{{/if}} -F "file=@filename" {{ siteLink }}upload
-            </p>
-        </li>
-
-        <li>
-            <p>
-                <span class="has-text-weight-bold">ShareX:</span>
-                <a href="/lewd.sxcu">Download ShareX config file</a>
-            </p>
-        </li>
-    </ul>
-
+    <p>First you must log in!</p>
 </section>
 
 <!-- Transparency Link -->

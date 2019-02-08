@@ -1,4 +1,4 @@
-import getAllFromTransparency from "../../Functions/Transparency/getAllFromTransparency";
+import getAllFromTransparency from "../../../AntivirusApi/Functions/Transparency/getAllFromTransparency";
 
 
 async function get(req, res) {

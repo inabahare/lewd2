@@ -1,24 +1,27 @@
-import moment                      from "moment";
-import db                          from "../../helpers/database";
+import moment         from "moment";
+import { getUploads } from "../../Functions/User/getUploads";
+import { convertNumberToBestByteUnit } from "../../Functions/convertNumberToBestByteUnit";
 
 async function get(req, res) {
-    const client     = await db.connect();
-    const getUploads = await client.query(`SELECT filename, originalname, uploaddate, duplicate, virus, passworded, deletionkey  
-                                           FROM "Uploads" 
-                                           WHERE userid = $1
-                                           ORDER BY id ASC;`, [res.locals.user.id]);
-                       await client.release();
+    const uploads = await getUploads(res.locals.user.id);
+    let count = 0;
 
     // If there are dates then format them
-    if (getUploads.rows[0]) {
-        getUploads.rows.forEach(upload => {
-            upload.uploaddate = moment(upload.uploaddate).format("LL");
+    if (uploads) {
+        count = uploads.length;
+        uploads.forEach(upload => {
+            upload.uploaddate = moment(upload.uploaddate)
+                               .format("YYYY-MM-DD HH:mm:ss");
+
+            upload.size = convertNumberToBestByteUnit(upload.size);
         });
     }
 
     res.render("user", {
         menuItem: "view-uploads",
-        uploads: getUploads.rows
+        uploads: uploads,
+        count: count,
+        js: ["viewUploads"]
     });
 }
 

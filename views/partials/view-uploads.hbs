@@ -1,20 +1,26 @@
-<div class="section">
+
+<div class="content">
     {{#if uploads}}
+        <h2 class="title is-3">Showing <span id="upload-count">{{ count }}</span> uploads:</h2>
         <table class="table">
             <thead>
                 <tr>
-                    <th><abbr title="Filename">Name</abbr></th>
-                    <th><abbr title="UploadDate">Date</abbr></th>
-                    <th><abbr title="Duplicate">Duplicate</abbr></th>
-                    <th><abbr title="Virus">Virus</abbr></th>
-                    <th><abbr title="Passworded">Password Protected</abbr></th>
-                    <th><abbr title="Delete">Delete</abbr></th>
+                    <th>Name</th>
+                    <th>Size</th>
+                    <th>Date</th>
+                    <th>Duplicate</th>
+                    <th>Virus</th>
+                    <th>Password Protected</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
                 {{#each uploads}}
-                    <tr>
+                    <tr id="{{{ this.deletionkey }}}">
                         <td><a href="{{ @root.uploadLink }}{{{ this.filename }}}">{{{ this.originalname }}}</a></td>
+
+                        <td>{{ this.size.value }}{{ this.size.unit }}</td>
+                    
                         <td>{{{ this.uploaddate }}}</td>
 
                         {{#if this.duplicate}}
@@ -35,11 +41,12 @@
                             <td class="">No</td>
                         {{/if}}
 
-                        <td><a href="/delete/{{{ this.deletionkey }}}" class="button is-danger">Delete</a></td>
+                        <td><a href="/delete/{{{ this.deletionkey }}}" data-key="{{{ this.deletionkey }}}" class="button is-danger delete-one">Delete</a></td>
                     </tr>
                 {{/each}}
             </tbody>
         </table>
+
     {{else}}
         <h1>You haven't uploaded any files :<</h1>
     {{/if}}

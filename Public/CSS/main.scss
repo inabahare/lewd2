@@ -1,0 +1,39 @@
+@import "../../node_modules/bulmaswatch/slate/variables";
+@import "../../node_modules/bulma/bulma";
+@import "../../node_modules/bulmaswatch/slate/overrides";
+@import "./includes/upload-box.scss";
+ 
+.password-confirmations {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.error-text {
+    overflow-wrap: break-word;
+}
+
+#waifu {
+    position:fixed;
+    bottom:0px;
+    height: 40%;
+    right: 1%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.hidden {
+    display: none;
+}
+
+.section {
+    background: none;
+}
+
+
+.token {
+    filter: blur(10px);
+
+    &:hover {
+        filter: blur(0px)
+    }
+}
