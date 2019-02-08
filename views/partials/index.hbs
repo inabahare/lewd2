@@ -1,6 +1,6 @@
 <div class="content">
     <h2 class="title is-2" >Hello {{{ user.username }}}</h2>
-    <p class="subtitle is-4">Your upload size is {{{ getSizeAndUnit user.uploadsize }}} or file!</p>
+    <p class="subtitle is-4">Your upload size is {{{ getSizeAndUnit user.uploadsize }}} pr file</p>
 </div>
 
 <div class="content">
@@ -14,14 +14,14 @@
     <h2 class="title is-4">Change password</h2>
 
     {{#if message.passwordChanged}}
-            <article class="message is-success">
-                <div class="message-header">
-                    <p>Password Changed</p>
-                </div>
-                <div class="message-body">
-                    {{{ message.passwordChanged }}}
-                </div>
-            </article>  
+        <article class="message is-success">
+            <div class="message-header">
+                <p>Password Changed</p>
+            </div>
+            <div class="message-body">
+                {{{ message.passwordChanged }}}
+            </div>
+        </article>  
     {{/if}}
 
     <form action="/user/change-password" method="POST">
