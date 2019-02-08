@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Language" content="en">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>lewd.se!</title>
-    <link rel="stylesheet" href="/CSS/main.css">
+    <link rel="stylesheet" href="/CSS/dist/main.css">
     <script defer src="/JS/fontawesome.js"></script>
   </head>
   <body>
@@ -13,7 +13,7 @@
         <nav class="navbar" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
                 <a href="/" class="navbar-item">
-                    <p href="/" class="title is-3">{{{ siteName }}}</p>
+                    <p class="title is-3">{{{ siteName }}}</p>
                 </a>
 
                 <a class="navbar-burger burger" role="button" aria-label="menu" aria-expanded="false" data-target="nav-items">
@@ -24,14 +24,19 @@
             </div>
 
             <div class="navbar-menu" id="nav-items">
-                <div class="navbar-end">        
-                    <div class="navbar-item"><a href="/transparency">Transparency</a></div>
-                    <div class="navbar-item"><a href="/info">Info</a></div>
+                <div class="navbar-end">    
+                    <a class="navbar-item" href="/transparency">Transparency</a>
+                    
+
+                    <a class="navbar-item" href="/info">Info</a>
+                    
                     {{#if user.username}}
-                        <div class="navbar-item"><a href="/user">{{user.username}}</a></div>
-                        <div class="navbar-item"><a href="/user/logout">Sign Out</a></div>
+                        <a class="navbar-item" href="/user">{{user.username}}</a>
+                        <a class="navbar-item" href="/user/logout">Sign Out</a>
                     {{/if}}
-                    <div class="navbar-item"><a href="https://discordapp.com/invite/AKGeqgN">Discord</a></div>
+
+                    <a class="navbar-item" href="https://discordapp.com/invite/AKGeqgN">Discord</a>
+
                 </div>
             </div>
         </nav>

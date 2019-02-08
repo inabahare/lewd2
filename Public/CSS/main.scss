@@ -1,6 +1,7 @@
-@import (inline) "includes/bulma.min.css";
-@import (inline) "includes/dark-theme.min.css";
-@import (inline) "includes/upload-box.css";
+@import "../../node_modules/bulmaswatch/slate/variables";
+@import "../../node_modules/bulma/bulma";
+@import "../../node_modules/bulmaswatch/slate/overrides";
+@import "./includes/upload-box.scss";
  
 .password-confirmations {
     margin-top: 30px;
