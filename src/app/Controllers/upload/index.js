@@ -22,8 +22,6 @@ async function post(req, res) {
                   .send("You need to be signed in to upload");
     }
 
-    const uploadTimer = process.hrtime();
-
     const uploader = await getUploader(req.headers.token);
     
     if (!uploader) {
