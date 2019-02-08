@@ -2,9 +2,7 @@ import handlebars     from "express-handlebars";
 import path           from "path";
 import fs             from "fs";
 import moment         from "moment"; 
-// import {promisify} from 'util';
-
-// const readDir = promisify(fs.readdir);
+import { convertNumberToBestByteUnit } from "../../Functions/convertNumberToBestByteUnit";
 
 const randomNumber  = (x, y) =>  Math.floor((Math.random() * y) + x); 
 
@@ -18,7 +16,8 @@ class Views {
                 partial: this._partial,
                 waifu: this._getRandomImage,
                 dateFormatter: this._dateFormatter, 
-                typeFormatter: this._typeFormatter
+                typeFormatter: this._typeFormatter, 
+                getSizeAndUnit: this._sizeFormatter,
             }
         }));
     }
@@ -26,6 +25,11 @@ class Views {
     // This is used to render the partials
     static _partial (name) {
         return name;
+    }
+
+    static _sizeFormatter(size) {
+        const sizeFormatted = convertNumberToBestByteUnit(size);
+        return `${sizeFormatted.value} ${sizeFormatted.unit}`;
     }
 
     // This is used for the pictures shown on the site 
