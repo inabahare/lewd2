@@ -18,13 +18,17 @@ const handleInputs = input => {
     if (input.maxLength) {
         const label = document.querySelector(`label[for="${input.id}"`);
 
+        if (!label) {
+            return;
+        }
+
         // Format the input name for when it needs to be shown
         const inputName = input.id
                                .capitalize()
                                .split("-")
                                .join(" ");
         
-        input.addEventListener("input", e => {
+        input.addEventListener("input", () => {
             // If too many characters
             if (input.value.length === input.maxLength) {
                 label.innerText = `${inputName} must be ${--input.maxLength} characters or less`;
@@ -45,8 +49,9 @@ const handleInputs = input => {
             }
         });
     }
-}
+};
 
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
-}
+};
+
