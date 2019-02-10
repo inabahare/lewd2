@@ -15,8 +15,9 @@ async function deleteFile(deletionKey) {
 }
 
 function showSuccess(message) {
+    const messageBox = messageGenerator(`success`, `File Deleted`, message);
     const messageContainer = document.querySelector(".message-container");
-    messageContainer.innerHTML += messageGenerator(`success`, `File Deleted`, message);
+    messageContainer.appendChild(messageBox);
 }
 
 function removeFromList(key) {

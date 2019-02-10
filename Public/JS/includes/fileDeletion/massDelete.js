@@ -5,6 +5,9 @@ import { deleteFile } from "./delete";
 const deleteButton = document.querySelector("#delete-selected");
 
 deleteButton.onclick = () => {
+    if (!confirm("You sure you want to delete the selected files?")) {
+        return;
+    }
     // Get all checked checkboxes
     const toDeleteChecked = document.querySelectorAll(".mass-delete:checked");
 
