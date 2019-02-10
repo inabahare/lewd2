@@ -1,7 +1,9 @@
 import Dropzone from "./dropzone";
+import { messageGenerator } from "./includes/bulma/messageGenerator";
+
 
 const tokenContainer   = document.getElementById("token");
-const uploadList       = document.getElementById("uploads")
+const uploadList       = document.getElementById("uploads");
 const token            = tokenContainer.defaultValue;
 
 const maxSizeContainer = document.getElementById("uploadSize");
@@ -27,18 +29,10 @@ dropZone.on("success", (file, response) => {
     const uploadedURL   = response.data.link;
     const deleteionURL  = response.data.deleteionURL;
 
-    uploadList.innerHTML += `<article class="notification is-success">
-                                <button class="delete" aria-label="delete"></button>
-                                <div class="columns">
-                                    <div class="column has-text-left">
-                                        <p>${fileName}</p>
-                                    </div> 
-                                    <div class="column has-text-right">
-                                        <a href="${uploadedURL}" target="_blank">link</a>
-                                        <a href="${deleteionURL}">Delete</a>
-                                    </div>
-                                </div>
-                            </article>`;
+    const successLinks = `<a href="${uploadedURL}" target="_blank">link</a> <a href="${deleteionURL}">Delete</a>`;
+    const successMessage = messageGenerator("success", `${fileName} uploaded`, successLinks);
+
+    uploadList.appendChild(successMessage);
 });
 
 dropZone.on("error", file => {
@@ -46,13 +40,8 @@ dropZone.on("error", file => {
     const fileName     = file.name;
     const error        = errorAsArray[errorAsArray.length - 1];
 
-    uploadList.innerHTML += `<article class="notification is-danger">
-                                <button class="delete" aria-label="delete"></button>
-                                <div class="columns">
-                                    <div class="column has-text-left is-half"><p class="error-text">${fileName}</p></div> 
-                                    <div class="column has-text-right"><p>${error}</p></div>
-                                </div>
-                            </article>`;  
+    const errorMessage = messageGenerator("danger", `${fileName} failed to upload`, error);
+    uploadList.appendChild(errorMessage);
 });
 
 const message = document.querySelector(".dz-message.hidden");

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { messageGenerator } from "../messageGenerator";
+import { messageGenerator } from "../bulma/messageGenerator";
 
 async function deleteFile(deletionKey) {
     const result = await axios.get(`/delete/${deletionKey}`);

@@ -14,6 +14,10 @@ for (const button of buttons) {
 
 
 async function onButtonClick(e) {
+    if (!confirm("You sure you want to delete this file?")) {
+        return;
+    }
+
     const deletionKey = e.target.dataset.key;
     await deleteFile(deletionKey);
 }

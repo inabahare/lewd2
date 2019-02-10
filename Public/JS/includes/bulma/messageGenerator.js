@@ -1,4 +1,4 @@
-import { deleteButtonClick } from "./bulma/deleteButtonClick";
+import { deleteButtonClick } from "./deleteButtonClick";
 
 function messageGenerator(type, headerText, message) {
     const article = createArticle(type);
@@ -57,7 +57,7 @@ function createDeleteButton() {
 function createMessageBody(message) {
     const messageBody = document.createElement("div");
     messageBody.classList.add("message-body");
-    messageBody.innerText = message;
+    messageBody.innerHTML = message;
 
     return messageBody;
 }
