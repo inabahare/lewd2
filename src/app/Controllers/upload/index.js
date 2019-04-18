@@ -12,8 +12,7 @@ const storageOptions = multer.diskStorage({
         next(null, process.env.UPLOAD_DESTINATION);
     },
     filename: (req, file, next) => {
-        const newFileName = HandleUpload.FormatFileName(file.originalname);
-        next(null, renameFile(newFileName));
+        next(null, renameFile(file.originalname));
     } 
 });
 
