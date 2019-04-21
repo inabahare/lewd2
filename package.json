@@ -75,7 +75,7 @@
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "concurrently": "^4.1.0",
-    "parcel": "^1.11.0",
+    "parcel": "^1.12.3",
     "sass": "^1.17.0"
   }
 }
