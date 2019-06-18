@@ -13,7 +13,7 @@
     "start-watch": "node_modules/.bin/concurrently \"npm:start-app\" \"npm:start-cron\"",
     "start-app": "nodemon --inspect dist/app.js",
     "start-cron": "nodemon dist/cronactions.js",
-    "build": "node_modules/.bin/concurrently \"npm:build-server\" \"npm:build-scss\" \"npm:build-js\" && npm run move-sourcemaps",
+    "build": "node_modules/.bin/concurrently \"npm:build-server\" \"npm:build-scss\" \"npm:build-js\"",
     "build-server": "node_modules/.bin/parcel build src/app.js src/cronactions.js src/AntiVirusApi.js --target node --no-minify",
     "build-scss": "node_modules/.bin/parcel build Public/CSS/main.scss --out-dir Public/CSS/dist",
     "build-js": "node_modules/.bin/parcel build Public/JS/index.js Public/JS/main.js Public/JS/viewUploads.js --out-dir Public/JS/dist --target browser --no-minify",
