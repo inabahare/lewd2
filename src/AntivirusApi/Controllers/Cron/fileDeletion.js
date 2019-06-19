@@ -1,20 +1,28 @@
-import getFilesToDelete         from "../../Functions/FileDeletion/getFilesToDelete";
-import deleteFiles              from "../../Functions/FileDeletion/deleteFiles";
-
+import getFilesToDelete          from "../../Functions/FileDeletion/getFilesToDelete";
+import { deleteFileByName } from "../../Functions/FileDeletion/deleteFiles";
 
 async function fileDeletion() {
     const files = await getFilesToDelete();
     
     // Prevent additional files from being scanned
-    if (files.length === 0)
+    if (files.length === 0) {
         return;
+    }
 
-    console.log(`Deleting ${files.length + 1} files`);
+    console.log(`Deleting ${files.length} files`);
 
     // Removes duplicates
     const unique = [...new Set(files.map(file => file.filename))];
 
-    deleteFiles(unique);
+    unique.forEach(async fileName => {
+        try {
+            await deleteFileByName(fileName, process.env.UPLOAD_DESTINATION);
+        } catch (e) {
+            console.error(`Could not delete ${fileName} because:`);
+            console.error(e.message);
+            console.error("----------------------------------------");
+        }
+    });
 }
 
 export { fileDeletion };
