@@ -130,6 +130,7 @@ CREATE TABLE "public"."Users" (
   "username" varchar(255) COLLATE "pg_catalog"."default",
   "password" varchar(255) COLLATE "pg_catalog"."default",
   "token" varchar(255) COLLATE "pg_catalog"."default",
+  "TokenGenerated" TIMESTAMP,
   "roleid" int2,
   "uploadsize" int8,
   "isadmin" bool DEFAULT false
