@@ -11,6 +11,19 @@
 </div>
 
 <div class="content">
+    <h2 class="title is-4">Change your token</h2>
+    <section class="columns">
+        <div class="column is-3">
+            <form action="/user/change-token" method="POST">
+                <input type="hidden" name="id" value="{{{ user.id }}}">
+                <input type="hidden" name="token" value="{{{ user.token }}}">
+                <input type="submit" class="button is-danger" value="Click me daddy">
+            </form>
+        </div>
+    </section>
+</div>
+
+<div class="content">
     <h2 class="title is-4">Change password</h2>
 
     {{#if message.passwordChanged}}
