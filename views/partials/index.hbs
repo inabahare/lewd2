@@ -17,8 +17,12 @@
             <form action="/user/change-token" method="POST">
                 <input type="hidden" name="id" value="{{{ user.id }}}">
                 <input type="hidden" name="token" value="{{{ user.token }}}">
-                <input type="submit" class="button is-danger" value="Click me daddy">
+                <input type="submit" class="button is-danger" value="Click me to change token">
             </form>
+        </div>
+
+        <div class="column">
+            <p>You have [countdown] until you can change the token again</p>
         </div>
     </section>
 </div>
