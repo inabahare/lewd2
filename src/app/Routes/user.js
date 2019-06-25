@@ -13,6 +13,9 @@ router.use((req, res, next) => {
 
 router.get("/", user.index.get);
 
+router.post("/change-token", user.changeToken.validate,
+                             user.changeToken.post);
+
 router.get("/view-uploads", user.viewUploads.get);
 
 router.post("/change-password", user.changePassword.validate, 
