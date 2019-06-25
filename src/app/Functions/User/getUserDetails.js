@@ -16,7 +16,7 @@ const getUserDetails = async loginToken => {
         if (loginTokenCheck.rows[0])
             userId = loginTokenCheck.rows[0].userid;
     
-        getUser = await client.query(`SELECT "Users".id, "Users".username, "Users".token, "Users".roleid, "Users".uploadsize, "Users".isadmin
+        getUser = await client.query(`SELECT "Users".id, "Users".username, "Users".token, "Users".roleid, "Users".uploadsize, "Users".isadmin, "Users"."TokenGenerated"
                                       FROM "Users"
                                       WHERE "Users".id = $1`, [
                                           userId
