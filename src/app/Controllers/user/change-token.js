@@ -31,7 +31,6 @@ async function post(req, res) {
     if (!errors.isEmpty()) {
         req.session.err = errors.array();
 
-        console.log(req.session.err);
         return res.redirect("/user");
     }
 
