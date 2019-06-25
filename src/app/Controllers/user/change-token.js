@@ -50,7 +50,6 @@ const validate = [
     check("id").exists().withMessage("You must supply an id")
                .isNumeric().withMessage("Invalid id"),
     check("token").exists().withMessage("You must supply a token")
-                  .isUUID().withMessage("Must be a valid UUID")
                   .custom(checkToken)
                
 ];
