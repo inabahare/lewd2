@@ -40,7 +40,7 @@ async function post(req, res) {
     const { token } = req.body;
     const newUuid = uuid();
 
-    await client.query(`UPDATE "Users" SET token = $1, "TokenGenerated" = NOW() WHERE token = $2`, [ newUuid, token ]);
+    await client.query(`UPDATE "Users" SET token = $1, "TokenGenerated" = NOW() + '1 days'::INTERVAL WHERE token = $2`, [ newUuid, token ]);
 
     await client.release();
     req.flash("token", "Your token has been updated");
