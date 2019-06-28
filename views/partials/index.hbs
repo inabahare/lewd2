@@ -11,6 +11,39 @@
 </div>
 
 <div class="content">
+    {{#if message.token}}
+        <article class="message is-success">
+            <div class="message-header">
+                <p>Token changed</p>
+            </div>
+            <div class="message-body">
+                {{{ message.token }}}
+            </div>
+        </article>  
+    {{/if}}
+    {{#if errors.token}}
+        <div class="notification is-danger">
+            {{{ errors.token }}}
+        </div>    
+    {{/if}}
+    <h2 class="title is-4">Change your token</h2>
+    <section class="columns">
+        <div class="column is-3">
+            <form action="/user/change-token" method="POST">
+                <input type="hidden" name="id" value="{{{ user.id }}}">
+                <input type="hidden" name="token" value="{{{ user.token }}}">
+                <input type="submit" class="button is-danger" value="Click me to change token">
+            </form>
+        </div>
+
+        {{!-- <div class="column">
+            <!-- TODO Add countdown -->
+            <p>You have {{{ user.TokenGenerated }}} until you can change the token again</p>
+        </div> --}}
+    </section>
+</div>
+
+<div class="content">
     <h2 class="title is-4">Change password</h2>
 
     {{#if message.passwordChanged}}

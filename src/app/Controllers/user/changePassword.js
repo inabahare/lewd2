@@ -43,7 +43,7 @@ async function post(req, res) {
     
     // Return
     req.flash("passwordChanged", "Your password has now been updated");
-    res.redirect("/user");
+    return res.redirect("/user");
 }
 
 const validate = [

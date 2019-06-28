@@ -1,9 +1,9 @@
-import { db }                                       from "../../helpers/database";
+import { db }                                   from "../../helpers/database";
 import bcrypt                                   from "bcrypt";
 import { check, validationResult }              from "express-validator/check";
-import crypto                                   from "crypto";
 import { getTokenData, checkTokenDataForErrors} from "../../Functions/Register/tokenData";
 import { checkIfUsernameNotExists }             from "../../Functions/Register/checkIfUsernameExists";
+import uuid from "uuid/v1";
 
 // Are the password and password checker identical?
 const isPasswordsIdentical = (value, { req }) => {
@@ -73,17 +73,15 @@ async function post(req, res) {
     //////////////
     const username = req.body.username;
     const password = await bcrypt.hash(req.body.password, parseInt(process.env.BCRYPT_SALT_ROUNDS));
-    const token    = crypto.createHash("sha1")
-                           .update(username + Date.now().toString())
-                           .digest("hex");
+    const token    = uuid();
 
     const roleid     = req.body.roleid;
     const uploadSize = tokenData.uploadsize;
     const isAdmin    = tokenData.isadmin;
 
     try {
-        await client.query(`INSERT INTO "Users" (username, password, token, roleid, uploadsize, isadmin)
-                            VALUES ($1, $2, $3, $4, $5, $6);`, [
+        await client.query(`INSERT INTO "Users" (username, password, token, roleid, uploadsize, isadmin, "TokenGenerated")
+                            VALUES ($1, $2, $3, $4, $5, $6, NOW());`, [
                                 username, 
                                 password, 
                                 token, 

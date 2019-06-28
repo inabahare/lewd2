@@ -1,6 +1,6 @@
 import multer          from "../../helpers/multer/index";
 import { getUploader } from "../../Functions/Upload/getUploaderOrDefault";
-import escape          from "../../Functions/Upload/escape";
+// import escape          from "../../Functions/Upload/escape";
 import renameFile      from "../../Functions/Upload/renameFile";
 
 import { HandleUpload } from "../../Classes/HandleUpload";
@@ -11,8 +11,8 @@ const storageOptions = multer.diskStorage({
     destination: (req, file, next) => {
         next(null, process.env.UPLOAD_DESTINATION);
     },
-    filename:    (req, file, next) => {
-        next(null, renameFile(escape(file.originalname)));
+    filename: (req, file, next) => {
+        next(null, renameFile(file.originalname));
     } 
 });
 

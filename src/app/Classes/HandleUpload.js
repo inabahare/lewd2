@@ -9,6 +9,11 @@ import scan                     from "../Functions/Upload/scan";
  
 const unlink = promisify(fs.unlink);
 
+function FormatFileName(fileName) {
+    return encodeURI(fileName);
+           // .replace(/'/g, "%27");
+}
+
 class HandleUpload {
     /**
      * 
@@ -21,8 +26,8 @@ class HandleUpload {
         this.file = req.file;
     }
 
-    _FormatFileName(fileName) {
-        return encodeURI(fileName);
+    static FormatFileName(fileName) {
+        return FormatFileName(fileName);
     }
 
     // async AddHash() {
@@ -61,7 +66,7 @@ class HandleUpload {
         return {
             "status": 200,
             "data": {
-                "link": uploadLink + this._FormatFileName(this.file.filename),
+                "link": uploadLink + FormatFileName(this.file.filename),
                 "deleteionURL": siteLink + "delete/" + this.file.deletionKey
             }
         };

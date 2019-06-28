@@ -129,7 +129,8 @@ CREATE TABLE "public"."Users" (
   "id" int4 NOT NULL DEFAULT nextval('"Users_id_seq"'::regclass),
   "username" varchar(255) COLLATE "pg_catalog"."default",
   "password" varchar(255) COLLATE "pg_catalog"."default",
-  "token" varchar(255) COLLATE "pg_catalog"."default",
+  "token" uuid COLLATE "pg_catalog"."default",
+  "TokenGenerated" TIMESTAMP,
   "roleid" int2,
   "uploadsize" int8,
   "isadmin" bool DEFAULT false
