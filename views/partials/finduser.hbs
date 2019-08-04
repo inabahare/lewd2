@@ -8,7 +8,6 @@
     <div class="column is-3">
         <form action="/user/admin/find-user-by-file" method="POST">
             <div class="field">
-                <label for="filename">Filename</label>
                 <div class="control">
                     <input type="text" id="filename" class="input" name="filename" placeholder="Filename">
                 </div>
@@ -16,7 +15,7 @@
 
             <div class="field">
                 <div class="control">
-                    <input type="submit" name="submit" class="button" value="Find the bastard who uploaded this filth!">
+                    <input type="submit" name="submit" class="button" value="Search">
                 </div>
             </div>
         </form>
@@ -52,7 +51,7 @@
                 </tbody>
             </table>
         {{else}}
-            <h2 class="title is-2">No user found for this file??</h2>    
+            <h2 class="title is-2">File not found.</h2>    
         {{/if}}
     </section>
 {{/if}}
