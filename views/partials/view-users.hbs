@@ -1,89 +1,91 @@
 <h2 class="title">List of all the users</h2>
 
 {{#if users}}
-    {{#if errors.userid}}
-        <div class="notification is-danger">
-            {{{ errors.userid }}}
-        </div>    
-    {{/if}}
+{{#if errors.userid}}
+<div class="notification is-danger">
+    {{{ errors.userid }}}
+</div>
+{{/if}}
 
-    {{#if message.UserUpdated }}
-        <div class="notification is-success">
-            {{{ message.UserUpdated }}}
-        </div>   
-    {{/if}}
-    
-    {{#if message.AdminRightsRemovedFromAdmin }}
-        <div class="notification is-danger">
-            {{{ message.AdminRightsRemovedFromAdmin }}}
-        </div>   
-    {{/if}}
+{{#if message.UserUpdated }}
+<div class="notification is-success">
+    {{{ message.UserUpdated }}}
+</div>
+{{/if}}
 
-    <table class="table is-fullwidth ">
-        <thead>
-            <tr>
-                <th><abbr title="id">Id</abbr></th>
-                <th><abbr title="uname">Username</abbr></th>
-                <th><abbr title="usize">Uploads</abbr></th>
-                <th><abbr title="usize">Upload Size</abbr></th>
-                <th><abbr title="admin">Is admin?</abbr></th>
-                <th><abbr title="save">Save</abbr></th>
-                <th><abbr title="Delete">Delete</abbr></th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each users}}
-                <tr>
-                    <form action="/user/admin/update" method="POST" onsubmit="return saveCheck('{{{ this.username }}}')">
-                        <input type="hidden" name="id" value="{{{ this.id }}}">
-                        <input type="hidden" name="username" value="{{{ this.username }}}">
-                        <td>{{{ this.id }}}</td>
-                        <td>{{{ this.username }}}</td>
-                        <td>{{{ this.amountOfUploads }}}</td>
-                        <td><input type="number" class="input" value="{{{ this.uploadsize }}}" maxlength="100" name="uploadsize" /></td>
+{{#if message.AdminRightsRemovedFromAdmin }}
+<div class="notification is-danger">
+    {{{ message.AdminRightsRemovedFromAdmin }}}
+</div>
+{{/if}}
 
-                        <td>
-                            <label class="checkbox">
-                                <input type="checkbox" {{#if this.isadmin}}checked="checked"{{/if}} name="isadmin"/>
+<table class="table is-fullwidth ">
+    <thead>
+        <tr>
+            <th><abbr title="id">Id</abbr></th>
+            <th><abbr title="uname">Username</abbr></th>
+            <th><abbr title="usize">Uploads</abbr></th>
+            <th><abbr title="usize">Upload Size</abbr></th>
+            <th><abbr title="admin">Is admin?</abbr></th>
+            <th><abbr title="save">Save</abbr></th>
+            <th><abbr title="Delete">Delete</abbr></th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each users}}
+        <tr>
+            <form action="/user/admin/update" method="POST" onsubmit="return saveCheck('{{{ this.username }}}')">
+                <input type="hidden" name="id" value="{{{ this.id }}}">
+                <input type="hidden" name="username" value="{{{ this.username }}}">
+                <td>{{{ this.id }}}</td>
+                <td>{{{ this.username }}}</td>
+                <td>{{{ this.amountOfUploads }}}</td>
+                <td><input type="number" class="input" value="{{{ this.uploadsize }}}" maxlength="100"
+                        name="uploadsize" /></td>
+
+                <td>
+                    <label class="checkbox">
+                        <input type="checkbox" {{#if this.isadmin}}checked="checked" {{/if}} name="isadmin" />
+                    </label>
+                </td>
+
+                <td class=""><input type="submit" class="button is-success" value="Save" /></td>
+            </form>
+            <td class="">
+                <form action="/user/admin/delete" method="POST"
+                    onsubmit="return deletionCheck('{{{ this.username }}}')">
+                    <input type="hidden" value="{{{ this.id }}}" name="userid" />
+                    <input type="hidden" name="username" value="{{{ this.username }}}">
+
+                    <div class="columns">
+
+                        <div class="column">
+                            <input type="submit" class="button is-danger" value="Delete" />
+                        </div>
+
+                        <div class="column">
+                            <label class="checkbox">Delete files
+                                <input type="checkbox" name="deleteFiles" />
                             </label>
-                        </td>
-                        
-                        <td class=""><input type="submit" class="button is-success" value="Save"/></td>
-                    </form>
-                    <td class="">
-                        <form action="/user/admin/delete" method="POST" onsubmit="return deletionCheck('{{{ this.username }}}')">
-                            <input type="hidden" value="{{{ this.id }}}" name="userid"/>
-                            <input type="hidden" name="username" value="{{{ this.username }}}">
+                        </div>
+                    </div>
+                </form>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
 
-                            <div class="columns">
+<script>
+    function saveCheck(username) {
 
-                                <div class="column">
-                                    <input type="submit" class="button is-danger" value="Delete"/>
-                                </div>
+    }
 
-                                <div class="column">                          
-                                    <label class="checkbox">Delete files
-                                        <input type="checkbox" name="deleteFiles"/>
-                                    </label>
-                                </div>
-                            </div>  
-                        </form>
-                    </td>
-                </tr>
-            {{/each}}
-        </tbody>
-    </table>
-
-    <script>
-        function saveCheck(username) {
-
-        }
-
-        function deletionCheck(username) {
-            if (!confirm("Are you sure you want to delete: " + username + "?")) 
-                return false;
-        }
-    </script>
+    function deletionCheck(username) {
+        if (!confirm("Are you sure you want to delete: " + username + "?"))
+            return false;
+    }
+</script>
 {{else}}
-    <h3>Wtf there are no users?????</h3>
+<h3>Wtf there are no users?????</h3>
 {{/if}}
