@@ -1,7 +1,18 @@
 
 <div class="content">
     {{#if uploads}}
-        <h2 class="title is-3">Showing <span id="upload-count">{{ count }}</span> uploads:</h2>
+        <div class="columns">
+            <div class="column">
+                <h2 class="title is-3">Showing <span id="upload-count">{{ count }}</span> uploads:</h2>
+            </div>
+
+            <div class="column is-one-third">
+                <button class="button is-danger is-pulled-right" id="delete-selected">Delete selected!</button>
+            </div>
+        </div>
+        
+        <div class="message-container"></div>
+
         <table class="table">
             <thead>
                 <tr>
