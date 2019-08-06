@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en-GB">
-  <head>
+
+<head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta http-equiv="Content-Language" content="en">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>lewd.se!</title>
+    <title>{{{ siteName }}}</title>
     <link rel="stylesheet" href="/CSS/dist/main.css">
     <script defer src="/JS/fontawesome.js"></script>
-  </head>
-  <body>
+</head>
+
+<body>
     <header>
         <nav class="navbar" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
@@ -16,7 +18,8 @@
                     <p class="title is-3">{{{ siteName }}}</p>
                 </a>
 
-                <a class="navbar-burger burger" role="button" aria-label="menu" aria-expanded="false" data-target="nav-items">
+                <a class="navbar-burger burger" role="button" aria-label="menu" aria-expanded="false"
+                    data-target="nav-items">
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
@@ -24,15 +27,15 @@
             </div>
 
             <div class="navbar-menu" id="nav-items">
-                <div class="navbar-end">    
+                <div class="navbar-end">
                     <a class="navbar-item" href="/transparency">Transparency</a>
-                    
+
 
                     <a class="navbar-item" href="/info">Info</a>
-                    
+
                     {{#if user.username}}
-                        <a class="navbar-item" href="/user">{{user.username}}</a>
-                        <a class="navbar-item" href="/user/logout">Sign Out</a>
+                    <a class="navbar-item" href="/user">{{user.username}}</a>
+                    <a class="navbar-item" href="/user/logout">Sign Out</a>
                     {{/if}}
 
                     <a class="navbar-item" href="https://discordapp.com/invite/AKGeqgN">Discord</a>
@@ -47,28 +50,16 @@
             {{{ body }}}
         </section>
 
-        <noscript>
-            <section class="container">
-                <article class="message is-warning">
-                    <div class="message-header">
-                        <p>So you have disabled Javascript</p>
-                        <button class="delete" aria-label="delete"></button>
-                    </div>
-                    <div class="message-body">
-                        <p>ayy ya need the scripts of java to view this shite, come back when yer less paranoid cheers lad</p>
-                    </div>
-                </article>
-            </section>
-        </noscript>
         <script src="/JS/dist/main.js"></script>
     </main>
 
     <img id="waifu" src="{{{waifu}}}" alt="Cute pic or meme">
-    
+
     {{#if js}}
-        {{#each js as |script|}}
-            <script src="/JS/dist/{{script}}.js"></script>
-        {{/each}}
+    {{#each js as |script|}}
+    <script src="/JS/dist/{{script}}.js"></script>
+    {{/each}}
     {{/if}}
-  </body>
-</html> 
+</body>
+
+</html>

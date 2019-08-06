@@ -1,30 +1,34 @@
 <div class="content">
-    <h2 class="title is-2" >Hello {{{ user.username }}}</h2>
+    <h2 class="title is-2">Hello {{{ user.username }}}</h2>
     <p class="subtitle is-4">Your upload limit is {{{ getSizeAndUnit user.uploadsize }}} per file</p>
 </div>
 
 <div class="content">
     <h2 class="title is-4">Tool assisted uploads</h2>
 
-    <p><span class="has-text-weight-bold">ShareX:</span> <a href="/lewd.sxcu">Get shareX config</a><br/>
-    <span class="has-text-weight-bold">curl:</span> <i>curl -X POST -F "file=@FILE_NAME" -H "token: <span class="token">{{{ user.token }}}</span>" {{ siteLink }}upload</i></p>
+    <p><span class="has-text-weight-bold">ShareX:</span> <a href="/lewd.sxcu">Get shareX config</a><br>
+        <span class="has-text-weight-bold">curl:</span> <i>curl -X POST -F "file=@FILE_NAME" -H "token: <span
+                class="token">{{{ user.token }}}</span>" {{ siteLink }}upload</i><br>
+        <span class="has-text-weight-bold">linux script:</span> <a
+            href="//github.com/Kattus/scripts/blob/master/lewd_uploader.sh">katt's uploader for use together with KDE
+            (Spectacle)</a></p>
 </div>
 
 <div class="content">
     {{#if message.token}}
-        <article class="message is-success">
-            <div class="message-header">
-                <p>Token changed</p>
-            </div>
-            <div class="message-body">
-                {{{ message.token }}}
-            </div>
-        </article>  
+    <article class="message is-success">
+        <div class="message-header">
+            <p>Token changed</p>
+        </div>
+        <div class="message-body">
+            {{{ message.token }}}
+        </div>
+    </article>
     {{/if}}
     {{#if errors.token}}
-        <div class="notification is-danger">
-            {{{ errors.token }}}
-        </div>    
+    <div class="notification is-danger">
+        {{{ errors.token }}}
+    </div>
     {{/if}}
     <h2 class="title is-4">Change your token</h2>
     <section class="columns">
@@ -47,37 +51,37 @@
     <h2 class="title is-4">Change password</h2>
 
     {{#if message.passwordChanged}}
-        <article class="message is-success">
-            <div class="message-header">
-                <p>Password Changed</p>
-            </div>
-            <div class="message-body">
-                {{{ message.passwordChanged }}}
-            </div>
-        </article>  
+    <article class="message is-success">
+        <div class="message-header">
+            <p>Password Changed</p>
+        </div>
+        <div class="message-body">
+            {{{ message.passwordChanged }}}
+        </div>
+    </article>
     {{/if}}
 
     <form action="/user/change-password" method="POST">
         <section class="content">
             {{#if message.incorrectOldPassword}}
-                <article class="message is-danger">
-                    <div class="message-header">
-                        <p>You typed the wrong password</p>
-                    </div>
-                    <div class="message-body">
-                        {{{ message.incorrectOldPassword }}}
-                    </div>
-                </article>  
+            <article class="message is-danger">
+                <div class="message-header">
+                    <p>You typed the wrong password</p>
+                </div>
+                <div class="message-body">
+                    {{{ message.incorrectOldPassword }}}
+                </div>
+            </article>
             {{/if}}
             {{#if errors.old-password}}
-                <article class="message is-danger">
-                    <div class="message-header">
-                        <p>Password error</p>
-                    </div>
-                    <div class="message-body">
-                        {{{ errors.old-password }}}
-                    </div>
-                </article>  
+            <article class="message is-danger">
+                <div class="message-header">
+                    <p>Password error</p>
+                </div>
+                <div class="message-body">
+                    {{{ errors.old-password }}}
+                </div>
+            </article>
             {{/if}}
             <div class="field">
                 <label for="current-password" class="label">Current password</label>
@@ -89,14 +93,14 @@
 
         <section class="content">
             {{#if errors.new-password}}
-                <article class="message is-danger">
-                    <div class="message-header">
-                        <p>Password error</p>
-                    </div>
-                    <div class="message-body">
-                        {{{ errors.new-password }}}
-                    </div>
-                </article>  
+            <article class="message is-danger">
+                <div class="message-header">
+                    <p>Password error</p>
+                </div>
+                <div class="message-body">
+                    {{{ errors.new-password }}}
+                </div>
+            </article>
             {{/if}}
             <div class="field">
                 <label for="new-password" class="label">New password</label>
@@ -106,14 +110,14 @@
             </div>
 
             {{#if errors.password-check}}
-                <article class="message is-danger">
-                    <div class="message-header">
-                        <p>Password error</p>
-                    </div>
-                    <div class="message-body">
-                        {{{ errors.password-check }}}
-                    </div>
-                </article>  
+            <article class="message is-danger">
+                <div class="message-header">
+                    <p>Password error</p>
+                </div>
+                <div class="message-body">
+                    {{{ errors.password-check }}}
+                </div>
+            </article>
             {{/if}}
             <div class="field">
                 <label for="password-check" class="label">New password once again</label>

@@ -1,52 +1,63 @@
-
 <div class="content">
     {{#if uploads}}
-        <h2 class="title is-3">Showing <span id="upload-count">{{ count }}</span> uploads:</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Uploader</th>
-                    <th>Name</th>
-                    <th>Size</th>
-                    <th>Date</th>
-                    <th>Duplicate</th>
-                    <th>Virus</th>
-                    <th>Password Protected</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each uploads}}
-                    <tr id="{{{ this.deletionkey }}}">
-                        <td>{{{ this.username }}}</td>
-                        <td><a href="{{ @root.uploadLink }}{{{ this.filename }}}">{{{ this.originalname }}}</a></td>
+    <div class="columns">
+        <div class="column">
+            <h2 class="title is-3">Showing <span id="upload-count">{{ count }}</span> uploads:</h2>
+        </div>
 
-                        <td>{{ this.size.value }}{{ this.size.unit }}</td>
-                    
-                        <td>{{{ this.uploaddate }}}</td>
+        <div class="column is-one-third">
+            <button class="button is-danger is-pulled-right" id="delete-selected">Delete selected!</button>
+        </div>
+    </div>
 
-                        {{#if this.duplicate}}
-                            <td class="">Yes</td>
-                        {{else}}
-                            <td class="">No</td>
-                        {{/if}}
+    <div class="message-container"></div>
 
-                        {{#if this.virus}}
-                            <td class="">>:(</td>
-                        {{else}}
-                            <td class="">Clean</td>
-                        {{/if}}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Uploader</th>
+                <th>Name</th>
+                <th>Size</th>
+                <th>Date</th>
+                <th>Duplicate</th>
+                <th>Virus</th>
+                <th>Password Protected</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each uploads}}
+            <tr id="{{{ this.deletionkey }}}">
+                <td>{{{ this.username }}}</td>
+                <td><a href="{{ @root.uploadLink }}{{{ this.filename }}}">{{{ this.originalname }}}</a></td>
 
-                        {{#if this.passworded}}
-                            <td class="">>:(</td>
-                        {{else}}
-                            <td class="">No</td>
-                        {{/if}}
+                <td>{{ this.size.value }}{{ this.size.unit }}</td>
 
-                        <td><a href="/delete/{{{ this.deletionkey }}}" data-key="{{{ this.deletionkey }}}" class="button is-danger delete-one">Delete</a></td>
-                    </tr>
-                {{/each}}
-            </tbody>
-        </table>
+                <td>{{{ this.uploaddate }}}</td>
+
+                {{#if this.duplicate}}
+                <td class="">Yes</td>
+                {{else}}
+                <td class="">No</td>
+                {{/if}}
+
+                {{#if this.virus}}
+                <td class="">>:(</td>
+                {{else}}
+                <td class="">Clean</td>
+                {{/if}}
+
+                {{#if this.passworded}}
+                <td class="">>:(</td>
+                {{else}}
+                <td class="">No</td>
+                {{/if}}
+
+                <td><a href="/delete/{{{ this.deletionkey }}}" data-key="{{{ this.deletionkey }}}"
+                        class="button is-danger delete-one">Delete</a></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
     {{/if}}
 </div>

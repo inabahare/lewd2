@@ -8,21 +8,21 @@
     <form action="/user/admin/token" method="POST">
         {{!-- ROLE --}}
         {{#if errors.size}}
-            <div class="notification is-danger">
-                {{{ errors.size }}}
-            </div>    
+        <div class="notification is-danger">
+            {{{ errors.size }}}
+        </div>
         {{/if}}
-        
+
         {{!-- UPLOAD SIZE --}}
         {{#if errors.unit}}
-            <div class="notification is-danger">
-                {{{ errors.unit }}}
-            </div>    
+        <div class="notification is-danger">
+            {{{ errors.unit }}}
+        </div>
         {{/if}}
         {{#if errors.roleid}}
-            <div class="notification is-danger">
-                {{{ errors.roleid }}}
-            </div>    
+        <div class="notification is-danger">
+            {{{ errors.roleid }}}
+        </div>
         {{/if}}
         <div class="field">
             <label class="label">Upload Size</label>
@@ -65,7 +65,7 @@
 
 <div class="column">
     {{#if registerUrl }}
-        <h3 class="title">Generated token is:</h3>
-        <p>{{{ registerUrl }}}</p>
+    <h3 class="title">Generated token is:</h3>
+    <p>{{{ registerUrl }}}</p>
     {{/if}}
 </div>
