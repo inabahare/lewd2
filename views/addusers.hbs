@@ -1,7 +1,7 @@
 <form action="/user/add-user" method="POST">
     <div class="field">
         {{#if errors.username}}
-            <p>Fuck off</p>
+        <p>Fuck off</p>
         {{/if}}
         <label for="username" class="label">Username</label>
         <div class="control">
@@ -11,11 +11,11 @@
 
     <div class="field">
         {{#if errors.password}}
-            <p>Fuck off</p>
+        <p>Fuck off</p>
         {{/if}}
-        <label for="password" class="label"Password></label>
+        <label for="password" class="label" Password></label>
         <div class="control">
-            <input type="password" class="input" name="password" maxlength="73" placeholder="password" >
+            <input type="password" class="input" name="password" maxlength="73" placeholder="password">
         </div>
     </div>
 
@@ -23,11 +23,11 @@
         <label class="label">Role</label>
         <div class="control">
             <div class="select">
-            <select name="roleid">
-                {{#each roles}}
+                <select name="roleid">
+                    {{#each roles}}
                     <option value="{{this.id}}">{{this.name}}</option>
-                {{/each}}
-            </select>
+                    {{/each}}
+                </select>
             </div>
         </div>
     </div>

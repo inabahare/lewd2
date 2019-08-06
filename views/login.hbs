@@ -2,14 +2,14 @@
     <div class="column is-offset-4 is-one-quarter">
         <form action="/login" method="post">
             {{#if message.error}}
-                <article class="message is-danger">
-                    <div class="message-header">
-                        <p>Failed to login!</p>
-                    </div>
-                    <div class="message-body">
-                        {{{ message.error }}}
-                    </div>
-                </article>
+            <article class="message is-danger">
+                <div class="message-header">
+                    <p>Failed to login!</p>
+                </div>
+                <div class="message-body">
+                    {{{ message.error }}}
+                </div>
+            </article>
             {{/if}}
 
             <div class="columns">
@@ -37,6 +37,6 @@
                     </div>
                 </div>
             </div>
-        </form>        
+        </form>
     </div>
 </div>
