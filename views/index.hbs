@@ -19,9 +19,11 @@
         <input type="file" name="file">
 
         <div class="field">
-            <label class="checkbox">
-                <input type="checkbox" name="randomize-name"> Randomize file name
-            </label>
+            <div class="control">
+                <label class="checkbox">
+                    <input type="checkbox" name="randomize-name"> Randomize file name
+                </label>
+            </div>
         </div>
         <input type="submit" name="submit">
     </div>
@@ -35,9 +37,11 @@
     {{/if}}
     
     <div class="field enabled-with-js">
-        <label class="checkbox">
-            <input type="checkbox" name="randomize-name"> Randomize file name
-        </label>
+        <div class="control">
+            <label class="checkbox">
+                <input type="checkbox" class="short-url" name="short-url"> Randomize file name
+            </label>
+        </div>
     </div>
 </form>
 
