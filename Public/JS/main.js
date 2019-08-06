@@ -55,3 +55,9 @@ String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
+
+// Unhide things that are hidden with JS on
+const hiddenElements = document.querySelectorAll(".enabled-with-js");
+hiddenElements.forEach(element => {
+    element.style.visibility = "visible";
+});

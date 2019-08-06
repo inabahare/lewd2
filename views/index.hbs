@@ -17,16 +17,28 @@
     <div class="fallback">
         <input type="hidden" name="js" value="false">
         <input type="file" name="file">
+
+        <div class="field">
+            <label class="checkbox">
+                <input type="checkbox" name="randomize-name"> Randomize file name
+            </label>
+        </div>
         <input type="submit" name="submit">
     </div>
 
     <div class="dz-message hidden" data-dz-message><span>Click or drag files here to upload them</span></div>
 
     {{#if user.username}}
-    <input id="token" type="hidden" name="thetoken" value="{{ user.token }}">
+        <input id="token" type="hidden" name="thetoken" value="{{ user.token }}">
     {{else}}
-    <input id="token" type="hidden" name="thetoken" value="default">
+        <input id="token" type="hidden" name="thetoken" value="default">
     {{/if}}
+    
+    <div class="field enabled-with-js">
+        <label class="checkbox">
+            <input type="checkbox" name="randomize-name"> Randomize file name
+        </label>
+    </div>
 </form>
 
 <div id="uploads" class="section">
