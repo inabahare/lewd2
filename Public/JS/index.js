@@ -12,6 +12,8 @@ const maxUploadSize    = parseInt(maxSizeContainer.innerHTML) / 1000000; // Need
 const shortUrlButton = document.querySelector(".short-url");
 const shortUrl = shortUrlButton.checked;
 
+console.log(shortUrlButton.checked);
+
 const dropZone = new Dropzone("#uploader", {
     url: "/upload",
     // maxFiles: 12,
@@ -19,7 +21,7 @@ const dropZone = new Dropzone("#uploader", {
     maxFilesize: maxUploadSize,
     headers: {
         token: token,
-        useShortUrl: shortUrl
+        shortUrl: shortUrl
     }, 
     params: {
         test: "test"
