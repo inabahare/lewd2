@@ -12,7 +12,9 @@ const storageOptions = multer.diskStorage({
         next(null, process.env.UPLOAD_DESTINATION);
     },
     filename: (req, file, next) => {
-        next(null, renameFile(file.originalname));
+        const useShortUrl = Boolean(req.headers.shorturl);
+        const newName = renameFile(file.originalname, useShortUrl);
+        next(null, newName);
     } 
 });
 
