@@ -12,8 +12,6 @@ const maxUploadSize    = parseInt(maxSizeContainer.innerHTML) / 1000000; // Need
 const shortUrlButton = document.querySelector(".short-url");
 const shortUrl = shortUrlButton.checked;
 
-console.log(shortUrlButton.checked);
-
 const dropZone = new Dropzone("#uploader", {
     url: "/upload",
     // maxFiles: 12,
@@ -29,7 +27,15 @@ const dropZone = new Dropzone("#uploader", {
     timeOut: 3000000000 // Fuck this timeOut limit shit
 });
 
+console.log("Dropzone got initialized with the following headers:");
+console.log(dropZone.options.headers);
+console.log("-------------------------------------");
+
 dropZone.on("success", (file, response) => {
+    console.log("The file got uploaded with the following headers:");
+    console.log(dropZone.options.headers);
+    console.log("-------------------------------------");
+
     const fileName      = file.name;
     const uploadedURL   = response.data.link;
     const deleteionURL  = response.data.deleteionURL;
