@@ -10,6 +10,8 @@ function get(req, res) {
 }
 
 async function post(req, res) {
+    console.log(req.body);
+
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -51,10 +53,9 @@ async function post(req, res) {
 const validate = [
     check("size").exists()   .withMessage("You need to set an upload size")
                  .isNumeric().withMessage("Upload size must be a number")
-                 .isInt()    .withMessage("Upload size needs to be a number")
-                 .isLength({
-                     min: 1,
-                     max: 999999999999
+                 .isInt({
+                    gt: 1,
+                    lt: 999999999999
                  }).withMessage("Upload size can't be less than 1 byte or greater than 1TB (0.91TiB)"),
 
     check("unit").isLength({ min: 1, max: 3 }).withMessage("Upload unit needs to be a valid unit")
