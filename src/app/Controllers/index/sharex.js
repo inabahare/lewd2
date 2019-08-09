@@ -15,7 +15,8 @@ function get(req, res) {
         "RequestURL": "${process.env.SITE_LINK}upload",
         "FileFormName": "file",
         "Headers": {
-          "token": "${res.locals.user.token}"
+          "token": "${res.locals.user.token}",
+          "shortUrl": "false"
         },
         "URL": "$json:data.link$"
       }`;
