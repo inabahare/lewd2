@@ -10,8 +10,6 @@ function get(req, res) {
 }
 
 async function post(req, res) {
-    console.log(req.body);
-
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
