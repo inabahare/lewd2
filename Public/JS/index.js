@@ -24,7 +24,7 @@ const dropZone = new Dropzone("#uploader", {
     params: {
         test: "test"
     },
-    timeOut: 3000000000 // Fuck this timeOut limit shit
+    timeout: 3000000 // Fuck this timeOut limit shit
 });
 
 console.log("Dropzone got initialized with the following headers:");
