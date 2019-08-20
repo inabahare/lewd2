@@ -4,7 +4,7 @@
 
 * NodeJS (Tested on 10.15.2)
 * npm (Tested on 5.8.0)
-* PostgreSQL (Tested on 11.4)
+* PostgreSQL (Tested on 11.5)
 * A webserver with reverse proxying (Tested on NGINX 1.14.2)
 * Sophos AV
 
@@ -54,11 +54,6 @@ server {
         root /path/to/lewd2/Public;
 
         server_name ____;
-
-        # Change this if larger files should be uploaded. Setting it to 0 will disable the check entirely.
-        client_max_body_size 5g;
-
-        gzip on;
 
         location / {
                 try_files $uri @backend;

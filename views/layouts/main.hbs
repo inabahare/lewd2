@@ -29,16 +29,13 @@
             <div class="navbar-menu" id="nav-items">
                 <div class="navbar-end">
                     <a class="navbar-item" href="/transparency">Transparency</a>
-
-
                     <a class="navbar-item" href="/info">Info</a>
-
                     {{#if user.username}}
                     <a class="navbar-item" href="/user">{{user.username}}</a>
                     <a class="navbar-item" href="/user/logout">Sign Out</a>
                     {{/if}}
-
-                    <a class="navbar-item" href="https://discordapp.com/invite/AKGeqgN">Discord</a>
+                    <a class="navbar-item" href="//github.com/inabahare/lewd2">GitHub</a>
+                    <a class="navbar-item" href="//discordapp.com/invite/AKGeqgN">Discord</a>
 
                 </div>
             </div>
@@ -56,9 +53,9 @@
     <img id="waifu" src="{{{waifu}}}" alt="Cute pic or meme">
 
     {{#if js}}
-    {{#each js as |script|}}
-    <script src="/JS/dist/{{script}}.js"></script>
-    {{/each}}
+        {{#each js as |script|}}
+            <script src="/JS/dist/{{script}}.js"></script>
+        {{/each}}
     {{/if}}
 </body>
 
