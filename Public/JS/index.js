@@ -41,15 +41,7 @@ const dropZone = new Dropzone("#uploader", {
     previewTemplate: preview
 });
 
-console.log("Dropzone got initialized with the following headers:");
-console.log(dropZone.options.headers);
-console.log("-------------------------------------");
-
 dropZone.on("success", (file, response) => {
-    console.log("The file got uploaded with the following headers:");
-    console.log(dropZone.options.headers);
-    console.log("-------------------------------------");
-
     const fileName      = file.name;
     const uploadedURL   = response.data.link;
     const deleteionURL  = response.data.deleteionURL;
