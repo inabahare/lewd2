@@ -18,8 +18,20 @@ class Views {
                 dateFormatter: this._dateFormatter, 
                 typeFormatter: this._typeFormatter, 
                 getSizeAndUnit: this._sizeFormatter,
+                loopTimes: this._loop,
             }
         }));
+    }
+
+    // Because handlebars doesn't support just looping n times lmao
+    static _loop(n, content) {
+        let result = "";
+
+        for (let i = 0; i < n; i++) {
+            result += content.fn(i);
+        }
+
+        return result;
     }
 
     // This is used to render the partials
