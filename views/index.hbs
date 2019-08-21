@@ -13,29 +13,31 @@
 
 <div class="is-hidden" id="uploadSize">{{ user.uploadsize }}</div>
 
-<form method="post" action="/upload" class="theUploader" enctype="multipart/form-data" id="uploader">
+<div class="theUploader" id="uploader">
     <div class="fallback">
-        <input type="hidden" name="js" value="false">
-        <input type="file" name="file">
+        <form method="post" action="/upload" enctype="multipart/form-data">
+            <input type="hidden" name="js" value="false">
+            <input type="file" name="file">
 
-        <div class="field">
-            <div class="control">
-                <label class="checkbox">
-                    <input type="checkbox" name="randomize-name"> Randomize file name
-                </label>
+            <div class="field">
+                <div class="control">
+                    <label class="checkbox">
+                        <input type="checkbox" name="randomize-name"> Randomize file name
+                    </label>
+                </div>
             </div>
-        </div>
-        <input type="submit" name="submit">
+            <input type="submit" name="submit">
+        </form>
     </div>
-
-    <div class="dz-message hidden" data-dz-message><span>Click or drag files here to upload them</span></div>
 
     {{#if user.username}}
         <input id="token" type="hidden" name="thetoken" value="{{ user.token }}">
     {{else}}
         <input id="token" type="hidden" name="thetoken" value="default">
     {{/if}}
-    
+
+    <div class="dz-message hidden" data-dz-message><span>Click or drag files here to upload them</span></div>
+
     <div class="field enabled-with-js">
         <div class="control">
             <label class="checkbox">
@@ -43,7 +45,9 @@
             </label>
         </div>
     </div>
-</form>
+</div>
+    
+
 
 <div id="uploads" class="section">
     {{#if message.uploadData}}
