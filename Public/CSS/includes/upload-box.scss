@@ -42,8 +42,8 @@ $progressbar-color: linear-gradient(180deg,#666,#444); // TODO: Red probably isn
 }
 
 .dz-preview {
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
     display: inline-block;
 }
 
@@ -89,3 +89,6 @@ $progressbar-color: linear-gradient(180deg,#666,#444); // TODO: Red probably isn
     }
 }
 
+.dz-details {
+    text-align: center;
+}
