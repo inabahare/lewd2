@@ -1,4 +1,4 @@
-$progressbar-color: red; // TODO: Red probably isn't the best progress bar colour
+$progressbar-color: linear-gradient(180deg,#666,#444); // TODO: Red probably isn't the best progress bar colour
 
 .theUploader,
 .theUploader * {
@@ -60,7 +60,9 @@ $progressbar-color: red; // TODO: Red probably isn't the best progress bar colou
 
 .dz-upload {
     display: inline-block;
-    background-color: $progressbar-color;
+    background: $progressbar-color;
+    border-radius: 10px;
+    text-align: center;
 }
 
 .dz-success-mark, .dz-error-mark {
