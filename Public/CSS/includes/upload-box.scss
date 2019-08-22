@@ -97,4 +97,9 @@ $progressbar-color: linear-gradient(180deg,#666,#444); // TODO: Red probably isn
 
 .dz-details {
     text-align: center;
+    padding: 2em 1em;
+
+    .dz-size {
+        margin-bottom: 1em;
+    }
 }
