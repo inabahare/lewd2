@@ -52,6 +52,9 @@ $progressbar-color: linear-gradient(180deg,#666,#444); // TODO: Red probably isn
 }
 
 .dz-filename {
+    // Needed to prevent long names from being showed
+    white-space: nowrap;
+
     &:not(:hover) {
         overflow: hidden;
         text-overflow: ellipsis;
