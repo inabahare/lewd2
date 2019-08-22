@@ -275,3 +275,10 @@
 .dz-progress:first-child {
     display: inline-block;
 }
+
+.dz-filename {
+    &:not(:hover) {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
