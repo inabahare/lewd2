@@ -282,3 +282,28 @@
         text-overflow: ellipsis;
     }
 }
+
+.dz-success-mark, .dz-error-mark {
+    display: none;
+}
+
+.dz-success {
+    .dz-success-mark {
+        display: block;
+    }
+    
+    .dz-error-mark {
+        display: none;
+    }
+}
+
+.dz-error {
+    .dz-success-mark {
+        display: none;
+    }
+
+    .dz-error-mark {
+        display: block;
+    }
+}
+

@@ -22,7 +22,7 @@ class Views {
             }
         }));
     }
-
+ 
     // Because handlebars doesn't support just looping n times lmao
     static _loop(n, content) {
         let result = "";
