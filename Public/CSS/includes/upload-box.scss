@@ -69,6 +69,12 @@ $progressbar-color: linear-gradient(180deg,#666,#444); // TODO: Red probably isn
     display: none;
 }
 
+.dz-success, .dz-error {
+    .dz-progress {
+        display: none;
+    }
+}
+
 .dz-success {
     .dz-success-mark {
         display: block;
