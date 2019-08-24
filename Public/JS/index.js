@@ -12,17 +12,29 @@ const maxUploadSize    = parseInt(maxSizeContainer.innerHTML) / 1000000; // Need
 const shortUrlButton = document.querySelector(".short-url");
 const shortUrl = shortUrlButton.checked;
 
+{/* <div class="dz-preview dz-file-preview">
+<div class="dz-details">
+    <div class="dz-size" data-dz-size></div> 
+    <div class="dz-filename"><span data-dz-name></span></div>
+    </div>
+    <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress>100%</span></div>
+    <div class="dz-success-mark"><span>✔</span></div>
+    <div class="dz-error-mark"><span>✘</span></div>
+    <div class="dz-error-message"><span data-dz-errormessage></span></div>
+</div> */}
+
 const preview =`
-    <div class="dz-preview dz-file-preview">
-        <div class="dz-details">
-            <div class="dz-size" data-dz-size></div> 
-            <div class="dz-filename"><span data-dz-name></span></div>
+    <article class="message is-success">
+        <div class="message-header">
+            <p><span data-dz-name></span> <span data-dz-uploadprogress></span></p>
+            <button class="delete" aria-label="delete"></button>
         </div>
-        <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress>100%</span></div>
-        <div class="dz-success-mark"><span>✔</span></div>
-        <div class="dz-error-mark"><span>✘</span></div>
-        <div class="dz-error-message"><span data-dz-errormessage></span></div>
-    </div>`;
+        <div class="message-body">
+            <a href="htto://192.168.87.176:3000/uploads/33de763b0c6e_ASR%20Calls%20Pronunciation%20Trainer.pdf" target="_blank">link</a> <a href="http://192.168.87.176:3000/delete/cb4ebc21-c657-11e9-8b6d-953c0971e241">Delete</a>
+        </div>
+    </article>
+
+`;
 
 const dropZone = new Dropzone("#uploader", {
     url: "/upload",
@@ -70,6 +82,10 @@ shortUrlButton.onclick = e => {
 
 dropZone.on("uploadprogress",  (previewElement, progress) => {
     const progressInt = parseInt(progress);
-    const dzProgress = previewElement.previewElement.children[1].firstChild;
-    dzProgress.textContent = `${progressInt}%`;
+
+    const progressHeader = previewElement.previewElement.children[0];
+    const progressTextElement = progressHeader.children[0].children[1];
+
+    progressTextElement.innerText = `${progressInt}%`;
+    console.log(progressHeader);
 });
