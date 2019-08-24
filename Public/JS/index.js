@@ -59,9 +59,6 @@ dropZone.on("success", (file, response) => {
     const deleteionURL  = response.data.deleteionURL;
 
     resultMessageBox.innerHTML = '<a href="' + uploadedURL + '" target="_blank">link</a> <a href="' + deleteionURL + '">Delete</a>';
-    // const successMessage = messageGenerator("success", `${fileName} uploaded`, successLinks);
-
-    // uploadList.appendChild(successMessage);
 });
 
 dropZone.on("error", file => {
