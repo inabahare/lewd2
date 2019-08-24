@@ -53,11 +53,12 @@ const dropZone = new Dropzone("#uploader", {
 });
 
 dropZone.on("success", (file, response) => {
-    // const fileName      = file.name;
-    // const uploadedURL   = response.data.link;
-    // const deleteionURL  = response.data.deleteionURL;
+    const resultMessageBox = file.previewElement.children[1];
+    console.log(resultMessageBox, response);
+    const uploadedURL   = response.data.link;
+    const deleteionURL  = response.data.deleteionURL;
 
-    // const successLinks = `<a href="${uploadedURL}" target="_blank">link</a> <a href="${deleteionURL}">Delete</a>`;
+    resultMessageBox.innerHTML = '<a href="' + uploadedURL + '" target="_blank">link</a> <a href="' + deleteionURL + '">Delete</a>';
     // const successMessage = messageGenerator("success", `${fileName} uploaded`, successLinks);
 
     // uploadList.appendChild(successMessage);
