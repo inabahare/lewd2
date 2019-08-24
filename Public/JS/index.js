@@ -1,8 +1,6 @@
 import Dropzone from "./dropzone";
-import { messageGenerator } from "./includes/bulma/messageGenerator";
 
 const tokenContainer   = document.getElementById("token");
-const uploadList       = document.getElementById("uploads");
 const token            = tokenContainer.defaultValue;
 
 const maxSizeContainer = document.getElementById("uploadSize");
@@ -30,7 +28,7 @@ const preview =`
             <button class="delete" aria-label="delete"></button>
         </div>
         <div class="message-body">
-            <a href="htto://192.168.87.176:3000/uploads/33de763b0c6e_ASR%20Calls%20Pronunciation%20Trainer.pdf" target="_blank">link</a> <a href="http://192.168.87.176:3000/delete/cb4ebc21-c657-11e9-8b6d-953c0971e241">Delete</a>
+            -Bottom text-
         </div>
     </article>
 
@@ -64,7 +62,8 @@ dropZone.on("success", (file, response) => {
     const deleteionURL  = response.data.deleteionURL;
     
     const resultMessageBox = getMessageBox(file);
-    resultMessageBox.innerHTML = '<a href="' + uploadedURL + '" target="_blank">link</a> <a href="' + deleteionURL + '">Delete</a>';
+    resultMessageBox.innerHTML = `<a href="${uploadedURL}" target="_blank">link</a> 
+                                  <a href="${deleteionURL}">Delete</a>`;
 });
 
 dropZone.on("error", (file, error) => {
