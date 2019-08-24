@@ -41,3 +41,12 @@ $progressbar-color: linear-gradient(180deg,#666,#444); // TODO: Red probably isn
     margin: 2em 0;
 }
 
+.message {
+    cursor: default;
+
+    .message-body {
+        a {
+            cursor: pointer;
+        }
+    }
+}
