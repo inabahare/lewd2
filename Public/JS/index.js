@@ -82,14 +82,12 @@ shortUrlButton.onclick = e => {
 };
 
 
-dropZone.on("uploadprogress",  (previewElement, progress) => {
-    const progressInt = parseInt(progress);
+dropZone.on("uploadprogress",  (file, progress) => {
+    const resultMessageBox = getMessageBox(file);
+    const progressHeader = file.previewElement.children[0];
+    // const progressTextElement = progressHeader.children[0].children[1];
 
-    const progressHeader = previewElement.previewElement.children[0];
-    const progressTextElement = progressHeader.children[0].children[1];
-
-    progressTextElement.innerText = `${progressInt}%`;
-    // progressHeader.style.background = "rgb(32,156,238)";
+    resultMessageBox.innerText = `${progress.toFixed(2)}%`;
     progressHeader.style.background = `linear-gradient(90deg, rgba(98,196,98,1) 0%, 
                                                               rgba(98,196,98,1) ${progress - 0.1}%, 
                                                               rgba(1,4,6,1) ${progress}%, 
