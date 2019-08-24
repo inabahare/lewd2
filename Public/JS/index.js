@@ -53,23 +53,20 @@ const dropZone = new Dropzone("#uploader", {
 });
 
 dropZone.on("success", (file, response) => {
-    const fileName      = file.name;
-    const uploadedURL   = response.data.link;
-    const deleteionURL  = response.data.deleteionURL;
+    // const fileName      = file.name;
+    // const uploadedURL   = response.data.link;
+    // const deleteionURL  = response.data.deleteionURL;
 
-    const successLinks = `<a href="${uploadedURL}" target="_blank">link</a> <a href="${deleteionURL}">Delete</a>`;
-    const successMessage = messageGenerator("success", `${fileName} uploaded`, successLinks);
+    // const successLinks = `<a href="${uploadedURL}" target="_blank">link</a> <a href="${deleteionURL}">Delete</a>`;
+    // const successMessage = messageGenerator("success", `${fileName} uploaded`, successLinks);
 
-    uploadList.appendChild(successMessage);
+    // uploadList.appendChild(successMessage);
 });
 
 dropZone.on("error", file => {
-    const errorAsArray = file.previewElement.innerText.split("\n");
-    const fileName     = file.name;
-    const error        = errorAsArray[errorAsArray.length - 1];
-
-    const errorMessage = messageGenerator("danger", `${fileName} failed to upload`, error);
-    uploadList.appendChild(errorMessage);
+    // const errorAsArray = file.previewElement.innerText.split("\n");
+    // const fileName     = file.name;
+    // const error        = errorAsArray[errorAsArray.length - 1];
 });
 
 const message = document.querySelector(".dz-message.hidden");
@@ -87,5 +84,10 @@ dropZone.on("uploadprogress",  (previewElement, progress) => {
     const progressTextElement = progressHeader.children[0].children[1];
 
     progressTextElement.innerText = `${progressInt}%`;
-    console.log(progressHeader);
+    // progressHeader.style.background = "rgb(32,156,238)";
+    progressHeader.style.background = `linear-gradient(90deg, rgba(98,196,98,1) 0%, 
+                                                              rgba(98,196,98,1) ${progressInt - 0.1}%, 
+                                                              rgba(1,4,6,1) ${progressInt}%, 
+                                                              rgba(32,156,238,1) ${progressInt + 0.1}%, 
+                                                              rgba(32,156,238,1) 100%)`;
 });
