@@ -52,19 +52,27 @@ const dropZone = new Dropzone("#uploader", {
     previewTemplate: preview
 });
 
+/**
+ * Uses the dropzone "file" object to get the messagebox in the response
+ * @param {*} file 
+ */
+const getMessageBox =
+    file => file.previewElement.children[1];
+
 dropZone.on("success", (file, response) => {
-    const resultMessageBox = file.previewElement.children[1];
-    console.log(resultMessageBox, response);
     const uploadedURL   = response.data.link;
     const deleteionURL  = response.data.deleteionURL;
-
+    
+    const resultMessageBox = getMessageBox(file);
     resultMessageBox.innerHTML = '<a href="' + uploadedURL + '" target="_blank">link</a> <a href="' + deleteionURL + '">Delete</a>';
 });
 
-dropZone.on("error", file => {
-    // const errorAsArray = file.previewElement.innerText.split("\n");
-    // const fileName     = file.name;
-    // const error        = errorAsArray[errorAsArray.length - 1];
+dropZone.on("error", (file, error) => {
+    file.previewElement.classList.remove("is-success");
+    file.previewElement.classList.add("is-danger");
+
+    const messageBox = getMessageBox(file);
+    messageBox.innerText = error;
 });
 
 const message = document.querySelector(".dz-message.hidden");
