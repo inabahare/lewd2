@@ -84,8 +84,8 @@ dropZone.on("uploadprogress",  (previewElement, progress) => {
     progressTextElement.innerText = `${progressInt}%`;
     // progressHeader.style.background = "rgb(32,156,238)";
     progressHeader.style.background = `linear-gradient(90deg, rgba(98,196,98,1) 0%, 
-                                                              rgba(98,196,98,1) ${progressInt - 0.1}%, 
-                                                              rgba(1,4,6,1) ${progressInt}%, 
-                                                              rgba(32,156,238,1) ${progressInt + 0.1}%, 
+                                                              rgba(98,196,98,1) ${progress - 0.1}%, 
+                                                              rgba(1,4,6,1) ${progress}%, 
+                                                              rgba(32,156,238,1) ${progress + 0.1}%, 
                                                               rgba(32,156,238,1) 100%)`;
 });
