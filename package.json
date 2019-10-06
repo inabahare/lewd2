@@ -57,6 +57,7 @@
     "on-finished": "^2.3.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
+    "patreon": "^0.4.1",
     "pg": "^7.11.0",
     "sha1": "^1.1.1",
     "type-is": "^1.6.18",
