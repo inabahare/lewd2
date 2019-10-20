@@ -27,10 +27,14 @@ async function get(req, res) {
         const token = reply.access_token;
     
         const apiClient = patreon(token);
-    
-        const { store, rawJson } = await apiClient("/current_user");
-    
-        console.log(store, rawJson);
+        try {
+            const { store } = await apiClient("/current_user");
+            const user = store.findAll("user").map(u => u.serialize());
+            console.log(user);
+        }
+        catch (e) {
+            console.log(e);
+        }
     }
     skip = true;
 
