@@ -2,8 +2,7 @@
 <html lang="en-GB">
 
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta http-equiv="Content-Language" content="en">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{{ siteName }}}</title>
     <link rel="stylesheet" href="/CSS/dist/main.css">
@@ -12,13 +11,13 @@
 
 <body>
     <header>
-        <nav class="navbar" role="navigation" aria-label="main navigation">
+        <nav class="navbar">
             <div class="navbar-brand">
                 <a href="/" class="navbar-item">
                     <p class="title is-3">{{{ siteName }}}</p>
                 </a>
 
-                <a class="navbar-burger burger" role="button" aria-label="menu" aria-expanded="false"
+                <a class="navbar-burger burger" aria-label="menu" aria-expanded="false"
                     data-target="nav-items">
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
@@ -28,16 +27,14 @@
 
             <div class="navbar-menu" id="nav-items">
                 <div class="navbar-end">
-                    <a class="navbar-item" href="/transparency">Transparency</a>
-                    <a class="navbar-item" href="/info">Info</a>
                     {{#if user.username}}
                     <a class="navbar-item" href="/user">{{user.username}}</a>
-                    <a class="navbar-item" href="/user/logout">Sign Out</a>
                     {{/if}}
-                    <a class="navbar-item" href="//github.com/inabahare/lewd2">GitHub</a>
-                    <a class="navbar-item" href="//www.patreon.com/lewddotse">Patreon</a>
-                    <a class="navbar-item" href="//discordapp.com/invite/AKGeqgN">Discord</a>
-
+                    <a class="navbar-item" href="/info">Info</a>
+                    <a class="navbar-item" href="/transparency">Transparency</a>
+                    <a class="navbar-item" title="GitHub" href="//github.com/inabahare/lewd2"><i class="fab fa-github"></i></a>
+                    <a class="navbar-item" title="Patreon" href="//www.patreon.com/lewddotse"><i class="fab fa-patreon"></i></a>
+                    <a class="navbar-item" title="Discord" href="//discordapp.com/invite/AKGeqgN"><i class="fab fa-discord"></i></a>
                 </div>
             </div>
         </nav>
@@ -59,5 +56,4 @@
         {{/each}}
     {{/if}}
 </body>
-
 </html>
