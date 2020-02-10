@@ -1,8 +1,7 @@
 import { Pool } from "pg";
 require("dotenv").config();
 
-
-const db = new Pool({
+const database = new Pool({
     user:     process.env.DB_USER,     
     host:     process.env.DB_HOST,     
     database: process.env.DB_DATABASE, 
@@ -10,8 +9,8 @@ const db = new Pool({
     port:     parseInt(process.env.DB_PORT),   
 });
 
-db.on("error", err => {
+database.on("error", err => {
     console.error(`Unexpected database error: ${err}`);
 });
 
-export { db };
+export { database };
