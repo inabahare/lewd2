@@ -22,7 +22,6 @@ async function post(req, res) {
     // Get array of filenames from link array
     const fileNames = linkArray.map(l => l.replace(process.env.UPLOAD_LINK, ""));
 
-
     fileNames.forEach(async fileName => {
         const fullFileName = process.env.UPLOAD_DESTINATION + fileName;
 
