@@ -28,7 +28,7 @@ async function post(req, res) {
 
         if (fs.existsSync(fullFileName)) {
             await unlink(fullFileName);
-            const fileSha = query(`DELETE FROM "Uploads"
+            const fileSha = await query(`DELETE FROM "Uploads"
                     WHERE filename = $1 
                     RETURNING filesha;`, [
                 fileName
