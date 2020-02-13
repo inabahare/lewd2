@@ -1,4 +1,4 @@
-import { db }                                   from "../../helpers/database";
+import { query } from "../../Functions/database"; 
 import bcrypt                                   from "bcrypt";
 import { check, validationResult }              from "express-validator/check";
 import { getTokenData, checkTokenDataForErrors} from "../../Functions/Register/tokenData";
@@ -60,11 +60,9 @@ async function post(req, res) {
     //////////////////////////
     // Check if user exists // 
     //////////////////////////
-    const client = await db.connect();
-    const getUser = await client.query(`SELECT username FROM "Users" WHERE username = $1;`, [req.body.username]);
+    const getUser = await query(`SELECT username FROM "Users" WHERE username = $1;`, [req.body.username]);
     
-    if (getUser.rows.length === 1) {
-        await client.release();
+    if (getUser.length === 1) {
         return res.redirect("/register/" + req.body.token);
     }
 
@@ -79,25 +77,19 @@ async function post(req, res) {
     const uploadSize = tokenData.uploadsize;
     const isAdmin    = tokenData.isadmin;
 
-    try {
-        await client.query(`INSERT INTO "Users" (username, password, token, roleid, uploadsize, isadmin, "TokenGenerated")
-                            VALUES ($1, $2, $3, $4, $5, $6, NOW());`, [
-                                username, 
-                                password, 
-                                token, 
-                                roleid, 
-                                uploadSize,
-                                isAdmin
-                            ]);
-    
-        await client.query(`DELETE FROM "RegisterTokens" WHERE token = $1;`, [req.body.token]);
-    }
-    catch(ex) {
-        console.error(`Failed to register user with error: ${ex.message}`);
-    }
-    finally {
-        await client.release();
-    }
+    const data = [
+        username, 
+        password, 
+        token, 
+        roleid, 
+        uploadSize,
+        isAdmin
+    ];
+
+    await query(`INSERT INTO "Users" (username, password, token, roleid, uploadsize, isadmin, "TokenGenerated")
+                    VALUES ($1, $2, $3, $4, $5, $6, NOW());`, data);
+
+    await query(`DELETE FROM "RegisterTokens" WHERE token = $1;`, [req.body.token]);
     
 
     req.flash("userAdded", "You are now ready to sign in");
