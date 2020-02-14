@@ -1,18 +1,16 @@
-import { db }                      from "../../helpers/database";
+import { query } from "../../Functions/database"; 
 import moment                      from "moment";
 import { check, validationResult } from "express-validator/check";
 import uuid from "uuid/v1";
 
 async function checkToken(value, { req }) {
-    const client = await db.connect();
-    const dbData = await client.query(`SELECT token, "TokenGenerated" from "Users" WHERE id = $1 AND token = $2;`, [ parseInt(req.body.id), value ]);
-    await client.release();
-
-    if (dbData.rows.length !== 1) {
+    const dbData = await query(`SELECT token, "TokenGenerated" from "Users" WHERE id = $1 AND token = $2;`, [ parseInt(req.body.id), value ]);
+    
+    if (dbData.length !== 1) {
         return Promise.reject("Token not found");
     }
 
-    const { TokenGenerated } = dbData.rows[0];
+    const { TokenGenerated } = dbData[0];
     const now = moment();
 
     // If the time the token got generate is later than now
@@ -34,14 +32,11 @@ async function post(req, res) {
         return res.redirect("/user");
     }
 
-    const client = await db.connect();
-
     const { token } = req.body;
     const newUuid = uuid();
 
-    await client.query(`UPDATE "Users" SET token = $1, "TokenGenerated" = NOW() + '1 days'::INTERVAL WHERE token = $2`, [ newUuid, token ]);
+    await query(`UPDATE "Users" SET token = $1, "TokenGenerated" = NOW() + '1 days'::INTERVAL WHERE token = $2`, [ newUuid, token ]);
 
-    await client.release();
     req.flash("token", "Your token has been updated");
     return res.redirect("/user");
 }
