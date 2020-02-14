@@ -1,4 +1,4 @@
-import { db }     from "../../helpers/database";
+import { query } from "../../Functions/database"; 
 import bcrypt from "bcrypt";
 import { check, validationResult } from "express-validator/check";
 
@@ -19,18 +19,16 @@ async function post(req, res) {
         return res.redirect("/user");
     }
 
-    const client = await db.connect();
     // Get password
-    const getPassword = await client.query(`SELECT password 
-                                            FROM "Users" 
-                                            WHERE id = $1;`, [res.locals.user.id]);
+    const getPassword = await query(`SELECT password 
+                                     FROM "Users" 
+                                     WHERE id = $1;`, [res.locals.user.id]);
 
-    const currentPassword = getPassword.rows[0].password;
+    const currentPassword = getPassword[0].password;
 
     // Check for invalid password
     const passwordCheck = await bcrypt.compare(req.body["old-password"], currentPassword);
     if (!passwordCheck) {
-        await client.release();
         req.flash("incorrectOldPassword", "Your old password is incorrect");
         return res.redirect("/user");
     }
@@ -38,8 +36,7 @@ async function post(req, res) {
     // Change password
     const newPassword = await bcrypt.hash(req.body["new-password"], parseInt(process.env.BCRYT_SALT_ROUNDS));
 
-    await client.query(`UPDATE "Users" SET password = $1 WHERE id = $2;`, [newPassword, res.locals.user.id]);
-    await client.release();
+    await query(`UPDATE "Users" SET password = $1 WHERE id = $2;`, [newPassword, res.locals.user.id]);
     
     // Return
     req.flash("passwordChanged", "Your password has now been updated");
