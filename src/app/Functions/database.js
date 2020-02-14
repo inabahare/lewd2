@@ -7,7 +7,7 @@ import { database } from "../helpers/database";
  */
 async function query(sql, params = null) {
   const client = await database.connect();
-  const data = client.query(sql, params);
+  const data = await client.query(sql, params);
   client.release();
 
   if (data.rows.length === 0) 
