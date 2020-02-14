@@ -14,7 +14,7 @@ const deleteUser = async (id, deleteFiles = false) => {
                                       WHERE userid = $1 
                                       AND filename NOT IN (SELECT filename FROM "Uploads" WHERE userid != $1);`, [ id ]);
                
-        if (getFiles.length != 0) {
+        if (!getFiles) {
             const files = getFiles.map(f => f.filename);
             await removeFiles(files);
         }

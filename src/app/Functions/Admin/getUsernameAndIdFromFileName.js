@@ -11,12 +11,7 @@ async function getUsernameAndIdFromFileName(fileName) {
                               WHERE "Uploads".userid = "Users".id 
                               AND "filename" = $1 `, [ fileName ]);
 
-    // In case nothing found
-    if (user.length === 0) {
-        return null;
-    }
-
-    return user.rows;
+    return user;
 }
 
 export { getUsernameAndIdFromFileName };
