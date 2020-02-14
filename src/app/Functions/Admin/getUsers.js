@@ -12,7 +12,7 @@ const sql = `
  * Gets all users except for the default one
  */
 const getAllUsers = async () => {
-    const allUsers = await client.query(sql);
+    const allUsers = await query(sql);
     
     return allUsers;
 };
