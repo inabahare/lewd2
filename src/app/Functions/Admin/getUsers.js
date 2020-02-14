@@ -1,4 +1,4 @@
-import { db } from "../../helpers/database";
+import { query } from "../../Functions/database";
 
 const sql = `
     SELECT "Users".id, username, uploadsize, isadmin, COUNT("Uploads".filesha) "amountOfUploads"
@@ -12,11 +12,9 @@ const sql = `
  * Gets all users except for the default one
  */
 const getAllUsers = async () => {
-    const client = await db.connect();
     const allUsers = await client.query(sql);
-    await client.release();
-
-    return allUsers.rows;
+    
+    return allUsers;
 };
 
 export default getAllUsers;

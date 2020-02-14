@@ -10,7 +10,7 @@ async function query(sql, params = null) {
   const data = client.query(sql, params);
   client.release();
 
-  if (data.rows.lengt === 0) 
+  if (data.rows.length === 0) 
     return null;
 
   return data.rows;
