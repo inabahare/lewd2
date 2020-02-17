@@ -1,8 +1,6 @@
-import multer          from "../../helpers/multer/index";
+import multer from "multer";
 import { getUploader } from "../../Functions/Upload/getUploaderOrDefault";
-// import escape          from "../../Functions/Upload/escape";
 import renameFile      from "../../Functions/Upload/renameFile";
-
 import { HandleUpload } from "../../Classes/HandleUpload";
 
 
