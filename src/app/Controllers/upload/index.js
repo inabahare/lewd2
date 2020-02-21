@@ -41,6 +41,8 @@ async function post(req, res) {
             return HandleUpload.HandleError(uploader.uploadsize, res, err);
         }
         
+        console.log(uploader);
+
         const uploadHandler = new HandleUpload(req, res);
         await uploadHandler.HandleExistingFile();
               uploadHandler.AddDeletionKey();
