@@ -40,13 +40,11 @@ async function post(req, res) {
         if (err) {
             return HandleUpload.HandleError(uploader.uploadsize, res, err);
         }
-        
-        console.log(uploader);
 
         const uploadHandler = new HandleUpload(req, res);
         await uploadHandler.HandleExistingFile();
               uploadHandler.AddDeletionKey();
-        await uploadHandler.AddImageToDatabase(uploader.id);
+        await uploadHandler.AddImageToDatabase(uploader[0].id);
 
         const resultJson = uploadHandler.GenerateResultJson(process.env.UPLOAD_LINK, process.env.SITE_LINK);
         uploadHandler.HandleSuccess(resultJson);
