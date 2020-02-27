@@ -41,7 +41,7 @@ const validate = [
                  .isInt({
                     gt: 1,
                     lt: 999999999999
-                 }).withMessage("Upload size can't be less than 1 byte or greater than 1TB (0.91TiB)"),
+                 }).withMessage("Upload size can't be less than 2 bytes or greater than 1TB (0.91TiB)"),
 
     check("unit").isLength({ min: 1, max: 3 }).withMessage("Upload unit needs to be a valid unit")
                  .isIn([ "B", "kB", "MB", "GB", "KiB", "MiB", "GiB" ]).withMessage("Upload unit needs to be a valid unit")
