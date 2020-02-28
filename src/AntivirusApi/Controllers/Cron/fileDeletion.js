@@ -5,7 +5,7 @@ async function fileDeletion() {
     const files = await getFilesToDelete();
     
     // Prevent additional files from being scanned
-    if (files.length === 0) {
+    if (!files) {
         return;
     }
 

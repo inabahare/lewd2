@@ -1,14 +1,12 @@
-import { db } from "../../../app/helpers/database";
+import { query } from "../../../app/Functions/database";
 
 const getFilesToScan = async () => {
-    const client = await db.connect();
-    const files  = await client.query(`SELECT DISTINCT filename, filesha, "virustotalScan"
-                                       FROM "Uploads"
-                                       WHERE (uploaddate < NOW() - '${process.env.VIRUSTOTAL_SECOND_SCAN_DELAY}'::INTERVAL AND "virustotalScan" = 1)
-                                       OR    (uploaddate < NOW() - '${process.env.VIRUSTOTAL_THIRD_SCAN_DELAY}'::INTERVAL AND "virustotalScan" = 2);`);
-    await client.release();
+    const files  = await query(`SELECT DISTINCT filename, filesha, "virustotalScan"
+                                FROM "Uploads"
+                                WHERE (uploaddate < NOW() - '${process.env.VIRUSTOTAL_SECOND_SCAN_DELAY}'::INTERVAL AND "virustotalScan" = 1)
+                                OR    (uploaddate < NOW() - '${process.env.VIRUSTOTAL_THIRD_SCAN_DELAY}'::INTERVAL AND "virustotalScan" = 2);`);
 
-    return files.rows;
+    return files;
 };
 
 export default getFilesToScan;

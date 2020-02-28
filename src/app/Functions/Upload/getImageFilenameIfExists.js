@@ -1,4 +1,4 @@
-import { db } from "../../helpers/database";
+import { query } from "../../Functions/database";
 
 const sql = `
 SELECT 
@@ -17,12 +17,9 @@ WHERE filesha = $1
  * @returns {string} Your laundry if it exists, or null if it doesn't
  */
 const getFilenameAndAmount = async fileSha => {
-    const client = await db.connect();
-    const checkFile = await client.query(sql, [fileSha]);
-    await client.release();
+    const checkFile = await query(sql, [fileSha]);
 
-    return (checkFile.rows[0]) ? checkFile.rows[0] 
-                               : null;
+    return checkFile;
 };
 
 export { getFilenameAndAmount };

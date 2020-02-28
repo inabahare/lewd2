@@ -1,4 +1,4 @@
-import { db } from "../../helpers/database";
+import { query } from "../../Functions/database";
 import removeFiles from "../FileDeletion/deleteFiles";
 
 /**
@@ -9,36 +9,20 @@ import removeFiles from "../FileDeletion/deleteFiles";
 const deleteUser = async (id, deleteFiles = false) => {
     
     if (deleteFiles) {
-        const client = await db.connect();
-        const getFiles = await client.query(`SELECT 
-                                                DISTINCT ON (filename) 
-                                                filename
-                                            FROM 
-                                                "Uploads" 
-                                            WHERE 
-                                                userid = $1 
-                                            AND 
-                                                filename NOT IN (SELECT filename FROM "Uploads" WHERE userid != $1);`, [
-                                                    id
-                                                ]);
-       
-        await client.release();
-        
-        if (getFiles.rows.length != 0) {
-            // Transform rows from [ { filename: '80931ac767d1_176.20.222.243.zip' }, { filename: '80931ac767d1_176.20.222.243.zip' } ]
-            // To [ '80931ac767d1_176.20.222.243.zip', '80931ac767d1_176.20.222.243.zip' ]
-
-            const files = getFiles.rows
-                                  .map(f => f.filename);
+        const getFiles = await query(`SELECT DISTINCT ON (filename) filename
+                                      FROM "Uploads" 
+                                      WHERE userid = $1 
+                                      AND filename NOT IN (SELECT filename FROM "Uploads" WHERE userid != $1);`, [ id ]);
+               
+        if (!getFiles) {
+            const files = getFiles.map(f => f.filename);
             await removeFiles(files);
         }
 
     }
 
-    const client = await db.connect();
-    await client.query(`DELETE FROM "Users" WHERE id = $1;`, [id]);
-    await client.query(`DELETE FROM "LoginTokens" WHERE userid = $1;`, [id]);
-    await client.release();
+    await query(`DELETE FROM "Users" WHERE id = $1;`, [id]);
+    await query(`DELETE FROM "LoginTokens" WHERE userid = $1;`, [id]);
 }; 
 
 
