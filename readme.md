@@ -37,6 +37,8 @@ Then run `$ npm install` to install all the dependencies followed by actually bu
 Now that that's done, it is time for us to start the server! `$ pm2 start ecosystem.config.js`  
 [More information on using PM2](https://pm2.keymetrics.io/)
 
+Now for serving static files for the frontend. For production see the next section regarding configuring NGINX. 
+This, however, is not preferred for development and for that _NODE\_ENV_ can be set to _development_ which will cause the app itself to serve static files for the frontend.
 ### NGINX config
 
 The bare minimum you need in _/etc/nginx/sites-available/default_ is the following:
