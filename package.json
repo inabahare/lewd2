@@ -35,7 +35,7 @@
     "cookie-parser": "^1.4.4",
     "cookie-session": "^1.3.3",
     "debug": "^4.1.1",
-    "dnode": "git+https://github.com/Pandorym/dnode.git",
+    "dnode": "github:inabahare/dnode",
     "dotenv": "^8.1.0",
     "express": "^4.17.1",
     "express-flash": "0.0.2",
@@ -55,6 +55,7 @@
     "babel-preset-env": "^1.7.0",
     "concurrently": "^4.1.2",
     "parcel": "^1.12.3",
+    "nodemon": "^2.0.2",
     "sass": "^1.22.10"
   }
 }
