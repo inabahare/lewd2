@@ -1,4 +1,4 @@
-import { db }       from "../../helpers/database";
+import { query } from "../../Functions/database";
 import moment   from "moment";
 
 const tokenError = error => [{
@@ -11,13 +11,11 @@ const tokenError = error => [{
  * @param {string} token 
  */
 const getTokenData = async token => {
-    const client = await db.connect();
-    const getClient = await client.query(`SELECT registered, used, roleid, uploadsize, isadmin
-                                          FROM "RegisterTokens"
-                                          WHERE token = $1;`, [token]);
-    await client.release();
-
-    return getClient.rows[0];   
+    const getClient = await query(`SELECT registered, used, roleid, uploadsize, isadmin
+                                   FROM "RegisterTokens"
+                                   WHERE token = $1;`, [token]);
+    
+    return getClient[0];   
 };
 
 /**

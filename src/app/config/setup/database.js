@@ -1,4 +1,4 @@
-import { db } from "../../helpers/database";
+import { query } from "../../Functions/database";
 import debug from "debug";
 import bcrypt from "bcrypt";
 import uuid from "uuid/v1";
@@ -10,36 +10,29 @@ class Database {
      * Runs all the database setup stuff
      */
     static async SetUp() {
-        const client = await await db.connect();
-
-        await this.AddAdmin(client);
-
-        await client.release();
+        await this.AddAdmin();
     }
 
-    static async AddAdmin(client) {
+    static async AddAdmin() {
         this.AdminLog("Checking if admin exists");
-        const user = await client.query(`SELECT username FROM "Users" WHERE username = $1;`, [ process.env.ADMIN_DEFAULT_USERNAME ]);
+        const user = await query(`SELECT username FROM "Users" WHERE username = $1;`, [ process.env.ADMIN_DEFAULT_USERNAME ]);
 
-        if (user.rows[0] == null) {
-            try {
-                const passwordHashed = await bcrypt.hash(process.env.ADMIN_DEFAULT_PASSWORD, parseInt(process.env.BCRYPT_SALT_ROUNDS));
-                
-                this.AdminLog("Adding admin");
-                await client.query(`INSERT INTO "Users" (username, password, token, uploadsize, isadmin)
-                                    VALUES ($1, $2, $3, $4, $5);`, [
-                    process.env.ADMIN_DEFAULT_USERNAME,
-                    passwordHashed,
-                    uuid(),
-                    process.env.ADMIN_DEFAULT_UPLOAD_SIZE,
-                    true
-                ]);
-                this.AdminLog(`Admin added with '${process.env.ADMIN_DEFAULT_PASSWORD}' as password`);
-            } 
-            catch (e) {
-                this.AdminLog("Failed to add default user");
-                this.AdminLog(e.message);
-            }
+        if (!user) {
+            const passwordHashed = await bcrypt.hash(process.env.ADMIN_DEFAULT_PASSWORD, parseInt(process.env.BCRYPT_SALT_ROUNDS));
+            
+            this.AdminLog("Adding admin");
+            
+            const data = [
+                process.env.ADMIN_DEFAULT_USERNAME,
+                passwordHashed,
+                uuid(),
+                process.env.ADMIN_DEFAULT_UPLOAD_SIZE,
+                true
+            ];
+
+            await query(`INSERT INTO "Users" (username, password, token, uploadsize, isadmin)
+                            VALUES ($1, $2, $3, $4, $5);`, data);
+            this.AdminLog(`Admin added with '${process.env.ADMIN_DEFAULT_PASSWORD}' as password`);
         }
         else {
             this.AdminLog("Admin already exists");

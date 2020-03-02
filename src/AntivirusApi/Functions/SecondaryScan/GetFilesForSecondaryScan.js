@@ -1,13 +1,11 @@
-import { db } from "../../../app/helpers/database";
+import { query } from "../../../app/Functions/database";
 
 const getFilesForSecondaryScan = async () => {
-    const client = await db.connect();
-    const getFiles = await client.query(`SELECT DISTINCT ON(filesha) filename, filesha 
-                                         FROM "Uploads" 
-                                         WHERE "scannedTwice" = FALSE;`);
-    await client.release();
+    const getFiles = await query(`SELECT DISTINCT ON(filesha) filename, filesha 
+                                  FROM "Uploads" 
+                                  WHERE "scannedTwice" = FALSE;`);
 
-    return getFiles.rows;
+    return getFiles;
 };
 
 export default getFilesForSecondaryScan;

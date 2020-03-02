@@ -1,16 +1,10 @@
-import { db } from "../../../app/helpers/database";
+import { query } from "../../../app/Functions/database";
 
-/**
- * 
- */
 const getAllFromTransparency = async () => {
-    const client = await db.connect();
-    const getTransparency = await client.query(`SELECT "Date", "FileName", "FileHash", "Type", "Origin"
-                                                FROM "Transparency"`);
-    await client.release();
+    const getTransparency = await query(`SELECT "Date", "FileName", "FileHash", "Type", "Origin"
+                                         FROM "Transparency"`);
     
-    return getTransparency.rows.length > 0 ? getTransparency.rows 
-                                           : null; 
+    return getTransparency;
 };
 
 export default getAllFromTransparency;

@@ -1,4 +1,4 @@
-import passport                    from "../../helpers/passport";
+import passport from "../../helpers/passport";
 
 function get(req, res) {
     res.render("login");

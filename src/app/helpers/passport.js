@@ -1,6 +1,6 @@
 import passport                      from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import { db }                  from "./database";
+import { query } from "../Functions/database";
 import bcrypt                        from "bcrypt";
 import crypto                        from "crypto";
 
@@ -12,16 +12,14 @@ passport.use(new LocalStrategy({
     usernameField: "username",
     passwordField: "password"
 }, async (username, password, next) => {
-    const client = await db.connect();
-    const res    = await client.query(`SELECT id, password 
-                                       FROM "Users" 
-                                       WHERE username = $1;`, [username]);
-    const user = res.rows[0];
-
-    if (user === undefined) {
-        await client.release();
+    const res = await query(`SELECT id, password 
+                             FROM "Users" 
+                             WHERE username = $1;`, [username]);
+    if (!res) {
         return next(null, false);
     }
+
+    const user = res[0];
 
     const checkPassword = await bcrypt.compare(password, user.password);
 
@@ -29,24 +27,16 @@ passport.use(new LocalStrategy({
         const userId    = parseInt(user.id);
         let userToken = generateLoginToken(userId);
 
-        try {
-            await client.query(`INSERT INTO "LoginTokens" (token, registered, userid)
-            VALUES ($1, NOW(), $2);`, [
-                userToken,
-                userId
-            ]);
-        } 
-        catch(ex) {
-            console.error(`Failed to insert to LoginToken with message ${ex.message}`);
-            userToken = null;
-        }
-        finally {
-            await client.release(); 
-        }
+        const data = [
+            userToken,
+            userId
+        ];
+
+        await query(`INSERT INTO "LoginTokens" (token, registered, userid)
+                     VALUES ($1, NOW(), $2);`, data);
 
         return next(null, userToken);
     } else {
-        await client.release();
         return next(null, false);
     }     
 }));

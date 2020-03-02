@@ -1,6 +1,6 @@
 import { VirusTotal } from "./AntiVirus/VirusTotal";
 import { deleteFilesByFileHash } from "../Functions/FileDeletion/deleteFiles";
-import { db } from "../../app/helpers/database";
+import { query } from "../../app/Functions/database";
 import { logToTransparency } from "../Functions/Transparency/logToTransparency";
 import cron from "node-cron";
 
@@ -44,23 +44,21 @@ class VirusTotalScanner {
     async _findFilesToScanAndScanThem() {
         console.log(`Finding files to scan`);
 
-        const client = await db.connect();
-        const files  = await client.query(`SELECT DISTINCT filesha
-                                           FROM "Uploads"
-                                           WHERE (uploaddate < NOW() - '${process.env.VIRUSTOTAL_SECOND_SCAN_DELAY}'::INTERVAL AND "virustotalScan" = 1)
-                                           OR    (uploaddate < NOW() - '${process.env.VIRUSTOTAL_THIRD_SCAN_DELAY}'::INTERVAL AND "virustotalScan" = 2);`);
-        await client.release();
-
-        console.log(`Found ${files.rows.length} files`);
-
-        if(files.rows.length === 0) {
+        const files  = await query(`SELECT DISTINCT filesha
+                                    FROM "Uploads"
+                                    WHERE (uploaddate < NOW() - '${process.env.VIRUSTOTAL_SECOND_SCAN_DELAY}'::INTERVAL AND "virustotalScan" = 1)
+                                    OR    (uploaddate < NOW() - '${process.env.VIRUSTOTAL_THIRD_SCAN_DELAY}'::INTERVAL AND "virustotalScan" = 2);`);
+        
+        if(!files === 0) {
             // No files to scan
             console.log(`Skipping this scan`);
             return;
         }
 
+        console.log(`Found ${files.length} files`);
         console.log(`Queueing files to scan`);
-        files.rows.forEach(file => this.scan({fileHash: file.filesha}));
+
+        files.forEach(file => this.scan({fileHash: file.filesha}));
     }
 
 
@@ -75,11 +73,9 @@ class VirusTotalScanner {
     }
 
     static async _handleClean(virusTotalData) {
-        const client = await db.connect();
-        await client.query(`UPDATE "Uploads"
-                            SET "virustotalScan" = "virustotalScan" + 1
-                            WHERE filesha = $1;`, [ virusTotalData.resource ]);
-        await client.release();
+        await query(`UPDATE "Uploads"
+                     SET "virustotalScan" = "virustotalScan" + 1
+                     WHERE filesha = $1;`, [ virusTotalData.resource ]);
     }
 
     static async _handleVirus(virusTotalData) {
@@ -91,11 +87,9 @@ class VirusTotalScanner {
 
 
     static async _getFilenameByHash(fileHash) {
-        const client = await db.connect();
-        const result = await client.query(`SELECT filename FROM "Uploads" WHERE filesha = $1`, [fileHash]);
-        await client.release();
-
-        if(result.rows.length === 0) 
+        const result = await query(`SELECT filename FROM "Uploads" WHERE filesha = $1`, [fileHash]);
+        
+        if(!result) 
             return null;
         
         return result.rows[0].filename;

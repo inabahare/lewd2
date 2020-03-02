@@ -1,10 +1,8 @@
-import { db } from "../../helpers/database";
+import { query } from "../../Functions/database"; 
 
 async function get(req, res) {
-    const client = await db.connect();
-    await client.query(`DELETE FROM "LoginTokens" 
-                        WHERE token = $1`, [req.user]);
-    await client.release();
+    await query(`DELETE FROM "LoginTokens" 
+                 WHERE token = $1`, [req.user]);
     
     req.flash("userAdded", "You are now logged out!");
     res.redirect("/");

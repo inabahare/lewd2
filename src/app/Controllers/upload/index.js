@@ -1,8 +1,6 @@
-import multer          from "../../helpers/multer/index";
+import multer from "multer";
 import { getUploader } from "../../Functions/Upload/getUploaderOrDefault";
-// import escape          from "../../Functions/Upload/escape";
 import renameFile      from "../../Functions/Upload/renameFile";
-
 import { HandleUpload } from "../../Classes/HandleUpload";
 
 
@@ -42,11 +40,11 @@ async function post(req, res) {
         if (err) {
             return HandleUpload.HandleError(uploader.uploadsize, res, err);
         }
-        
+
         const uploadHandler = new HandleUpload(req, res);
         await uploadHandler.HandleExistingFile();
               uploadHandler.AddDeletionKey();
-        await uploadHandler.AddImageToDatabase(uploader.id);
+        await uploadHandler.AddImageToDatabase(uploader[0].id);
 
         const resultJson = uploadHandler.GenerateResultJson(process.env.UPLOAD_LINK, process.env.SITE_LINK);
         uploadHandler.HandleSuccess(resultJson);
