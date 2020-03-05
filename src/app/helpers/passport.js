@@ -15,11 +15,11 @@ passport.use(new LocalStrategy({
     const res = await query(`SELECT id, password 
                              FROM "Users" 
                              WHERE username = $1;`, [username]);
-    const user = res[0];
-
-    if (!user) {
+    if (!res) {
         return next(null, false);
     }
+
+    const user = res[0];
 
     const checkPassword = await bcrypt.compare(password, user.password);
 

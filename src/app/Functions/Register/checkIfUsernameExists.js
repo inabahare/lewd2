@@ -8,7 +8,7 @@ const checkIfUsernameNotExists = value => {
    return query(`SELECT username FROM "Users" WHERE username = $1;`, [value])
    .then(result => {
       // User not found
-      if (result.rows.length === 0)
+      if (!result)
          return Promise.resolve();
       
       // User found

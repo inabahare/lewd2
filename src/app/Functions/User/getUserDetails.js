@@ -9,7 +9,7 @@ const getUserDetails = async loginToken => {
 
     const loginTokenCheck = await query(`SELECT userid FROM "LoginTokens" WHERE token = $1 LIMIT 1;`, [loginToken]);
 
-    if (loginTokenCheck[0])
+    if (loginTokenCheck)
         userId = loginTokenCheck[0].userid;
 
     const getUser = await query(`SELECT "Users".id, "Users".username, "Users".token, "Users".roleid, "Users".uploadsize, "Users".isadmin, "Users"."TokenGenerated"

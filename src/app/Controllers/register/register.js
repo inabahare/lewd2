@@ -62,7 +62,7 @@ async function post(req, res) {
     //////////////////////////
     const getUser = await query(`SELECT username FROM "Users" WHERE username = $1;`, [req.body.username]);
     
-    if (getUser.length === 1) {
+    if (getUser) {
         return res.redirect("/register/" + req.body.token);
     }
 
