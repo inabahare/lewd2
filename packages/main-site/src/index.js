@@ -1,6 +1,3 @@
-"use strict";
-require("dotenv").config();
-
 import express        from "express";
 import path           from "path";
 import flash          from "express-flash";

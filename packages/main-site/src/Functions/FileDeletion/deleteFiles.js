@@ -3,7 +3,6 @@ import { promisify } from "util";
 import path          from "path";
 import { query } from "../../Functions/database";
 
-require("dotenv").config();
 
 const unlink = promisify(fs.unlink);
 
