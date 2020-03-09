@@ -1,0 +1,71 @@
+<div class="column">
+    <h2 class="title">
+        Generate access link
+    </h2>
+</div>
+
+<div class="column">
+    <form action="/user/admin/token" method="POST">
+        {{!-- ROLE --}}
+        {{#if errors.size}}
+        <div class="notification is-danger">
+            {{{ errors.size }}}
+        </div>
+        {{/if}}
+
+        {{!-- UPLOAD SIZE --}}
+        {{#if errors.unit}}
+        <div class="notification is-danger">
+            {{{ errors.unit }}}
+        </div>
+        {{/if}}
+        {{#if errors.roleid}}
+        <div class="notification is-danger">
+            {{{ errors.roleid }}}
+        </div>
+        {{/if}}
+        <div class="field">
+            <label class="label">Upload Size</label>
+            <div class="field is-grouped">
+                <div class="control">
+                    <input id="token" type="number" class="input" name="size">
+                </div>
+                <div class="control">
+                    <div class="select">
+                        <select name="unit">
+                            <option value="B">Byte</option>
+                            <option value="KiB">KiB</option>
+                            <option value="MiB">MiB</option>
+                            <option value="GiB">GiB</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{!-- FLAGS --}}
+        <div class="field">
+            <div class="field is-grouped">
+                <div class="control">
+                    <label class="checkbox">
+                        <input type="checkbox" name="isadmin">
+                        Admin
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="control">
+                <input type="submit" class="button is-link" value="Generate Token">
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="column">
+    {{#if registerUrl }}
+    <h3 class="title">Generated token is:</h3>
+    <p>{{{ registerUrl }}}</p>
+    {{/if}}
+</div>

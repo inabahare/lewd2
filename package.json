@@ -23,40 +23,7 @@
     "watch-js": "node_modules/.bin/parcel watch Public/JS/index.js Public/JS/main.js Public/JS/viewUploads.js --out-dir Public/JS/dist --target browser",
     "move-sourcemaps": "mv dist/app.map dist/app.js.map"
   },
-  "dependencies": {
-    "async": "^2.6.2",
-    "axios": "^0.18.1",
-    "babel-polyfill": "^6.26.0",
-    "babel-runtime": "^6.26.0",
-    "bcrypt": "^3.0.6",
-    "body-parser": "^1.19.0",
-    "bulma": "^0.7.5",
-    "bulmaswatch": "^0.7.2",
-    "cookie-parser": "^1.4.4",
-    "cookie-session": "^1.3.3",
-    "debug": "^4.1.1",
-    "dnode": "github:inabahare/dnode",
-    "dotenv": "^8.1.0",
-    "express": "^4.17.1",
-    "express-flash": "0.0.2",
-    "express-handlebars": "^3.1.0",
-    "express-session": "^1.16.2",
-    "express-validator": "^5.2.0",
-    "moment": "^2.22.2",
-    "multer": "github:inabahare/multer",
-    "node-cron": "^1.2.1",
-    "passport": "^0.4.0",
-    "passport-local": "^1.0.0",
-    "patreon": "^0.4.1",
-    "pg": "^7.11.0",
-    "uuid": "^3.3.2"
-  },
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-preset-env": "^1.7.0",
-    "concurrently": "^4.1.2",
-    "parcel": "^1.12.3",
-    "nodemon": "^2.0.2",
-    "sass": "^1.22.10"
+    "lerna": "^3.20.2"
   }
 }

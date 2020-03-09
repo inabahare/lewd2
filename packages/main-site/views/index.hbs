@@ -1,0 +1,84 @@
+{{#if errors.token}}
+<div class="notification is-danger">
+    {{{ errors.token }}}
+</div>
+{{/if}}
+
+{{#if message.userAdded}}
+<div class="notification is-success">
+    {{{ message.userAdded }}}
+</div>
+{{/if}}
+
+
+<div class="is-hidden" id="uploadSize">{{ user.uploadsize }}</div>
+
+<div class="theUploader" id="uploader">
+    <div class="fallback">
+        <form method="post" action="/upload" enctype="multipart/form-data">
+            <input type="hidden" name="js" value="false">
+            <input type="file" name="file">
+
+            <div class="field">
+                <div class="control">
+                    <label class="checkbox">
+                        <input type="checkbox" name="randomize-name"> Randomize file name
+                    </label>
+                </div>
+            </div>
+            <input type="submit" name="submit">
+        </form>
+    </div>
+
+    {{#if user.username}}
+        <input id="token" type="hidden" name="thetoken" value="{{ user.token }}">
+    {{else}}
+        <input id="token" type="hidden" name="thetoken" value="default">
+    {{/if}}
+
+    <div class="dz-message hidden" data-dz-message><span>Click or drag files here to upload them</span></div>
+
+    <div class="field enabled-with-js">
+        <div class="control">
+            <label class="checkbox">
+                <input type="checkbox" class="short-url" name="short-url"> Randomize file name
+            </label>
+        </div>
+    </div>
+
+    {{!-- {{#loopTimes 10}}
+        <article class="message is-success">
+            <div class="message-header">
+                <p>ASR Calls Pronunciation Trainer.pdf uploaded</p>
+                <button class="delete" aria-label="delete"></button>
+            </div>
+            <div class="message-body">
+                <a href="htto://192.168.87.176:3000/uploads/33de763b0c6e_ASR%20Calls%20Pronunciation%20Trainer.pdf" target="_blank">link</a> <a href="http://192.168.87.176:3000/delete/cb4ebc21-c657-11e9-8b6d-953c0971e241">Delete</a>
+            </div>
+        </article>
+    {{/loopTimes}} --}}
+
+</div>
+    
+
+
+<div id="uploads" class="section">
+    {{#if message.uploadData}}
+    <article class="notification is-success">
+        <button class="delete" aria-label="delete"></button>
+        <div class="columns">
+            <div class="column has-text-left">
+                <p>Your file has been uploaded!</p>
+            </div>
+            <div class="column has-text-right">
+                <a href="{{ message.uploadData.data.link }}" target="_blank">link</a>
+                <a href="{{ message.uploadData.data.deletionURL }}">Delete</a>
+            </div>
+        </div>
+    </article>
+    <picture>
+        <source srcset="{{ message.uploadData.data.link }}">
+        <img src="{{ message.uploadData.data.link }}" alt="">
+    </picture>
+    {{/if}}
+</div>

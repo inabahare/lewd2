@@ -1,0 +1,56 @@
+<div class="content">
+    {{#if uploads}}
+    <div class="columns">
+        <div class="column">
+            <h2 class="title is-3">Showing <span id="upload-count">{{ count }}</span> uploads:</h2>
+        </div>
+
+        <div class="column is-one-third">
+            <button class="button is-danger is-pulled-right" id="delete-selected">Delete selected!</button>
+        </div>
+    </div>
+
+    <div class="message-container"></div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Size</th>
+                <th>Date</th>
+                <th>Delete</th>
+                <th>Select</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each uploads}}
+            <tr id="{{{ this.deletionkey }}}">
+                <td>
+                    <a href="{{ @root.uploadLink }}{{{ this.filename }}}">{{{ this.originalname }}}</a>
+                </td>
+
+                <td>
+                    {{ this.size.value }}{{ this.size.unit }}
+                </td>
+
+                <td>
+                    {{{ this.uploaddate }}}
+                </td>
+
+                <td>
+                    <a href="/delete/{{{ this.deletionkey }}}" data-key="{{{ this.deletionkey }}}"
+                        class="button is-danger delete-one">
+                        🗑
+                    </a>
+                </td>
+
+                <td class="delete-container" data-value="{{{ this.deletionkey }}}">
+                    <input type="checkbox" class="mass-delete" data-value="{{{ this.deletionkey }}}">
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    {{else}}
+    <h1>You haven't uploaded any files :<</h1> {{/if}} </div>

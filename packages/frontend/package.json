@@ -1,0 +1,30 @@
+{
+  "name": "lewd.se-frontend-content",
+  "version": "2.0.1",
+  "description": "These are all the stylesheets and scripts for lewd.se",
+  "main": "index.js",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/inabahare/lewd.se-frontend-content.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/inabahare/lewd.se-frontend-content/issues"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "babel-polyfill": "^6.26.0",
+    "bulma": "^0.8.0",
+    "bulmaswatch": "^0.7.5",
+    "parcel": "^1.12.4",
+    "parcel-bundler": "^1.12.4"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "sass": "^1.26.2"
+  }
+}
