@@ -1,0 +1,13 @@
+# Add any directories, files, or patterns you don't want to be tracked by version control
+.cache/
+.directory
+.env
+.vscode/
+Public/CSS/main.css
+Public/CSS/main.map
+Public/Images/Waifus
+Public/google*.html
+Public/uploads
+dist/
+logs/
+node_modules/
