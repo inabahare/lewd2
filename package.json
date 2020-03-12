@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "description": "This is the best uploader ever!!",
   "main": "app.js",
-  "repository": "git@github.com:inabahare/lewd2.gitgit",
+  "repository": "git@github.com:inabahare/lewd2.git",
   "author": "inaba <software@panduro.guru>",
   "license": "MIT",
   "private": true,
