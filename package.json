@@ -8,8 +8,9 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "setup": "npm install && npm run install-dependencies",
     "build": "lerna run build --parallel",
-    "install": "lerna bootstrap"
+    "install-dependencies": "lerna bootstrap"
   },
   "devDependencies": {
     "lerna": "^3.20.2"
