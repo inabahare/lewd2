@@ -2,7 +2,6 @@
 .cache/
 .directory
 .env
-.vscode/
 Public/CSS/main.css
 Public/CSS/main.map
 Public/Images/Waifus
