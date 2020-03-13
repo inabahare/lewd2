@@ -19,7 +19,7 @@ WHERE filesha = $1
 const getFilenameAndAmount = async fileSha => {
     const checkFile = await query(sql, [fileSha]);
 
-    return checkFile[0];
+    return checkFile;
 };
 
 export { getFilenameAndAmount };

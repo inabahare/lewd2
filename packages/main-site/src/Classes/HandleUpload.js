@@ -41,16 +41,19 @@ class HandleUpload {
     async HandleExistingFile() {
         const existingFile = await getFilenameAndAmount(this.file.hash);
 
-        if (existingFile) { // If file has been uploaded and not deleted
+        if (existingFile) { 
+            const file = existingFile[0];
+
+            // If file has been uploaded and not deleted
             // This is to prevent too many hardlinks
             // The ++ is because existingFile.amount contains the amount in the database
-            if ((parseInt(existingFile.amount) + 1) > parseInt(process.env.UPLOAD_MAX_HARDLINKS)) {
+            if ((parseInt(file.amount) + 1) > parseInt(process.env.UPLOAD_MAX_HARDLINKS)) {
                 this.res.status(500)
                      .send("Too many duplicates");
                 return;
             }
 
-            await this.fileExists(existingFile.filename, this.file.destination);
+            await this.fileExists(file.filename, this.file.destination);
         } 
         else { // If file doesn't exist or has been deleted
             this.newFile(this.file);
