@@ -2,6 +2,7 @@ module.exports = {
     apps : [{
         name  : "lewd.se",
         script: "./packages/main-site/dist/index.js",
+        node_args: "-r dotenv/config",
         output: "./logs/app.out.log",
         error : "./logs/app.error.log",
         log   : "./logs/app.combined.outerr.log",
@@ -15,6 +16,7 @@ module.exports = {
     }, {
         name: "Cron actions",
         script: "./packages/antivirus-services/dist/index.js",
+        node_args: "-r dotenv/config",
         output: "./logs/cron.out.log",
         error : "./logs/cron.error.log",
         log   : "./logs/cron.combined.outerr.log",
