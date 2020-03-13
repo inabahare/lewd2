@@ -23,6 +23,8 @@ const jsBundler = new Bundler (jsFiles, jsOptions);
 const cssBundler = new Bundler (scssFile, scssOptions);
 
 (async function main () {
-  const js = await jsBundler.bundle();
-  const css = await cssBundler.bundle();
-})()
+  const js =  jsBundler.bundle();
+  const css = cssBundler.bundle();
+
+  await Promise.all([js, css]);
+})();
