@@ -32,13 +32,15 @@ Copy **.env.dist** to **.env** and edit the following
 * VIRUSTOTAL_KEY  
 * VIRUSTOTAL_USER (This is the username of your virustotal account)
 
-Then run `$ npm install` to install all the dependencies followed by actually building the project with `$ npm run build`. 
+Then run `$ npm run setup` which will install all the needed dependencies and build the project. 
 
 Now that that's done, it is time for us to start the server! `$ pm2 start ecosystem.config.js`  
 [More information on using PM2](https://pm2.keymetrics.io/)
 
 Now for serving static files for the frontend. For production see the next section regarding configuring NGINX. 
 This, however, is not preferred for development and for that _NODE\_ENV_ can be set to _development_ which will cause the app itself to serve static files for the frontend.
+**NOTE:** if in .env _PUBLIC_FOLDER_PATH_ is not set to _../../frontend/dist_ or at least a path to the frontend files the frontend will not have any styling or functionality
+
 ### NGINX config
 
 The bare minimum you need in _/etc/nginx/sites-available/default_ is the following:
@@ -48,7 +50,7 @@ server {
         listen 80 default_server;
         listen [::]:80 default_server;
 
-        root /path/to/lewd2/Public;
+        root /path/to/lewd2/packages/frontend/dist;
 
         server_name ____;
 
