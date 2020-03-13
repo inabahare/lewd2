@@ -43,7 +43,6 @@ app.locals.timeFileCanStayAlive = process.env.TIME_FILE_CAN_STAY_ALIVE;
 
 // Set local user
 app.use(async (req, res, next) => {
-    console.log(process.env);
     if (req.user) {
         res.locals.user = await getUserDetails(req.user);
     }
