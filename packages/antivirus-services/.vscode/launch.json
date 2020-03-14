@@ -1,0 +1,24 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Antivirus Services",
+      "preLaunchTask": "npm: build",
+      "program": "${workspaceFolder}/src/index.js",
+      "protocol": "inspector",
+      "sourceMaps": true,
+      "outFiles": [
+        "${workspaceFolder}/dist/**/*.js"
+      ],
+      "envFile": "${workspaceFolder}/../../.env",
+      "runtimeArgs": [
+        "--require=dotenv/config"
+      ]
+    }
+  ]
+}

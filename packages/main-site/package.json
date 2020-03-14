@@ -1,0 +1,45 @@
+{
+  "name": "lewd.se-main-site",
+  "version": "2.0.1",
+  "description": "Trying to \"microserviceify\" this",
+  "main": "index.js",
+  "scripts": { 
+    "build": "parcel build src/index.js --target node --no-minify",
+    "start": "node  -r dotenv/config ./dist/index.js dotenv_config_path=../../.env"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dnode": "github:inabahare/dnode",
+    "async": "^3.2.0",
+    "axios": "^0.19.2",
+    "babel-polyfill": "^6.26.0",
+    "babel-runtime": "^6.26.0",
+    "bcrypt": "^4.0.1",
+    "body-parser": "^1.19.0",
+    "bulma": "^0.8.0",
+    "bulmaswatch": "^0.7.5",
+    "cookie-parser": "^1.4.4",
+    "cookie-session": "^1.4.0",
+    "debug": "^4.1.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-flash": "0.0.2",
+    "express-handlebars": "^3.1.0",
+    "express-session": "^1.17.0",
+    "express-validator": "^6.4.0",
+    "moment": "^2.24.0",
+    "multer": "github:inabahare/multer",
+    "node-cron": "^2.0.3",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "patreon": "^0.4.1",
+    "pg": "^7.18.2",
+    "uuid": "^7.0.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "parcel": "^1.12.4"
+  }
+}
