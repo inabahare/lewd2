@@ -1,4 +1,4 @@
-import { query } from "../Functions/database";
+import { query } from "/Functions/database";
 
 const getFilesToScan = async () => {
     const files  = await query(`SELECT DISTINCT filename, filesha, "virustotalScan"

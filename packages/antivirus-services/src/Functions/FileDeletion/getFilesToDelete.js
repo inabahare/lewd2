@@ -1,4 +1,4 @@
-import { query } from "../database";
+import { query } from "/Functions/database";
 
 export default async () => {
   const getFiles = await query(`SELECT id, filename, filesha 

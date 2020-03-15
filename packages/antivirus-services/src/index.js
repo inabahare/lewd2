@@ -1,6 +1,3 @@
-import dotenv from "dotenv";
-dotenv.config();
-
 import { schedule } from "node-cron";
 import dnode        from "dnode";
 

@@ -1,5 +1,5 @@
-import getFilesToDelete          from "../../Functions/FileDeletion/getFilesToDelete";
-import { deleteFileByName } from "../../Functions/FileDeletion/deleteFiles";
+import getFilesToDelete from "/Functions/FileDeletion/getFilesToDelete";
+import { deleteFileByName } from "/Functions/FileDeletion/deleteFiles";
 
 async function fileDeletion() {
     const files = await getFilesToDelete();

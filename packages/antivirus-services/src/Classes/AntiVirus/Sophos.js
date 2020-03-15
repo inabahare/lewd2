@@ -1,5 +1,5 @@
-import { spawn }  from "child_process";
-import queue      from "async/queue"; 
+import { spawn } from "child_process";
+import queue from "async/queue"; 
 
 const returnCodes = {
     CLEAN: 0,

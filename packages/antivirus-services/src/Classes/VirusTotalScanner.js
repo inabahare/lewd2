@@ -1,7 +1,7 @@
 import { VirusTotal } from "./AntiVirus/VirusTotal";
-import { deleteFilesByFileHash } from "../Functions/FileDeletion/deleteFiles";
-import { query } from "../Functions/database";
-import { logToTransparency } from "../Functions/Transparency/logToTransparency";
+import { deleteFilesByFileHash } from "/Functions/FileDeletion/deleteFiles";
+import { query } from "/Functions/database";
+import { logToTransparency } from "/Functions/Transparency/logToTransparency";
 import cron from "node-cron";
 
 const uploadDestination   = process.env.UPLOAD_DESTINATION;

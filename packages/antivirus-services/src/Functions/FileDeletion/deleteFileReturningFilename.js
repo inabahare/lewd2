@@ -1,5 +1,4 @@
-import { query } from "../database";
-
+import { query } from "/Functions/database";
 
 async function deleteFileByHashReturningFilename(fileHash) {
     if (!fileHash) {

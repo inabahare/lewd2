@@ -1,6 +1,6 @@
 import fs            from "fs";
 import { promisify } from "util";
-import { query } from "../database";
+import { query } from "/Functions/database";
 import path from "path";
 
 require("dotenv").config();
