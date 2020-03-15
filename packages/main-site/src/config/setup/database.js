@@ -1,4 +1,3 @@
-import { query } from "/Functions/database";
 import { User } from "/DataAccessObjects";
 
 class Database {
