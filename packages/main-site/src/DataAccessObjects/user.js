@@ -3,6 +3,11 @@ import { v1 as uuidv1 } from "uuid";
 import bcrypt from "bcrypt";
 
 export class User {
+  /**
+   * Returns true if a user is found with the same username
+   * @param {string} username 
+   * @returns {boolean} existence
+   */
   static async CheckIfUserExists (username) {
     if (!username) {
       throw Error ("Username needs to be set");
