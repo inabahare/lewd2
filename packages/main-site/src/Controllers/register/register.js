@@ -1,12 +1,13 @@
-import { query } from "/Functions/database"; 
+import { query } from "/Functions/database";
 import bcrypt from "bcrypt";
 import { check, validationResult } from "express-validator/check";
 import { getTokenData, checkTokenDataForErrors} from "/Functions/Register/tokenData";
 import { checkIfUsernameNotExists } from "/Functions/Register/checkIfUsernameExists";
 import uuid from "uuid/v1";
+import { User } from "/DataAccessObjects";
 
 // Are the password and password checker identical?
-const isPasswordsIdentical = (value, { req }) => {
+const isPasswordsIdentical = (value, { req }) => { // TODO: Make it's own function
     if (req.body["password"] !== req.body["password-check"]) {
         throw new Error("Passwords do not match");
     } else {
@@ -19,7 +20,7 @@ async function get(req, res) {
     // Get token data
     const tokenData      = await getTokenData(req.params.token);
     const tokenIsInvalid =  checkTokenDataForErrors(tokenData);
-    
+
     // Report errors
     if (tokenIsInvalid) {
         req.session.err = tokenIsInvalid;
@@ -40,17 +41,16 @@ async function post(req, res) {
     // Get token data
     const tokenData      = await getTokenData(req.body.token);
     const tokenIsInvalid =  checkTokenDataForErrors(tokenData);
-    
+
     // Report errors
     if (tokenIsInvalid) {
         req.session.err = tokenIsInvalid;
         return res.redirect("/register/" + req.body.token);
     }
-    
+
     ////////////////////////
     // Catch input errors //
     ////////////////////////
-    
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         req.session.err = errors.array();
@@ -58,39 +58,28 @@ async function post(req, res) {
     }
 
     //////////////////////////
-    // Check if user exists // 
+    // Check if user exists //
     //////////////////////////
-    const getUser = await query(`SELECT username FROM "Users" WHERE username = $1;`, [req.body.username]);
-    
-    if (getUser) {
+    const userExists = await User.CheckIfUserExists(req.body.username);
+
+    if (userExists) {
         return res.redirect("/register/" + req.body.token);
     }
 
     //////////////
     // Add user //
     //////////////
-    const username = req.body.username;
-    const password = await bcrypt.hash(req.body.password, parseInt(process.env.BCRYPT_SALT_ROUNDS));
-    const token    = uuid();
+    const data = {
+        username: req.body.username,
+        password: req.body.password,
+        uploadSize: tokenData.uploadsize,
+        isAdmin: tokenData.isadmin
+    };
 
-    const roleid     = req.body.roleid;
-    const uploadSize = tokenData.uploadsize;
-    const isAdmin    = tokenData.isadmin;
-
-    const data = [
-        username, 
-        password, 
-        token, 
-        roleid, 
-        uploadSize,
-        isAdmin
-    ];
-
-    await query(`INSERT INTO "Users" (username, password, token, roleid, uploadsize, isadmin, "TokenGenerated")
-                    VALUES ($1, $2, $3, $4, $5, $6, NOW());`, data);
+    await User.Create(data);
 
     await query(`DELETE FROM "RegisterTokens" WHERE token = $1;`, [req.body.token]);
-    
+
 
     req.flash("userAdded", "You are now ready to sign in");
     res.redirect("/");
