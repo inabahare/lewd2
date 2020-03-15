@@ -1,7 +1,7 @@
-import crypto                      from "crypto";
+import crypto from "crypto";
 import { check, validationResult } from "express-validator/check";
-import { query } from "../../Functions/database";
-import formatUploadSize            from "../../Functions/Token/formatUploadSize";
+import { query } from "/Functions/database";
+import formatUploadSize from "/Functions/Token/formatUploadSize";
 
 function get(req, res) {
     res.render("user", {

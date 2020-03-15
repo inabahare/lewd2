@@ -1,4 +1,4 @@
-import { query } from "../../Functions/database";
+import { query } from "/Functions/database";
 
 /**
  * Gets the user currently logged in

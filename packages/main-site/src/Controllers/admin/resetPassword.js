@@ -1,7 +1,7 @@
 import { check, validationResult } from "express-validator/check";
-import crypto                      from "crypto";
-import { query } from "../../Functions/database";
-import { checkIfUsernameExists }   from "../../Functions/Register/checkIfUsernameExists";
+import crypto from "crypto";
+import { query } from "/Functions/database";
+import { checkIfUsernameExists }   from "/Functions/Register/checkIfUsernameExists";
 
 function get(req, res) {
     res.render("user", {

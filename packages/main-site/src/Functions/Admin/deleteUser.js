@@ -1,5 +1,5 @@
-import { query } from "../../Functions/database";
-import removeFiles from "../FileDeletion/deleteFiles";
+import { query } from "/Functions/database";
+import removeFiles from "/Functions/FileDeletion/deleteFiles";
 
 /**
  * Purges user and the users login tokens

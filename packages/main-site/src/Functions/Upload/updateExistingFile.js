@@ -1,4 +1,4 @@
-import { query } from "../../Functions/database";
+import { query } from "/Functions/database";
 import { promisify } from "util";
 import fs            from "fs";
 

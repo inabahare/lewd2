@@ -1,5 +1,5 @@
-import { query } from "../../Functions/database";
-import { convertNumberToBestByteUnit } from "../convertNumberToBestByteUnit";
+import { query } from "/Functions/database";
+import { convertNumberToBestByteUnit } from "/Functions/convertNumberToBestByteUnit";
 
 
 /**

@@ -1,6 +1,6 @@
-import moment         from "moment";
-import { getUploads } from "../../Functions/User/getUploads";
-import { convertNumberToBestByteUnit } from "../../Functions/convertNumberToBestByteUnit";
+import moment from "moment";
+import { getUploads } from "/Functions/User/getUploads";
+import { convertNumberToBestByteUnit } from "/Functions/convertNumberToBestByteUnit";
 
 async function get(req, res) {
     const uploads = await getUploads(res.locals.user.id);

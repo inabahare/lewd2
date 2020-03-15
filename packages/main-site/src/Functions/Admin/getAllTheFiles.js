@@ -1,4 +1,4 @@
-import { query } from "../../Functions/database";
+import { query } from "/Functions/database";
 
 async function getUploads() {
     const uploads = await query(`SELECT filename, size, originalname, uploaddate, duplicate, virus, passworded, deletionkey, "Users".username  

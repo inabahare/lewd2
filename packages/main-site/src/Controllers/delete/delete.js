@@ -1,5 +1,5 @@
-import deleteFiles   from "../../Functions/FileDeletion/deleteFiles";
-import { query } from "../../Functions/database";
+import deleteFiles   from "/Functions/FileDeletion/deleteFiles";
+import { query } from "/Functions/database";
 
 
 async function get(req, res) {

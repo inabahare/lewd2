@@ -2,7 +2,7 @@ import handlebars     from "express-handlebars";
 import path           from "path";
 import fs             from "fs";
 import moment         from "moment"; 
-import { convertNumberToBestByteUnit } from "../../Functions/convertNumberToBestByteUnit";
+import { convertNumberToBestByteUnit } from "/Functions/convertNumberToBestByteUnit";
 
 const randomNumber  = (x, y) =>  Math.floor((Math.random() * y) + x); 
 

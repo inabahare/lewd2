@@ -1,4 +1,4 @@
-import { getUsernameAndIdFromFileName } from "../../Functions/Admin/getUsernameAndIdFromFileName";
+import { getUsernameAndIdFromFileName } from "/Functions/Admin/getUsernameAndIdFromFileName";
 
 function get(req, res) {
     res.render("user", {

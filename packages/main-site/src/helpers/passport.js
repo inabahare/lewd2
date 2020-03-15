@@ -1,8 +1,8 @@
-import passport                      from "passport";
+import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import { query } from "../Functions/database";
-import bcrypt                        from "bcrypt";
-import crypto                        from "crypto";
+import { query } from "/Functions/database";
+import bcrypt from "bcrypt";
+import crypto from "crypto";
 
 const generateLoginToken = userid => crypto.createHash("sha1")
                                            .update(userid.toString() + Date.now().toString())

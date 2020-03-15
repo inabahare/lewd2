@@ -1,6 +1,6 @@
 import { check, validationResult } from "express-validator/check";
-import getUsers                    from "../../Functions/Admin/getUsers";
-import deleteUser                  from "../../Functions/Admin/deleteUser";
+import getUsers                    from "/Functions/Admin/getUsers";
+import deleteUser                  from "/Functions/Admin/deleteUser";
 
 
 async function get(req, res) {

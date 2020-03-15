@@ -1,4 +1,4 @@
-import { query } from "../database";
+import { query } from "/Functions/database";
 
 /**
  * In case the antivirus catches something, use this to log the caught stuff

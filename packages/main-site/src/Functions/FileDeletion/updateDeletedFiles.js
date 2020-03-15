@@ -1,4 +1,4 @@
-import { query } from "../../Functions/database";
+import { query } from "/Functions/database";
 
 export default async files => {
     files.forEach(file => {

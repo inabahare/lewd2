@@ -1,4 +1,4 @@
-import { database } from "../helpers/database";
+import { database } from "/helpers/database";
 
 /**
  * Query the database returning the rows or null if none found

@@ -1,10 +1,10 @@
-import index    from "../../Routes";
-import login    from "../../Routes/login";
-import upload   from "../../Routes/upload";
-import user     from "../../Routes/user";
-import register from "../../Routes/register";
-import deleter  from "../../Routes/delete"; // God damn reserved keywo~~rds
-import admin    from "../../Routes/admin";
+import index    from "/Routes";
+import login    from "/Routes/login";
+import upload   from "/Routes/upload";
+import user     from "/Routes/user";
+import register from "/Routes/register";
+import deleter  from "/Routes/delete"; // God damn reserved keywo~~rds
+import admin    from "/Routes/admin";
 
 
 class Routes {

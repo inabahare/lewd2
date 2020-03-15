@@ -1,5 +1,5 @@
-import { query } from "../../Functions/database"; 
-import moment                      from "moment";
+import { query } from "/Functions/database"; 
+import moment from "moment";
 import { check, validationResult } from "express-validator/check";
 import uuid from "uuid/v1";
 

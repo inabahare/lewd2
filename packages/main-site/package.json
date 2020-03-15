@@ -3,7 +3,7 @@
   "version": "2.0.1",
   "description": "Trying to \"microserviceify\" this",
   "main": "index.js",
-  "scripts": { 
+  "scripts": {
     "build": "parcel build src/index.js --target node --no-minify",
     "start": "node  -r dotenv/config ./dist/index.js dotenv_config_path=../../.env"
   },

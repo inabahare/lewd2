@@ -1,5 +1,5 @@
-import { getUploads } from "../../Functions/Admin/getAllTheFiles";
-import { convertNumberToBestByteUnit } from "../../Functions/convertNumberToBestByteUnit";
+import { getUploads } from "/Functions/Admin/getAllTheFiles";
+import { convertNumberToBestByteUnit } from "/Functions/convertNumberToBestByteUnit";
 import moment from "moment";
 
 

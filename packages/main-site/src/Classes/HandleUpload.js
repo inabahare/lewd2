@@ -1,12 +1,12 @@
 import fs                       from "fs";
 import { promisify }            from "util";
 import path                     from "path";
-import { getFilenameAndAmount } from "../Functions/Upload/getImageFilenameIfExists";
-import addImageToDatabase       from "../Functions/Upload/addImageToDatabase";
-import generateDeletionKey      from "../Functions/Upload/deletionKey";
-import symlink                  from "../Functions/Upload/symlink";
-import scan                     from "../Functions/Upload/scan";
- 
+import { getFilenameAndAmount } from "/Functions/Upload/getImageFilenameIfExists";
+import addImageToDatabase       from "/Functions/Upload/addImageToDatabase";
+import generateDeletionKey      from "/Functions/Upload/deletionKey";
+import symlink                  from "/Functions/Upload/symlink";
+import scan                     from "/Functions/Upload/scan";
+
 const unlink = promisify(fs.unlink);
 
 function FormatFileName(fileName) {

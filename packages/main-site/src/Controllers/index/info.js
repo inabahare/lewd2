@@ -1,5 +1,5 @@
-import { getStatistics } from "../../Functions/Info/getStatistics";
-import { getAmountOfDaysFilesAreStored } from "../../Functions/Info/getAmountOfDaysFilesAreStored";
+import { getStatistics } from "/Functions/Info/getStatistics";
+import { getAmountOfDaysFilesAreStored } from "/Functions/Info/getAmountOfDaysFilesAreStored";
 
 async function get(req, res) {
     let stats = null;

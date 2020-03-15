@@ -1,5 +1,5 @@
 import { check, validationResult } from "express-validator/check";
-import { updateUser }              from "../../Functions/Admin/updateUser";
+import { updateUser } from "/Functions/Admin/updateUser";
 
 
 async function post(req, res) {

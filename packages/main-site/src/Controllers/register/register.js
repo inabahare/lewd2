@@ -1,8 +1,8 @@
-import { query } from "../../Functions/database"; 
-import bcrypt                                   from "bcrypt";
-import { check, validationResult }              from "express-validator/check";
-import { getTokenData, checkTokenDataForErrors} from "../../Functions/Register/tokenData";
-import { checkIfUsernameNotExists }             from "../../Functions/Register/checkIfUsernameExists";
+import { query } from "/Functions/database"; 
+import bcrypt from "bcrypt";
+import { check, validationResult } from "express-validator/check";
+import { getTokenData, checkTokenDataForErrors} from "/Functions/Register/tokenData";
+import { checkIfUsernameNotExists } from "/Functions/Register/checkIfUsernameExists";
 import uuid from "uuid/v1";
 
 // Are the password and password checker identical?

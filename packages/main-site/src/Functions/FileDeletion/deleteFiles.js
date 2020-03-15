@@ -1,7 +1,7 @@
-import fs            from "fs";
+import fs from "fs";
 import { promisify } from "util";
-import path          from "path";
-import { query } from "../../Functions/database";
+import path from "path";
+import { query } from "/Functions/database";
 
 
 const unlink = promisify(fs.unlink);

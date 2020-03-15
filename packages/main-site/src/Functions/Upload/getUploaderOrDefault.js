@@ -1,5 +1,5 @@
 
-import { query } from "../../Functions/database";
+import { query } from "/Functions/database";
 
 /**
  * Take a token and get the 

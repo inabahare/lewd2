@@ -1,4 +1,4 @@
-import { query } from "../../Functions/database";
+import { query } from "/Functions/database";
 
 async function getUsernameAndIdFromFileName(fileName) {
     // In case nothing provided

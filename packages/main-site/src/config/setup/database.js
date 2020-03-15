@@ -1,7 +1,7 @@
-import { query } from "../../Functions/database";
+import { query } from "/Functions/database";
 import debug from "debug";
 import bcrypt from "bcrypt";
-import uuid from "uuid/v1";
+import { v1 as uuid } from "uuid";
 
 
 

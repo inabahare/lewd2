@@ -1,4 +1,4 @@
-import logToTransparency from "../../Functions/Transparency/logToTransparency";
+import getAllFromTransparency from "/Functions/Transparency/getAllFromTransparency";
 
 async function get(req, res) {
     const transparency = await getAllFromTransparency();

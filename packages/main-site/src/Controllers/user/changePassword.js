@@ -1,4 +1,4 @@
-import { query } from "../../Functions/database"; 
+import { query } from "/Functions/database"; 
 import bcrypt from "bcrypt";
 import { check, validationResult } from "express-validator/check";
 

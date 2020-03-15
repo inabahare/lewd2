@@ -1,7 +1,7 @@
 import multer from "multer";
-import { getUploader } from "../../Functions/Upload/getUploaderOrDefault";
-import renameFile      from "../../Functions/Upload/renameFile";
-import { HandleUpload } from "../../Classes/HandleUpload";
+import { getUploader } from "/Functions/Upload/getUploaderOrDefault";
+import renameFile      from "/Functions/Upload/renameFile";
+import { HandleUpload } from "/Classes/HandleUpload";
 
 
 // Pretty much just how shit needs to get stored

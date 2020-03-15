@@ -1,4 +1,4 @@
-import { query } from "../database";
+import { query } from "/Functions/database";
 
 const getAllFromTransparency = async () => {
     const getTransparency = await query(`SELECT "Date", "FileName", "FileHash", "Type", "Origin"

@@ -1,4 +1,4 @@
-import { query } from "../../Functions/database";
+import { query } from "/Functions/database";
 import moment   from "moment";
 
 const tokenError = error => [{

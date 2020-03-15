@@ -11,7 +11,6 @@ module.exports = {
     },
     "rules": {
         "indent": "off",
-        
         "linebreak-style": [
             "error",
             "unix"
@@ -25,7 +24,6 @@ module.exports = {
             "always"
         ],
         'no-console': 'off',
-        
         "quotes": ["error", "double", { "avoidEscape": true, "allowTemplateLiterals": true, }]
     }
 };

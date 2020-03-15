@@ -1,4 +1,4 @@
-import { query } from "../../Functions/database";
+import { query } from "/Functions/database";
 
 async function updateUser(userId, uploadSize, isAdmin) {
     await query(`UPDATE "Users" 

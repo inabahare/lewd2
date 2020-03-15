@@ -1,6 +1,6 @@
-import { query } from "../../Functions/database";
+import { query } from "/Functions/database";
 import { check, validationResult } from "express-validator/check";
-import bcrypt                      from "bcrypt";
+import bcrypt from "bcrypt";
 
 // /forgot-password/:token
 async function get(req, res) {
