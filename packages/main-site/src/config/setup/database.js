@@ -1,9 +1,5 @@
 import { query } from "/Functions/database";
-import debug from "debug";
-import bcrypt from "bcrypt";
-import { v1 as uuid } from "uuid";
-
-
+import { User } from "/DataAccessObjects";
 
 class Database {
     /**
@@ -14,33 +10,18 @@ class Database {
     }
 
     static async AddAdmin() {
-        this.AdminLog("Checking if admin exists");
-        const user = await query(`SELECT username FROM "Users" WHERE username = $1;`, [ process.env.ADMIN_DEFAULT_USERNAME ]);
-
-        if (!user) {
-            const passwordHashed = await bcrypt.hash(process.env.ADMIN_DEFAULT_PASSWORD, parseInt(process.env.BCRYPT_SALT_ROUNDS));
-            
-            this.AdminLog("Adding admin");
-            
-            const data = [
-                process.env.ADMIN_DEFAULT_USERNAME,
-                passwordHashed,
-                uuid(),
-                process.env.ADMIN_DEFAULT_UPLOAD_SIZE,
-                true
-            ];
-
-            await query(`INSERT INTO "Users" (username, password, token, uploadsize, isadmin)
-                            VALUES ($1, $2, $3, $4, $5);`, data);
-            this.AdminLog(`Admin added with '${process.env.ADMIN_DEFAULT_PASSWORD}' as password`);
+        const userExists = await User.CheckIfUserExists(process.env.ADMIN_DEFAULT_USERNAME);
+        
+        if (userExists) {
+            return;
         }
-        else {
-            this.AdminLog("Admin already exists");
-        }
-    }
 
-    static AdminLog(message) {
-        debug("Database")(message);
+        await User.Create({
+            username: process.env.ADMIN_DEFAULT_USERNAME,
+            password: process.env.ADMIN_DEFAULT_PASSWORD,
+            uploadSize: process.env.ADMIN_DEFAULT_UPLOAD_SIZE,
+            isAdmin: true
+        });
     }
 }
 
