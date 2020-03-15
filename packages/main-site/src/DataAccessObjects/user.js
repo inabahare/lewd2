@@ -17,6 +17,10 @@ export class User {
     return user.length === 1;
   }
   
+  /**
+   * Creates a user with the supplied arguments
+   * @param {{ username, password, uploadSize, isAdmin}} args 
+   */
   static async Create (args) {
     const { username, password, uploadSize, isAdmin} = args;
 
