@@ -1,9 +1,7 @@
 import { query } from "/Functions/database";
-import bcrypt from "bcrypt";
 import { check, validationResult } from "express-validator/check";
 import { getTokenData, checkTokenDataForErrors} from "/Functions/Register/tokenData";
 import { checkIfUsernameNotExists } from "/Functions/Register/checkIfUsernameExists";
-import uuid from "uuid/v1";
 import { User } from "/DataAccessObjects";
 
 // Are the password and password checker identical?
@@ -75,7 +73,7 @@ async function post(req, res) {
         uploadSize: tokenData.uploadsize,
         isAdmin: tokenData.isadmin
     };
-
+    
     await User.Create(data);
 
     await query(`DELETE FROM "RegisterTokens" WHERE token = $1;`, [req.body.token]);
