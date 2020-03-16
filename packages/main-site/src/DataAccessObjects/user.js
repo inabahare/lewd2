@@ -88,4 +88,24 @@ export class User {
     await query(`DELETE FROM "Users" WHERE id = $1;`, data);
     await query(`DELETE FROM "LoginTokens" WHERE userid = $1;`, data);
   }
+
+  /**
+   * Gets userid and username
+   * @param { string } fileName - The full name of the file saved on disk
+   * @returns { {userid, username} } - Simple user object
+   */
+  static async FindUser (fileName) {
+    if (!fileName || fileName.length === 0) {
+      throw Error ("Can not find user with empty file name");
+    }
+
+    const sql = `SELECT userid, username 
+                 FROM "Uploads", "Users" 
+                 WHERE "Uploads".userid = "Users".id 
+                 AND "filename" = $1 `;
+
+    const user = await query(sql, [ fileName ]);
+
+    return user;
+  }
 }
