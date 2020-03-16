@@ -1,5 +1,4 @@
 import { check, validationResult } from "express-validator/check";
-import deleteUser from "/Functions/Admin/deleteUser";
 import { User } from "/DataAccessObjects";
 
 async function get(req, res) {
@@ -20,10 +19,11 @@ async function post(req, res) {
     }
 
     // Get information about deletion
-    const userid      = parseInt(req.body.userid);
+    const userId = parseInt(req.body.userid);
     const deleteFiles = req.body.deleteFiles === "on";
 
-    await deleteUser(userid, deleteFiles);
+    await User.DeleteUser(userId, deleteFiles);
+
     req.flash("UserDeleted", `<i>${req.body.username}</i> has now been purged`);
     return res.redirect("/user/admin/view-users");
 }

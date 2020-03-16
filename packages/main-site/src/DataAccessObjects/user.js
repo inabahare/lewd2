@@ -1,6 +1,7 @@
 import { query } from "/Functions/database";
 import { v1 as uuidv1 } from "uuid";
 import bcrypt from "bcrypt";
+import removeFiles from "/Functions/FileDeletion/deleteFiles";
 
 export class User {
   /**
@@ -51,7 +52,7 @@ export class User {
   /**
    * @returns { Object } - All users
    */
-  static async GetAllUsers() {   
+  static async GetAllUsers () {   
     const sql = `
       SELECT "Users".id, username, uploadsize, isadmin, COUNT("Uploads".filesha) "amountOfUploads"
       FROM "Users"
@@ -63,5 +64,28 @@ export class User {
     const allUsers = await query(sql);
 
     return allUsers;
+  }
+
+  static async DeleteUser (userId, deleteFiles = false) {
+    if (!Number.isInteger (userId)) {
+      throw Error ("userId needs to be a number");
+    }
+
+    const data = [ userId ];
+
+    if (deleteFiles) { // TODO: Extract to it's own DAO
+      const getFiles = await query(`SELECT DISTINCT ON (filename) filename
+                                    FROM "Uploads" 
+                                    WHERE userid = $1 
+                                    AND filename NOT IN (SELECT filename FROM "Uploads" WHERE userid != $1);`, data);
+             
+      if (!getFiles) {
+          const files = getFiles.map(f => f.filename);
+          removeFiles(files);
+      }
+    }
+
+    await query(`DELETE FROM "Users" WHERE id = $1;`, data);
+    await query(`DELETE FROM "LoginTokens" WHERE userid = $1;`, data);
   }
 }
