@@ -47,4 +47,21 @@ export class User {
     await query(`INSERT INTO "Users" (username, password, token, uploadsize, isadmin)
                  VALUES ($1, $2, $3, $4, $5);`, data);
   }
+
+  /**
+   * @returns { Object } - All users
+   */
+  static async GetAllUsers() {   
+    const sql = `
+      SELECT "Users".id, username, uploadsize, isadmin, COUNT("Uploads".filesha) "amountOfUploads"
+      FROM "Users"
+      LEFT JOIN "Uploads" ON "Users".id = "Uploads".userid
+      GROUP BY "Users".id, username, uploadsize, isadmin
+      ORDER BY "Users".id;
+    `;
+
+    const allUsers = await query(sql);
+
+    return allUsers;
+  }
 }

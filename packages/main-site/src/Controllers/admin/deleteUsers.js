@@ -1,10 +1,9 @@
 import { check, validationResult } from "express-validator/check";
-import getUsers                    from "/Functions/Admin/getUsers";
-import deleteUser                  from "/Functions/Admin/deleteUser";
-
+import deleteUser from "/Functions/Admin/deleteUser";
+import { User } from "/DataAccessObjects";
 
 async function get(req, res) {
-    const users = await getUsers();
+    const users = await User.GetAllUsers();
 
     res.render("user", {
         menuItem: "view-users",
