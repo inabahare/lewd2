@@ -128,6 +128,10 @@ export class User {
 
   }
 
+  /**
+   * Gives the user a new password
+   * @param { { newPassword, userId} } args 
+   */
   static async ChangePassword (args) {
     const { newPassword, userId } = args;
 
