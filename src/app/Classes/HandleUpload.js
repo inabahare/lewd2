@@ -44,13 +44,13 @@ class HandleUpload {
         if (existingFile) { // If file has been uploaded and not deleted
             // This is to prevent too many hardlinks
             // The ++ is because existingFile.amount contains the amount in the database
-            if ((parseInt(existingFile.amount) + 1) > parseInt(process.env.UPLOAD_MAX_HARDLINKS)) {
+            if ((parseInt(existingFile[0].amount) + 1) > parseInt(process.env.UPLOAD_MAX_HARDLINKS)) {
                 this.res.status(500)
                      .send("Too many duplicates");
                 return;
             }
 
-            await this.fileExists(existingFile.filename, this.file.destination);
+            await this.fileExists(existingFile[0].filename, this.file.destination);
         } 
         else { // If file doesn't exist or has been deleted
             this.newFile(this.file);
@@ -79,7 +79,7 @@ class HandleUpload {
         } else {
             this.res.send(resultJson);
         }
-    }
+    } 
 
     /**
      * If the file already exists then remove the upload and add a symbolic link to the existing file
