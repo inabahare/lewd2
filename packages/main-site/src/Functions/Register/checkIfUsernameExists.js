@@ -23,7 +23,7 @@ const checkIfUsernameNotExists = value => {
 const checkIfUsernameExists = value => {
    return query(`SELECT username FROM "Users" WHERE username = $1;`, [value])
    .then(result => {
-      if (result.rows.length === 0)
+      if (!result || result.length === 0)
          return Promise.reject("aaaaaaa");
       
       return Promise.resolve();
