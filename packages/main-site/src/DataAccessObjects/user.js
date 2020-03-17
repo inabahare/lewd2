@@ -2,7 +2,6 @@ import { query } from "/Functions/database";
 import { v1 as uuidv1 } from "uuid";
 import bcrypt from "bcrypt";
 import removeFiles from "/Functions/FileDeletion/deleteFiles";
-import getUserDetails from "/Functions/User/getUserDetails";
 
 const BCRYPT_SALT_ROUNDS = parseInt(process.env.BCRYPT_SALT_ROUNDS);
 

@@ -1,6 +1,7 @@
 import { query } from "/Functions/database"; 
 import bcrypt from "bcrypt";
 import { check, validationResult } from "express-validator/check";
+import { User } from "/DataAccessObjects";
 
 // Are the password and password checker identical?
 const isPasswordsIdentical = (value, { req }) => {
@@ -33,11 +34,13 @@ async function post(req, res) {
         return res.redirect("/user");
     }
     
-    // Change password
-    const newPassword = await bcrypt.hash(req.body["new-password"], parseInt(process.env.BCRYT_SALT_ROUNDS));
+    const data = {
+        newPassword: req.body["new-password"],
+        userId: res.locals.user.id
+    };
 
-    await query(`UPDATE "Users" SET password = $1 WHERE id = $2;`, [newPassword, res.locals.user.id]);
-    
+    await User.ChangePassword(data);
+
     // Return
     req.flash("passwordChanged", "Your password has now been updated");
     return res.redirect("/user");
