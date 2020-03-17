@@ -109,7 +109,11 @@ export class User {
     return user;
   }
 
-  static async UpdateUser (args) {
+  /**
+   * Can be used to update some details about users
+   * @param { { userId, uploadSize, isAdmin }} args 
+   */
+  static async UpdateUserDetails (args) {
     const { userId, uploadSize, isAdmin } = args;
 
     const data = [
