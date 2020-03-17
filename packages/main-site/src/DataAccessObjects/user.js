@@ -108,4 +108,17 @@ export class User {
 
     return user;
   }
+
+  static async UpdateUser (args) {
+    const { userId, uploadSize, isAdmin } = args;
+
+    const data = [
+      userId, uploadSize, isAdmin
+    ];
+
+    await query(`UPDATE "Users" 
+                 SET uploadsize = $2, isadmin = $3
+                 WHERE id = $1`, data);
+
+  }
 }
