@@ -3,6 +3,8 @@ import { v1 as uuidv1 } from "uuid";
 import bcrypt from "bcrypt";
 import removeFiles from "/Functions/FileDeletion/deleteFiles";
 
+const BCRYPT_SALT_ROUNDS = parseInt(process.env.BCRYPT_SALT_ROUNDS);
+
 export class User {
   /**
    * Returns true if a user is found with the same username
@@ -34,7 +36,7 @@ export class User {
       throw Error("The user's username, password, and upload size cannot be blank");
     }
 
-    const passwordHashed = await bcrypt.hash(password, parseInt(process.env.BCRYPT_SALT_ROUNDS));
+    const passwordHashed = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
     const token = uuidv1();
 
     const data = [
@@ -124,5 +126,21 @@ export class User {
                  SET uploadsize = $2, isadmin = $3
                  WHERE id = $1`, data);
 
+  }
+
+  static async ChangePassword (args) {
+    const { newPassword, userId } = args;
+
+    if (!newPassword, !Number.isInteger(userId)) {
+      throw Error ("New passsword has to be set or userId has to be a number");
+    }
+
+    const newPasswordHashed = await bcrypt.hash(newPassword, BCRYPT_SALT_ROUNDS);
+
+    const data = [newPasswordHashed, userId];
+  
+    await query(`UPDATE "Users" 
+                 SET password = $1
+                 WHERE id = $2`,  data);
   }
 }

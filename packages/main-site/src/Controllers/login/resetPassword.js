@@ -1,6 +1,6 @@
 import { query } from "/Functions/database";
 import { check, validationResult } from "express-validator/check";
-import bcrypt from "bcrypt";
+import { User } from "/DataAccessObjects";
 
 // /forgot-password/:token
 async function get(req, res) {
@@ -35,6 +35,7 @@ async function post(req, res) {
         return res.redirect("/login/forgot-password/" + req.body.token);
     }
 
+    // TODO: No need to select username. It is not used
     const getUserInfo = await query(`SELECT id, username
                                     FROM "UpdatePasswordKeys", "Users"
                                     WHERE "UpdatePasswordKeys"."key" = $1
@@ -48,11 +49,14 @@ async function post(req, res) {
         return;
     }
     const user = getUserInfo[0];
-    const newPassword = await bcrypt.hash(req.body["new-password"], parseInt(process.env.BCRYPT_SALT_ROUNDS));
 
-    await query(`UPDATE "Users" 
-                 SET password = $1
-                 WHERE id = $2`,  [newPassword, user.id]);
+    const data = {
+        newPassword: req.body["new-password"],
+        userId: user.id
+    };
+
+    await User.ChangePassword(data);
+    
     // Clear login tokens
     await query(`DELETE FROM "LoginTokens"        WHERE  userid  = $1;`, [user.id]);
     await query(`DELETE FROM "UpdatePasswordKeys" WHERE "userId" = $1;`, [user.id]);
