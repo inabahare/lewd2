@@ -2,6 +2,7 @@ import { query } from "/Functions/database";
 import { v1 as uuidv1 } from "uuid";
 import bcrypt from "bcrypt";
 import removeFiles from "/Functions/FileDeletion/deleteFiles";
+import getUserDetails from "/Functions/User/getUserDetails";
 
 const BCRYPT_SALT_ROUNDS = parseInt(process.env.BCRYPT_SALT_ROUNDS);
 
@@ -146,5 +147,24 @@ export class User {
     await query(`UPDATE "Users" 
                  SET password = $1
                  WHERE id = $2`,  data);
+  }
+
+  /**
+   * For an upload is done. This could possibly be moved to the token DAO
+   * @param { string } token 
+   * @returns { {id, uploadSize } } - A simple user oibject
+   */
+  static async GetIdAndUploadSize (token) {
+    if (!token || token.length === 0) {
+      throw Error ("Token not supplied");
+    }
+
+    const sql = `SELECT id, uploadsize
+                 FROM "Users"
+                 WHERE token = $1;`;
+
+    const getData = await query(sql, [ token ]);
+
+    return getData ? getData[0] : getData;
   }
 }

@@ -2,6 +2,7 @@ import multer from "multer";
 import { getUploader } from "/Functions/Upload/getUploaderOrDefault";
 import renameFile      from "/Functions/Upload/renameFile";
 import { HandleUpload } from "/Classes/HandleUpload";
+import { User } from "/DataAccessObjects";
 
 
 // Pretty much just how shit needs to get stored
@@ -22,7 +23,7 @@ async function post(req, res) {
                   .send("You need to be signed in to upload");
     }
 
-    const uploader = await getUploader(req.headers.token);
+    const uploader = await User.GetIdAndUploadSize(req.headers.token);
     
     if (!uploader) {
         return res.status(400)
@@ -44,7 +45,7 @@ async function post(req, res) {
         const uploadHandler = new HandleUpload(req, res);
         await uploadHandler.HandleExistingFile();
               uploadHandler.AddDeletionKey();
-        await uploadHandler.AddImageToDatabase(uploader[0].id);
+        await uploadHandler.AddImageToDatabase(uploader.id);
 
         const resultJson = uploadHandler.GenerateResultJson(process.env.UPLOAD_LINK, process.env.SITE_LINK);
         uploadHandler.HandleSuccess(resultJson);
