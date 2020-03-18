@@ -2,6 +2,7 @@ import { query } from "/Functions/database";
 import { v1 as uuidv1 } from "uuid";
 import bcrypt from "bcrypt";
 import removeFiles from "/Functions/FileDeletion/deleteFiles";
+import { stringSetAndNotEmpty } from "/helpers/string-set-and-not-empty";
 
 const BCRYPT_SALT_ROUNDS = parseInt(process.env.BCRYPT_SALT_ROUNDS);
 
@@ -97,7 +98,7 @@ export class User {
    * @returns { {userid, username} } - Simple user object
    */
   static async FindUser (fileName) {
-    if (!fileName || fileName.length === 0) {
+    if (stringSetAndNotEmpty(fileName)) {
       throw Error ("Can not find user with empty file name");
     }
 
@@ -154,7 +155,7 @@ export class User {
    * @returns { {id, uploadSize } } - A simple user oibject
    */
   static async GetIdAndUploadSize (token) {
-    if (!token || token.length === 0) {
+    if (stringSetAndNotEmpty(token)) {
       throw Error ("Token not supplied");
     }
 
