@@ -1,24 +1,19 @@
-import deleteFiles   from "/Functions/FileDeletion/deleteFiles";
-import { query } from "/Functions/database";
-
+import { Uploads } from "/DataAccessObjects";
 
 async function get(req, res) {
     const deletionKey = req.params.key;
 
     // Find the file to be deleted
-    const getFileData = await query(`SELECT id, filename, filesha, duplicate 
-                                    FROM "Uploads"
-                                    WHERE deletionkey = $1;`, [deletionKey]);
+    const getFileData = await Uploads.GetFromDeletionKey(deletionKey);
     
-    const file = getFileData[0];
     // Do nothing if there is no file
-    if (!file) {
+    if (!getFileData) {
         return res.status(400)
                   .send("No file to delete, sorry");
     }
 
-    await deleteFiles([file.filename]);
-    res.send(`${file.filename} has just been deleted`);
+    await Uploads.DeleteFile(getFileData.filename);
+    res.send(`${getFileData.filename} has just been deleted`);
 }
 
 export { get };
