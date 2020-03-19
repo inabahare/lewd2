@@ -48,13 +48,18 @@ export class Uploads {
      await query(sql, [fileName]);
      await unlink(fullPath); // TODO: This might be a good idea to have as its own file
    }
-   static async DeleteFiles (files) {
-     if (!Array.isArray(files)) {
+
+   /**
+    * Takes a list of filenames and removes them
+    * @param { array } files 
+    */
+   static async DeleteFiles (fileNames) {
+     if (!Array.isArray(fileNames)) {
        throw Error ("You need to provide an array of filenames");
      }
 
-     for (const file of files) {
-      await this.DeleteFile(file);
+     for (const fileName of fileNames) {
+      await this.DeleteFile(fileName);
      }
    }
 }
