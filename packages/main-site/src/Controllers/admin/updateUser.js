@@ -23,7 +23,7 @@ async function post(req, res) {
         userId, uploadSize, isAdmin
     };
 
-    await User.UpdateUser(data);
+    await User.UpdateUserDetails(data);
 
     req.flash("UserUpdated", `The user <i>${req.body.username}</i> has been updated`);
     res.redirect("/user/admin/view-users");
