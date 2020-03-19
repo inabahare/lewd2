@@ -82,7 +82,7 @@ class HandleUpload {
         } else {
             this.res.send(resultJson);
         }
-    }
+    } 
 
     /**
      * If the file already exists then remove the upload and add a symbolic link to the existing file
