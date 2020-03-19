@@ -3,6 +3,6 @@
  * @param {string} str 
  */
 const stringSetAndNotEmpty = 
-  str => !str || str.length === 0;
+  str => !!str && str.length !== 0;
 
 export { stringSetAndNotEmpty };

@@ -13,7 +13,7 @@ export class User {
    * @returns {boolean} existence
    */
   static async CheckIfUserExists (username) {
-    if (!username) {
+    if (!stringSetAndNotEmpty(username)) {
       throw Error ("Username needs to be set");
     }
 
@@ -98,7 +98,7 @@ export class User {
    * @returns { {userid, username} } - Simple user object
    */
   static async FindUser (fileName) {
-    if (stringSetAndNotEmpty(fileName)) {
+    if (!stringSetAndNotEmpty(fileName)) {
       throw Error ("Can not find user with empty file name");
     }
 
@@ -155,7 +155,7 @@ export class User {
    * @returns { {id, uploadSize } } - A simple user oibject
    */
   static async GetIdAndUploadSize (token) {
-    if (stringSetAndNotEmpty(token)) {
+    if (!stringSetAndNotEmpty(token)) {
       throw Error ("Token not supplied");
     }
 
