@@ -1,7 +1,7 @@
 import { query } from "/Functions/database"; 
 import moment from "moment";
 import { check, validationResult } from "express-validator/check";
-import uuid from "uuid/v1";
+import { User } from "/DataAccessObjects";
 
 async function checkToken(value, { req }) {
     const dbData = await query(`SELECT token, "TokenGenerated" from "Users" WHERE id = $1 AND token = $2;`, [ parseInt(req.body.id), value ]);
@@ -33,9 +33,8 @@ async function post(req, res) {
     }
 
     const { token } = req.body;
-    const newUuid = uuid();
 
-    await query(`UPDATE "Users" SET token = $1, "TokenGenerated" = NOW() + '1 days'::INTERVAL WHERE token = $2`, [ newUuid, token ]);
+    await User.UpdateToken(token);
 
     req.flash("token", "Your token has been updated");
     return res.redirect("/user");
