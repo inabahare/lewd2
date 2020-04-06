@@ -167,15 +167,4 @@ export class User {
 
     return getData ? getData[0] : getData;
   }
-
-  static async UpdateToken (userToken) {
-    const newToken = uuidv1();
-
-    const sql = 
-      `UPDATE "Users" 
-       SET token = $1, "TokenGenerated" = NOW() + '1 days'::INTERVAL 
-       WHERE token = $2`;
-
-    await query(sql, [ newToken, userToken ]);
-  }
 }
