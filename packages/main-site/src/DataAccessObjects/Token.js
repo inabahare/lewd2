@@ -35,7 +35,7 @@ export class Token {
     return 0;
   }
 
-  static async UpdateToken (userToken) {
+  static async UpdateTokenToNew (previousToken) {
     const newToken = uuidv1();
 
     const sql = 
@@ -43,6 +43,6 @@ export class Token {
        SET token = $1, "TokenGenerated" = NOW() + '1 days'::INTERVAL 
        WHERE token = $2`;
 
-    await query(sql, [ newToken, userToken ]);
+    await query(sql, [ newToken, previousToken ]);
   }
 }

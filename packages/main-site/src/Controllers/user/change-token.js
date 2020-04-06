@@ -30,7 +30,7 @@ async function post(req, res) {
 
   const { token } = req.body;
 
-  await Token.UpdateToken(token);
+  await Token.UpdateTokenToNew(token);
 
   req.flash("token", "Your token has been updated");
   return res.redirect("/user");
