@@ -1,6 +1,4 @@
-import { query } from "/Functions/database"; 
-import bcrypt from "bcrypt";
-import { check, validationResult } from "express-validator/check";
+ import { check, validationResult } from "express-validator/check";
 import { User } from "/DataAccessObjects";
 
 // Are the password and password checker identical?
@@ -20,15 +18,13 @@ async function post(req, res) {
         return res.redirect("/user");
     }
 
-    // Get password
-    const getPassword = await query(`SELECT password 
-                                     FROM "Users" 
-                                     WHERE id = $1;`, [res.locals.user.id]);
-
-    const currentPassword = getPassword[0].password;
-
+    const checkData = {
+        userId: res.locals.user.id, 
+        password: req.body["old-password"]
+    };
     // Check for invalid password
-    const passwordCheck = await bcrypt.compare(req.body["old-password"], currentPassword);
+    const passwordCheck = await User.ComparePassword(checkData);
+    
     if (!passwordCheck) {
         req.flash("incorrectOldPassword", "Your old password is incorrect");
         return res.redirect("/user");

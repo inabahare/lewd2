@@ -130,6 +130,32 @@ export class User {
   }
 
   /**
+   * Checks if the tiven password is the same as the users
+   * @param { number } userId 
+   * @param { string } password 
+   */
+  static async ComparePassword (args) {
+    const { userId, password } = args;
+    const sql = 
+      `SELECT password 
+       FROM "Users" 
+       WHERE id = $1;`;
+
+
+    const getPassword = await query(sql, [userId]);
+
+    // They don't need to know the user wasn't found
+    if (!getPassword) {
+      return false;
+    }
+
+    const currentPassword = getPassword[0].password;
+    const passwordCheck = await bcrypt.compare(password, currentPassword);
+
+    return passwordCheck;
+  }
+
+  /**
    * Gives the user a new password
    * @param { { newPassword, userId} } args 
    */
