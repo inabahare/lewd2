@@ -16,7 +16,7 @@ const isPasswordsIdentical = (value, { req }) => { // TODO: Make it's own functi
 // /:token
 async function get(req, res) {
     // Get token data
-    const tokenData      = await getTokenData(req.params.token);
+    const tokenData      = await getTokenData(req.params.token); // TODO: Tokendata DAO
     const tokenIsInvalid =  checkTokenDataForErrors(tokenData);
 
     // Report errors
@@ -37,7 +37,7 @@ async function post(req, res) {
     // Catch token errors //
     ////////////////////////
     // Get token data
-    const tokenData      = await getTokenData(req.body.token);
+    const tokenData      = await getTokenData(req.body.token); // TODO: Tokendata DAO
     const tokenIsInvalid =  checkTokenDataForErrors(tokenData);
 
     // Report errors
@@ -76,7 +76,7 @@ async function post(req, res) {
     
     await User.Create(data);
 
-    await query(`DELETE FROM "RegisterTokens" WHERE token = $1;`, [req.body.token]);
+    await query(`DELETE FROM "RegisterTokens" WHERE token = $1;`, [req.body.token]); // TODO: Tokendata DAO
 
 
     req.flash("userAdded", "You are now ready to sign in");

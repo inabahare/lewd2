@@ -23,7 +23,7 @@ async function post(req, res) {
 
     await query(`INSERT INTO "UpdatePasswordKeys" ("key", "registered", "userId")
                  VALUES ($1, NOW(), (SELECT id FROM "Users" WHERE username = $2));`, 
-                 [key, req.body.username]);
+                 [key, req.body.username]); // TODO: Reset password key
                  
     req.flash("link", `${process.env.SITE_LINK}login/forgot-password/${key}`);
 

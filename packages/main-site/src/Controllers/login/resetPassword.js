@@ -10,7 +10,7 @@ async function get(req, res) {
                                     WHERE "UpdatePasswordKeys"."key" = $1
                                     AND registered > NOW() - '${process.env.HOW_OLD_PASSWORD_RESET_TOKENS_CAN_BE}'::INTERVAL
                                     AND "userId" = id;`, 
-                                    [ req.params.token ]);
+                                    [ req.params.token ]); // TODO: Password reset
     
     res.render("change-password", {
         user: getUserInfo.length === 0 ? null
@@ -41,7 +41,7 @@ async function post(req, res) {
                                     WHERE "UpdatePasswordKeys"."key" = $1
                                     AND registered > NOW() - '${process.env.HOW_OLD_PASSWORD_RESET_TOKENS_CAN_BE}'::INTERVAL
                                     AND "userId" = id;`, 
-                                    [ req.body.token ]);
+                                    [ req.body.token ]); // TODO: Password reset
 
     // If this is all bullshit
     if (getUserInfo.length === 0) {

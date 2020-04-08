@@ -27,7 +27,7 @@ async function post(req, res) {
     const data = [registerToken, false, uploadSize, isAdmin];
 
     await query(`INSERT INTO "RegisterTokens" (token, registered, used, uploadsize, isadmin)
-                 VALUES ($1, NOW(), $2, $3, $4);`, data);
+                 VALUES ($1, NOW(), $2, $3, $4);`, data); // TODO: Register token
 
     res.render("user", {
         menuItem: "token",
