@@ -19,4 +19,4 @@ const logToTransparency = async (fileName, fileHash, reason, origin) => {
                  VALUES (NOW(), $1, $2, $3, $4);`, data);
 };
 
-export { logToTransparency};
+export { logToTransparency };

@@ -45,8 +45,10 @@ export class Uploads {
        WHERE filename = $1 
        RETURNING filesha, duplicate;`;
 
-     await query(sql, [fileName]);
-     await unlink(fullPath); // TODO: This might be a good idea to have as its own file
+     const resultData = query(sql, [fileName]);
+     await unlink(fullPath);
+
+     return await resultData;
    }
 
    /**
@@ -61,5 +63,9 @@ export class Uploads {
      for (const fileName of fileNames) {
       await this.DeleteFile(fileName);
      }
+   }
+
+   static GetFullPath (fileName) {
+     return join(UPLOAD_DESTINATION, fileName);
    }
 }

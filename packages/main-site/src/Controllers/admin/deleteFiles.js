@@ -1,9 +1,6 @@
-import fs            from "fs";
-import { promisify } from "util";
-import { query } from "/Functions/database";
-import logToTransparency from "/Functions/Transparency/logToTransparency";
-
-const unlink = promisify(fs.unlink);
+import fs from "fs";
+import { logToTransparency } from "/Functions/Transparency/logToTransparency";
+import { Uploads } from "/DataAccessObjects";
 
 
 function get(req, res) {
@@ -22,20 +19,13 @@ async function post(req, res) {
     // Get array of filenames from link array
     const fileNames = linkArray.map(l => l.replace(process.env.UPLOAD_LINK, ""));
 
-    fileNames.forEach(async fileName => {
-        const fullFileName = process.env.UPLOAD_DESTINATION + fileName;
-
-        if (fs.existsSync(fullFileName)) {
-            await unlink(fullFileName);
-            const fileSha = await query(`DELETE FROM "Uploads"
-                    WHERE filename = $1 
-                    RETURNING filesha;`, [
-                fileName
-            ]);
-
-            await logToTransparency(fileName, fileSha[0].filesha, "Google/Katt does not approve", "Google/Katt");
+    for (const fileName of fileNames) {
+        const fullPath = Uploads.GetFullPath(fileName);
+        if (fs.existsSync(fullPath)) {
+            const deleteData = await Uploads.DeleteFile (fileName);
+            await logToTransparency(fileName, deleteData[0].filesha, "Google/Katt does not approve", "Google/Katt"); // TODO: Something about htis
         }
-    });
+    }
 
     res.redirect("/user/admin/remove-files");
 }
