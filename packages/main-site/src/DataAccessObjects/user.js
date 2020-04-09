@@ -162,9 +162,7 @@ export class User {
   static async ChangePassword (args) {
     const { newPassword, userId } = args;
 
-    if (!newPassword, !Number.isInteger(userId)) {
-      throw Error ("New passsword has to be set or userId has to be a number");
-    }
+    // TODO: Check newPassword and userId maybe
 
     const newPasswordHashed = await bcrypt.hash(newPassword, BCRYPT_SALT_ROUNDS);
 

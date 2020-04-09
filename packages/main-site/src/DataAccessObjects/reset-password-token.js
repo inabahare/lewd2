@@ -1,6 +1,8 @@
 import crypto from "crypto";
 import { query } from "/Functions/database";
 
+const { HOW_OLD_PASSWORD_RESET_TOKENS_CAN_BE } = process.env;
+
 export class ResetPasswordToken {
   static _GenerateKey () {
     return crypto.randomBytes(20)
@@ -18,5 +20,17 @@ export class ResetPasswordToken {
     await query(sql, [key, userName]);
     
     return key;
+  }
+
+  static async GetUserInfo (token) {
+    const sql = 
+      `SELECT "userId", "UpdatePasswordKeys"."key", username
+       FROM "UpdatePasswordKeys", "Users"
+       WHERE "UpdatePasswordKeys"."key" = $1
+       AND registered > NOW() - '${HOW_OLD_PASSWORD_RESET_TOKENS_CAN_BE}'::INTERVAL
+       AND "userId" = id;`;
+
+    const userInfo = await query(sql, [ token ]);
+    return userInfo ? userInfo[0] : null;
   }
 }

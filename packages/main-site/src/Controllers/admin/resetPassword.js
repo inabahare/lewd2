@@ -17,9 +17,8 @@ async function post(req, res) {
     }
 
     const key = await ResetPasswordToken.GenerateKey (req.body.username);
-                 
+    
     req.flash("link", `${process.env.SITE_LINK}login/forgot-password/${key}`);
-
     res.redirect("/user/admin/reset-password");
 }
 
