@@ -1,7 +1,6 @@
 import { check, validationResult } from "express-validator/check";
-import crypto from "crypto";
-import { query } from "/Functions/database";
 import { checkIfUsernameExists }   from "/Functions/Register/checkIfUsernameExists";
+import { ResetPasswordToken } from "/DataAccessObjects";
 
 function get(req, res) {
     res.render("user", {
@@ -17,13 +16,7 @@ async function post(req, res) {
         return res.redirect("/user/admin/reset-password");
     }
 
-    const key = crypto.randomBytes(20)
-                      .toString("hex")
-                      .slice(0, 20);
-
-    await query(`INSERT INTO "UpdatePasswordKeys" ("key", "registered", "userId")
-                 VALUES ($1, NOW(), (SELECT id FROM "Users" WHERE username = $2));`, 
-                 [key, req.body.username]); // TODO: Reset password key
+    const key = await ResetPasswordToken.GenerateKey (req.body.username);
                  
     req.flash("link", `${process.env.SITE_LINK}login/forgot-password/${key}`);
 
