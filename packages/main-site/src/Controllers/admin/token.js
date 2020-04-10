@@ -1,4 +1,3 @@
-import crypto from "crypto";
 import { check, validationResult } from "express-validator/check";
 import formatUploadSize from "/Functions/Token/formatUploadSize";
 import { RegisterToken } from "/DataAccessObjects";
