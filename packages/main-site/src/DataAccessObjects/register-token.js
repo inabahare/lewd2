@@ -26,8 +26,4 @@ export class RegisterToken {
     
     return registerToken;
   } 
-
-  static async Remove (userId) {
-    await query(`DELETE FROM "UpdatePasswordKeys" WHERE "userId" = $1;`, [userId]);
-  }
 }
