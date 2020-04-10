@@ -2,10 +2,12 @@ import { User } from "./user";
 import { Uploads } from "./uploads";
 import { Token } from "./Token";
 import { ResetPasswordToken } from "./reset-password-token";
+import { RegisterToken } from "./register-token";
 
 export { 
   User,
   Uploads,
   Token,
-  ResetPasswordToken
+  ResetPasswordToken,
+  RegisterToken
 };

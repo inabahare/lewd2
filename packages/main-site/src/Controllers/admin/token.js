@@ -1,7 +1,7 @@
 import crypto from "crypto";
 import { check, validationResult } from "express-validator/check";
-import { query } from "/Functions/database";
 import formatUploadSize from "/Functions/Token/formatUploadSize";
+import { RegisterToken } from "/DataAccessObjects";
 
 function get(req, res) {
     res.render("user", {
@@ -18,16 +18,12 @@ async function post(req, res) {
     }
 
     // Generate user information
-    const uploadSize    = formatUploadSize(req.body.size, req.body.unit);
-    const isAdmin       = req.body.isadmin === "on";
-    const registerToken = crypto.createHash("sha1")
-                                .update("You can register now" + Date.now().toString())
-                                .digest("hex");
+    const uploadSize = formatUploadSize(req.body.size, req.body.unit);
+    const isAdmin = req.body.isadmin === "on";
 
-    const data = [registerToken, false, uploadSize, isAdmin];
+    const data = { uploadSize, isAdmin };
 
-    await query(`INSERT INTO "RegisterTokens" (token, registered, used, uploadsize, isadmin)
-                 VALUES ($1, NOW(), $2, $3, $4);`, data); // TODO: Register token
+    const registerToken = await RegisterToken.Add(data);
 
     res.render("user", {
         menuItem: "token",
@@ -36,15 +32,17 @@ async function post(req, res) {
 }
 
 const validate = [
-    check("size").exists()   .withMessage("You need to set an upload size")
-                 .isNumeric().withMessage("Upload size must be a number")
-                 .isInt({
-                    gt: 1,
-                    lt: 9999
-                 }).withMessage("Upload size can't be less than 2 bytes or greater than 1TB (0.91TiB)"),
+    check("size")
+        .exists().withMessage("You need to set an upload size")
+        .isNumeric().withMessage("Upload size must be a number")
+        .isInt({
+            gt: 1,
+            lt: 9999
+        }).withMessage("Upload size can't be less than 2 bytes or greater than 1TB (0.91TiB)"),
 
-    check("unit").isLength({ min: 1, max: 3 }).withMessage("Upload unit needs to be a valid unit")
-                 .isIn([ "B", "kB", "MB", "GB", "KiB", "MiB", "GiB" ]).withMessage("Upload unit needs to be a valid unit")
+    check("unit")
+        .isLength({ min: 1, max: 3 }).withMessage("Upload unit needs to be a valid unit")
+        .isIn([ "B", "kB", "MB", "GB", "KiB", "MiB", "GiB" ]).withMessage("Upload unit needs to be a valid unit")
 ];
 
 export { get, post, validate };
