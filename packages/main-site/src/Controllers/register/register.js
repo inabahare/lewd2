@@ -1,4 +1,3 @@
-import { query } from "/Functions/database";
 import { check, validationResult } from "express-validator/check";
 import { checkTokenDataForErrors} from "/Functions/Register/tokenData";
 import { checkIfUsernameNotExists } from "/Functions/Register/checkIfUsernameExists";
