@@ -19,4 +19,12 @@ export class Transparency {
 
     await query(sql, data);
   }
+
+  static async GetAll () {
+    const sql = 
+      `SELECT "Date", "FileName", "FileHash", "Type", "Origin"
+       FROM "Transparency"`;
+
+    return await query(sql);
+  }
 }
