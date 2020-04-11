@@ -1,6 +1,6 @@
 import { query } from "/Functions/database";
 import { check, validationResult } from "express-validator/check";
-import { User, RegisterToken } from "/DataAccessObjects";
+import { User } from "/DataAccessObjects";
 import { ResetPasswordToken } from "/DataAccessObjects";
 
 // /forgot-password/:token
@@ -49,7 +49,7 @@ async function post(req, res) {
   
   // Clear login tokens
   query(`DELETE FROM "LoginTokens" WHERE userid = $1;`, [user.userId]);
-  RegisterToken.Remove (user.userId);
+  query(`DELETE FROM "UpdatePasswordKeys" WHERE "userId" = $1;`, [user.userId]);
 
   req.flash("userAdded", "Your password has been updated");
   res.redirect("/");

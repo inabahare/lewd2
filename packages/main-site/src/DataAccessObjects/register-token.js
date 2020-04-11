@@ -26,4 +26,24 @@ export class RegisterToken {
     
     return registerToken;
   } 
+
+  /**
+   * 
+   * @param {string} token 
+   * @returns { registered, used, roleid, uploadsize, isadmin } TokenData
+   */
+  static async GetTokenData (token) {
+    const sql = 
+      `SELECT registered, used, roleid, uploadsize, isadmin
+       FROM "RegisterTokens"
+       WHERE token = $1;`;
+    
+    const getClient = await query(sql, [token]);
+
+    return getClient ? getClient[0] : null;
+  }
+
+  static async Remove (token) {
+    await query(`DELETE FROM "RegisterTokens" WHERE token = $1;`, [token]);
+  }
 }
