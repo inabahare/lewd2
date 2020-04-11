@@ -1,6 +1,5 @@
 import fs from "fs";
-import { logToTransparency } from "/Functions/Transparency/logToTransparency";
-import { Uploads } from "/DataAccessObjects";
+import { Uploads, Transparency } from "/DataAccessObjects";
 
 
 function get(req, res) {
@@ -23,7 +22,15 @@ async function post(req, res) {
     const fullPath = Uploads.GetFullPath(fileName);
     if (fs.existsSync(fullPath)) {
       const deleteData = await Uploads.DeleteFile (fileName);
-      await logToTransparency(fileName, deleteData[0].filesha, "Google/Katt does not approve", "Google/Katt"); // TODO: Something about htis
+      
+      const transparencyData = {
+        fileName: fileName, 
+        fileHash: deleteData[0].filesha, 
+        reason: "Google/Katt does not approve", 
+        origin: "Google/Katt" // TODO: Softcode this
+      };
+
+      Transparency.Add(transparencyData);
     }
   }
 
