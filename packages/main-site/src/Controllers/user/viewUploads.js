@@ -1,9 +1,9 @@
 import moment from "moment";
-import { getUploads } from "/Functions/User/getUploads";
 import { convertNumberToBestByteUnit } from "/Functions/convertNumberToBestByteUnit";
+import { Uploads } from "/DataAccessObjects";
 
 async function get(req, res) {
-    const uploads = await getUploads(res.locals.user.id); // TODO: Uploads
+    const uploads = await Uploads.GetAllByUserId(res.locals.user.id); // TODO: Uploads
     let count = 0;
 
     // If there are dates then format them

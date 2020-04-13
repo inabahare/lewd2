@@ -68,4 +68,14 @@ export class Uploads {
    static GetFullPath (fileName) {
      return join(UPLOAD_DESTINATION, fileName);
    }
+
+   static async GetAllByUserId (userId) {
+    const sql = 
+    `SELECT filename, size, originalname, uploaddate, duplicate, virus, passworded, deletionkey  
+     FROM "Uploads" 
+     WHERE userid = $1
+     ORDER BY id DESC;`;
+
+    return await query(sql, [ userId ]);
+  }
 }
