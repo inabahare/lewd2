@@ -71,11 +71,21 @@ export class Uploads {
 
    static async GetAllByUserId (userId) {
     const sql = 
-    `SELECT filename, size, originalname, uploaddate, duplicate, virus, passworded, deletionkey  
-     FROM "Uploads" 
-     WHERE userid = $1
-     ORDER BY id DESC;`;
+      `SELECT filename, size, originalname, uploaddate, duplicate, virus, passworded, deletionkey  
+      FROM "Uploads" 
+      WHERE userid = $1
+      ORDER BY id DESC;`;
 
     return await query(sql, [ userId ]);
+  }
+
+  static async GetAllGroupedByUser () {
+    const sql = 
+      `SELECT filename, size, originalname, uploaddate, duplicate, virus, passworded, deletionkey, "Users".username  
+      FROM "Uploads", "Users"
+      WHERE "Uploads".userid = "Users".id
+      ORDER BY uploaddate DESC`;
+    
+    return await query(sql);
   }
 }
