@@ -1,6 +1,6 @@
 import { User } from "./user";
 import { Uploads } from "./uploads";
-import { Token } from "./Token";
+import { LoginToken } from "./login-token";
 import { ResetPasswordToken } from "./reset-password-token";
 import { RegisterToken } from "./register-token";
 import { Transparency } from "./transparency";
@@ -8,7 +8,7 @@ import { Transparency } from "./transparency";
 export { 
   User,
   Uploads,
-  Token,
+  LoginToken,
   ResetPasswordToken,
   RegisterToken,
   Transparency

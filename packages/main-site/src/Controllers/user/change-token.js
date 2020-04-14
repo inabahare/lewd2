@@ -1,10 +1,10 @@
 import { check, validationResult } from "express-validator/check";
-import { Token } from "/DataAccessObjects";
+import { LoginToken } from "/DataAccessObjects";
 
 async function checkToken(value, { req }) {
   const userId = parseInt(req.body.id);
 
-  const tokenValidation = await Token.CheckTokenValid(userId, value);
+  const tokenValidation = await LoginToken.CheckTokenValid(userId, value);
 
   if (tokenValidation === 0) {
     return Promise.resolve();
@@ -30,7 +30,7 @@ async function post(req, res) {
 
   const { token } = req.body;
 
-  await Token.UpdateTokenToNew(token);
+  await LoginToken.UpdateTokenToNew(token);
 
   req.flash("token", "Your token has been updated");
   return res.redirect("/user");

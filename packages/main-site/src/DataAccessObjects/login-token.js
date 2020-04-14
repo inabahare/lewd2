@@ -3,7 +3,7 @@ import { v1 as uuidv1 } from "uuid";
 import moment from "moment";
 
 
-export class Token {
+export class LoginToken {
   /**
    * Checks weather a token is valid or not
    * @param { number } userId 
