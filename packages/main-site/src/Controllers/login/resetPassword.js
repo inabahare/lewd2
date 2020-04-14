@@ -1,12 +1,12 @@
 import { query } from "/Functions/database";
 import { check, validationResult } from "express-validator/check";
 import { User } from "/DataAccessObjects";
-import { ResetPasswordToken } from "/DataAccessObjects";
+import { PasswordToken } from "/DataAccessObjects";
 
 // /forgot-password/:token
 async function get(req, res) {
   // Get user info
-  const userInfo = await ResetPasswordToken.GetUserInfo (req.params.token);
+  const userInfo = await PasswordToken.GetUserInfo (req.params.token);
   
   res.render("change-password", {
     user: userInfo
@@ -30,7 +30,7 @@ async function post(req, res) {
     return res.redirect("/login/forgot-password/" + req.body.token);
   }
 
-  const user = await ResetPasswordToken.GetUserInfo (req.body.token);
+  const user = await PasswordToken.GetUserInfo (req.body.token);
 
   // If this is all bullshit
   if (!user) {

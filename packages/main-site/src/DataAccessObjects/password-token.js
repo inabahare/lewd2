@@ -3,7 +3,7 @@ import { query } from "/Functions/database";
 
 const { HOW_OLD_PASSWORD_RESET_TOKENS_CAN_BE } = process.env;
 
-export class ResetPasswordToken {
+export class PasswordToken {
   static _GenerateKey () {
     return crypto.randomBytes(20)
                       .toString("hex")
@@ -32,5 +32,9 @@ export class ResetPasswordToken {
 
     const userInfo = await query(sql, [ token ]);
     return userInfo ? userInfo[0] : null;
+  }
+
+  static async Remove () {
+    
   }
 }
