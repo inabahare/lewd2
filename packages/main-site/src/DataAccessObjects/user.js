@@ -12,12 +12,12 @@ export class User {
    * @param {string} username 
    * @returns {boolean} existence
    */
-  static async CheckIfUserExists (username) {
+  static async CheckIfUserExists(username) {
     if (!stringSetAndNotEmpty(username)) {
-      throw Error ("Username needs to be set");
+      throw Error("Username needs to be set");
     }
 
-    const user = await query(`SELECT username FROM "Users" WHERE username = $1;`, [ username ]);
+    const user = await query(`SELECT username FROM "Users" WHERE username = $1;`, [username]);
 
     if (!user) {
       return false;
@@ -25,13 +25,13 @@ export class User {
 
     return user.length === 1;
   }
-  
+
   /**
    * Creates a user with the supplied arguments
    * @param {{ username, password, uploadSize, isAdmin}} args 
    */
-  static async Create (args) {
-    const { username, password, uploadSize, isAdmin} = args;
+  static async Create(args) {
+    const { username, password, uploadSize, isAdmin } = args;
 
     if (!username || !password || !uploadSize) {
       throw Error("The user's username, password, and upload size cannot be blank");
@@ -55,7 +55,7 @@ export class User {
   /**
    * @returns { Object } - All users
    */
-  static async GetAllUsers () {   
+  static async GetAllUsers() {
     const sql = `
       SELECT "Users".id, username, uploadsize, isadmin, COUNT("Uploads".filesha) "amountOfUploads"
       FROM "Users"
@@ -69,22 +69,22 @@ export class User {
     return allUsers;
   }
 
-  static async DeleteUser (userId, deleteFiles = false) {
-    if (!Number.isInteger (userId)) {
-      throw Error ("userId needs to be a number");
+  static async DeleteUser(userId, deleteFiles = false) {
+    if (!Number.isInteger(userId)) {
+      throw Error("userId needs to be a number");
     }
 
-    const data = [ userId ];
+    const data = [userId];
 
     if (deleteFiles) { // TODO: Extract to it's own DAO
       const getFiles = await query(`SELECT DISTINCT ON (filename) filename
                                     FROM "Uploads" 
                                     WHERE userid = $1 
                                     AND filename NOT IN (SELECT filename FROM "Uploads" WHERE userid != $1);`, data);
-             
+
       if (!getFiles) {
-          const files = getFiles.map(f => f.filename);
-          removeFiles(files);
+        const files = getFiles.map(f => f.filename);
+        removeFiles(files);
       }
     }
 
@@ -97,9 +97,9 @@ export class User {
    * @param { string } fileName - The full name of the file saved on disk
    * @returns { {userid, username} } - Simple user object
    */
-  static async FindUser (fileName) {
+  static async FindUser(fileName) { // TODO: Should probably be under Uploads
     if (!stringSetAndNotEmpty(fileName)) {
-      throw Error ("Can not find user with empty file name");
+      throw Error("Can not find user with empty file name");
     }
 
     const sql = `SELECT userid, username 
@@ -107,16 +107,25 @@ export class User {
                  WHERE "Uploads".userid = "Users".id 
                  AND "filename" = $1 `;
 
-    const user = await query(sql, [ fileName ]);
+    const user = await query(sql, [fileName]);
 
     return user;
+  }
+
+  static async CheckIfUsernameNotExists() {
+    const result = await this.CheckIfUserExists(username);
+
+    if (!result)
+      return Promise.resolve();
+
+    return Promise.reject();
   }
 
   /**
    * Can be used to update some details about users
    * @param { { userId, uploadSize, isAdmin }} args 
    */
-  static async UpdateUserDetails (args) {
+  static async UpdateUserDetails(args) {
     const { userId, uploadSize, isAdmin } = args;
 
     const data = [
@@ -134,9 +143,9 @@ export class User {
    * @param { number } userId 
    * @param { string } password 
    */
-  static async ComparePassword (args) {
+  static async ComparePassword(args) {
     const { userId, password } = args;
-    const sql = 
+    const sql =
       `SELECT password 
        FROM "Users" 
        WHERE id = $1;`;
@@ -159,7 +168,7 @@ export class User {
    * Gives the user a new password
    * @param { { newPassword, userId} } args 
    */
-  static async ChangePassword (args) {
+  static async ChangePassword(args) {
     const { newPassword, userId } = args;
 
     // TODO: Check newPassword and userId maybe
@@ -167,10 +176,10 @@ export class User {
     const newPasswordHashed = await bcrypt.hash(newPassword, BCRYPT_SALT_ROUNDS);
 
     const data = [newPasswordHashed, userId];
-  
+
     await query(`UPDATE "Users" 
                  SET password = $1
-                 WHERE id = $2`,  data);
+                 WHERE id = $2`, data);
   }
 
   /**
@@ -178,16 +187,16 @@ export class User {
    * @param { string } token 
    * @returns { {id, uploadSize } } - A simple user oibject
    */
-  static async GetIdAndUploadSize (token) {
+  static async GetIdAndUploadSize(token) {
     if (!stringSetAndNotEmpty(token)) {
-      throw Error ("Token not supplied");
+      throw Error("Token not supplied");
     }
 
     const sql = `SELECT id, uploadsize
                  FROM "Users"
                  WHERE token = $1;`;
 
-    const getData = await query(sql, [ token ]);
+    const getData = await query(sql, [token]);
 
     return getData ? getData[0] : getData;
   }

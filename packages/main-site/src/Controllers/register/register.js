@@ -1,5 +1,5 @@
 import { check, validationResult } from "express-validator/check";
-import { checkTokenDataForErrors} from "/Functions/Register/tokenData";
+import { checkTokenDataForErrors } from "/Functions/Register/tokenData";
 import { checkIfUsernameNotExists } from "/Functions/Register/checkIfUsernameExists";
 import { User, RegisterToken } from "/DataAccessObjects";
 
@@ -36,8 +36,8 @@ async function post(req, res) {
     // Catch token errors //
     ////////////////////////
     // Get token data
-    const tokenData      = await RegisterToken.GetTokenData(req.body.token);
-    const tokenIsInvalid =  checkTokenDataForErrors(tokenData);
+    const tokenData = await RegisterToken.GetTokenData(req.body.token);
+    const tokenIsInvalid = checkTokenDataForErrors(tokenData);
 
     // Report errors
     if (tokenIsInvalid) {
@@ -72,10 +72,10 @@ async function post(req, res) {
         uploadSize: tokenData.uploadsize,
         isAdmin: tokenData.isadmin
     };
-    
+
     await User.Create(data);
 
-    RegisterToken.Remove (req.body.token);
+    RegisterToken.Remove(req.body.token);
 
     req.flash("userAdded", "You are now ready to sign in");
     res.redirect("/");
@@ -83,18 +83,24 @@ async function post(req, res) {
 
 const validate = [
     check("token").isString().withMessage("Invalid token")
-                  .isLength({min: 10}).withMessage("Token too short"),
+        .isLength({ min: 10 }).withMessage("Token too short"),
 
-    check("username").isLength({min: 3, max: 30}).withMessage("Username needs to be between 3 and 30 characters long")
-                     .custom(checkIfUsernameNotExists).withMessage("Username already in use"),
+    check("username")
+        .isLength({ min: 3, max: 30 }).withMessage("Username needs to be between 3 and 30 characters long")
+        .custom(async userName => {
+            const result = await User.CheckIfUserExists(userName);
+            if (result)
+                return Promise.reject()
+            return Promise.resolve();
+        }).withMessage("Username already in use"),
 
     check("password").exists().withMessage("Please select a password")
-                     .isLength({min: 3, max: 72}).withMessage("Password needs to be between 3 and 72 characters long")
-                     .custom(isPasswordsIdentical),
+        .isLength({ min: 3, max: 72 }).withMessage("Password needs to be between 3 and 72 characters long")
+        .custom(isPasswordsIdentical),
 
     check("password-check").exists().withMessage("Please write the password once again")
-                           .isLength({min: 3, max: 72}).withMessage("The secondary password check also needs to be between 3 and 72 characters")
-                           .custom(isPasswordsIdentical)
+        .isLength({ min: 3, max: 72 }).withMessage("The secondary password check also needs to be between 3 and 72 characters")
+        .custom(isPasswordsIdentical)
 ];
 
 export { get, post, validate };

@@ -2,7 +2,7 @@ import express from "express";
 import path from "path";
 import flash from "express-flash";
 import fs from "fs";
-import frontEndError  from "./helpers/frontendErrorFormatter";
+import frontEndError from "./helpers/frontendErrorFormatter";
 import getUserDetails from "./Functions/User/getUserDetails";
 import passport from "./helpers/passport";
 
@@ -36,8 +36,8 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.locals.siteName   = process.env.SITE_NAME;
-app.locals.siteLink   = process.env.SITE_LINK;
+app.locals.siteName = process.env.SITE_NAME;
+app.locals.siteLink = process.env.SITE_LINK;
 app.locals.uploadLink = process.env.UPLOAD_LINK;
 app.locals.timeFileCanStayAlive = process.env.TIME_FILE_CAN_STAY_ALIVE;
 
@@ -52,7 +52,7 @@ app.use(async (req, res, next) => {
 
 // Set errors (if any)
 app.use((req, res, next) => {
-    if (req.session.err){
+    if (req.session.err) {
         res.locals.errors = frontEndError(req.session.err);
         delete req.session.err;
     }
@@ -61,7 +61,7 @@ app.use((req, res, next) => {
         res.locals.message = req.session.flash;
         delete req.session.flash;
     }
-    
+
     next();
 });
 
@@ -80,7 +80,7 @@ if (!fs.existsSync(process.env.UPLOAD_DESTINATION)) {
 ///////////////////
 // STARTUP SETUP //
 ///////////////////
-(async function() {
+(async function () {
     await Setup.Database.SetUp();
 })();
 
@@ -98,7 +98,7 @@ if (process.env.NODE_ENV === "production") {
         console.error(`Reason: `, reason);
         console.error("--------------------------");
         console.error(reason.stack);
-        
+
         console.error("--------------------------");
         console.error(p);
         console.error("</app.js>");
@@ -106,4 +106,4 @@ if (process.env.NODE_ENV === "production") {
     });
 }
 
-app.listen(parseInt(process.env.SITE_PORT), () => console.log(`It's up and running in ${process.env.NODE_ENV} mode :3`));
+app.listen(parseInt(process.env.SITE_PORT), () => console.log(`It's up and running in ${process.env.NODE_ENV} mode on port ${process.env.SITE_PORT} :3`));
