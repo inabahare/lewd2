@@ -1,13 +1,12 @@
-import { query } from "/Functions/database";
 import { check, validationResult } from "express-validator/check";
-import { User } from "/DataAccessObjects";
+import { User, LoginToken, UpdatePasswordKeys } from "/DataAccessObjects";
 import { PasswordToken } from "/DataAccessObjects";
 
 // /forgot-password/:token
 async function get(req, res) {
   // Get user info
-  const userInfo = await PasswordToken.GetUserInfo (req.params.token);
-  
+  const userInfo = await PasswordToken.GetUserInfo(req.params.token);
+
   res.render("change-password", {
     user: userInfo
   });
@@ -30,7 +29,7 @@ async function post(req, res) {
     return res.redirect("/login/forgot-password/" + req.body.token);
   }
 
-  const user = await PasswordToken.GetUserInfo (req.body.token);
+  const user = await PasswordToken.GetUserInfo(req.body.token);
 
   // If this is all bullshit
   if (!user) {
@@ -46,10 +45,11 @@ async function post(req, res) {
 
   // I don't really see any reason for awaiting these 
   User.ChangePassword(data);
-  
+
   // Clear login tokens
-  query(`DELETE FROM "LoginTokens" WHERE userid = $1;`, [user.userId]);
-  query(`DELETE FROM "UpdatePasswordKeys" WHERE "userId" = $1;`, [user.userId]);
+  // TODO: Remove query
+  LoginToken.DeleteUserTokens(user.userId);
+  UpdatePasswordKeys.DeleteUsersKeys(user.userId);
 
   req.flash("userAdded", "Your password has been updated");
   res.redirect("/");
@@ -58,14 +58,14 @@ async function post(req, res) {
 const validate = [
   check("new-password")
     .exists().withMessage("Please select a password")
-    .isLength({min: 2, max: 72}).withMessage("Password needs to be 2 characters long")
+    .isLength({ min: 2, max: 72 }).withMessage("Password needs to be 2 characters long")
     .custom(passwordCheck).withMessage("The two passwords must be the same"),
   check("password-check")
     .exists().withMessage("Please select a password")
-    .isLength({min: 2, max: 72}).withMessage("Password needs to be 2 characters long")
+    .isLength({ min: 2, max: 72 }).withMessage("Password needs to be 2 characters long")
     .custom(passwordCheck).withMessage("The two passwords must be the same"),
   check("token")
-    .exists().withMessage("You need to supply a valid token")                
+    .exists().withMessage("You need to supply a valid token")
 
 ];
 

@@ -10,16 +10,16 @@ export class LoginToken {
    * @param { string } token 
    * @returns { number } validCode - 0 if the token is valid. 1 if it doesn't exist. 2 if the token can't be regenerated due to time
    */
-  static async CheckTokenValid (userId, token) {
-    const sql = 
+  static async CheckTokenValid(userId, token) {
+    const sql =
       `SELECT token, "TokenGenerated" 
        FROM "Users" 
        WHERE id = $1 AND token = $2;`;
 
-    const dbData = await query(sql, [ userId, token ]);
-    
+    const dbData = await query(sql, [userId, token]);
+
     if (dbData.length !== 1) {
-        return 1;
+      return 1;
     }
 
     const { TokenGenerated } = dbData[0];
@@ -29,20 +29,24 @@ export class LoginToken {
     const tokeCantRegenerate = moment(TokenGenerated).isAfter(now);
 
     if (tokeCantRegenerate) {
-        return 2;
+      return 2;
     }
 
     return 0;
   }
 
-  static async UpdateTokenToNew (previousToken) {
+  static async UpdateTokenToNew(previousToken) {
     const newToken = uuidv1();
 
-    const sql = 
+    const sql =
       `UPDATE "Users" 
        SET token = $1, "TokenGenerated" = NOW() + '1 days'::INTERVAL 
        WHERE token = $2`;
 
-    await query(sql, [ newToken, previousToken ]);
+    await query(sql, [newToken, previousToken]);
+  }
+
+  static async DeleteUserTokens(userId) {
+    await query(`DELETE FROM "LoginTokens" WHERE userid = $1;`, [userId]);
   }
 }
