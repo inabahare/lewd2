@@ -1,16 +1,21 @@
-<!-- Limits -->
+<!-- Muh rights -->
 <section class="content">
-    <h2>What limits are there?</h2>
-    <p>Files are kept for {{{ timeFileCanStayAlive }}} after being uploaded.</p>
-    <p>Storage is only limited per file, and is specific for each user, but the default is 5 GiB.<br>
-    This means, in theory you could upload 1000x 5 GiB files and fill the server, but please don't.</p>
+    <h2>Terms of service etc</h2>
+    <ol>
+        <li>Don't be a cunt (see FAQ)</li>
+        <li>If you nevertheless choose to be a cunt your files will be nuked harder than Japan in 1945.</li>
+        <li>Your files are hosted on scrap metal in a closet in Sweden, you have absolutely no guarantees.</li>
+        <li>If you want files removed, contact me on discord with a good reason, USA laws is not a good reason.</li>
+    </ol>
+    
+
 </section>
 
 <!-- Statistics for nerds -->
 <section class="content">
     <h2>Some cool stats</h2>
     {{#if stats}}
-    <p>Serving {{ stats.totalUploads }} files totalling {{ stats.uploadSize }} {{stats.uploadUnit}}<br>
+    <p>Serving {{ stats.totalUploads }} files totalling {{ stats.uploadSize }} {{ stats.uploadUnit }}<br>
         Today there have been {{ stats.uploadsFromToday }} uploads<br>
         And on average there are {{ stats.averageFileCountPrDay }} uploads per day</p>
     {{else}}
@@ -22,23 +27,23 @@
 <section class="content">
     <h1>FAQ</h1>
 
-    <h2>How to get an invite</h2>
+    <h3>How to get an invite</h3>
     <p>You can apply in the #apply channel on Discord, you will then have to wait for an admin to review your
         application.<br>
         If you haven't gotten a reply within 24 hours give katt a nudge.</p>
 
-    <h2>What gets my access revoked?</h2>
-    <p>If you're caught uploading malware, CP or any other retarded shit your account will be terminated.<br>
-        Excessive amounts of Google bitching at me about your uploads will also get you banned.</p>
+    <h3>What qualifies as being a cunt?</h3>
+    <ul>
+        <li>Uploading malware</li>
+        <li>Uploading illegal shit</li>
+        <li>Intentionally fucking up the server</li>
+        <li>Anything else that makes katt mad</li>
+    </ul>
 
-    <h2>I forgot my password</h2>
-    <p>Send a DM to katt using the same account you applied with, and you'll get a reset key.</p>
+    <h3>I forgot my password</h3>
+    <p>Send a DM to katt using the same account you applied with.</p>
 
-    <h2>I've found a bug, missing feature etc!</h2>
+    <h3>I've found a bug, missing feature etc!</h3>
     <p>Please submit a ticket at GitHub describing the best you can what's going on and what <b>should</b> be going on.
     </p>
-
-    <h2>ShareX doesn't work and I'm running Windows 7 or 8</h2>
-    <p>Known problem, upgrade to Linux or sell your soul to Windows 10.<br>
-        If you decide to go against the above options, try uploading via website or curl.</p>
 </section>
