@@ -4,10 +4,12 @@ import { LoginToken } from "./login-token";
 import { PasswordToken } from "./password-token";
 import { RegisterToken } from "./register-token";
 import { Transparency } from "./transparency";
+import { UpdatePasswordKeys } from "./update-password-keys";
 
-export { 
+export {
   User,
   Uploads,
+  UpdatePasswordKeys,
   LoginToken,
   PasswordToken,
   RegisterToken,
