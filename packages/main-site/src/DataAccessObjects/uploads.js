@@ -55,6 +55,19 @@ export class Uploads {
     return getFileData[0];
   }
 
+  static async GetFilenameAndCount(fileHash) {
+    const sql =
+      `SELECT 
+        filename, 
+        (SELECT COUNT(filesha) FROM "Uploads" WHERE filesha = $1) amount  
+      FROM "Uploads" 
+      WHERE filesha = $1 
+        AND deleted = FALSE 
+        AND duplicate = false;`
+    const file = await query(sql, [fileHash]);
+    return checkFile;
+  }
+
   /**!
    * Takes a filename and deletes that file from the database and disk.
    * Does not remove duplicates

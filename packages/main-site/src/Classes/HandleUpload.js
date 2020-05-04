@@ -1,8 +1,6 @@
 import fs from "fs";
 import { promisify } from "util";
 import path from "path";
-import { getFilenameAndAmount } from "/Functions/Upload/getImageFilenameIfExists";
-import addImageToDatabase from "/Functions/Upload/addImageToDatabase";
 import generateDeletionKey from "/Functions/Upload/deletionKey";
 import symlink from "/Functions/Upload/symlink";
 import scan from "/Functions/Upload/scan";
@@ -40,7 +38,7 @@ class HandleUpload {
     }
 
     async HandleExistingFile() {
-        const existingFile = await getFilenameAndAmount(this.file.hash);
+        const existingFile = await Uploads.GetFilenameAndCount(this.file.hash);
 
         if (existingFile) {
             const file = existingFile[0];
