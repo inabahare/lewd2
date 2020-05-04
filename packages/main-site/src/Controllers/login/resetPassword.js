@@ -47,7 +47,6 @@ async function post(req, res) {
   User.ChangePassword(data);
 
   // Clear login tokens
-  // TODO: Remove query
   LoginToken.DeleteUserTokens(user.userId);
   UpdatePasswordKeys.DeleteUsersKeys(user.userId);
 
