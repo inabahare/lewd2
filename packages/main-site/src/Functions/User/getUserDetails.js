@@ -1,6 +1,4 @@
-import { query } from "/Functions/database";
 import { LoginToken, User } from "/DataAccessObjects";
-
 
 /**
  * Gets the user currently logged in
