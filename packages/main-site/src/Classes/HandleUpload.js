@@ -1,17 +1,17 @@
-import fs                       from "fs";
-import { promisify }            from "util";
-import path                     from "path";
+import fs from "fs";
+import { promisify } from "util";
+import path from "path";
 import { getFilenameAndAmount } from "/Functions/Upload/getImageFilenameIfExists";
-import addImageToDatabase       from "/Functions/Upload/addImageToDatabase";
-import generateDeletionKey      from "/Functions/Upload/deletionKey";
-import symlink                  from "/Functions/Upload/symlink";
-import scan                     from "/Functions/Upload/scan";
+import addImageToDatabase from "/Functions/Upload/addImageToDatabase";
+import generateDeletionKey from "/Functions/Upload/deletionKey";
+import symlink from "/Functions/Upload/symlink";
+import scan from "/Functions/Upload/scan";
 
 const unlink = promisify(fs.unlink);
 
 function FormatFileName(fileName) {
     return encodeURI(fileName);
-           // .replace(/'/g, "%27");
+    // .replace(/'/g, "%27");
 }
 
 class HandleUpload {
@@ -41,7 +41,7 @@ class HandleUpload {
     async HandleExistingFile() {
         const existingFile = await getFilenameAndAmount(this.file.hash);
 
-        if (existingFile) { 
+        if (existingFile) {
             const file = existingFile[0];
 
             // If file has been uploaded and not deleted
@@ -49,12 +49,12 @@ class HandleUpload {
             // The ++ is because existingFile.amount contains the amount in the database
             if ((parseInt(file.amount) + 1) > parseInt(process.env.UPLOAD_MAX_HARDLINKS)) {
                 this.res.status(500)
-                     .send("Too many duplicates");
+                    .send("Too many duplicates");
                 return;
             }
 
             await this.fileExists(file.filename, this.file.destination);
-        } 
+        }
         else { // If file doesn't exist or has been deleted
             this.newFile(this.file);
         }
@@ -90,12 +90,12 @@ class HandleUpload {
      * @param {*} existingFileName 
      */
     async fileExists(existingFileName) {
-        const currentFilePath  = path.join(this.file.destination, this.file.filename);
+        const currentFilePath = path.join(this.file.destination, this.file.filename);
         const existingFilePath = path.join(this.file.destination, existingFileName);
 
         await unlink(currentFilePath);
         await symlink(existingFilePath, currentFilePath);
-        
+
         this.file.duplicate = true;
     }
 
@@ -112,7 +112,7 @@ class HandleUpload {
     static HandleError(uploadSize, err) {
         if (err.message === "File too large") {
             return this.res.status(400)
-                           .send(`You can't upload more than ${uploadSize / 1000} kB`);
+                .send(`You can't upload more than ${uploadSize / 1000} kB`);
         }
         return err;
     }
