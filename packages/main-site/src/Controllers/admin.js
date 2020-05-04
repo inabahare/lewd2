@@ -6,9 +6,9 @@ import * as updateUser from "./admin/updateUser";
 import * as findUser from "./admin/findUser";
 import * as viewAllUploads from "./admin/viewAllUploads";
 
-export { 
-    token, 
-    resetPassword, 
+export {
+    token,
+    resetPassword,
     deleteUsers,
     deleteFiles,
     updateUser,
