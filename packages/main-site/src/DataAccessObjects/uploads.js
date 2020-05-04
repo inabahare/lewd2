@@ -22,7 +22,7 @@ export class Uploads {
       file.filename,
       file.originalname,
       file.hash,
-      userid,
+      userId,
       file.duplicate.toString(),
       deletionKey,
       file.size
