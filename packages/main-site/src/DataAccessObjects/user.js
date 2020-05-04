@@ -17,6 +17,17 @@ export class User {
     return user;
   }
 
+  static async GetUser(id) {
+    const sql =
+      `SELECT "Users".id, "Users".username, "Users".token, "Users".roleid, "Users".uploadsize, "Users".isadmin, "Users"."TokenGenerated"
+       FROM "Users"
+       WHERE "Users".id = $1`;
+
+    const user = await query(sql, [id]);
+
+    return user ? user[0] : null;
+  }
+
   /**
    * Returns true if a user is found with the same username
    * @param {string} username 

@@ -47,6 +47,13 @@ export class LoginToken {
     return 0;
   }
 
+  static async GetUserId(token) {
+    const sql =
+      `SELECT userid FROM "LoginTokens" WHERE token = $1 LIMIT 1;`
+    const userId = await query(sql, [token]);
+    return userId ? userId[0].userid : 0;
+  }
+
   static async UpdateTokenToNew(previousToken) {
     const newToken = uuidv1();
 

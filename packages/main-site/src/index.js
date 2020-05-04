@@ -3,7 +3,7 @@ import path from "path";
 import flash from "express-flash";
 import fs from "fs";
 import frontEndError from "./helpers/frontendErrorFormatter";
-import getUserDetails from "./Functions/User/getUserDetails";
+import { getUserDetails } from "./Functions/User/getUserDetails";
 import passport from "./helpers/passport";
 
 import { Routes } from "./config/app/Routes";
@@ -42,6 +42,7 @@ app.locals.uploadLink = process.env.UPLOAD_LINK;
 app.locals.timeFileCanStayAlive = process.env.TIME_FILE_CAN_STAY_ALIVE;
 
 // Set local user
+// TODO: Move somewhere else
 app.use(async (req, res, next) => {
     if (req.user) {
         res.locals.user = await getUserDetails(req.user);
