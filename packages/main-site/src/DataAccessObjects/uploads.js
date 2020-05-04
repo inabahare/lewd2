@@ -65,7 +65,7 @@ export class Uploads {
         AND deleted = FALSE 
         AND duplicate = false;`
     const file = await query(sql, [fileHash]);
-    return checkFile;
+    return file;
   }
 
   /**!
