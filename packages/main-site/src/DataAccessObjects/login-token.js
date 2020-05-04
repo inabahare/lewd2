@@ -4,6 +4,18 @@ import moment from "moment";
 
 
 export class LoginToken {
+  static async Add(args) {
+    const { userId, token } = args;
+    const data = [
+      token, userId
+    ]
+    const sql =
+      `INSERT INTO "LoginTokens" (token, registered, userid)
+       VALUES ($1, NOW(), $2);`;
+
+    await query(sql, data);
+  }
+
   /**
    * Checks weather a token is valid or not
    * @param { number } userId 

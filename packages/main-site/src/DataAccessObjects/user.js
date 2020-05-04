@@ -7,6 +7,16 @@ import { stringSetAndNotEmpty } from "/helpers/string-set-and-not-empty";
 const BCRYPT_SALT_ROUNDS = parseInt(process.env.BCRYPT_SALT_ROUNDS);
 
 export class User {
+  static async GetPaswordAndId(username) {
+    const sql =
+      `SELECT id, password 
+       FROM "Users" 
+       WHERE username = $1;`;
+
+    const user = await query(sql, [username]);
+    return user;
+  }
+
   /**
    * Returns true if a user is found with the same username
    * @param {string} username 
