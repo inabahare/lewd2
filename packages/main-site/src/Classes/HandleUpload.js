@@ -6,6 +6,7 @@ import addImageToDatabase from "/Functions/Upload/addImageToDatabase";
 import generateDeletionKey from "/Functions/Upload/deletionKey";
 import symlink from "/Functions/Upload/symlink";
 import scan from "/Functions/Upload/scan";
+import { Uploads } from "/DataAccessObjects";
 
 const unlink = promisify(fs.unlink);
 
@@ -61,7 +62,7 @@ class HandleUpload {
     }
 
     async AddImageToDatabase(userId) {
-        await addImageToDatabase(this.file, userId);
+        await Uploads.AddFile(this.file, userId);
     }
 
 
