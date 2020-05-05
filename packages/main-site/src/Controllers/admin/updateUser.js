@@ -1,4 +1,4 @@
-import { check, validationResult } from "express-validator/check";
+import { check, validationResult } from "express-validator";
 import { User } from "/DataAccessObjects";
 
 async function post(req, res) {

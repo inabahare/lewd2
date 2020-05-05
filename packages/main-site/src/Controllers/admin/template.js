@@ -1,5 +1,5 @@
 // import express                     from "express";
-// import { check, validationResult } from "express-validator/check";
+// import { check, validationResult } from "express-validator";
 // import crypto                      from "crypto";
 // import { promisify }               from "util";
 // import fs                          from "fs";

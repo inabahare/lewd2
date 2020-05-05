@@ -1,4 +1,4 @@
-import { check, validationResult } from "express-validator/check";
+import { check, validationResult } from "express-validator";
 import { LoginToken } from "/DataAccessObjects";
 
 async function checkToken(value, { req }) {
@@ -38,10 +38,10 @@ async function post(req, res) {
 
 const validate = [
   check("id").exists().withMessage("You must supply an id")
-             .isNumeric().withMessage("Invalid id"),
+    .isNumeric().withMessage("Invalid id"),
   check("token").exists().withMessage("You must supply a token")
-                .custom(checkToken)
-               
+    .custom(checkToken)
+
 ];
 
 export { post, validate }; 

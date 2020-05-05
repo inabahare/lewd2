@@ -1,4 +1,4 @@
-import { check, validationResult } from "express-validator/check";
+import { check, validationResult } from "express-validator";
 import { PasswordToken } from "/DataAccessObjects";
 import { User } from "/DataAccessObjects";
 

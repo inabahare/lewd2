@@ -1,4 +1,4 @@
-import { check, validationResult } from "express-validator/check";
+import { check, validationResult } from "express-validator";
 import { checkTokenDataForErrors } from "/Functions/Register/tokenData";
 import { User, RegisterToken } from "/DataAccessObjects";
 

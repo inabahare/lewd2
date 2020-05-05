@@ -1,7 +1,7 @@
 // import express from "express";
 // import { db } from "/helpers/database";
 // import passport from "/helpers/passport";
-// import { check, validationResult } from "express-validator/check";
+// import { check, validationResult } from "express-validator";
 // import bcrypt from "bcrypt";
 
 // function get(req, res) {

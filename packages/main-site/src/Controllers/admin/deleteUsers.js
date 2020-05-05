@@ -1,4 +1,4 @@
-import { check, validationResult } from "express-validator/check";
+import { check, validationResult } from "express-validator";
 import { User } from "/DataAccessObjects";
 
 async function get(req, res) {
@@ -29,8 +29,8 @@ async function post(req, res) {
 }
 
 const validate = [
-    check("userid").isInt()           .withMessage("The userid must be a number")
-                   .not().isIn([0, 1]).withMessage("These users cannot be removed")
+    check("userid").isInt().withMessage("The userid must be a number")
+        .not().isIn([0, 1]).withMessage("These users cannot be removed")
 
 ];
 
