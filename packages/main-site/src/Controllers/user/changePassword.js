@@ -43,14 +43,15 @@ async function post(req, res) {
 }
 
 const validate = [
-    check("old-password").exists().withMessage("Your old password is incorrect")
+    check("old-password")
+        .exists().withMessage("Your old password is incorrect")
         .isLength({ min: 3, max: 72 }).withMessage("Must be more than 3 characters long"),
-
-    check("new-password").exists().withMessage("Please supply a password")
+    check("new-password")
+        .exists().withMessage("Please supply a password")
         .isLength({ min: 3, max: 72 }).withMessage("Password needs to be 2 characters long")
         .custom(isPasswordsIdentical).withMessage("The provided passwords must be the same"),
-
-    check("password-check").exists().withMessage("Password checker is incorrect")
+    check("password-check")
+        .exists().withMessage("Password checker is incorrect")
         .isLength({ min: 3, max: 72 }).withMessage("Must be more than 3 characters long"),
 
 ];
