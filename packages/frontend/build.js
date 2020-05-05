@@ -19,12 +19,17 @@ const scssOptions = {
   watch: false,
 };
 
-const jsBundler = new Bundler (jsFiles, jsOptions);
-const cssBundler = new Bundler (scssFile, scssOptions);
+const jsBundler = new Bundler(jsFiles, jsOptions);
+const cssBundler = new Bundler(scssFile, scssOptions);
 
-(async function main () {
-  const js =  jsBundler.bundle();
-  const css = cssBundler.bundle();
+const bundlers = [
+  jsBundler,
+  cssBundler
+];
 
-  await Promise.all([js, css]);
-})();
+bundlers.forEach(async (bundler) => {
+  await new Promise(resolve => {
+    bundler.on('bundled', resolve)
+    bundler.bundle()
+  }).catch(e => { })
+})

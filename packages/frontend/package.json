@@ -4,7 +4,9 @@
   "description": "These are all the stylesheets and scripts for lewd.se",
   "main": "index.js",
   "scripts": {
-    "build": "node -r dotenv/config build.js dotenv_config_path=../../.env"
+    "build": "env dotenv_config_path=../../.env concurrently \"npm:build-js\" \"npm:build-css\"",
+    "build-js": "parcel build ./src/js/*.js --out-dir ./dist/js",
+    "build-css": "parcel build ./src/css/main.scss --out-dir ./dist/css"
   },
   "repository": {
     "type": "git",
@@ -17,15 +19,17 @@
   "dependencies": {
     "axios": "^0.19.2",
     "babel-polyfill": "^6.26.0",
-    "bulma": "^0.8.0",
+    "bulma": "^0.8.2",
     "bulmaswatch": "^0.7.5",
     "dotenv": "^8.2.0",
-    "parcel": "^1.12.4",
-    "parcel-bundler": "^1.12.4"
+    "parcel": "^1.12.4"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.9.6",
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
-    "sass": "^1.26.2"
+    "concurrently": "^5.2.0",
+    "parcel-bundler": "^1.12.4",
+    "sass": "^1.26.5"
   }
 }
