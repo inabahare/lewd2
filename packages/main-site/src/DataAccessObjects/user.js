@@ -147,16 +147,18 @@ export class User {
    * @param { { userId, uploadSize, isAdmin }} args 
    */
   static async UpdateUserDetails(args) {
-    const { userId, uploadSize, isAdmin } = args;
+    const { userId, username, uploadSize, isAdmin } = args;
 
     const data = [
-      userId, uploadSize, isAdmin
+      userId, username, uploadSize, isAdmin
     ];
 
-    await query(`UPDATE "Users" 
-                 SET uploadsize = $2, isadmin = $3
-                 WHERE id = $1`, data);
+    const sql =
+      `UPDATE "Users" 
+       SET username = $2, uploadsize = $3, isadmin = $4
+       WHERE id = $1`;
 
+    await query(sql, data);
   }
 
   /**

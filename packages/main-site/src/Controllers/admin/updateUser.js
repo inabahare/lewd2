@@ -9,18 +9,19 @@ async function post(req, res) {
         return res.redirect("/user/admin/view-users");
     }
 
-    const userId     = parseInt(req.body.id);
+    const username = req.body.username;
+    const userId = parseInt(req.body.id);
     const uploadSize = parseInt(req.body.uploadsize);
-    const isAdmin    = req.body.isadmin === "on";
+    const isAdmin = req.body.isadmin === "on";
 
     // This is just so no one fucks with the default admin user :p
     if (req.body.username === process.env.ADMIN_DEFAULT_USERNAME && !isAdmin) {
         req.flash("AdminRightsRemovedFromAdmin", "This dude needs to be admin");
         return res.redirect("/user/admin/view-users");
-    } 
+    }
 
     const data = {
-        userId, uploadSize, isAdmin
+        username, userId, uploadSize, isAdmin
     };
 
     await User.UpdateUserDetails(data);

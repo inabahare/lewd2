@@ -36,9 +36,8 @@
         <tr>
             <form action="/user/admin/update" method="POST" onsubmit="return saveCheck('{{{ this.username }}}')">
                 <input type="hidden" name="id" value="{{{ this.id }}}">
-                <input type="hidden" name="username" value="{{{ this.username }}}">
                 <td>{{{ this.id }}}</td>
-                <td>{{{ this.username }}}</td>
+                <td><input type="text" name="username" value="{{{ this.username }}}"></td>
                 <td>{{{ this.amountOfUploads }}}</td>
                 <td><input type="number" class="input" value="{{{ this.uploadsize }}}" maxlength="100"
                         name="uploadsize" /></td>
