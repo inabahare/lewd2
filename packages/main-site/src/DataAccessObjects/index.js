@@ -5,6 +5,7 @@ import { PasswordToken } from "./password-token";
 import { RegisterToken } from "./register-token";
 import { Transparency } from "./transparency";
 import { UpdatePasswordKeys } from "./update-password-keys";
+import { Statistics } from "./statistics";
 
 export {
   User,
@@ -13,5 +14,6 @@ export {
   LoginToken,
   PasswordToken,
   RegisterToken,
-  Transparency
+  Transparency,
+  Statistics
 };
