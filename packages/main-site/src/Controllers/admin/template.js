@@ -7,7 +7,6 @@
 // import formatUploadSize            from "/Functions/Token/formatUploadSize";
 // import getUsers                    from "/Functions/Admin/getUsers";
 // import deleteUser                  from "/Functions/Admin/deleteUser";
-// import logToTransparency           from "/Functions/Transparency/logToTransparency";
 // import { checkIfUsernameExists }   from "/Functions/Register/checkIfUsernameExists";
 
 

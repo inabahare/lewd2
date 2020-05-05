@@ -1,10 +1,10 @@
-import { getUploads } from "/Functions/Admin/getAllTheFiles";
 import { convertNumberToBestByteUnit } from "/Functions/convertNumberToBestByteUnit";
 import moment from "moment";
+import { Uploads } from "/DataAccessObjects";
 
 
 async function get(req, res) {
-    const uploads = await getUploads();
+    const uploads = await Uploads.GetAllGroupedByUser();
     let count = 0;
 
     // If there are dates then format them

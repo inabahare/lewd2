@@ -1,4 +1,5 @@
-import { getUsernameAndIdFromFileName } from "/Functions/Admin/getUsernameAndIdFromFileName";
+import { User } from "/DataAccessObjects";
+
 
 function get(req, res) {
     res.render("user", {
@@ -8,7 +9,7 @@ function get(req, res) {
 
 async function post(req, res) {
     const fileName = req.body.filename;
-    const uploaders = await getUsernameAndIdFromFileName(fileName);
+    const uploaders = await User.FindUser(fileName);
 
     res.render("user", {
         menuItem: "finduser",

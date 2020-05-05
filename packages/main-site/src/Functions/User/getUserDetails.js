@@ -1,26 +1,16 @@
-import { query } from "/Functions/database";
+import { LoginToken, User } from "/DataAccessObjects";
 
 /**
  * Gets the user currently logged in
  * @param {string} token If false the stock user will be returned
- */ 
-const getUserDetails = async loginToken => {
-    let userId = 0;
+ */
+export const getUserDetails = async loginToken => {
+    const userId = await LoginToken.GetUserId(loginToken);
 
-    const loginTokenCheck = await query(`SELECT userid FROM "LoginTokens" WHERE token = $1 LIMIT 1;`, [loginToken]);
-
-    if (loginTokenCheck)
-        userId = loginTokenCheck[0].userid;
-
-    const getUser = await query(`SELECT "Users".id, "Users".username, "Users".token, "Users".roleid, "Users".uploadsize, "Users".isadmin, "Users"."TokenGenerated"
-                                 FROM "Users"
-                                 WHERE "Users".id = $1`, [ userId ]);
-
-    if (!getUser)
+    if (userId === 0)
         return null;
 
-    
-    return getUser[0];
-};
+    const user = await User.GetUser(userId);
 
-export default getUserDetails;
+    return user;
+};

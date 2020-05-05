@@ -1,74 +1,70 @@
-import { query } from "/Functions/database";
 import { check, validationResult } from "express-validator/check";
-import bcrypt from "bcrypt";
+import { User, LoginToken, UpdatePasswordKeys } from "/DataAccessObjects";
+import { PasswordToken } from "/DataAccessObjects";
 
 // /forgot-password/:token
 async function get(req, res) {
-    // Get user info
-    const getUserInfo = await query(`SELECT "userId", "UpdatePasswordKeys"."key", username
-                                    FROM "UpdatePasswordKeys", "Users"
-                                    WHERE "UpdatePasswordKeys"."key" = $1
-                                    AND registered > NOW() - '${process.env.HOW_OLD_PASSWORD_RESET_TOKENS_CAN_BE}'::INTERVAL
-                                    AND "userId" = id;`, 
-                                    [ req.params.token ]);
-    
-    res.render("change-password", {
-        user: getUserInfo.length === 0 ? null
-                                       : getUserInfo[0]
-    });
+  // Get user info
+  const userInfo = await PasswordToken.GetUserInfo(req.params.token);
+
+  res.render("change-password", {
+    user: userInfo
+  });
 }
 
 const passwordCheck = (value, { req }) => {
-    if (req.body["new-password"] !== req.body["password-check"]) {
-        throw new Error("Passwords does not match");
-    } else {
-        return true;
-    }
+  if (req.body["new-password"] !== req.body["password-check"]) {
+    throw new Error("Passwords does not match");
+  } else {
+    return true;
+  }
 };
 
 // /reset-password
 async function post(req, res) {
-    const errors = validationResult(req);
+  const errors = validationResult(req);
 
-    if (!errors.isEmpty()) {
-        req.session.err = errors.array();
-        return res.redirect("/login/forgot-password/" + req.body.token);
-    }
+  if (!errors.isEmpty()) {
+    req.session.err = errors.array();
+    return res.redirect("/login/forgot-password/" + req.body.token);
+  }
 
-    const getUserInfo = await query(`SELECT id, username
-                                    FROM "UpdatePasswordKeys", "Users"
-                                    WHERE "UpdatePasswordKeys"."key" = $1
-                                    AND registered > NOW() - '${process.env.HOW_OLD_PASSWORD_RESET_TOKENS_CAN_BE}'::INTERVAL
-                                    AND "userId" = id;`, 
-                                    [ req.body.token ]);
+  const user = await PasswordToken.GetUserInfo(req.body.token);
 
-    // If this is all bullshit
-    if (getUserInfo.length === 0) {
-        res.send("Congratulations on finding the secret message. You have the honour of telling the developer that a proper error needs to be implemented.");
-        return;
-    }
-    const user = getUserInfo[0];
-    const newPassword = await bcrypt.hash(req.body["new-password"], parseInt(process.env.BCRYPT_SALT_ROUNDS));
+  // If this is all bullshit
+  if (!user) {
+    res.send("Congratulations on finding the secret message. You have the honour of telling the developer that a proper error needs to be implemented.");
+    return;
+  }
 
-    await query(`UPDATE "Users" 
-                 SET password = $1
-                 WHERE id = $2`,  [newPassword, user.id]);
-    // Clear login tokens
-    await query(`DELETE FROM "LoginTokens"        WHERE  userid  = $1;`, [user.id]);
-    await query(`DELETE FROM "UpdatePasswordKeys" WHERE "userId" = $1;`, [user.id]);
+  const data = {
+    newPassword: req.body["new-password"],
+    userId: user.userId
+  };
 
-    req.flash("userAdded", "Your password has been updated");
-    res.redirect("/");
+
+  // I don't really see any reason for awaiting these 
+  User.ChangePassword(data);
+
+  // Clear login tokens
+  LoginToken.DeleteUserTokens(user.userId);
+  UpdatePasswordKeys.DeleteUsersKeys(user.userId);
+
+  req.flash("userAdded", "Your password has been updated");
+  res.redirect("/");
 }
 
 const validate = [
-    check("new-password").exists().withMessage("Please select a password")
-                         .isLength({min: 2, max: 72}).withMessage("Password needs to be 2 characters long")
-                         .custom(passwordCheck).withMessage("The two passwords must be the same"),
-    check("password-check").exists().withMessage("Please select a password")
-                           .isLength({min: 2, max: 72}).withMessage("Password needs to be 2 characters long")
-                           .custom(passwordCheck).withMessage("The two passwords must be the same"),
-    check("token").exists().withMessage("You need to supply a valid token")                              
+  check("new-password")
+    .exists().withMessage("Please select a password")
+    .isLength({ min: 2, max: 72 }).withMessage("Password needs to be 2 characters long")
+    .custom(passwordCheck).withMessage("The two passwords must be the same"),
+  check("password-check")
+    .exists().withMessage("Please select a password")
+    .isLength({ min: 2, max: 72 }).withMessage("Password needs to be 2 characters long")
+    .custom(passwordCheck).withMessage("The two passwords must be the same"),
+  check("token")
+    .exists().withMessage("You need to supply a valid token")
 
 ];
 

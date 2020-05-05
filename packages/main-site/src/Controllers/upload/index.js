@@ -1,7 +1,7 @@
 import multer from "multer";
-import { getUploader } from "/Functions/Upload/getUploaderOrDefault";
-import renameFile      from "/Functions/Upload/renameFile";
+import renameFile from "/Functions/Upload/renameFile";
 import { HandleUpload } from "/Classes/HandleUpload";
+import { User } from "/DataAccessObjects";
 
 
 // Pretty much just how shit needs to get stored
@@ -13,23 +13,23 @@ const storageOptions = multer.diskStorage({
         const useShortUrl = req.headers.shorturl == "true";
         const newName = renameFile(file.originalname, useShortUrl);
         next(null, newName);
-    } 
+    }
 });
 
 async function post(req, res) {
     if (!req.headers.token) {
         return res.status(400)
-                  .send("You need to be signed in to upload");
+            .send("You need to be signed in to upload");
     }
 
-    const uploader = await getUploader(req.headers.token);
-    
+    const uploader = await User.GetIdAndUploadSize(req.headers.token);
+
     if (!uploader) {
         return res.status(400)
-                  .send("You need to be signed in to upload");
+            .send("You need to be signed in to upload");
     }
 
-    const upload = multer({ 
+    const upload = multer({
         storage: storageOptions,
         limits: {
             fileSize: uploader.uploadsize
@@ -43,8 +43,8 @@ async function post(req, res) {
 
         const uploadHandler = new HandleUpload(req, res);
         await uploadHandler.HandleExistingFile();
-              uploadHandler.AddDeletionKey();
-        await uploadHandler.AddImageToDatabase(uploader[0].id);
+        uploadHandler.AddDeletionKey();
+        await uploadHandler.AddImageToDatabase(uploader.id);
 
         const resultJson = uploadHandler.GenerateResultJson(process.env.UPLOAD_LINK, process.env.SITE_LINK);
         uploadHandler.HandleSuccess(resultJson);
