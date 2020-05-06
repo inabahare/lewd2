@@ -21,6 +21,10 @@ Views.SetDetails(app);
 // app.enable("view cache");
 // Static files
 if (process.env.NODE_ENV === "development") {
+    if (!process.env.PUBLIC_FOLDER_PATH) {
+        console.error("PUBLIC_FOLDER_PATH has not been set. Please check that the .env file exists in the project root and that PUBLIC_FOLDER_PATH has been set for development mode");
+    }
+
     const staticDir = path.join(__dirname, process.env.PUBLIC_FOLDER_PATH);
     console.log(`Serving files from: ${staticDir}`);
     app.use(express.static(staticDir));
