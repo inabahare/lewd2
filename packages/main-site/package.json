@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "env dotenv_config_path=../../.env parcel build src/index.js --target node --no-minify",
-    "start": "node -r dotenv/config ./dist/index.js "
+    "start": "env dotenv_config_path=../../.env node -r dotenv/config ./dist/index.js "
   },
   "author": "",
   "license": "ISC",
