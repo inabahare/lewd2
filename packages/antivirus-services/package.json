@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "parcel build src/index.js --target node --no-minify",
-    "start": "node  -r dotenv/config ./dist/index.js dotenv_config_path=../../.env"
+    "build": "env dotenv_config_path=../../.env parcel build src/index.js --target node --no-minify",
+    "start": "env dotenv_config_path=../../.env node  -r dotenv/config ./dist/index.js"
   },
   "repository": {
     "type": "git",
