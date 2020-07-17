@@ -9,14 +9,17 @@
       "request": "launch",
       "name": "Launch Main App",
       "preLaunchTask": "npm: build",
-      "program": "${workspaceFolder}/src/index.js",
+      "program": "${workspaceRoot}/dist/index.js",
+      "cwd": "${workspaceRoot}",
       "protocol": "inspector",
+      "runtimeExecutable": null,
       "sourceMaps": true,
       "outFiles": [
-        "${workspaceFolder}/dist/**/*.js"
+        "${workspaceRoot}/dist/**/*.js"
       ],
       "envFile": "${workspaceFolder}/../../.env",
       "runtimeArgs": [
+        "--nolazy",
         "--require=dotenv/config"
       ]
     }

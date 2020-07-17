@@ -12,7 +12,7 @@
     "build": "lerna run build --parallel",
     "install-dependencies": "lerna bootstrap",
     "start": "pm2 start ecosystem.config.js",
-    "stop": "pm2 stop ecosystem.config.js",
+    "stop": "pm2 stop ecosystem.config.js && pm2 kill",
     "monit": "pm2 monit"
   },
   "devDependencies": {

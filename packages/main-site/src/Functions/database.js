@@ -6,11 +6,11 @@ import { database } from "/helpers/database";
  * @param {Array} params 
  */
 async function query(sql, params = null) {
-  const client = await database.connect();
+  const client = await database.connect(); // This is where it fails
   const data = await client.query(sql, params);
   client.release();
 
-  if (data.rows.length === 0) 
+  if (data.rows.length === 0)
     return null;
 
   return data.rows;

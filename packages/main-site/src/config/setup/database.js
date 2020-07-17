@@ -10,7 +10,7 @@ class Database {
 
     static async AddAdmin() {
         const userExists = await User.CheckIfUserExists(process.env.ADMIN_DEFAULT_USERNAME);
-        
+
         if (userExists) {
             return;
         }
