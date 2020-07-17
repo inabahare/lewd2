@@ -69,7 +69,7 @@ class HandleUpload {
             "status": 200,
             "data": {
                 "link": uploadLink + FormatFileName(this.file.filename),
-                "deleteionURL": siteLink + "delete/" + this.file.deletionKey
+                "deletionUrl": siteLink + "delete/" + this.file.deletionKey
             }
         };
     }
@@ -81,7 +81,7 @@ class HandleUpload {
         } else {
             this.res.send(resultJson);
         }
-    } 
+    }
 
     /**
      * If the file already exists then remove the upload and add a symbolic link to the existing file

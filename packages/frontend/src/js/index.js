@@ -1,10 +1,10 @@
 import Dropzone from "./dropzone";
 
-const tokenContainer   = document.getElementById("token");
-const token            = tokenContainer.defaultValue;
+const tokenContainer = document.getElementById("token");
+const token = tokenContainer.defaultValue;
 
 const maxSizeContainer = document.getElementById("uploadSize");
-const maxUploadSize    = parseInt(maxSizeContainer.innerHTML) / 1000000; // Needs to be in Megabytes
+const maxUploadSize = parseInt(maxSizeContainer.innerHTML) / 1000000; // Needs to be in Megabytes
 
 // First definition of the short url
 const shortUrlButton = document.querySelector(".short-url");
@@ -21,7 +21,7 @@ const shortUrl = shortUrlButton.checked;
     <div class="dz-error-message"><span data-dz-errormessage></span></div>
 </div> */}
 
-const preview =`
+const preview = `
     <article class="message is-success">
         <div class="message-header">
             <p><span data-dz-name></span> <span data-dz-uploadprogress></span></p>
@@ -42,7 +42,7 @@ const dropZone = new Dropzone("#uploader", {
     headers: {
         token: token,
         shortUrl: shortUrl
-    }, 
+    },
     params: {
         test: "test"
     },
@@ -58,12 +58,12 @@ const getMessageBox =
     file => file.previewElement.children[1];
 
 dropZone.on("success", (file, response) => {
-    const uploadedURL   = response.data.link;
-    const deleteionURL  = response.data.deleteionURL;
-    
+    const uploadedUrl = response.data.link;
+    const deletionUrl = response.data.deletionUrl;
+
     const resultMessageBox = getMessageBox(file);
-    resultMessageBox.innerHTML = `<a href="${uploadedURL}" target="_blank">link</a> 
-                                  <a href="${deleteionURL}">Delete</a>`;
+    resultMessageBox.innerHTML = `<a href="${uploadedUrl}" target="_blank">link</a> 
+                                  <a href="${deletionUrl}">Delete</a>`;
 });
 
 dropZone.on("error", (file, error) => {
@@ -82,7 +82,7 @@ shortUrlButton.onclick = e => {
 };
 
 
-dropZone.on("uploadprogress",  (file, progress) => {
+dropZone.on("uploadprogress", (file, progress) => {
     const resultMessageBox = getMessageBox(file);
     const progressHeader = file.previewElement.children[0];
     // const progressTextElement = progressHeader.children[0].children[1];

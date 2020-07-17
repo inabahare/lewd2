@@ -16,15 +16,13 @@ export class Uploads {
    * @param {number} userId - Users ID 
    */
   static async AddFile(file, userId) {
-    const deletionKey = uuid();
-
     const data = [
       file.filename,
       file.originalname,
       file.hash,
       userId,
       file.duplicate.toString(),
-      deletionKey,
+      file.deletionKey,
       file.size
     ];
 
