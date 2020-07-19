@@ -1,0 +1,22 @@
+{
+  "name": "lewd-discord",
+  "version": "1.0.0",
+  "description": "The discord integration for lewd.se",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "parcel build src/index.js --target node --no-minify --public-url .",
+    "start": " node -r dotenv/config ./dist/index.js dotenv_config_path=../../.env"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^12.2.0",
+    "dotenv": "^8.2.0",
+    "parcel": "^1.12.4",
+    "pg": "^8.3.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0"
+  }
+}

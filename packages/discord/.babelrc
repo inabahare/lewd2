@@ -1,0 +1,9 @@
+{
+  "presets": [
+    "env"
+  ],
+  "sourceMaps": "both",
+  "retainLines": true,
+  "sourceType": "unambiguous",
+  "sourceFileName": "index.js"
+}
