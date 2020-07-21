@@ -1,3 +1,5 @@
+import lines from "../../lines.json";
+
 /**
  * Send message to user telling them to apply
  * @param { Array } args 
@@ -5,6 +7,8 @@
  */
 export const apply =
   (args, message) => {
-    message.user.send("Hey bro");
-    // console.log(args, message);
+    const questions = 
+      lines.questions.reduce((formattedQuestions, question) => formattedQuestions += `- ${question}\n`, "");
+      
+    message.author.send(`${lines.onApply}\n\n${questions}`);
   };
