@@ -13,7 +13,7 @@ client.on("message", message => {
   
   // When the user messages the bot 
   if (message.channel.type === "dm")
-    return dm(message);
+    return dm(message, client);
 
   const args = message.content.match(wordsOrQuotes);
 
@@ -23,7 +23,7 @@ client.on("message", message => {
     if (args[0] !== key)
       continue;
 
-    commands[key](args, message);
+    commands[key](args, message, client);
   }
 });
 

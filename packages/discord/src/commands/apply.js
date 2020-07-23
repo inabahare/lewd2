@@ -7,8 +7,11 @@ import lines from "../../lines.json";
  */
 export const apply =
   (args, message) => {
+    const appendQuestion = 
+      (formattedQuestions, question) => formattedQuestions += `- ${question}\n`;
+    
     const questions = 
-      lines.questions.reduce((formattedQuestions, question) => formattedQuestions += `- ${question}\n`, "");
+      lines.questions.reduce(appendQuestion, "");
       
     message.author.send(`${lines.onApply}\n\n${questions}`);
   };
