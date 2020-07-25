@@ -16,12 +16,11 @@ export const formatUploadSize =
   (size, unit) => parseInt(size) * units[unit];
 
 export const stringToSizeObject =
-  uploadSize => {
+  uploadSize => 
     ({
       size: parseFloat(uploadSize),
       unit: uploadSize.replace(/[0-9]+/, "")
     });
-  };
 
 export const stringToBytes =
   uploadSize => {

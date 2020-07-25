@@ -1,4 +1,4 @@
-import { query } from "/database";
+import { query } from "/functions/query";
 import { createHash } from "crypto";
 
 export class RegisterToken {

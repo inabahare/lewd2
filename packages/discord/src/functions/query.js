@@ -1,3 +1,5 @@
+import { database } from "/database";
+
 /**
  * Query the database returning the rows or null if none found
  * @param {string} sql 
