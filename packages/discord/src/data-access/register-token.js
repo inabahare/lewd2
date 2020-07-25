@@ -10,7 +10,8 @@ export class RegisterToken {
   
   static async Add (args) {
     const { uploadSize, isAdmin, discordId} = args;
-    const registerToken = this.CreateToken ();
+    const registerToken = this.CreateToken();
+    
     const data = [
       registerToken, 
       uploadSize, 
