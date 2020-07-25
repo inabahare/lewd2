@@ -22,3 +22,10 @@ export const stringToSizeObject =
       unit: uploadSize.replace(/[0-9]+/, "")
     });
   };
+
+export const stringToBytes =
+  uploadSize => {
+    const size = stringToSizeObject(uploadSize);
+    const bytes = formatUploadSize(size.size, size.unit);
+    return bytes;
+  };
