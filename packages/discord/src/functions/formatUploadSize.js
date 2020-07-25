@@ -14,3 +14,11 @@ export const units = {
 */
 export const formatUploadSize = 
   (size, unit) => parseInt(size) * units[unit];
+
+export const stringToSizeObject =
+  uploadSize => {
+    ({
+      size: parseFloat(uploadSize),
+      unit: uploadSize.replace(/[0-9]+/, "")
+    });
+  };

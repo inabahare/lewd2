@@ -1,3 +1,5 @@
+import { getUserIdFromArr } from "/functions/getDiscordId";
+
 /**
  * When the chad admins accepts the user
  * @param { Array } args 
@@ -6,4 +8,8 @@
 export const accept = 
   (args, message) => {
     // Do all the database stuff here
+    const user = getUserIdFromArr(args);
+    if (!user) {
+      return;
+    }
   };
