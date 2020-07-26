@@ -1,4 +1,3 @@
-
 /**
  * 
  * @param { Client } client 
@@ -6,4 +5,4 @@
  */
 export const findChannel =
   (client, channelName) =>
-    client.channels.get("name", channelName);
+    client.channels.cache.find(channel => channel.name === channelName);
