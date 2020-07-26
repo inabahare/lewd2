@@ -1,6 +1,13 @@
 import Discord from "discord.js";
 import { commands } from "./bot-commands";
 import { dm } from "./commands";
+import { findChannel } from "/functions/discord";
+
+const { 
+  BOT_TOKEN, 
+  APPLY_CHANNEL, 
+  APPLICATIONS_CHANNEL 
+} = process.env;
 
 const client = new Discord.Client();
 
@@ -27,8 +34,17 @@ client.on("message", message => {
   }
 });
 
-client.login(process.env.BOT_TOKEN);
+(async function setup () {
+  await client.login(BOT_TOKEN);
+  
+  const applyChannel = findChannel(client, APPLY_CHANNEL);
+  const applicationsChannel = findChannel(client, APPLICATIONS_CHANNEL);
 
-(function () {
+  if (!applyChannel) console.error("Channel for applying not found");
+  if (!applicationsChannel) console.error("Channel for reading applications not found");
 
+  if (!applyChannel || !applicationsChannel) {
+    findChannel(client, "general")
+          .send("Yo dudes something's fucked up");
+  }
 })();
