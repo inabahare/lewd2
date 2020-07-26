@@ -1,8 +1,8 @@
-import { getUserIdFromArr, idFromMentionString } from "/functions/getDiscordId";
+import { getUserIdFromArr, idFromMentionString } from "/functions/discord/getDiscordId";
 import { stringToBytes } from "/functions/formatUploadSize";
 import { RegisterToken } from "/data-access/register-token";
-import { sendMessage } from "/functions/sendMessage";
-import { findUserById } from "/functions/findUser";
+import { sendMessage } from "/functions/discord/sendMessage";
+import { findUserById } from "/functions/discord/findUser";
 
 const { DEFAULT_UPLOAD_SIZE } = process.env;
 
@@ -32,6 +32,6 @@ export const accept =
     message.reply(`${discordId} as now been accepted`);
     
     const userId = idFromMentionString(discordId);
-    const user = findUserById(userId);
+    const user = findUserById(client, userId);
     sendMessage(user, `${args[args.length - 1]} ${uploadUrl}`);
   };
