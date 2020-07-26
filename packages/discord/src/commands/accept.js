@@ -2,6 +2,7 @@ import { getUserIdFromArr, idFromMentionString } from "/functions/getDiscordId";
 import { stringToBytes } from "/functions/formatUploadSize";
 import { RegisterToken } from "/data-access/register-token";
 import { sendMessage } from "/functions/sendMessage";
+import { findUserById } from "/functions/findUser";
 
 const { DEFAULT_UPLOAD_SIZE } = process.env;
 
@@ -14,6 +15,7 @@ export const accept =
   async (args, message, client) => {
     // Do all the database stuff here
     const discordId = getUserIdFromArr(args);
+
     if (!discordId)
       return;
     
@@ -30,6 +32,6 @@ export const accept =
     message.reply(`${discordId} as now been accepted`);
     
     const userId = idFromMentionString(discordId);
-    const user = client.users.cache.find(user =>  user.id === userId);
+    const user = findUserById(userId);
     sendMessage(user, `${args[args.length - 1]} ${uploadUrl}`);
   };
