@@ -1,6 +1,6 @@
 import Discord from "discord.js";
-import { commands } from "./commands";
-import { dm } from "./commands/dm";
+import { commands } from "./bot-commands";
+import { dm } from "./commands";
 
 const client = new Discord.Client();
 

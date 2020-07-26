@@ -8,12 +8,10 @@ export const dm =
   (message, client) => {
     const reply = `
     ------------- NEW MEMBERSHIP -------------
-    \n
-    \n
     ${message.content}
 
     By ${message.author}
     `;
-    const applicationChannel = client.channels.get("name", APPLICATIONS_CHANNEL);
+    const applicationChannel = client.channels.cache.find(channel => channel.name === APPLICATIONS_CHANNEL);
     applicationChannel.send(reply);
   };

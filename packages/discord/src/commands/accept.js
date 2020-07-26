@@ -1,8 +1,11 @@
-import { getUserIdFromArr, idFromMentionString } from "/functions/discord/getDiscordId";
 import { stringToBytes } from "/functions/formatUploadSize";
 import { RegisterToken } from "/data-access/register-token";
-import { sendMessage } from "/functions/discord/sendMessage";
-import { findUserById } from "/functions/discord/findUser";
+import { 
+  getUserIdFromArr, 
+  idFromMentionString, 
+  sendMessage, 
+  findUserById 
+} from "/functions/discord";
 
 const { DEFAULT_UPLOAD_SIZE } = process.env;
 
