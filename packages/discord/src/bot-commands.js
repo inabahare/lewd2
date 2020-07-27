@@ -2,7 +2,7 @@ import {
   apply, 
   accept, 
   reject 
-} from "./commands/apply";
+} from "./commands";
 
 export const commands = {
   "!apply": apply,
