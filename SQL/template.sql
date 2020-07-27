@@ -59,7 +59,8 @@ CREATE TABLE "public"."RegisterTokens" (
   "used" bool DEFAULT false,
   "roleid" int4 NOT NULL DEFAULT 0,
   "uploadsize" int8 NOT NULL,
-  "isadmin" bool DEFAULT false
+  "isadmin" bool DEFAULT false,
+  "discordId" varchar
 )
 ;
 
@@ -133,6 +134,14 @@ CREATE TABLE "public"."Users" (
   "TokenGenerated" TIMESTAMP,
   "roleid" int2,
   "uploadsize" int8,
-  "isadmin" bool DEFAULT false
+  "isadmin" bool DEFAULT false,
+  "discordId" varchar
+)
+;
+
+CREATE TABLE "public"."Applicants" (
+  "DiscordId" varchar(255) NOT NULL,
+  "Applied" time,
+  PRIMARY KEY ("DiscordId")
 )
 ;
