@@ -16,4 +16,22 @@ export class Applicants {
 
     await query(sql, data);
   }
+
+  /**
+   * 
+   * @param { number } discordId
+   * @returns { boolean } exists  
+   */
+  static async Exists(discordId) {
+    const sql = 
+      `SELECT "discordId" FROM "Applicants" WHERE "discordId" = $1`;
+
+    const data = [
+      discordId
+    ];
+    
+    const user = await query(sql, data);
+
+    return user !== null;
+  }
 }
