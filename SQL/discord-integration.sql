@@ -6,7 +6,7 @@ ADD COLUMN "discordId" varchar;
 
 CREATE TABLE "public"."Applicants" (
   "DiscordId" varchar(255) NOT NULL,
-  "Applied" time,
+  "AppliedAt" time,
   PRIMARY KEY ("DiscordId")
 )
 ;

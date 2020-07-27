@@ -141,7 +141,7 @@ CREATE TABLE "public"."Users" (
 
 CREATE TABLE "public"."Applicants" (
   "DiscordId" varchar(255) NOT NULL,
-  "Applied" time,
+  "AppliedAt" time,
   PRIMARY KEY ("DiscordId")
 )
 ;

@@ -34,9 +34,9 @@ client.on("message", message => {
   }
 });
 
-(async function setup () {
-  await client.login(BOT_TOKEN);
-  
+client.login(BOT_TOKEN);
+
+client.on("ready", () => {
   const applyChannel = findChannel(client, APPLY_CHANNEL);
   const applicationsChannel = findChannel(client, APPLICATIONS_CHANNEL);
 
@@ -47,4 +47,4 @@ client.on("message", message => {
     findChannel(client, "general")
           .send("Yo dudes something's fucked up");
   }
-})();
+});
