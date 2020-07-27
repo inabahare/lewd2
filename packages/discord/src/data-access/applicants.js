@@ -20,11 +20,11 @@ export class Applicants {
   /**
    * 
    * @param { number } discordId
-   * @returns { boolean } exists  
+   * @returns { boolean } exists 
    */
   static async Exists(discordId) {
     const sql = 
-      `SELECT "discordId" FROM "Applicants" WHERE "discordId" = $1`;
+      `SELECT "discordId" FROM "Applicants" WHERE "DiscordId" = $1`;
 
     const data = [
       discordId
