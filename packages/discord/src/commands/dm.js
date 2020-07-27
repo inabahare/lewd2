@@ -18,6 +18,7 @@ export const dm =
     // Check for answers
     const answers = message.content.split("\n");
     const answerCount = answers.length;
+    
     if (answerCount !== QUESTION_COUNT)
       return message.reply(`Hey bro so I'm going to need you to provide me with ${QUESTION_COUNT} answers and not ${answerCount}`);
 
