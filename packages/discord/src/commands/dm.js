@@ -1,6 +1,8 @@
+import lines from "../../lines.json";
 import { Applicants } from "/data-access/applicants";
 
 const { APPLICATIONS_CHANNEL } = process.env;
+const QUESTION_COUNT = lines.questions.length;
 
 /**
  * When the user sends the bot a message
@@ -12,6 +14,12 @@ export const dm =
     const findUser = await Applicants.Exists(message.author.id);
     if (!findUser)
       return;
+
+    // Check for answers
+    const answers = message.content.split("\n");
+    const answerCount = answers.length;
+    if (answerCount !== QUESTION_COUNT)
+      return message.reply(`Hey bro so I'm going to need you to provide me with ${QUESTION_COUNT} answers and not ${answerCount}`);
 
     const reply = `
     ------------- NEW MEMBERSHIP -------------
