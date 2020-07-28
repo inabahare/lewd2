@@ -1,11 +1,13 @@
 import { 
   apply, 
   accept, 
-  reject 
+  reject,
+  forgotPassword
 } from "./commands";
 
 export const commands = {
   "!apply": apply,
   "@accept": accept,
-  "@reject": reject
+  "@reject": reject,
+  "@forgot-password": forgotPassword
 };
