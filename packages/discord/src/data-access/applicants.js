@@ -34,4 +34,15 @@ export class Applicants {
 
     return user !== null;
   }
+
+  static Remove(discordId) {
+    const sql = 
+      `DELETE FROM "Applicants" WHERE "DiscordId" = $1`;
+
+    const data = [
+      discordId
+    ];
+
+    query(sql, data);
+  }
 }
