@@ -11,7 +11,7 @@ const { SITE_LINK } = process.env;
  * @param { Discord.Client } client 
  */
 export const forgotPassword =
-  async (args, message, client) => {
+  async (args, message) => {
     const { id } = message.author;
     const user = await User.FindByDiscordId(id);
 
