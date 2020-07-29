@@ -24,15 +24,31 @@ client.on("message", message => {
 
   const args = message.content.match(wordsOrQuotes);
 
-  if (!args) return;
-
-  for (const key of Object.keys(commands)) {    
-    if (args[0] !== key)
-      continue;
-
-    commands[key](args, message, client);
-  }
+  if (message.channel.type === "dm") 
+    handleDm(args, message, client);
+  else  // TextChanel
+    handleMessage(args, message, client);
 });
+
+function handleDm(args, message, client) {
+  const findDmCommand = 
+    command => command.channel.type === "dm" && command === args[0];
+
+  const chosenCommand = commands.find(findDmCommand);
+
+  if (findDmCommand) chosenCommand.action(args, message, client);
+  else dm(message, client);
+}
+
+function handleMessage(args, message, client) {
+  const findCommand = 
+    command => 
+      command.channel === message.channel.name &&
+      command.command === args[0];
+
+  const chosenCommand = commands.find(findCommand);
+  if (chosenCommand) chosenCommand.action(args, message, client);
+}
 
 client.login(BOT_TOKEN);
 
