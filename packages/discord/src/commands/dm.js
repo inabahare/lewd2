@@ -22,12 +22,9 @@ export const dm =
     if (answerCount !== QUESTION_COUNT)
       return message.reply(`Hey bro so I'm going to need you to provide me with ${QUESTION_COUNT} answers and not ${answerCount}`);
 
-    const reply = `
-    ------------- NEW MEMBERSHIP -------------
-    ${message.content}
-
-    By ${message.author}
-    `;
+    const reply = 
+    `------------- NEW MEMBERSHIP -------------\n${message.content}\n\nBy ${message.author}`;
+    
     const applicationChannel = client.channels.cache.find(channel => channel.name === APPLICATIONS_CHANNEL);
     applicationChannel.send(reply);
   };
