@@ -41,8 +41,8 @@ client.on("ready", () => {
   const applyChannel = findChannel(client, BOT_CHANNEL);
   const applicationsChannel = findChannel(client, APPLICATIONS_CHANNEL);
 
-  if (!applyChannel) console.error("Channel for applying not found");
-  if (!applicationsChannel) console.error("Channel for reading applications not found");
+  if (!applyChannel) console.error(`Channel ${BOT_CHANNEL} for applying not found`);
+  if (!applicationsChannel) console.error(`Channel ${APPLICATIONS_CHANNEL} for reading applications not found`);
 
   if (!applyChannel || !applicationsChannel) {
     findChannel(client, "general")
