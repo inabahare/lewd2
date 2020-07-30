@@ -20,32 +20,20 @@ client.on("message", message => {
 
   const args = message.content.match(wordsOrQuotes);
 
-  if (message.channel.type === "dm") 
-    handleDm(args, message, client);
-  else  // TextChanel
-    handleMessage(args, message, client);
-});
+  const command = args[0];
+  const channel = 
+    message.channel.type === "text" ? message.channel.name : "dm";
 
-function handleDm(args, message, client) {
-  const findDmCommand = 
-    command => command.channel === "dm" && command.command === args[0];
-
-  const chosenCommand = commands.find(findDmCommand);
-
-  console.log(commands);
-  if (chosenCommand) chosenCommand.action(args, message, client);
-  else dm(message, client);
-}
-
-function handleMessage(args, message, client) {
   const findCommand = 
-    command => 
-      command.channel === message.channel.name &&
-      command.command === args[0];
+    cmd => 
+      cmd.channel === channel &&
+      cmd.command === command;
 
   const chosenCommand = commands.find(findCommand);
+
   if (chosenCommand) chosenCommand.action(args, message, client);
-}
+  else if(channel === "dm") dm(message, client);
+});
 
 client.login(BOT_TOKEN);
 
