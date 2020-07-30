@@ -13,7 +13,7 @@ const {
 
 export const commands = [
   {
-    command: "!apply",
+    command: "@apply",
     action: apply,
     channel: APPLY_CHANNEL
   },
