@@ -17,10 +17,6 @@ client.on("message", message => {
   // Prevent bot from seeing their own messages
   if (message.author === client.user) 
     return;
-  
-  // When the user messages the bot 
-  if (message.channel.type === "dm")
-    return dm(message, client);
 
   const args = message.content.match(wordsOrQuotes);
 
@@ -32,11 +28,12 @@ client.on("message", message => {
 
 function handleDm(args, message, client) {
   const findDmCommand = 
-    command => command.channel.type === "dm" && command === args[0];
+    command => command.channel === "dm" && command.command === args[0];
 
   const chosenCommand = commands.find(findDmCommand);
 
-  if (findDmCommand) chosenCommand.action(args, message, client);
+  console.log(commands);
+  if (chosenCommand) chosenCommand.action(args, message, client);
   else dm(message, client);
 }
 
