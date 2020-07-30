@@ -23,5 +23,17 @@ module.exports = {
         error: "./logs/cron.error.log",
         log: "./logs/cron.combined.outerr.log",
         log_date_format: "YYYY-MM-DD HH:mm:ss.sssZ",
+    }, {
+        name: "Discord bot",
+        script: "./packages/discord/dist/index.js",
+        node_args: "-r dotenv/config",
+        env: {
+            NODE_ENV: "production",
+            dotenv_config_path: ".env"
+        },
+        output: "./logs/discord.out.log",
+        error: "./logs/discord.error.log",
+        log: "./logs/discord.combined.outerr.log",
+        log_date_format: "YYYY-MM-DD HH:mm:ss.sssZ",
     }]
 };
