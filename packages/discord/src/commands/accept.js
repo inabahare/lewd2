@@ -30,7 +30,7 @@ export const accept =
       isAdmin: false
     });
     
-    const uploadUrl = `${process.env.SITE_LINK}/register/${token}`;
+    const uploadUrl = `${process.env.SITE_LINK}register/${token}`;
 
     message.reply(`${discordId} as now been accepted`);
     
