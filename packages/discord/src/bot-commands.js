@@ -2,7 +2,8 @@ import {
   apply, 
   accept, 
   reject,
-  forgotPassword
+  forgotPassword,
+  integrate
 } from "./commands";
 
 const {
@@ -33,7 +34,7 @@ export const commands = [
   },
   {
     command: "@integrate",
-    action: () => console.log("Add me"),
+    action: integrate,
     channel: "dm"
   }
 ];
