@@ -41,6 +41,10 @@ Now for serving static files for the frontend. For production see the next secti
 This, however, is not preferred for development and for that _NODE\_ENV_ can be set to _development_ which will cause the app itself to serve static files for the frontend.
 **NOTE:** if in .env _PUBLIC_FOLDER_PATH_ is not set to _../../frontend/dist_ or at least a path to the frontend files the frontend will not have any styling or functionality
 
+### Discord config
+
+All that needs to be edited here is the BOT\_TOKEN which you can find by generating a bot [here](https://discord.com/developers/applications) after which you can find the token under Bot > Token. Other settings can be tweaked. The BOT_CHANNEL is where people go with their commands, APPLICATIONS_CHANNEL is where admins can apply or reject applicants, and of course the default upload size (which should be self explanatory really)
+
 ### NGINX config
 
 The bare minimum you need in _/etc/nginx/sites-available/default_ is the following:
