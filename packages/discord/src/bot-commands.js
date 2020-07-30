@@ -7,7 +7,7 @@ import {
 } from "./commands";
 
 const {
-  APPLY_CHANNEL,
+  BOT_CHANNEL,
   APPLICATIONS_CHANNEL
 } = process.env;
 
@@ -15,26 +15,31 @@ export const commands = [
   {
     command: "@apply",
     action: apply,
-    channel: APPLY_CHANNEL
+    channel: BOT_CHANNEL,
+    minArgs: 0
   },
   {
     command: "@forgot-password",
     action: forgotPassword,
-    channel: APPLY_CHANNEL
+    channel: BOT_CHANNEL,
+    minArgs: 1
   },
   {
     command: "@accept",
     action: accept,
-    channel: APPLICATIONS_CHANNEL
+    channel: APPLICATIONS_CHANNEL,
+    minArgs: 1
   },
   {
     command: "@reject",
     action: reject,
-    channel: APPLICATIONS_CHANNEL
+    channel: APPLICATIONS_CHANNEL,
+    minArgs: 1
   },
   {
     command: "@integrate",
     action: integrate,
-    channel: "dm"
+    channel: "dm",
+    args: 1
   }
 ];

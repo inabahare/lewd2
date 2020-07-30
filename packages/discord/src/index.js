@@ -5,7 +5,7 @@ import { findChannel } from "/functions/discord";
 
 const { 
   BOT_TOKEN, 
-  APPLY_CHANNEL, 
+  BOT_CHANNEL,
   APPLICATIONS_CHANNEL 
 } = process.env;
 
@@ -38,7 +38,7 @@ client.on("message", message => {
 client.login(BOT_TOKEN);
 
 client.on("ready", () => {
-  const applyChannel = findChannel(client, APPLY_CHANNEL);
+  const applyChannel = findChannel(client, BOT_CHANNEL);
   const applicationsChannel = findChannel(client, APPLICATIONS_CHANNEL);
 
   if (!applyChannel) console.error("Channel for applying not found");
