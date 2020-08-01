@@ -8,7 +8,6 @@ module.exports = {
         log: "./logs/app.combined.outerr.log",
         log_date_format: "YYYY-MM-DD HH:mm:ss.sssZ",
         env: {
-            NODE_ENV: "production",
             dotenv_config_path: ".env"
         },
     }, {
@@ -16,7 +15,6 @@ module.exports = {
         script: "./packages/antivirus-services/dist/index.js",
         node_args: "-r dotenv/config",
         env: {
-            NODE_ENV: "production",
             dotenv_config_path: ".env"
         },
         output: "./logs/cron.out.log",
@@ -28,7 +26,6 @@ module.exports = {
         script: "./packages/discord/dist/index.js",
         node_args: "-r dotenv/config",
         env: {
-            NODE_ENV: "production",
             dotenv_config_path: ".env"
         },
         output: "./logs/discord.out.log",
