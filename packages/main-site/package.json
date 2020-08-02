@@ -2,10 +2,10 @@
   "name": "lewd.se-main-site",
   "version": "2.0.1",
   "description": "Trying to \"microserviceify\" this",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "parcel build src/index.js --target node --no-minify --public-url .",
-    "start": " node -r dotenv/config ./dist/index.js dotenv_config_path=../../.env"
+    "start": "node ./dist/index.js"
   },
   "author": "",
   "license": "ISC",

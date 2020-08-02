@@ -1,5 +1,10 @@
-import express from "express";
 import path from "path";
+
+require("dotenv").config({
+    path: path.join(__dirname, "../../../.env")
+});
+
+import express from "express";
 import flash from "express-flash";
 import fs from "fs";
 import frontEndError from "./helpers/frontendErrorFormatter";

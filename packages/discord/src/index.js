@@ -1,3 +1,9 @@
+import path from "path";
+
+require("dotenv").config({
+    path: path.join(__dirname, "../../../.env")
+});
+
 import Discord from "discord.js";
 import { commands } from "./bot-commands";
 import { dm } from "./commands";
