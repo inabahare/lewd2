@@ -55,3 +55,24 @@ client.on("ready", () => {
           .send("Yo dudes something's fucked up");
   }
 });
+
+if (process.env.NODE_ENV === "production") {
+  process.on("uncaughtException", err => {
+      console.error("<discord.js>");
+      console.error("app.js", err);
+      console.error("</discord.js>");
+      process.exit(1);
+  });
+
+  process.on("unhandledRejection", (reason, p) => {
+      console.error("<discord.js>");
+      console.error(`Reason: `, reason);
+      console.error("--------------------------");
+      console.error(reason.stack);
+
+      console.error("--------------------------");
+      console.error(p);
+      console.error("</discord.js>");
+      process.exit(1);
+  });
+}
