@@ -1,7 +1,7 @@
-# Add any directories, files, or patterns you don't want to be tracked by version control
+.cache
 .directory
 .env
+dist/
 logs/
 node_modules/
 package-lock.json
-.cache
