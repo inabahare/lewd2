@@ -13,8 +13,6 @@ export class GenericAntiVirus {
     // } = args;
 
     Object.assign(this, args);
-    // this.removeFile = removeFile;
-    // this.uploadDestination = uploadDestination;
     console.log(this.uploadDestination);
   }
 
