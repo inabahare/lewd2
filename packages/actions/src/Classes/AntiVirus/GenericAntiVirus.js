@@ -1,17 +1,28 @@
 import { spawn } from "child_process";
 import path from "path";
 
-export class GenericAntiVirus {
-  constructor(args) {
-    // const {
-    //   uploadDestination, 
-    //   removeFile,
-    //   antiVirusCommand,
-    //   returnCodeVirus,
-    //   returnCodeClean,
-    //   returnCodeError,
-    // } = args;
 
+// * @param {
+//   *     uploadDestination: string, 
+//   *     removeFile: function,
+//   *     antiVirusCommand: string,
+//   *     returnCodeVirus: number,
+//   *     returnCodeClean: number,
+//   *     returnCodeError: number,
+  // * } args 
+
+export class GenericAntiVirus {
+  /**
+   * Generic anti virus
+   * @param { Object } args - Input object
+   * @param { string } args.uploadDestination - Where files to be scanned are stored
+   * @param { function } args.removeFile - When the scanner needs to remove a file
+   * @param { string } args.antiVirusCommand - Command that needs to be run for scanning files
+   * @param { number } args.returnCodeVirus - Return code from the commandline tool
+   * @param { number } args.returnCodeClean - Return code from the commandline tool
+   * @param { number } args.returnCodeError - Return code from the commandline tool
+   */
+  constructor(args) {
     Object.assign(this, args);
     console.log(this.uploadDestination);
   }
@@ -29,10 +40,15 @@ export class GenericAntiVirus {
     });
   }
 
-  async scan(fileObject) {
+  /**
+   * 
+   * @param { Object } args
+   * @param { string } args.fileName - Name of the file (on disk) to scan
+   */
+  async scan(args) {
     const { 
       fileName,
-    } = fileObject;
+    } = args;
 
     const fullPath = path.join(this.uploadDestination, fileName);
 
