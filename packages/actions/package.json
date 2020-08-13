@@ -1,0 +1,25 @@
+{
+  "name": "services",
+  "version": "2.0.1",
+  "description": "services like file deletion and anti virus",
+  "main": "index.js",
+  "scripts": {
+    "build": "parcel build src/index.js --target node --no-minify --public-url .",
+    "start": "node ./dist/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/preset-env": "^7.9.6",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "parcel": "^1.12.4"
+  },
+  "dependencies": {
+    "async": "^3.2.0",
+    "axios": "^0.19.2",
+    "dnode": "github:inabahare/dnode",
+    "dotenv": "^8.2.0",
+    "pg": "^7.18.2"
+  }
+}
