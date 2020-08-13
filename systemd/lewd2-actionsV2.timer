@@ -1,5 +1,5 @@
 [Unit]
-Description=lewd.se cron actions
+Description=Run lewd.se actions every hour
 Documentation=https://github.com/inabahare/lewd2
 
 [Timer]

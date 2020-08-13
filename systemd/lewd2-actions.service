@@ -1,11 +1,11 @@
 [Unit]
-Description=lewd.se cron actions
+Description=lewd.se actions
 Documentation=https://github.com/inabahare/lewd2
 
 [Service]
 Type=exec
 User=www-data
-ExecStart=/usr/bin/node /var/www/lewd2/packages/antivirus-services/dist/index.js
+ExecStart=/usr/bin/node /var/www/lewd2/packages/actions/dist/index.js
 Restart=always
 
 [Install]

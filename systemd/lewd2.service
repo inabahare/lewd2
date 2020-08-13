@@ -1,7 +1,7 @@
 [Unit]
 Description=lewd.se main application
 Documentation=https://github.com/inabahare/lewd2
-Wants=network-online.target postgresql.service lewd2-cron.service lewd2-discord.service
+Wants=network-online.target postgresql.service lewd2-actions.service lewd2-discord.service
 After=network-online.target postgresql.service
 
 [Service]
