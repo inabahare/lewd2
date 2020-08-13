@@ -1,0 +1,13 @@
+[Unit]
+Description=lewd.se Discord bot
+Documentation=https://github.com/inabahare/lewd2
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=exec
+User=www-data
+ExecStart=/usr/bin/node /var/www/lewd2/packages/discord/dist/index.js
+
+[Install]
+WantedBy=multi-user.target

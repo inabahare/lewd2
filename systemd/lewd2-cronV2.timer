@@ -1,0 +1,9 @@
+[Unit]
+Description=lewd.se cron actions
+Documentation=https://github.com/inabahare/lewd2
+
+[Timer]
+OnCalendar=hourly
+
+[Install]
+WantedBy=timers.target

@@ -1,7 +1,7 @@
 {
-  "name": "backend",
+  "name": "lewd.se-main-site",
   "version": "2.0.1",
-  "description": "lewd.se backend, as opposed to frontend",
+  "description": "Trying to \"microserviceify\" this",
   "main": "dist/index.js",
   "scripts": {
     "build": "parcel build src/index.js --target node --no-minify --public-url .",

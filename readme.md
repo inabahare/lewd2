@@ -31,11 +31,16 @@ Copy **.env.dist** to **.env** and edit the following
 * VIRUSTOTAL_KEY  
 * VIRUSTOTAL_USER (This is the username of your virustotal account)
 
-Then run `$ npm run setup` which will install all the needed dependencies and build the project. 
+Then run `$ npm run setup` which will install all the needed dependencies and build the project.
 
-Now that that's done, it is time for us to start the server! `$ npm start`
-This will launch the site using PM2 [More information on using PM2](https://pm2.keymetrics.io/)
-And if we want to stop the server we run `$ npm run stop`
+With that out of the way it's time for take-off!
+You can either install the included systemd services and run `# systemctl start lewd2.service` which will launch all components. <br>
+Alternatively if you're making your own solution or debugging, you can launch them individually:
+```sh
+node packages/main-site/dist/index.js
+node packages/antivirus-services/dist/index.js
+node packages/discord/dist/index.js
+```
 
 Now for serving static files for the frontend. For production see the next section regarding configuring NGINX. 
 This, however, is not preferred for development and for that _NODE\_ENV_ can be set to _development_ which will cause the app itself to serve static files for the frontend.

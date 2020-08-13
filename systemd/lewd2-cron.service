@@ -1,0 +1,12 @@
+[Unit]
+Description=lewd.se cron actions
+Documentation=https://github.com/inabahare/lewd2
+
+[Service]
+Type=exec
+User=www-data
+ExecStart=/usr/bin/node /var/www/lewd2/packages/antivirus-services/dist/index.js
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
