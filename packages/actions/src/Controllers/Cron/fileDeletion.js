@@ -1,9 +1,9 @@
 import getFilesToDelete from "/Functions/FileDeletion/getFilesToDelete";
-import { deleteFileByName } from "/Functions/FileDeletion/deleteFiles";
+import { removeFile } from "/Functions/FileDeletion/removeFile";
 
 async function fileDeletion() {
   const files = await getFilesToDelete();
-    
+
   // Prevent additional files from being scanned
   if (!files) {
     return;
@@ -16,7 +16,7 @@ async function fileDeletion() {
 
   unique.forEach(async fileName => {
     try {
-      await deleteFileByName(fileName, process.env.UPLOAD_DESTINATION);
+      await removeFile(process.env.UPLOAD_DESTINATION, fileName);
     } catch (e) {
       console.error(`Could not delete ${fileName} because:`);
       console.error(e.message);

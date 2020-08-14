@@ -1,18 +1,18 @@
 import { GenericAntiVirus } from "/Classes/AntiVirus";
 import { query } from "/Functions/database";
-import { deleteFileByName } from "/Functions/FileDeletion/deleteFiles";
+import { removeFile } from "/Functions/FileDeletion/removeFile";
 
 const {
-  UPLOAD_DESTINATION, 
-  ANTI_VIRUS_COMMAND, 
-  RETURN_CODE_NO_VIRUS, 
+  UPLOAD_DESTINATION,
+  ANTI_VIRUS_COMMAND,
+  RETURN_CODE_NO_VIRUS,
   RETURN_CODE_VIRUS,
   RETURN_CODE_ERROR
 } = process.env;
 
 const scannerArgs = {
   query,
-  deleteFileByName, 
+  removeFile,
   uploadDestination: UPLOAD_DESTINATION,
   antiVirusCommand: ANTI_VIRUS_COMMAND,
   returnCodeVirus: parseInt(RETURN_CODE_VIRUS),

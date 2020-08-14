@@ -9,7 +9,7 @@ import path from "path";
 //   *     returnCodeVirus: number,
 //   *     returnCodeClean: number,
 //   *     returnCodeError: number,
-  // * } args 
+// * } args 
 
 export class GenericAntiVirus {
   /**
@@ -30,11 +30,11 @@ export class GenericAntiVirus {
   _scan(fullPath) {
     return new Promise((resolve, reject) => {
       const scanner = spawn(this.antiVirusCommand, [fullPath]);
-      
+
       scanner.on("close", code => {
         if (code == this.returnCodeError)
           reject(`Problem running antivirus command ${this.antiVirusCommand} on the file ${fullPath}`);
-        
+
         resolve(code);
       });
     });
@@ -46,7 +46,7 @@ export class GenericAntiVirus {
    * @param { string } args.fileName - Name of the file (on disk) to scan
    */
   async scan(args) {
-    const { 
+    const {
       fileName,
     } = args;
 
@@ -57,6 +57,6 @@ export class GenericAntiVirus {
     if (returnCode == this.returnCodeClean)
       return;
 
-    await this.removeFile(fileName, this.uploadDestination);
+    await this.removeFile(this.uploadDestination, fileName);
   }
 }
