@@ -11,12 +11,12 @@ export async function removeFile(folderLocation, fileName) {
   if (!exists)
     return false;
 
-  await query(`DELETE FROM "Uploads"
-               WHERE filename = $1`, [fileName]);
+  const db = query(`DELETE FROM "Uploads"
+                    WHERE filename = $1`, [fileName]);
 
-  await unlink(fullFilePath);
+  const file = unlink(fullFilePath);
 
-
+  await Promise.all([db, file]);
 
   return true;
 }
