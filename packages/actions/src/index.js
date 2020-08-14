@@ -6,12 +6,12 @@ require("dotenv").config({
 
 import dnode from "dnode";
 
-import { fileDeletion }   from "./Controllers/Cron/fileDeletion";
+import { fileDeletion } from "./Controllers/Cron/fileDeletion";
 import { ScannerService } from "./Services/ScannerService";
 
 const scanners = new ScannerService();
 scanners.Start();
-scanners.Scan( "", "he");
+scanners.Scan("NOT_A_VIRUS.exe", "he");
 
 const { WHEN_TO_CHECK_FOR_FILES_TO_DELETE } = process.env;
 

@@ -1,14 +1,18 @@
 import { query } from "/Functions/database";
 import path from "path";
-import { unlink, access } from "/helpers/fs";
+import { unlink, exists } from "/helpers/fs";
 
-// TODO: Change to removeFile`
-export async function removeFile(folderLocation, fileName) {
-  const fullFilePath = path.join(folderLocation, fileName);
+/**
+ * Remove a file both from disk and database
+ * @param {*} folder 
+ * @param {*} fileName 
+ */
+export async function removeFile(folder, fileName) {
+  const fullFilePath = path.join(folder, fileName);
 
-  const exists = await access(fullFilePath);
+  const fileFoundOnDisk = await exists(fullFilePath);
 
-  if (!exists)
+  if (!fileFoundOnDisk)
     return false;
 
   const db = query(`DELETE FROM "Uploads"
