@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "async": "^3.2.0",
-    "axios": "^0.19.2",
+    "axios": "^0.19.2", 
     "dnode": "github:inabahare/dnode",
     "dotenv": "^8.2.0",
     "pg": "8.3.0"

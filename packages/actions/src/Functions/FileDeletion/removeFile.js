@@ -16,7 +16,7 @@ export async function removeFile(folder, fileName) {
     return false;
 
   const sql = `DELETE FROM "Uploads" WHERE filename = $1;`;
-  const db = await query(sql, [fileName]);
+  query(sql, [fileName]);
 
   unlink(fullFilePath);
 
