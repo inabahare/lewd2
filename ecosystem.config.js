@@ -1,7 +1,7 @@
 module.exports = {
     apps: [{
         name: "lewd.se",
-        script: "./packages/main-site/dist/index.js",
+        script: "./packages/backend/dist/index.js",
         node_args: "-r dotenv/config",
         output: "./logs/app.out.log",
         error: "./logs/app.error.log",
