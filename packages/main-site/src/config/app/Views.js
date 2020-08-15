@@ -49,7 +49,7 @@ class Views {
         let waifuDir = null;
         let files    = null;
         try {
-            waifuDir = path.join(__dirname, "/../Public/Images/Waifus");
+            waifuDir = path.join(__dirname, "../../frontend/dist/waifus");
             files = fs.readdirSync(waifuDir);
         }
         catch(ex) {
@@ -61,7 +61,7 @@ class Views {
             return "";
 
         const randomIndex = randomNumber(0, files.length);
-        const randomWaifuLink = process.env.SITE_LINK + "Images/Waifus/" + files[randomIndex];
+        const randomWaifuLink = `${process.env.SITE_LINK}waifus/${files[randomIndex]}`;
 
         return randomWaifuLink;
     }
