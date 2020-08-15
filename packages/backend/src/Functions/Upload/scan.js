@@ -13,6 +13,7 @@ const scan = (fileName, fileHash) => {
 
     external.on("error", function (err) {
         console.error(err);
+        external.end();
     }); 
 };
 
