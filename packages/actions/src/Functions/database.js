@@ -5,15 +5,13 @@ import { database } from "/helpers/database";
  * @param {string} sql 
  * @param {Array} params 
  */
-async function query(sql, params = null) {
+export async function query(sql, params = null) {
   const client = await database.connect();
   const data = await client.query(sql, params);
   client.release();
 
-  if (data.rows.length === 0) 
+  if (data.rows.length === 0)
     return null;
 
   return data.rows;
 }
-
-export { query };

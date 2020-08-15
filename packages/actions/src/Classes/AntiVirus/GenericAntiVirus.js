@@ -1,6 +1,6 @@
 import { spawn } from "child_process";
 import path from "path";
-
+import queue from "async/queue";
 
 // * @param {
 //   *     uploadDestination: string, 
@@ -21,10 +21,30 @@ export class GenericAntiVirus {
    * @param { number } args.returnCodeVirus - Return code from the commandline tool
    * @param { number } args.returnCodeClean - Return code from the commandline tool
    * @param { number } args.returnCodeError - Return code from the commandline tool
+   * @param { number } args.amountOfSimultaniousScanners - How many scanners running at once
    */
   constructor(args) {
     Object.assign(this, args);
-    console.log(this.uploadDestination);
+
+    this._scanningQueue = queue(async (args, next) => {
+      await this._worker(args);
+      next();
+    }, this.amountOfSimultaniousScanners)
+  }
+
+  async _worker(args) {
+    const {
+      fileName,
+    } = args;
+
+    const fullPath = path.join(this.uploadDestination, fileName);
+
+    console.log(`Scanning ${fullPath}`)
+    const returnCode = await this._scan(fullPath);
+    if (returnCode == this.returnCodeClean)
+      return console.log("Clean");
+
+    this.removeFile(this.uploadDestination, fileName);
   }
 
   _scan(fullPath) {
@@ -46,17 +66,13 @@ export class GenericAntiVirus {
    * @param { string } args.fileName - Name of the file (on disk) to scan
    */
   async scan(args) {
-    const {
-      fileName,
-    } = args;
+    if (!args.fileName)
+      throw Error("Filename not provided for scanner")
 
-    const fullPath = path.join(this.uploadDestination, fileName);
+    this._scanningQueue.push(args);
+  }
 
-    const returnCode = await this._scan(fullPath);
-
-    if (returnCode == this.returnCodeClean)
-      return;
-
-    await this.removeFile(this.uploadDestination, fileName);
+  toString() {
+    return this.antiVirusCommand;
   }
 }

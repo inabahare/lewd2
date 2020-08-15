@@ -13,6 +13,7 @@ const {
 const scannerArgs = {
   query,
   removeFile,
+  amountOfSimultaniousScanners: 1,
   uploadDestination: UPLOAD_DESTINATION,
   antiVirusCommand: ANTI_VIRUS_COMMAND,
   returnCodeVirus: parseInt(RETURN_CODE_VIRUS),

@@ -11,7 +11,6 @@ import { ScannerService } from "./Services/ScannerService";
 
 const scanners = new ScannerService();
 scanners.Start();
-scanners.Scan("NOT_A_VIRUS.exe", "he");
 
 const { WHEN_TO_CHECK_FOR_FILES_TO_DELETE } = process.env;
 

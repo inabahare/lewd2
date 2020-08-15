@@ -15,12 +15,10 @@ export async function removeFile(folder, fileName) {
   if (!fileFoundOnDisk)
     return false;
 
-  const db = query(`DELETE FROM "Uploads"
-                    WHERE filename = $1`, [fileName]);
+  const sql = `DELETE FROM "Uploads" WHERE filename = $1;`;
+  const db = await query(sql, [fileName]);
 
-  const file = unlink(fullFilePath);
-
-  await Promise.all([db, file]);
+  unlink(fullFilePath);
 
   return true;
 }

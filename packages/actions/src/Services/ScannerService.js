@@ -22,7 +22,7 @@ class ScannerService {
      * @param {string} filename - The name of the file on disc
      * @param {string} fileHash - The hash of the file
      */
-  Scan(fileName, fileHash) { 
+  Scan(fileName, fileHash) {
     const inputObject = {
       fileName,
       fileHash,
