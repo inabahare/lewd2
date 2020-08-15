@@ -39,10 +39,9 @@ export class GenericAntiVirus {
 
     const fullPath = path.join(this.uploadDestination, fileName);
 
-    console.log(`Scanning ${fullPath}`)
     const returnCode = await this._scan(fullPath);
     if (returnCode == this.returnCodeClean)
-      return console.log("Clean");
+      return;
 
     this.removeFile(this.uploadDestination, fileName);
   }
