@@ -1,7 +1,7 @@
 import { Database } from "./database";
 
 const Setup = {
-    Database: Database
+  Database: Database
 };
 
 export { Setup };

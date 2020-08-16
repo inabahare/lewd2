@@ -17,7 +17,7 @@ export class Statistics {
 
     const sql =
       `SELECT ${totalUploads}, ${filesUploadedPrDay}, ${uploadsToday}, ${amountUploaded} 
-       FROM "Uploads";`
+       FROM "Uploads";`;
 
     const result = await query(sql);
     const stats = result[0];

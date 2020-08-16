@@ -5,38 +5,38 @@ import crypto from "crypto";
 import { User, LoginToken } from "/DataAccessObjects";
 
 const generateLoginToken = userid => crypto.createHash("sha1")
-    .update(userid.toString() + Date.now().toString())
-    .digest("hex");
+  .update(userid.toString() + Date.now().toString())
+  .digest("hex");
 
 passport.use(new LocalStrategy({
-    usernameField: "username",
-    passwordField: "password"
+  usernameField: "username",
+  passwordField: "password"
 }, async (username, password, next) => {
-    const res = await User.GetPaswordAndId(username);
+  const res = await User.GetPaswordAndId(username);
 
-    if (!res) {
-        return next(null, false);
-    }
+  if (!res) {
+    return next(null, false);
+  }
 
-    const user = res[0];
+  const user = res[0];
 
-    const checkPassword = await bcrypt.compare(password, user.password);
+  const checkPassword = await bcrypt.compare(password, user.password);
 
-    if (checkPassword == true) {
-        const userId = parseInt(user.id);
-        const token = generateLoginToken(userId);
+  if (checkPassword == true) {
+    const userId = parseInt(user.id);
+    const token = generateLoginToken(userId);
 
-        const data = {
-            userId,
-            token
-        };
+    const data = {
+      userId,
+      token
+    };
 
-        await LoginToken.Add(data);
+    await LoginToken.Add(data);
 
-        return next(null, token);
-    } else {
-        return next(null, false);
-    }
+    return next(null, token);
+  } else {
+    return next(null, false);
+  }
 }));
 
 passport.serializeUser((user, next) => next(null, user));

@@ -8,7 +8,7 @@ export class LoginToken {
     const { userId, token } = args;
     const data = [
       token, userId
-    ]
+    ];
     const sql =
       `INSERT INTO "LoginTokens" (token, registered, userid)
        VALUES ($1, NOW(), $2);`;
@@ -49,7 +49,7 @@ export class LoginToken {
 
   static async GetUserId(token) {
     const sql =
-      `SELECT userid FROM "LoginTokens" WHERE token = $1 LIMIT 1;`
+      `SELECT userid FROM "LoginTokens" WHERE token = $1 LIMIT 1;`;
     const userId = await query(sql, [token]);
     return userId ? userId[0].userid : 0;
   }

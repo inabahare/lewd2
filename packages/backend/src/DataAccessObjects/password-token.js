@@ -6,8 +6,8 @@ const { HOW_OLD_PASSWORD_RESET_TOKENS_CAN_BE } = process.env;
 export class PasswordToken {
   static _GenerateKey () {
     return crypto.randomBytes(20)
-                      .toString("hex")
-                      .slice(0, 20);
+      .toString("hex")
+      .slice(0, 20);
   }
 
   static async GenerateKey (userName) {

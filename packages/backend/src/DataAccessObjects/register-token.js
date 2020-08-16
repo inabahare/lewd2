@@ -4,8 +4,8 @@ import { createHash } from "crypto";
 export class RegisterToken {
   static CreateToken () {
     return createHash("sha1")
-            .update("You can register now" + Date.now().toString())
-            .digest("hex");
+      .update("You can register now" + Date.now().toString())
+      .digest("hex");
   }
   
   static async Add (args) {

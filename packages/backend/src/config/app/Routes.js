@@ -8,25 +8,25 @@ import admin    from "/Routes/admin";
 
 
 class Routes {
-    static SetPages(app) {
-        app.use("/upload",     upload);
+  static SetPages(app) {
+    app.use("/upload",     upload);
 
 
 
-        app.use("/",           index);
-        app.use("/login",      login);
-        app.use("/register",   register);
-        app.use("/delete",     deleter);
-        app.use("/user",       user);
-        app.use("/user/admin", admin);
-    }
+    app.use("/",           index);
+    app.use("/login",      login);
+    app.use("/register",   register);
+    app.use("/delete",     deleter);
+    app.use("/user",       user);
+    app.use("/user/admin", admin);
+  }
 
-    static SetErrorPages(app) {
-        app.use((req, res,) =>{
-            res.status(404)
-               .render("404");
-        });
-    }
+  static SetErrorPages(app) {
+    app.use((req, res,) =>{
+      res.status(404)
+        .render("404");
+    });
+  }
 }
 
 export { Routes };

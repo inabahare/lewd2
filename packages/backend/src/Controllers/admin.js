@@ -7,11 +7,11 @@ import * as findUser from "./admin/findUser";
 import * as viewAllUploads from "./admin/viewAllUploads";
 
 export {
-    token,
-    resetPassword,
-    deleteUsers,
-    deleteFiles,
-    updateUser,
-    findUser,
-    viewAllUploads
+  token,
+  resetPassword,
+  deleteUsers,
+  deleteFiles,
+  updateUser,
+  findUser,
+  viewAllUploads
 };

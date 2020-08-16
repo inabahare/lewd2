@@ -13,12 +13,12 @@ to
 
 */
 export default err => {
-    if (err) {
-        const result = [];
-        err.forEach(e => {
-            result[e.param] = e.msg;
-        });
-        return result;
-    }
-    return undefined;
+  if (err) {
+    const result = [];
+    err.forEach(e => {
+      result[e.param] = e.msg;
+    });
+    return result;
+  }
+  return undefined;
 };

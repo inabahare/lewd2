@@ -1,6 +1,6 @@
 
 function get(req, res) {
-    res.render("notoken");
+  res.render("notoken");
 }
 
 export { get };

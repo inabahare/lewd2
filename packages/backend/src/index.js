@@ -1,7 +1,7 @@
 import path from "path";
 
 require("dotenv").config({
-    path: path.join(__dirname, "../../../.env")
+  path: path.join(__dirname, "../../../.env")
 });
 
 import express from "express";
@@ -26,13 +26,13 @@ Views.SetDetails(app);
 // app.enable("view cache");
 // Static files
 if (process.env.NODE_ENV === "development") {
-    if (!process.env.PUBLIC_FOLDER_PATH) {
-        console.error("PUBLIC_FOLDER_PATH has not been set. Please check that the .env file exists in the project root and that PUBLIC_FOLDER_PATH has been set for development mode");
-    }
+  if (!process.env.PUBLIC_FOLDER_PATH) {
+    console.error("PUBLIC_FOLDER_PATH has not been set. Please check that the .env file exists in the project root and that PUBLIC_FOLDER_PATH has been set for development mode");
+  }
 
-    const staticDir = path.join(__dirname, process.env.PUBLIC_FOLDER_PATH);
-    console.log(`Serving files from: ${staticDir}`);
-    app.use(express.static(staticDir));
+  const staticDir = path.join(__dirname, process.env.PUBLIC_FOLDER_PATH);
+  console.log(`Serving files from: ${staticDir}`);
+  app.use(express.static(staticDir));
 }
 
 // parse various different custom JSON types as JSON
@@ -53,26 +53,26 @@ app.locals.timeFileCanStayAlive = process.env.TIME_FILE_CAN_STAY_ALIVE;
 // Set local user
 // TODO: Move somewhere else
 app.use(async (req, res, next) => {
-    if (req.user) {
-        res.locals.user = await getUserDetails(req.user);
-    }
+  if (req.user) {
+    res.locals.user = await getUserDetails(req.user);
+  }
 
-    next();
+  next();
 });
 
 // Set errors (if any)
 app.use((req, res, next) => {
-    if (req.session.err) {
-        res.locals.errors = frontEndError(req.session.err);
-        delete req.session.err;
-    }
+  if (req.session.err) {
+    res.locals.errors = frontEndError(req.session.err);
+    delete req.session.err;
+  }
 
-    if (req.session.flash) {
-        res.locals.message = req.session.flash;
-        delete req.session.flash;
-    }
+  if (req.session.flash) {
+    res.locals.message = req.session.flash;
+    delete req.session.flash;
+  }
 
-    next();
+  next();
 });
 
 // Set the routes
@@ -82,38 +82,38 @@ Routes.SetPages(app);
 Routes.SetErrorPages(app);
 
 if (!fs.existsSync(process.env.UPLOAD_DESTINATION)) {
-    console.error(`Could not open upload directory at: ${process.env.UPLOAD_DESTINATION}`);
-    console.error("Try checking if the UPLOAD_DESTINATION environment variable is correct");
-    process.exit(1);
+  console.error(`Could not open upload directory at: ${process.env.UPLOAD_DESTINATION}`);
+  console.error("Try checking if the UPLOAD_DESTINATION environment variable is correct");
+  process.exit(1);
 }
 
 ///////////////////
 // STARTUP SETUP //
 ///////////////////
 (async function () {
-    await Setup.Database.SetUp();
+  await Setup.Database.SetUp();
 })();
 
 // Catch all exceptions in production mode
 if (process.env.NODE_ENV === "production") {
-    process.on("uncaughtException", err => {
-        console.error("<app.js>");
-        console.error("app.js", err);
-        console.error("/app.js>");
-        process.exit(1);
-    });
+  process.on("uncaughtException", err => {
+    console.error("<app.js>");
+    console.error("app.js", err);
+    console.error("/app.js>");
+    process.exit(1);
+  });
 
-    process.on("unhandledRejection", (reason, p) => {
-        console.error("<app.js>");
-        console.error(`Reason: `, reason);
-        console.error("--------------------------");
-        console.error(reason.stack);
+  process.on("unhandledRejection", (reason, p) => {
+    console.error("<app.js>");
+    console.error(`Reason: `, reason);
+    console.error("--------------------------");
+    console.error(reason.stack);
 
-        console.error("--------------------------");
-        console.error(p);
-        console.error("</app.js>");
-        process.exit(1);
-    });
+    console.error("--------------------------");
+    console.error(p);
+    console.error("</app.js>");
+    process.exit(1);
+  });
 }
 
 app.listen(parseInt(process.env.SITE_PORT), () => console.log(`It's up and running in ${process.env.NODE_ENV} mode on port ${process.env.SITE_PORT} :3`));

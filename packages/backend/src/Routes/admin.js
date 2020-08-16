@@ -10,15 +10,15 @@ const router = express.Router();
  * By now the user needs to be admin
  */
 router.use((req, res, next) => {
-    if (!res.locals.user) {
-        return res.redirect("/login");
-    }
+  if (!res.locals.user) {
+    return res.redirect("/login");
+  }
 
-    if (!res.locals.user.isadmin) {
-        return res.redirect("/");
-    }
+  if (!res.locals.user.isadmin) {
+    return res.redirect("/");
+  }
 
-    next();
+  next();
 });
 
 /////////////////////
@@ -27,24 +27,24 @@ router.use((req, res, next) => {
 
 router.get("/token",  admin.token.get);
 router.post("/token", admin.token.validate, 
-                      admin.token.post);
+  admin.token.post);
 
 ////////////////////
 // PASSWORD RESET //
 ////////////////////
 router.get("/reset-password",       admin.resetPassword.get);
 router.post("/generate-reset-link", admin.resetPassword.validate, 
-                                    admin.resetPassword.post);
+  admin.resetPassword.post);
 
 ///////////////////////////////
 // DELETE/UPDATE USERS/FILES //
 ///////////////////////////////
 router.get("/view-users", admin.deleteUsers.get);
 router.post("/delete",    admin.deleteUsers.validate, 
-                          admin.deleteUsers.post);
+  admin.deleteUsers.post);
 
 router.post("/update", admin.updateUser.validate, 
-                       admin.updateUser.post);
+  admin.updateUser.post);
 
 router.get("/remove-files",  admin.deleteFiles.get);
 router.post("/remove-files", admin.deleteFiles.post);

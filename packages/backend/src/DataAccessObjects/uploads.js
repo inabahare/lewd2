@@ -61,7 +61,7 @@ export class Uploads {
       FROM "Uploads" 
       WHERE filesha = $1 
         AND deleted = FALSE 
-        AND duplicate = false;`
+        AND duplicate = false;`;
     const file = await query(sql, [fileHash]);
     return file;
   }

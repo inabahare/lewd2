@@ -4,8 +4,8 @@ import * as transparency from "./index/transparency";
 import * as sharex       from "./index/sharex";
 
 export { 
-    index,
-    info,
-    transparency,
-    sharex
+  index,
+  info,
+  transparency,
+  sharex
 };

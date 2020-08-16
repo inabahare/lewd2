@@ -5,12 +5,12 @@ import { LoginToken, User } from "/DataAccessObjects";
  * @param {string} token If false the stock user will be returned
  */
 export const getUserDetails = async loginToken => {
-    const userId = await LoginToken.GetUserId(loginToken);
+  const userId = await LoginToken.GetUserId(loginToken);
 
-    if (userId === 0)
-        return null;
+  if (userId === 0)
+    return null;
 
-    const user = await User.GetUser(userId);
+  const user = await User.GetUser(userId);
 
-    return user;
+  return user;
 };

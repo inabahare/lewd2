@@ -5,9 +5,9 @@ import * as logout         from "./user/logout";
 import * as changeToken    from "./user/change-token";
 
 export {
-    index,
-    viewUploads,
-    changePassword,
-    logout,
-    changeToken
+  index,
+  viewUploads,
+  changePassword,
+  logout,
+  changeToken
 };

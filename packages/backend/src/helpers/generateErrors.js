@@ -1,14 +1,14 @@
 export default (req, location, param, value, msg) => {
-    if (!req.session.err) {
-        req.session.err = [];
-    }
+  if (!req.session.err) {
+    req.session.err = [];
+  }
 
-    req.session.err.push({
-        location: location,
-        param: param,
-        value: value,
-        msg: msg
-    });
+  req.session.err.push({
+    location: location,
+    param: param,
+    value: value,
+    msg: msg
+  });
 };
 
 

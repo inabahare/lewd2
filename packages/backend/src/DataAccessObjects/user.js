@@ -133,7 +133,7 @@ export class User {
     return user;
   }
 
-  static async CheckIfUsernameNotExists() {
+  static async CheckIfUsernameNotExists(username) {
     const result = await this.CheckIfUserExists(username);
 
     if (!result)
