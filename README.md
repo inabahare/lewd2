@@ -13,11 +13,14 @@
 ### Database
 For simplicity we'll be using the default user and database.
 
-First change the default users password:
+First change the default users password:<br>
 `$ sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'topsecret';"`
 
-and import the template
+and import the template:<br>
 `$ sudo -u postgres psql postgres < SQL/template.sql`
+
+for the discord bot you'll also want to import that template:<br>
+`$ sudo -u postgres psql postgres < SQL/discord_template.sql`
 
 ### Node
 Copy **.env.dist** to **.env** and set `DB_PASSWORD` and `UPLOAD_DESTINATION` as a bare minimum.
@@ -36,6 +39,7 @@ Run `$ npm run setup` which will install all the needed dependencies and build t
 Change the path and user in the included systemd service files and copy them to _/etc/systemd/system/_ <br>
 Then you can simply run `# systemctl start lewd2.service`.
 
-If you're making your own solution or debugging, you can launch them individually, like so: `node packages/main-site/dist/index.js`
+If you're making your own solution or just debugging, you can launch them individually, like so:<br>
+`$ node packages/backend/dist/index.js`
 
 At this point be able to log in with the credentials you set in _.env_ and you're ready for action.
