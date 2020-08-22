@@ -4,26 +4,34 @@ require("dotenv").config({
   path: path.join(__dirname, "../../../.env")
 });
 
-import dnode from "dnode";
-
 import { fileDeletion } from "./Controllers/Cron/fileDeletion";
 import { ScannerService } from "./Services/ScannerService";
+import { Express } from "express";
+import BodyParse from "body-parse";
 
 const scanners = new ScannerService();
 scanners.Start();
 
-const { WHEN_TO_CHECK_FOR_FILES_TO_DELETE } = process.env;
+const {
+  WHEN_TO_CHECK_FOR_FILES_TO_DELETE,
+  MESSAGE_SERVER_PORT
+} = process.env;
 
-/**
- * Functions the app can call
- */
-const messageServer = dnode({
-  scan: (fileName, fileHash) => {
-    scanners.Scan(fileName, fileHash);
-  }
-});
+const app = new Express();
 
-messageServer.listen(parseInt(process.env.MESSAGE_SERVER_PORT));
+app.use(BodyParse.urlencoded({ extended: true }));
+app.use(BodyParse.json());
+
+app.post("/scan", (req, res) => {
+  const {
+    fileName, fileHash
+  } = req.body;
+
+  scanners.Scan(fileName, fileHash)
+})
+
+app.listen(parseInt(MESSAGE_SERVER_PORT), () => console.log(`Message server listening on ${MESSAGE_SERVER_PORT}`))
+
 
 /**
  * Remove files that are too old
@@ -42,6 +50,3 @@ if (process.env.NODE_ENV === "production") {
     process.exit(1);
   });
 }
-
-
-console.log("Now doing cron operations :3");
