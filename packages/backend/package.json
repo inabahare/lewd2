@@ -10,7 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dnode": "github:inabahare/dnode",
     "async": "^3.2.0",
     "axios": "^0.19.2",
     "babel-polyfill": "^6.26.0",
