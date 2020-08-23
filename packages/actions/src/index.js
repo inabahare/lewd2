@@ -28,6 +28,8 @@ app.post("/scan", (req, res) => {
   } = req.body;
 
   scanners.Scan(fileName, fileHash)
+
+  res.status(200).send("");
 })
 
 app.listen(parseInt(MESSAGE_SERVER_PORT), () => console.log(`Message server listening on ${MESSAGE_SERVER_PORT}`))
