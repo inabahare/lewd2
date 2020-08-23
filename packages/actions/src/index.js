@@ -6,8 +6,8 @@ require("dotenv").config({
 
 import { fileDeletion } from "./Controllers/Cron/fileDeletion";
 import { ScannerService } from "./Services/ScannerService";
-import { Express } from "express";
-import BodyParse from "body-parse";
+import Express from "express";
+import BodyParser from "body-parser";
 
 const scanners = new ScannerService();
 scanners.Start();
@@ -17,10 +17,10 @@ const {
   MESSAGE_SERVER_PORT
 } = process.env;
 
-const app = new Express();
+const app = Express();
 
-app.use(BodyParse.urlencoded({ extended: true }));
-app.use(BodyParse.json());
+app.use(BodyParser.urlencoded({ extended: true }));
+app.use(BodyParser.json());
 
 app.post("/scan", (req, res) => {
   const {
