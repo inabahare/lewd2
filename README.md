@@ -5,6 +5,14 @@
 * npm
 * PostgreSQL
 
+When using a non-LTS version of node the following dependencies may be needed to build bcrypt for password hashing
+
+* Python 2.x
+* make
+* GCC or any other C/C++ compiler
+
+More about it [here](https://www.npmjs.com/package/bcrypt#dependencies)
+
 ### Recommended
 * A web server with reverse proxying
 * A malware scanner
