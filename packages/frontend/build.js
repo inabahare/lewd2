@@ -29,7 +29,7 @@ const bundlers = [
 
 bundlers.forEach(async (bundler) => {
   await new Promise(resolve => {
-    bundler.on('bundled', resolve)
-    bundler.bundle()
-  }).catch(e => { })
-})
+    bundler.on("bundled", resolve);
+    bundler.bundle();
+  }).catch(e => { });
+});
