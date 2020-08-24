@@ -1,7 +1,7 @@
 {
-  "name": "lewd-discord",
+  "name": "discordbot",
   "version": "1.0.0",
-  "description": "The discord integration for lewd.se",
+  "description": "Discord integration bot",
   "main": "dist/index.js",
   "scripts": {
     "build": "parcel build src/index.js --target node --no-minify --public-url .",

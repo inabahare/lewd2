@@ -3,10 +3,9 @@ Description=lewd.se actions
 Documentation=https://github.com/inabahare/lewd2
 
 [Service]
-Type=exec
+Type=oneshot
 User=www-data
 ExecStart=/usr/bin/node /var/www/lewd2/packages/actions/dist/index.js
-Restart=always
 
 [Install]
 WantedBy=multi-user.target
