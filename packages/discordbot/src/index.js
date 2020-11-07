@@ -12,7 +12,8 @@ import { findChannel } from "/functions/discord";
 const { 
   BOT_TOKEN, 
   BOT_CHANNEL,
-  APPLICATIONS_CHANNEL 
+  ADMIN_CHANNEL,
+  COMMAND_PREFIX
 } = process.env;
 
 const client = new Discord.Client();
@@ -24,31 +25,39 @@ client.on("message", message => {
   if (message.author === client.user) 
     return;
 
+    const channel = 
+      message.channel.type === "text" ? 
+      message.channel.name :
+       "dm";
+
+  if (message.content[0] !== COMMAND_PREFIX) {
+    if (channel === "dm")
+      dm(message, client);
+    return;
+  }
+
   const args = message.content.match(wordsOrQuotes);
 
-  const command = args[0];
-  const channel = 
-    message.channel.type === "text" ? message.channel.name : "dm";
+  const command = args[0].slice(1, args[0].length);
 
   const findCommand = 
     cmd => 
       cmd.channel === channel &&
-      cmd.command === command;
+      cmd.command === `${command}`;
 
   const chosenCommand = commands.find(findCommand);
 
   if (chosenCommand) chosenCommand.action(args, message, client);
-  else if(channel === "dm") dm(message, client);
 });
 
 client.login(BOT_TOKEN);
 
 client.on("ready", () => {
   const applyChannel = findChannel(client, BOT_CHANNEL);
-  const applicationsChannel = findChannel(client, APPLICATIONS_CHANNEL);
+  const applicationsChannel = findChannel(client, ADMIN_CHANNEL);
 
   if (!applyChannel) console.error(`Channel ${BOT_CHANNEL} for applying not found`);
-  if (!applicationsChannel) console.error(`Channel ${APPLICATIONS_CHANNEL} for reading applications not found`);
+  if (!applicationsChannel) console.error(`Channel ${ADMIN_CHANNEL} for reading applications not found`);
 
   if (!applyChannel || !applicationsChannel) {
     findChannel(client, "general")
