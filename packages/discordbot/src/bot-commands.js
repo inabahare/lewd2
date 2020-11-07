@@ -8,7 +8,7 @@ import {
 
 const {
   BOT_CHANNEL,
-  APPLICATIONS_CHANNEL
+  ADMIN_CHANNEL
 } = process.env;
 
 export const commands = [
@@ -27,13 +27,13 @@ export const commands = [
   {
     command: "@accept",
     action: accept,
-    channel: APPLICATIONS_CHANNEL,
+    channel: ADMIN_CHANNEL,
     minArgs: 1
   },
   {
     command: "@reject",
     action: reject,
-    channel: APPLICATIONS_CHANNEL,
+    channel: ADMIN_CHANNEL,
     minArgs: 1
   },
   {
