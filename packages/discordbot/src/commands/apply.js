@@ -1,10 +1,5 @@
 import lines from "../../lines.json";
 import { Applicants } from "/data-access/applicants";
-import { findChannel } from "/functions/discord";
-
-const { 
-  ADMIN_CHANNEL
-} = process.env;
 
 /**
  * Send message to user telling them to apply
@@ -12,7 +7,7 @@ const {
  * @param {*} message 
  */
 export const apply =
-  async (args, message, client) => {
+  async (args, message) => {
     const { id } = message.author;
 
     // Prevent user from reapplying
@@ -28,6 +23,5 @@ export const apply =
     
     await Applicants.Add(id);  
     
-    const botChannel = findChannel(client, ADMIN_CHANNEL);
-    botChannel.send(`${lines.onApply}\n\n${questions}`);
+    message.author.send(`${lines.onApply}\n\n${questions}`);
   };
