@@ -1,7 +1,7 @@
 import path from "path";
 
 require("dotenv").config({
-    path: path.join(__dirname, "../../../.env")
+  path: path.join(__dirname, "../../../.env")
 });
 
 import Discord from "discord.js";
@@ -9,10 +9,10 @@ import { commands } from "./bot-commands";
 import { dm } from "./commands";
 import { findChannel } from "/functions/discord";
 
-const { 
-  BOT_TOKEN, 
+const {
+  BOT_TOKEN,
   BOT_CHANNEL,
-  ADMIN_CHANNEL,
+  APPLICATIONS_CHANNEL,
   COMMAND_PREFIX
 } = process.env;
 
@@ -22,13 +22,13 @@ const wordsOrQuotes = /[^\s"]+|"([^"]*)"/g;
 
 client.on("message", message => {
   // Prevent bot from seeing their own messages
-  if (message.author === client.user) 
+  if (message.author === client.user)
     return;
 
-    const channel = 
-      message.channel.type === "text" ? 
+  const channel =
+    message.channel.type === "text" ?
       message.channel.name :
-       "dm";
+      "dm";
 
   if (message.content[0] !== COMMAND_PREFIX) {
     if (channel === "dm")
@@ -40,8 +40,8 @@ client.on("message", message => {
 
   const command = args[0].slice(1, args[0].length);
 
-  const findCommand = 
-    cmd => 
+  const findCommand =
+    cmd =>
       cmd.channel === channel &&
       cmd.command === `${command}`;
 
@@ -54,34 +54,34 @@ client.login(BOT_TOKEN);
 
 client.on("ready", () => {
   const applyChannel = findChannel(client, BOT_CHANNEL);
-  const applicationsChannel = findChannel(client, ADMIN_CHANNEL);
+  const applicationsChannel = findChannel(client, APPLICATIONS_CHANNEL);
 
   if (!applyChannel) console.error(`Channel ${BOT_CHANNEL} for applying not found`);
-  if (!applicationsChannel) console.error(`Channel ${ADMIN_CHANNEL} for reading applications not found`);
+  if (!applicationsChannel) console.error(`Channel ${APPLICATIONS_CHANNEL} for reading applications not found`);
 
   if (!applyChannel || !applicationsChannel) {
     findChannel(client, "general")
-          .send("Yo dudes something's fucked up");
+      .send("Yo dudes something's fucked up");
   }
 });
 
 if (process.env.NODE_ENV === "production") {
   process.on("uncaughtException", err => {
-      console.error("<discord.js>");
-      console.error("app.js", err);
-      console.error("</discord.js>");
-      process.exit(1);
+    console.error("<discord.js>");
+    console.error("app.js", err);
+    console.error("</discord.js>");
+    process.exit(1);
   });
 
   process.on("unhandledRejection", (reason, p) => {
-      console.error("<discord.js>");
-      console.error(`Reason: `, reason);
-      console.error("--------------------------");
-      console.error(reason.stack);
+    console.error("<discord.js>");
+    console.error(`Reason: `, reason);
+    console.error("--------------------------");
+    console.error(reason.stack);
 
-      console.error("--------------------------");
-      console.error(p);
-      console.error("</discord.js>");
-      process.exit(1);
+    console.error("--------------------------");
+    console.error(p);
+    console.error("</discord.js>");
+    process.exit(1);
   });
 }

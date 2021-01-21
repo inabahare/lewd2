@@ -1,6 +1,6 @@
-import { 
-  apply, 
-  accept, 
+import {
+  apply,
+  accept,
   reject,
   forgotPassword,
   integrate
@@ -8,7 +8,7 @@ import {
 
 const {
   BOT_CHANNEL,
-  ADMIN_CHANNEL
+  APPLICATIONS_CHANNEL
 } = process.env;
 
 export const commands = [
@@ -27,13 +27,13 @@ export const commands = [
   {
     command: "accept",
     action: accept,
-    channel: ADMIN_CHANNEL,
+    channel: APPLICATIONS_CHANNEL,
     minArgs: 1
   },
   {
     command: "reject",
     action: reject,
-    channel: ADMIN_CHANNEL,
+    channel: APPLICATIONS_CHANNEL,
     minArgs: 1
   },
   {
