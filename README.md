@@ -40,6 +40,12 @@ Please take a moment to go through the different settings.
 
 [Apache](https://httpd.apache.org/docs/2.4/howto/reverse_proxy.html)
 
+## Discord bot
+
+If desire discord bot integration you first need to go [here](https://discord.com/developers/applications) and create a new app. Nothing more is really needed under the General Information tab. Head over to the Bot tab and create a new bot. Give it a nice name and a good profile picture (or don't) and copy the token to BOT_TOKEN in the .env. 
+
+Actualy adding the bot to the discord servicer is done by going to the OAuth2 tab and generate a new bot invite link which is so the bot can log in to your server. Under scopes select *bot* and in the box pick *Send Messages* and *embed links*. This will give you a link you can then (in a new tab mighyt be a good idea ) 
+
 ## Setup
 Run `$ npm run setup` which will install all the needed dependencies and build the project.
 
@@ -51,3 +57,4 @@ If you're making your own solution or just debugging, you can launch them indivi
 `$ node packages/backend/dist/index.js`
 
 At this point be able to log in with the credentials you set in _.env_ and you're ready for action.
+
