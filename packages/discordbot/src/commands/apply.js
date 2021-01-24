@@ -12,16 +12,14 @@ export const apply =
 
     // Prevent user from reapplying
     const findUser = await Applicants.Exists(id);
-    if (findUser)
-      return;
-
-    const appendQuestion = 
+    const appendQuestion =
       (formattedQuestions, question) => formattedQuestions += `- ${question}\n`;
-    
-    const questions = 
+
+    const questions =
       lines.questions.reduce(appendQuestion, "");
-    
-    await Applicants.Add(id);  
-    
+
+    if (!findUser)
+      await Applicants.Add(id);
+
     message.author.send(`${lines.onApply}\n\n${questions}`);
   };
