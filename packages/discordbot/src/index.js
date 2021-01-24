@@ -65,8 +65,7 @@ client.on("ready", () => {
   const error = channels.join(" & ");
 
   if (channels.lengt > 0) {
-    findChannel(client, "general")
-      .send(error);
+    console.console.error(error);
   }
 });
 
