@@ -63,7 +63,7 @@ client.on("ready", () => {
   if (!applicationsChannel) channels.push(`APPLICATIONS_CHANNEL (${APPLICATIONS_CHANNEL}) not found`);
   if (!COMMAND_PREFIX) channels.push(`COMMAND_PREFIX not found. Possibly not set in .env`);
 
-  const error = channels.join(" & ");
+  const error = channels.join("\n");
 
   if (channels.lengt > 0) {
     console.error(error);
