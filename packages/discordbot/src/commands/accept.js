@@ -34,7 +34,10 @@ export const accept =
 
     message.reply(`${discordId} as now been accepted`);
     
+    const reply =
+      args.splice(2, args.length).join(" ");
+
     const userId = idFromMentionString(discordId);
     const user = findUserById(client, userId);
-    sendMessage(user, `${args[args.length - 1]} ${uploadUrl}`);
+    sendMessage(user, `${reply} ${uploadUrl}`);
   };

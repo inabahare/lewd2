@@ -1,6 +1,6 @@
-import { 
-  apply, 
-  accept, 
+import {
+  apply,
+  accept,
   reject,
   forgotPassword,
   integrate
@@ -13,31 +13,31 @@ const {
 
 export const commands = [
   {
-    command: "@apply",
+    command: "apply",
     action: apply,
     channel: BOT_CHANNEL,
     minArgs: 0
   },
   {
-    command: "@forgot-password",
+    command: "forgot-password",
     action: forgotPassword,
     channel: BOT_CHANNEL,
     minArgs: 1
   },
   {
-    command: "@accept",
+    command: "accept",
     action: accept,
     channel: APPLICATIONS_CHANNEL,
     minArgs: 1
   },
   {
-    command: "@reject",
+    command: "reject",
     action: reject,
     channel: APPLICATIONS_CHANNEL,
     minArgs: 1
   },
   {
-    command: "@integrate",
+    command: "add-me",
     action: integrate,
     channel: "dm",
     args: 1
