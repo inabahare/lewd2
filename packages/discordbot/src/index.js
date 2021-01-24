@@ -65,8 +65,9 @@ client.on("ready", () => {
 
   const error = channels.join("\n");
 
-  if (channels.lengt > 0) {
+  if (channels.length > 0) {
     console.error(error);
+    process.exit(1);
   }
 });
 
