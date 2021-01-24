@@ -65,7 +65,7 @@ client.on("ready", () => {
   const error = channels.join(" & ");
 
   if (channels.lengt > 0) {
-    console.console.error(error);
+    console.error(error);
   }
 });
 
