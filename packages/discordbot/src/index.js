@@ -57,12 +57,16 @@ client.on("ready", () => {
   const applyChannel = findChannel(client, BOT_CHANNEL);
   const applicationsChannel = findChannel(client, APPLICATIONS_CHANNEL);
 
-  if (!applyChannel) console.error(`Channel ${BOT_CHANNEL} for applying not found`);
-  if (!applicationsChannel) console.error(`Channel ${APPLICATIONS_CHANNEL} for reading applications not found`);
+  const channels = [];
 
-  if (!applyChannel || !applicationsChannel) {
+  if (!applyChannel) channels.push(`BOT_CHANNEL (${BOT_CHANNEL}) not found.`);
+  if (!applicationsChannel) channels.push(`APPLICATIONS_CHANNEL (${APPLICATIONS_CHANNEL}) not found`);
+
+  const error = channels.join(" & ");
+
+  if (channels.lengt > 0) {
     findChannel(client, "general")
-      .send("Yo dudes something's fucked up");
+      .send(error);
   }
 });
 
