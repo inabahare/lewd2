@@ -4,7 +4,7 @@ import {
   reject,
   forgotPassword,
   integrate,
-  help
+  printHelp
 } from "./commands";
 
 const {
@@ -51,7 +51,7 @@ export const commands = [
   },
   {
     command: "help",
-    action: help,
+    action: printHelp,
     channel: "*",
     args: 0
   }
