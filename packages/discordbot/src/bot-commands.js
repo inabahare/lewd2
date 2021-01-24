@@ -37,7 +37,7 @@ export const commands = [
     minArgs: 1
   },
   {
-    command: "integrate",
+    command: "add-me",
     action: integrate,
     channel: "dm",
     args: 1

@@ -27,10 +27,10 @@ client.on("message", message => {
 
   const channel =
     message.channel.type === "text" ?
-      message.channel.name :
-      "dm";
+      message.channel.name : "dm";
 
   if (message.content[0] !== COMMAND_PREFIX) {
+    // For when people just sends a text message to apply
     if (channel === "dm")
       dm(message, client);
     return;
@@ -47,7 +47,8 @@ client.on("message", message => {
 
   const chosenCommand = commands.find(findCommand);
 
-  if (chosenCommand) chosenCommand.action(args, message, client);
+  if (chosenCommand)
+    chosenCommand.action(args, message, client);
 });
 
 client.login(BOT_TOKEN);

@@ -30,6 +30,6 @@ export const dm =
     const reply =
       `------------- NEW MEMBERSHIP -------------\n${message.content}\n\nBy ${message.author}`;
 
-    const adminChannel = findChannel(client, BOT_CHANNEL);
+    const adminChannel = findChannel(client, APPLICATIONS_CHANNEL);
     adminChannel.send(reply);
   };
