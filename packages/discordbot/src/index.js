@@ -42,7 +42,7 @@ client.on("message", message => {
 
   const findCommand =
     cmd =>
-      cmd.channel === channel &&
+      (cmd.channel === channel || cmd.channel === "*") &&
       cmd.command === `${command}`;
 
   const chosenCommand = commands.find(findCommand);

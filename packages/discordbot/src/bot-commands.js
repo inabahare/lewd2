@@ -3,7 +3,8 @@ import {
   accept,
   reject,
   forgotPassword,
-  integrate
+  integrate,
+  help
 } from "./commands";
 
 const {
@@ -18,28 +19,28 @@ export const commands = [
     action: apply,
     channel: BOT_CHANNEL,
     minArgs: 0,
-    docs: "Will start the application process for you"
+    docs: "- Will start the application process for you"
   },
   {
     command: "forgot-password",
     action: forgotPassword,
     channel: BOT_CHANNEL,
     minArgs: 1,
-    docs: "Will send you a password reset link"
+    docs: "- Will send you a password reset link"
   },
   {
     command: "accept",
     action: accept,
     channel: APPLICATIONS_CHANNEL,
     minArgs: 1,
-    docs: "Sends the quoted user an accept link and an optional message"
+    docs: "@taggedUser message - Sends the quoted user an accept link and an optional message"
   },
   {
     command: "reject",
     action: reject,
     channel: APPLICATIONS_CHANNEL,
     minArgs: 1,
-    docs: "Like accept but with a reject link"
+    docs: "@taggedUser message - Like accept but with a reject link"
   },
   {
     command: "add-me",
@@ -47,5 +48,11 @@ export const commands = [
     channel: "dm",
     args: 1,
     docs: `<YOUR UPLOAD TOKEN> - Adds your discord ID to your ${SITE_NAME} account so you for example can request a new password`
+  },
+  {
+    command: "help",
+    action: help,
+    channel: "*",
+    args: 0
   }
 ];
