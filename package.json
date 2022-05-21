@@ -13,9 +13,9 @@
     "install-dependencies": "lerna bootstrap"
   },
   "devDependencies": {
-    "lerna": "^3.20.2"
+    "lerna": "3.20.2"
   },
   "dependencies": {
-    "dotenv": "^8.2.0"
+    "dotenv": "8.2.0"
   }
 }
