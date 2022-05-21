@@ -14,7 +14,7 @@
     "bulma": "0.8.2",
     "bulmaswatch": "0.7.5",
     "dotenv": "8.2.0",
-    "parcel": "1.12.4"
+    "parcel": "1.12.3"
   },
   "devDependencies": {
     "@babel/preset-env": "7.9.6",
