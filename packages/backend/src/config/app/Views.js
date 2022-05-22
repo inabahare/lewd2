@@ -49,7 +49,7 @@ class Views {
     let waifuDir = null;
     let files    = null;
     try {
-      waifuDir = path.join(__dirname, "../../frontend/dist/waifus");
+      waifuDir = path.join(__dirname, `${process.env.PUBLIC_FOLDER_PATH}/waifus`);
       files = fs.readdirSync(waifuDir);
     }
     catch(ex) {
