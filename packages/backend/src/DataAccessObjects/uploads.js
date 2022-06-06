@@ -76,6 +76,10 @@ export class Uploads {
       throw Error("Filename needs to be provided to delete file");
     }
 
+    if (!process.env.UPLOAD_DESTINATION || !fileName) {
+      console.error("DeleteFile", process.env.UPLOAD_DESTINATION, !fileName)
+    }
+
     const fullPath = join(process.env.UPLOAD_DESTINATION, fileName);
 
     const sql =
