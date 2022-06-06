@@ -60,7 +60,7 @@ export class Uploads {
         (SELECT COUNT(filesha) FROM "Uploads" WHERE filesha = $1) amount  
       FROM "Uploads" 
       WHERE filesha = $1 
-        AND deleted = FALSE 1
+        AND deleted = FALSE
         AND duplicate = false;`;
     const file = await query(sql, [fileHash]);
     return file;
