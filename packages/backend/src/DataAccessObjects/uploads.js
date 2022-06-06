@@ -60,7 +60,7 @@ export class Uploads {
         (SELECT COUNT(filesha) FROM "Uploads" WHERE filesha = $1) amount  
       FROM "Uploads" 
       WHERE filesha = $1 
-        AND deleted = FALSE 
+        AND deleted = FALSE 1
         AND duplicate = false;`;
     const file = await query(sql, [fileHash]);
     return file;
@@ -74,10 +74,6 @@ export class Uploads {
   static async DeleteFile(fileName) {
     if (!stringSetAndNotEmpty(fileName)) {
       throw Error("Filename needs to be provided to delete file");
-    }
-
-    if (!process.env.UPLOAD_DESTINATION || !fileName) {
-      console.error("DeleteFile", process.env.UPLOAD_DESTINATION, !fileName)
     }
 
     const fullPath = join(process.env.UPLOAD_DESTINATION, fileName);
