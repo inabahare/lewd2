@@ -7,7 +7,7 @@ import { v1 as uuid } from "uuid";
 
 
 const unlink = promisify(fsUnlink);
-const { UPLOAD_DESTINATION } = process.env;
+// const { process.env.UPLOAD_DESTINATION } = process.env;
 
 export class Uploads {
   /**
@@ -60,7 +60,7 @@ export class Uploads {
         (SELECT COUNT(filesha) FROM "Uploads" WHERE filesha = $1) amount  
       FROM "Uploads" 
       WHERE filesha = $1 
-        AND deleted = FALSE 
+        AND deleted = FALSE
         AND duplicate = false;`;
     const file = await query(sql, [fileHash]);
     return file;
@@ -76,7 +76,7 @@ export class Uploads {
       throw Error("Filename needs to be provided to delete file");
     }
 
-    const fullPath = join(UPLOAD_DESTINATION, fileName);
+    const fullPath = join(process.env.UPLOAD_DESTINATION, fileName);
 
     const sql =
       `DELETE FROM "Uploads" 
@@ -104,7 +104,7 @@ export class Uploads {
   }
 
   static GetFullPath(fileName) {
-    return join(UPLOAD_DESTINATION, fileName);
+    return join(process.env.UPLOAD_DESTINATION, fileName);
   }
 
   static async GetAllByUserId(userId) {
