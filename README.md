@@ -18,11 +18,11 @@ Make an appropriate DNS record on your DNS panel
 
 Then make a one-shot run of certbot in order to generate certificates, run next command:
 
-`docker-compose run --rm certbot certonly --webroot-path /var/www/certbot/ -d test2.panov.dev`
+`docker-compose run --rm certbot certonly --webroot-path /var/www/certbot/ -d example.com`
 
 if your 80 or 443 port is busy by something else, try different method (for example if you already have some container/service listening on 80 port)
 
-`docker-compose run --rm certbot certonly --manual --preferred-challenges dns --webroot-path /var/www/certbot/ -d test2.panov.dev`
+`docker-compose run --rm certbot certonly --manual --preferred-challenges dns --webroot-path /var/www/certbot/ -d example.com`
 
 Now, launch all containers together
 
