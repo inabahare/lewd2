@@ -1,5 +1,8 @@
 # lewd.se uploader
 
+## Now in Docker
+Gotta put a proper description here later, still a lot of improvements needed 
+
 ## Requirements
 * NodeJS
 * npm

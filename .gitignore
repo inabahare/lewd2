@@ -1,6 +1,9 @@
 .cache
 .directory
 .env
+.vscode
 dist/
 node_modules/
 package-lock.json
+USER_DATA/
+certbot/

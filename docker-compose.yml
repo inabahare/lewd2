@@ -1,0 +1,51 @@
+version: "3.9"
+services:
+
+  postgres:
+    image: postgres:14.3
+    environment:
+      POSTGRES_DB: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "topsecret"
+    ports:
+      - 5432
+    volumes:
+      - ./SQL/:/SQL/
+      - ./SQL/init-template.sh:/docker-entrypoint-initdb.d/init-template.sh
+      - ./USER_DATA/postgresql:/var/lib/postgresql/
+
+  node:
+    image: node:12
+    command: bash -c "
+      cd /home/node/app && 
+      npm run setup &&
+      node /home/node/app/packages/backend/dist/index.js"
+    ports:
+      - 8080
+    depends_on:
+      - "postgres"
+    volumes:
+      - ./node_app/:/home/node/app
+      - ./USER_DATA/uploads/:/home/node/uploads/
+      
+  nginx:
+    image: nginx:1.22
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - "node"
+    restart: always
+    volumes:
+      - ./conf/nginx:/etc/nginx/conf.d/:ro
+      - ./certbot/www:/var/www/certbot/:ro
+      - ./certbot/conf/:/etc/nginx/ssl/:ro
+      - ./node_app/packages/frontend/dist/:/var/www/lewd2/frontend/
+      - ./USER_DATA/uploads/:/var/www/lewd2/uploads/
+      - ./USER_DATA/waifus/:/var/www/lewd2/waifus/
+
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw
